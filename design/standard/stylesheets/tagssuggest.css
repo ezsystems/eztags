@@ -1,0 +1,76 @@
+/* SUGGEST */
+
+div.jsonSuggestResults {
+	top:20px;
+	position:absolute;
+	border:1px solid #CCCCCC;
+	background: white;
+	padding:0;
+	margin:0;
+	z-index:100000;
+	overflow:hidden;
+	width:100%;
+}
+
+div.jsonSuggestResults div.results-wrap {
+	overflow-x:hidden;
+	overflow-y:auto;
+	/*height:250px;*/
+}
+
+
+.jsonSuggestResults iframe
+{
+	display:none;/*sorry for IE5*/
+	display/**/:block;/*sorry for IE5*/
+	position:absolute;/*must have*/
+	top:0;/*must have*/
+	left:0;/*must have*/
+	z-index:-1;/*must have*/
+	filter:mask();/*must have*/
+	width:3000px;/*must have for any big value*/
+	height:3000px;/*must have for any big value*/
+}
+
+
+div.jsonSuggestResults div.resultItem {
+	display:block;
+	float:none;
+	margin:0px;
+	padding:5px;
+	position:relative;
+	z-index:100000;
+	height:auto;
+	cursor:pointer;
+}
+
+div#search div.jsonSuggestResults p {color:black;}
+
+div.jsonSuggestResults div.resultItem.odd {background-color:white;}
+div.jsonSuggestResults div.resultItem.even {background-color:#F5F5F5;}
+div.jsonSuggestResults div.resultItem.hover {background-color:#D1DFE9;}
+
+div.jsonSuggestResults div.resultItem img {float:left; margin-right:10px;}
+
+div.jsonSuggestResults div.resultItem p {font-size:1em; margin:0px; padding:0px; }
+div.jsonSuggestResults div.resultItem p strong {font-weight:bold;}
+
+div.jsonSuggestResults div.resultItem p.extra {position:absolute; bottom:3px; right:3px;}
+div.jsonSuggestResults div.resultItem p span.count {float:right;margin-left:2em;}
+
+
+div.tagssuggest ul {list-style:none; margin:10px 0 0; padding:0;}
+div.tagssuggest ul li {margin:0 6px 10px 0; padding:3px 8px; float:left; color:white; background:#f08c00; border:1px solid #CACACA; font-weight:bold;}
+div.tagssuggest ul li a {float:right; font-size:20px; margin:0 0 0 8px; cursor:pointer; color:white; text-decoration:none; outline:none;}
+div.tagssuggest ul li a:hover {color:black;}
+div.tagssuggest div.tags-suggested ul li {background:grey; border:1px solid black; cursor:pointer; font-weight:normal;}
+
+div.tags-list p.loading,
+div.tags-list p.no-results {line-height:24px; height:24px; margin:10px 0; display:none;}
+div.loading p.loading {display:block;}
+div.no-results p.no-results {display:block;}
+
+div.tag-parent-selector {display:none;}
+div.tag-parent-selector #content_tree_menu .nodeicon {}
+
+

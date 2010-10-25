@@ -1,0 +1,24 @@
+CREATE TABLE `eztags` (
+  `id` int(11) NOT NULL auto_increment,
+  `parent_id` int(11) NOT NULL default '0',
+  `keyword` varchar(255) NOT NULL default '',
+  `modified` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `eztags_keyword` (`keyword`),
+  KEY `eztags_keyword_id` (`keyword`,`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `eztags_attribute_link` (
+  `id` int(11) NOT NULL auto_increment,
+  `keyword_id` int(11) NOT NULL default '0',
+  `objectattribute_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `eztags_attr_link_keyword_id` (`keyword_id`),
+  KEY `eztags_attr_link_kid_oaid` (`keyword_id`,`objectattribute_id`),
+  KEY `eztags_attr_link_oaid` (`objectattribute_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `eztags` (`parent_id`, `keyword`, `modified`) VALUES(0, 'People', 1287705600);
+INSERT INTO `eztags` (`parent_id`, `keyword`, `modified`) VALUES(0, 'Places', 1287705600);
+INSERT INTO `eztags` (`parent_id`, `keyword`, `modified`) VALUES(0, 'Companies', 1287705600);
+INSERT INTO `eztags` (`parent_id`, `keyword`, `modified`) VALUES(0, 'Events', 1287705600);

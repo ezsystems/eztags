@@ -1,0 +1,58 @@
+eZ Tags extension installation documentation
+
+Requirements
+============
+
+    * eZ Publish 4.3+
+
+
+Installation
+============
+
+ 1. Unpack/unzip
+
+    Unpack the downloaded zip package into the 'extension' directory of your
+    eZ Publish installation.
+
+ 1. Create SQL tables in your eZ Publish database
+
+    Extension requires two additional tables to be added to your database. Use the following command from your eZ Publish
+    root folder, replacing "user", "password", "host" and "database" with correct values and removing double qoutes
+
+    mysql -u "user" -p"password" -h"host" "database" < extension/eztags/sql/mysql/schema.sql
+
+ 2. Activate extension
+
+    Activate the extension by using the admin interface ( Setup -> Extensions ) or by
+    prepending eztags to ActiveExtensions[] in settings/override/site.ini.append.php:
+
+    [ExtensionSettings]
+    ActiveExtensions[]=eztags
+
+    Be sure to place the eztags entry before ezwebin entry in active extension list if you wish to see demo content.
+
+ 3. Regenerate autoload array
+
+    Check the eZ Publish docs for your version on how this is done.
+    Or go to Setup -> Extensions and click on the button there.
+
+ 4. Clear caches
+
+    Clear all caches (from admin 'Setup' tab or commandline).
+
+ 5. Speedup ajax calls
+
+    1. Copy or symlink index_treemenu_tags.php from this extension to the root folder of eZ Publish (next to index.php)
+
+    2. Add the following rewrite rule:
+
+		* .htaccess
+		 RewriteRule tags/treemenu/? index_treemenu_tags.php
+		 RewriteRule ^index_treemenu_tags\.php - [L]
+
+       * Virtual Host mode
+		 RewriteRule tags/treemenu/ /index_treemenu_tags.php [L]
+
+ 6. Allow anonymous users access to tags
+
+    For anonymous users to be able to see tags on your site, grant access to "view" function of "tags" module to Anonymous role
