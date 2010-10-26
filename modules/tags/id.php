@@ -4,7 +4,7 @@ $TagID = $Params['TagID'];
 
 if ( is_numeric($TagID) && $TagID >= 1 )
 {
-	$tag = eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => $TagID) );
+	$tag = eZTagsObject::fetch($TagID);
 
 	if(!$tag)
 	{

@@ -71,6 +71,26 @@ class eZTagsObject extends eZPersistentObject
 
 		return $returnValue;
 	}
+
+	static function fetch($id)
+	{
+		return eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => $id) );
+	}
+	
+	static function fetchByParentID($parentID)
+	{
+		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('parent_id' => $parentID) );
+	}
+	
+	static function childrenCountByParentID($parentID)
+	{
+		return eZPersistentObject::count( eZTagsObject::definition(), array('parent_id' => $parentID) );
+	}
+	
+	static function fetchByKeyword($param)
+	{
+		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('keyword' => $param) );
+	}
 }
 
 ?>

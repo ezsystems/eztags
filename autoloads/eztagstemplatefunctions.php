@@ -38,24 +38,24 @@ class eZTagsTemplateFunctions
 
     function generateParentString($parent_id)
     {
-		if($parent_id == 0)
-		{
-			return '(no parent)';
-		}
+        if($parent_id == 0)
+        {
+            return '(no parent)';
+        }
 
-    	$tag = eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => $parent_id) );
+        $tag = eZTagsObject::fetch($parent_id);
 
-		$keywordsArray = array();
+        $keywordsArray = array();
 
-		while($tag->hasParent())
-		{
-			$keywordsArray[] = $tag->Keyword;
-			$tag = $tag->getParent();
-		}
+        while($tag->hasParent())
+        {
+            $keywordsArray[] = $tag->Keyword;
+            $tag = $tag->getParent();
+        }
 
-		$keywordsArray[] = $tag->Keyword;
+        $keywordsArray[] = $tag->Keyword;
 
-		return implode(' / ', array_reverse($keywordsArray));
+        return implode(' / ', array_reverse($keywordsArray));
     }
 }
 

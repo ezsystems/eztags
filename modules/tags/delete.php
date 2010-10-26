@@ -6,7 +6,7 @@ $TagID = $Params['TagID'];
 
 if ( is_numeric($TagID) && $TagID >= 1 )
 {
-	$tag = eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => $TagID) );
+	$tag = eZTagsObject::fetch($TagID);
 	if(!$tag)
 	{
 		return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -74,14 +74,14 @@ else
 
 function recursiveTagDelete(eZTagsObject $rootTag)
 {
-	$children = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('parent_id' => $rootTag->ID) );
+	$children = eZTagsObject::fetchByParentID($rootTag->ID);
 
 	foreach($children as $child)
 	{
 		recursiveTagDelete($child);
 	}
 
-	$tagAttributeLinks = eZPersistentObject::fetchObjectList( eZTagsAttributeLinkObject::definition(), null, array('keyword_id' => $rootTag->ID) );
+	$tagAttributeLinks = eZTagsAttributeLinkObject::fetchByKeywordID($rootTag->ID);
 
 	foreach($tagAttributeLinks as $tagAttributeLink)
 	{

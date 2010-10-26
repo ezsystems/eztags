@@ -8,7 +8,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
 		$searchString = $http->postVariable('search_string');
 
-		$tags = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('keyword' => array('like', $searchString . '%')) );
+		$tags = eZTagsObject::fetchByKeyword(array('like', $searchString . '%'));
 
 		$returnArray = array();
 		$returnArray['status'] = 'success';
@@ -87,7 +87,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
 			if(count($tags) > 0)
 			{
-				$tags = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('keyword' => array($tags)) );
+				$tags = eZTagsObject::fetchByKeyword(array($tags));
 			}
 		}
 

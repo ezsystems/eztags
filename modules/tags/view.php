@@ -4,7 +4,7 @@ $params = $Params['Parameters'];
 
 $TagName = end($params);
 
-$tags = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('keyword' => $TagName) );
+$tags = eZTagsObject::fetchByKeyword($TagName);
 
 if(count($tags) > 0)
 {

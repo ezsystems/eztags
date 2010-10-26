@@ -6,7 +6,7 @@ $TagID = $Params['TagID'];
 
 if ( is_numeric($TagID) && $TagID >= 1 )
 {
-	$tag = eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => $TagID) );
+	$tag = eZTagsObject::fetch($TagID);
 	if(!$tag)
 	{
 		return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -23,7 +23,7 @@ if ( is_numeric($TagID) && $TagID >= 1 )
 			&& (int) $http->postVariable('TagEditParentID') >= 0)
 		{
 			$currentTime = time();
-			$newParentTag = eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => (int) $http->postVariable('TagEditParentID')) );
+			$newParentTag = eZTagsObject::fetch((int) $http->postVariable('TagEditParentID'));
 
 			if($newParentTag || (int) $http->postVariable('TagEditParentID') == 0)
 			{

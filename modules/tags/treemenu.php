@@ -83,7 +83,7 @@ $eztagsINI = eZINI::instance( 'eztags.ini' );
 
 if ( is_numeric($TagID) && $TagID >= 0 )
 {
-	$tag = eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => $tagID) );
+	$tag = eZTagsObject::fetch($tagID);
 
     if(!$tag && $TagID > 0)
     {
@@ -91,7 +91,7 @@ if ( is_numeric($TagID) && $TagID >= 0 )
     }
 	else
 	{
-	    $children = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('parent_id' => $tagID) );
+	    $children = eZTagsObject::fetchByParentID($tagID);
 
 	    $response = array();
 	    $response['error_code'] = 0;
@@ -105,7 +105,7 @@ if ( is_numeric($TagID) && $TagID >= 0 )
 	        $childResponse = array();
 	        $childResponse['id'] = $child->ID;
 	        $childResponse['parent_id'] = $child->ParentID;
-	        $childResponse['has_children'] = ( eZPersistentObject::count( eZTagsObject::definition(), array('parent_id' => $child->ID) ) ) ? 1 : 0;
+	        $childResponse['has_children'] = ( eZTagsObject::childrenCountByParentID($child->ID) ) ? 1 : 0;
 	        $childResponse['keyword'] = $child->Keyword;
 	        $childResponse['url'] = 'tags/id/' . $child->ID;
 	        $childResponse['icon'] = lookupIcon($eztagsINI, $child);

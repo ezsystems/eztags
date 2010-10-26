@@ -20,7 +20,7 @@ if ( is_numeric($ParentTagID) && $ParentTagID >= 0 )
 			&& (int) $http->postVariable('TagEditParentID') >= 0)
 		{
 			$currentTime = time();
-			$newParentTag = eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => (int) $http->postVariable('TagEditParentID')) );
+			$newParentTag = eZTagsObject::fetch((int) $http->postVariable('TagEditParentID'));
 
 			if($newParentTag || (int) $http->postVariable('TagEditParentID') == 0)
 			{
@@ -66,7 +66,7 @@ if ( is_numeric($ParentTagID) && $ParentTagID >= 0 )
 
 		if($ParentTagID > 0)
 		{
-			$tempTag = eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => $ParentTagID) );
+			$tempTag = eZTagsObject::fetch($ParentTagID);
 			while($tempTag->hasParent())
 			{
 				$Result['path'][] = array(  'tag_id' => $tempTag->ID,

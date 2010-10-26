@@ -26,6 +26,11 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
                       'sort' => array( 'id' => 'asc' ),
                       'name' => 'eztags_attribute_link' );
     }
+    
+    static function fetchByKeywordID($keywordID)
+    {
+    	return eZPersistentObject::fetchObjectList( eZTagsAttributeLinkObject::definition(), null, array('keyword_id' => $keywordID) );
+    }
 }
 
 ?>

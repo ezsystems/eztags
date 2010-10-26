@@ -7,7 +7,12 @@ class eZTagsGetObject
 
 	static public function fetchTagObject( $keyword )
 	{
-		return array( 'result' => eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('keyword' => $keyword) ) );
+		$result = eZTagsObject::fetchByKeyword($keyword);
+		
+		if(is_array($result) && count($result) > 0)
+			return array( 'result' => $result[0] );
+		else
+			return array( 'result' => null );
 	}
 }
 
