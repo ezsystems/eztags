@@ -2,7 +2,7 @@
 
 class eZTagsTemplateFunctions
 {
-    function eZTagsTemplateFunctions()
+    function __construct()
     {
     }
 

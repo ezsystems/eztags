@@ -1,9 +1,9 @@
 <?php
 class eZTagsObject extends eZPersistentObject
 {
-    function eZTagsObject( $row )
+    function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
     }
 
     static function definition()

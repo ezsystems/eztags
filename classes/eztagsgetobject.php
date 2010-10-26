@@ -1,7 +1,7 @@
 <?php
 class eZTagsGetObject
 {
-    function eZTagsGetObject()
+    function __construct()
     {
     }
 

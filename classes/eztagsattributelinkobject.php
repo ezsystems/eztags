@@ -1,9 +1,9 @@
 <?php
 class eZTagsAttributeLinkObject extends eZPersistentObject
 {
-    function eZTagsAttributeLinkObject( $row )
+    function __construct( $row )
     {
-        $this->eZPersistentObject( $row );
+        parent::__construct( $row );
     }
 
     static function definition()

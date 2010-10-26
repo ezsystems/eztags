@@ -7,9 +7,9 @@ class eZTagsType extends eZDataType
     /*!
      Initializes with a keyword id and a description.
     */
-    function eZTagsType()
+    function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Tags', 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Tags', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 

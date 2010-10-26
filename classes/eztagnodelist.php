@@ -5,7 +5,7 @@ class eZTagsNodeList
     /*!
      Constructor
     */
-    function eZTagsNodeList()
+    function __construct()
     {
     }
 

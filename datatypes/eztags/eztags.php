@@ -5,7 +5,7 @@ class eZTags
     /*!
      Construct a new keyword instance
     */
-    function eZTags( )
+    function __construct( )
     {
     }
 
