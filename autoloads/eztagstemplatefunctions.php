@@ -2,10 +2,6 @@
 
 class eZTagsTemplateFunctions
 {
-    function __construct()
-    {
-    }
-
     function operatorList()
     {
         return array( 'eztags_parent_string' );

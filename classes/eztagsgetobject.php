@@ -1,10 +1,6 @@
 <?php
 class eZTagsGetObject
 {
-    function __construct()
-    {
-    }
-
 	static public function fetchTagObject( $keyword )
 	{
 		$result = eZTagsObject::fetchByKeyword($keyword);

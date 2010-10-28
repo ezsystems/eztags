@@ -2,13 +2,6 @@
 
 class eZTagsNodeList
 {
-    /*!
-     Constructor
-    */
-    function __construct()
-    {
-    }
-
     static public function fetchNodeListCount( $alphabet,
                                 $classid,
                                 $owner = false,
