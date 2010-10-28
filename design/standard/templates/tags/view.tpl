@@ -17,7 +17,7 @@
 
 					{if $nodes_boosted['SearchResult']|count}
 						<div class="block">
-							<h2>Boosted content</h2>
+							<h2>{'Boosted content'|i18n( 'extension/eztags/tags/view' )}</h2>
 							{foreach $nodes_boosted['SearchResult'] as $node}
 								{node_view_gui content_node=$node view=line}<br />
 							{/foreach}
@@ -35,8 +35,7 @@
 
 					{if $nodes_latest|count}
 						<div class="block">
-							<h2>Latest content</h2>
-	
+							<h2>{'Latest content'|i18n( 'extension/eztags/tags/view' )}</h2>
 							<ul>
 								{foreach $nodes_latest as $node}
 									<li>{node_view_gui content_node=$node view=listitem}</li>
@@ -50,7 +49,7 @@
 
 					{if $nodes_related.SearchExtras.facet_fields.0.nameList|gt(1)}
 						<div class="block">
-							<h2>Related tags</h2>
+							<h2>{'Related tags'|i18n( 'extension/eztags/tags/view' )}</h2>
 							<ul>
 								{foreach $nodes_related.SearchExtras.facet_fields.0.nameList as $name sequence $nodes_related.SearchExtras.facet_fields.0.countList as $count}
 									{if $name|downcase|ne($tag.keyword|downcase)}

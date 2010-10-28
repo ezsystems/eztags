@@ -54,7 +54,7 @@ if ( is_numeric($TagID) && $TagID >= 1 )
 
 		$Result['ui_context'] = 'edit';
 		$Result['path'] = array( array( 'tag_id' => 0,
-		                                'text' => ezpI18n::tr( 'kernel/tags', 'Delete tag' ),
+		                                'text' => ezpI18n::tr( 'extension/eztags/tags/edit', 'Delete tag' ),
 		                                'url' => false ) );
 
 		$contentInfoArray = array();

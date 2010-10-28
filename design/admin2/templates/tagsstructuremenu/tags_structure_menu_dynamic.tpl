@@ -141,9 +141,9 @@ function TagsStructureMenu( path, persistent )
         if ( this.showTips )
         {
 {/literal}
-            html += ' title="{"Tag ID"|i18n('design/admin/tagsstructuremenu')|wash(xhtml)|wash(javascript)}: '
+            html += ' title="{"Tag ID"|i18n('extension/eztags/tags/treemenu')|wash(xhtml)|wash(javascript)}: '
                 + item.id
-                + ', {"Parent tag ID"|i18n('design/admin/tagsstructuremenu')|wash(xhtml)|wash(javascript)}: '
+                + ', {"Parent tag ID"|i18n('extension/eztags/tags/treemenu')|wash(xhtml)|wash(javascript)}: '
                 + item.parent_id
                 + '"';
 {literal}
@@ -253,21 +253,21 @@ function TagsStructureMenu( path, persistent )
                         case 403:
                         {
 {/literal}
-                            aElement.title = '{"Dynamic tree not allowed for this siteaccess"|i18n('design/admin/tagsstructuremenu')|wash(javascript)}';
+                            aElement.title = '{"Dynamic tree not allowed for this siteaccess"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}';
 {literal}
                         } break;
 
                         case 404:
                         {
 {/literal}
-                            aElement.title = '{"Tag does not exist"|i18n('design/admin/tagsstructuremenu')|wash(javascript)}';
+                            aElement.title = '{"Tag does not exist"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}';
 {literal}
                         } break;
 
                         case 500:
                         {
 {/literal}
-                            aElement.title = '{"Internal error"|i18n('design/admin/tagsstructuremenu')|wash(javascript)}';
+                            aElement.title = '{"Internal error"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}';
 {literal}
                         } break;
                     }
@@ -373,7 +373,7 @@ var treeMenu;
         *}"id":0,{*
 		*}"parent_id":0,{*
         *}"has_children":true,{*
-        *}"keyword":"{"Top Level Tags"|i18n('design/admin/tagsstructuremenu')|wash(javascript)}",{*
+        *}"keyword":"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
         *}"url":{'tags/dashboard'|ezurl},{*
         *}"icon":"",{*
         *}"modified":0{rdelim};

@@ -15,14 +15,14 @@ menuArray['TagMenuSimple']['elements']['add-child-tag-simple'] = {ldelim} 'url':
     <div class="popupmenuheader"><h3 id="tag-header">XXX</h3>
         <div class="break"></div>
     </div>
-    <a id="add-child-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add child tag"|i18n("design/admin/tags/edit")}</a>
-    <a id="edit-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Edit tag"|i18n("design/admin/tags/edit")}</a>
-    <a id="delete-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Delete tag"|i18n("design/admin/tags/edit")}</a>
+    <a id="add-child-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add child tag"|i18n("extension/eztags/tags/edit")}</a>
+    <a id="edit-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Edit tag"|i18n("extension/eztags/tags/edit")}</a>
+    <a id="delete-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Delete tag"|i18n("extension/eztags/tags/edit")}</a>
 </div>
 
 <div class="popupmenu" id="TagMenuSimple">
     <div class="popupmenuheader"><h3 id="tag-simple-header">XXX</h3>
         <div class="break"></div>
     </div>
-    <a id="add-child-tag-simple" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenuSimple' )">{"Add child tag"|i18n("design/admin/tags/edit")}</a>
+    <a id="add-child-tag-simple" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenuSimple' )">{"Add child tag"|i18n("extension/eztags/tags/edit")}</a>
 </div>

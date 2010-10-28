@@ -1,7 +1,7 @@
 {if and(is_set($module_result.ui_context), $module_result.ui_context|eq('navigation'))}
 <div id="content-tree">
 <div class="box-header"><div class="box-ml">
-<h4>{'Tags structure'|i18n( 'design/admin/parts/tags/menu' )}</h4>
+<h4>{'Tags structure'|i18n( 'extension/eztags/tags/treemenu' )}</h4>
 </div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-content">

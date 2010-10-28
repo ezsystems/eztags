@@ -13,7 +13,7 @@ class eZTagsType extends eZDataType
     */
     function __construct()
     {
-        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Tags', 'Datatype name' ),
+        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'extension/eztags/datatypes', 'Tags' ),
                            array( 'serialize_supported' => true ) );
     }
 

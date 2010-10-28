@@ -83,7 +83,7 @@ if ( is_numeric($ParentTagID) && $ParentTagID >= 0 )
 		}
 
 		$Result['path'][] = array(  'tag_id' => -1,
-		                            'text' => 'New tag',
+		                            'text' => ezpI18n::tr( 'extension/eztags/tags/edit', 'New tag' ),
 		                            'url' => false );
 
 		$contentInfoArray = array();

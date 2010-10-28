@@ -75,7 +75,7 @@ class eZTagsTemplateFunctions
     {
         if($parent_id == 0)
         {
-            return '(no parent)';
+            return '(' . ezpI18n::tr( 'extension/eztags/tags/edit', 'no parent' ) . ')';
         }
 
         $tag = eZTagsObject::fetch($parent_id);
