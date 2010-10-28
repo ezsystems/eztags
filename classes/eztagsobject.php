@@ -149,6 +149,31 @@ class eZTagsObject extends eZPersistentObject
 	{
 		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('keyword' => $param) );
 	}
+
+    /**
+     * Recursively deletes all children tags of the given tag, including the given tag itself
+     * 
+     * @static
+     * @param eZTagsObject $rootTag
+     */
+	static function recursiveTagDelete($rootTag)
+	{
+		$children = eZTagsObject::fetchByParentID($rootTag->ID);
+	
+		foreach($children as $child)
+		{
+			recursiveTagDelete($child);
+		}
+	
+		$tagAttributeLinks = eZTagsAttributeLinkObject::fetchByKeywordID($rootTag->ID);
+	
+		foreach($tagAttributeLinks as $tagAttributeLink)
+		{
+			$tagAttributeLink->remove();
+		}
+	
+		$rootTag->remove();
+	}
 }
 
 ?>

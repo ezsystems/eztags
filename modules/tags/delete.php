@@ -28,7 +28,7 @@ if ( is_numeric($TagID) && $TagID >= 1 )
 			$parentTag->store();
 		}
 
-		recursiveTagDelete($tag);
+		eZTagsObject::recursiveTagDelete($tag);
 
 		$db->commit();
 
@@ -70,25 +70,6 @@ if ( is_numeric($TagID) && $TagID >= 1 )
 else
 {
 	return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
-
-function recursiveTagDelete(eZTagsObject $rootTag)
-{
-	$children = eZTagsObject::fetchByParentID($rootTag->ID);
-
-	foreach($children as $child)
-	{
-		recursiveTagDelete($child);
-	}
-
-	$tagAttributeLinks = eZTagsAttributeLinkObject::fetchByKeywordID($rootTag->ID);
-
-	foreach($tagAttributeLinks as $tagAttributeLink)
-	{
-		$tagAttributeLink->remove();
-	}
-
-	$rootTag->remove();
 }
 
 ?>
