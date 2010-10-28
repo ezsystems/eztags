@@ -1,7 +1,21 @@
 <?php
 
+/**
+ * eZTagsNodeList class implements fetch functions for eztags
+ * 
+ */
 class eZTagsNodeList
 {
+    /**
+     * Returns array with one element containing the count of nodes
+     * 
+     * @static
+     * @param string $alphabet
+     * @param mixed $classid
+     * @param integer $owner
+     * @param integer $parentNodeID
+     * @return array
+     */
     static public function fetchNodeListCount( $alphabet,
                                 $classid,
                                 $owner = false,
@@ -64,7 +78,19 @@ class eZTagsNodeList
         return array( 'result' => $keyWords[0]['count'] );
     }
 
-    //Returns an array( 'result' => array( 'keyword' => keyword, 'link_object' => node_id );
+    /**
+     * Returns array with one element containing the array of nodes
+     * 
+     * @static
+     * @param string $alphabet
+     * @param mixed $classid
+     * @param integer $offset
+     * @param integer $limit
+     * @param integer $owner
+     * @param array $sortBy
+     * @param integer $parentNodeID
+     * @return array
+     */
     static public function fetchNodeList( $alphabet,
                            $classid,
                            $offset,

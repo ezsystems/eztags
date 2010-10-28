@@ -1,7 +1,18 @@
 <?php
 
+/**
+ * ezjscoreTagsSuggest class implements ezjscore server functions for eztags
+ * 
+ */
 class ezjscoreTagsSuggest extends ezjscServerFunctions
 {
+    /**
+     * Provides auto complete results when adding tags to object
+     * 
+     * @static
+     * @param mixed $args
+     * @return array
+     */
 	public static function autocomplete( $args )
 	{
 		$http = eZHTTPTool::instance();
@@ -27,6 +38,13 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 		return $returnArray;
 	}
 
+    /**
+     * Provides suggestion results when adding tags to object
+     * 
+     * @static
+     * @param mixed $args
+     * @return array
+     */
 	public static function suggest( $args )
 	{
 		$tags = array();

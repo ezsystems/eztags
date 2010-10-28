@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * eZTagsType class implements the eztags datatype
+ * 
+ */
 class eZTagsType extends eZDataType
 {
     const DATA_TYPE_STRING = 'eztags';

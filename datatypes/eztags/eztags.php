@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * eZTags class implements functions used by eztags datatype
+ * 
+ */
 class eZTags
 {
     function attributes()

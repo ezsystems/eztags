@@ -1,6 +1,18 @@
 <?php
+
+/**
+ * eZTagsGetObject class implements object fetch of tags module
+ * 
+ */
 class eZTagsGetObject
 {
+    /**
+     * Fetches first object associated with provided keyword
+     * 
+     * @static
+     * @param string $keyword
+     * @return array
+     */
 	static public function fetchTagObject( $keyword )
 	{
 		$result = eZTagsObject::fetchByKeyword($keyword);
