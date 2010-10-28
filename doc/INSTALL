@@ -4,6 +4,8 @@ Requirements
 ============
 
     * eZ Publish 4.3+
+    * eZ Find
+    * eZ JSCore
 
 
 Installation
