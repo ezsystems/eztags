@@ -79,7 +79,7 @@ class eZTagsNodeList
     }
 
     /**
-     * Returns array with one element containing the array of nodes
+     * Returns array with one element containing keyword <-> node_id mappings
      * 
      * @static
      * @param string $alphabet
