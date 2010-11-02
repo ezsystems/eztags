@@ -71,10 +71,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Boosted content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Latest content</source>
         <translation type="unfinished"></translation>
     </message>

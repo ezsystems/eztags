@@ -10,13 +10,13 @@ class eZTagsNodeList
      * Returns array with one element containing the count of nodes
      * 
      * @static
-     * @param string $alphabet
+     * @param string $keyword
      * @param mixed $classid
      * @param integer $owner
      * @param integer $parentNodeID
      * @return array
      */
-    static public function fetchNodeListCount( $alphabet,
+    static public function fetchNodeListCount( $keyword,
                                 $classid,
                                 $owner = false,
                                 $parentNodeID = false )
@@ -38,7 +38,7 @@ class eZTagsNodeList
 
         $db = eZDB::instance();
 
-        $alphabet = $db->escapeString( $alphabet );
+        $keyword = $db->escapeString( $keyword );
 
         $sqlOwnerString = is_numeric( $owner ) ? "AND ezcontentobject.owner_id = '$owner'" : '';
         $parentNodeIDString = is_numeric( $parentNodeID ) ? "AND ezcontentobject_tree.parent_node_id = '$parentNodeID'" : '';
@@ -50,7 +50,7 @@ class eZTagsNodeList
         }
 
         $sqlToExcludeDuplicates = '';
-        $sqlMatching = "eztags.keyword = '$alphabet'";
+        $sqlMatching = "eztags.keyword = '$keyword'";
 
         $query = "SELECT COUNT($sqlToExcludeDuplicates ezcontentobject.id) AS count
                   FROM eztags, eztags_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
@@ -82,7 +82,7 @@ class eZTagsNodeList
      * Returns array with one element containing keyword <-> node_id mappings
      * 
      * @static
-     * @param string $alphabet
+     * @param string $keyword
      * @param mixed $classid
      * @param integer $offset
      * @param integer $limit
@@ -91,7 +91,7 @@ class eZTagsNodeList
      * @param integer $parentNodeID
      * @return array
      */
-    static public function fetchNodeList( $alphabet,
+    static public function fetchNodeList( $keyword,
                            $classid,
                            $offset,
                            $limit,
@@ -125,7 +125,7 @@ class eZTagsNodeList
 
         $sqlKeyword = 'eztags.keyword';
 
-        $alphabet = $db->escapeString( $alphabet );
+        $keyword = $db->escapeString( $keyword );
 
         $sortingInfo = array();
         $sortingInfo['attributeFromSQL'] = ', ezcontentobject_attribute a1';
@@ -150,28 +150,6 @@ class eZTagsNodeList
                         $sortingString = 'eztags.keyword';
                         $sortingInfo['attributeTargetSQL'] = '';
                     }
-
-                    $sortOrder = true; // true is ascending
-                    if ( isset( $sortBy[1] ) )
-                        $sortOrder = $sortBy[1];
-                    $sortingOrder = $sortOrder ? ' ASC' : ' DESC';
-                    $sortingInfo['sortingFields'] = $sortingString . $sortingOrder;
-                } break;
-                case 'view_count':
-                {
-                    $sortingString = 'ezview_counter.count';
-                    $sortingInfo['attributeTargetSQL'] = ', ' . $sortingString;
-
-                    $sortOrder = true; // true is ascending
-                    if ( isset( $sortBy[1] ) )
-                        $sortOrder = $sortBy[1];
-                    $sortingOrder = $sortOrder ? ' ASC' : ' DESC';
-                    $sortingInfo['sortingFields'] = $sortingString . $sortingOrder;
-                } break;
-                case 'comment_count':
-                {
-                    $sortingString = 'comment_count';
-                    $sortingInfo['attributeTargetSQL'] = '';
 
                     $sortOrder = true; // true is ascending
                     if ( isset( $sortBy[1] ) )
@@ -214,12 +192,10 @@ class eZTagsNodeList
             $sqlClassIDString = 'AND ' . $db->generateSQLINStatement( $classIDArray, 'ezcontentclass.id', false, false, 'int' ) . ' ';
         }
 
-        $sqlMatching = "eztags.keyword = '$alphabet'";
+        $sqlMatching = "eztags.keyword = '$keyword'";
 
-        $query = "SELECT $sqlTarget, COUNT(ezcomment.id) AS comment_count
-                  FROM eztags, eztags_attribute_link,ezcontentobject_tree
-                       LEFT OUTER JOIN ezview_counter ON ezcontentobject_tree.main_node_id=ezview_counter.node_id,ezcontentobject
-                       LEFT OUTER JOIN ezcomment ON ezcontentobject.id=ezcomment.contentobject_id,ezcontentclass
+        $query = "SELECT $sqlTarget
+                  FROM eztags, eztags_attribute_link, ezcontentobject_tree, ezcontentobject, ezcontentclass
                        $sortingInfo[attributeFromSQL]
                        $sqlPermissionChecking[from]
                   WHERE

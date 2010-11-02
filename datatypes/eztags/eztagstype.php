@@ -32,7 +32,7 @@ class eZTagsType extends eZDataType
             {
                 // copy keywords links as well
                 $keyword = $originalContentObjectAttribute->content();
-                if ( is_object( $keyword ) )
+                if ( $keyword instanceof eZTags )
                 {
                     $keyword->store( $contentObjectAttribute );
                 }
@@ -51,8 +51,8 @@ class eZTagsType extends eZDataType
         if ( $http->hasPostVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) &&
              $http->hasPostVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $data = $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $data2 = $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) );
+            $data = trim($http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ));
+            $data2 = trim($http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ));
 
             if ( $data == "" )
             {
@@ -111,21 +111,9 @@ class eZTagsType extends eZDataType
         }
     }
 
-    function storeClassAttribute( $attribute, $version )
-    {
-    }
-
-    function storeDefinedClassAttribute( $attribute )
-    {
-    }
-
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
-    }
-
-    function fixupClassAttributeHTTPInput( $http, $base, $attribute )
-    {
     }
 
     function fetchClassAttributeHTTPInput( $http, $base, $attribute )
@@ -180,29 +168,8 @@ class eZTagsType extends eZDataType
              * is nothing more to do */
             return;
         }
-        $keywordIDs = array();
-        foreach ( $res as $record )
-            $keywordIDs[] = $record['keyword_id'];
-        $keywordIDString = implode( ', ', $keywordIDs );
 
-        /* Then we see which ones only have a count of 1 */
-        $res = $db->arrayQuery( "SELECT keyword_id
-                                 FROM eztags, eztags_attribute_link
-                                 WHERE eztags.id = eztags_attribute_link.keyword_id
-                                     AND eztags.id IN ($keywordIDString)
-                                 GROUP BY keyword_id
-                                 HAVING COUNT(*) = 1" );
-        $unusedKeywordIDs = array();
-        foreach ( $res as $record )
-            $unusedKeywordIDs[] = $record['keyword_id'];
-        $unusedKeywordIDString = implode( ', ', $unusedKeywordIDs );
-
-        /* Then we delete those unused keywords */
-        if ( $unusedKeywordIDString )
-            $db->query( "DELETE FROM eztags WHERE id IN ($unusedKeywordIDString)" );
-
-        /* And as last we remove the link between the keyword and the object
-         * attribute to be removed */
+        /* We remove the link between the keyword and the object attribute to be removed */
         $db->query( "DELETE FROM eztags_attribute_link
                      WHERE objectattribute_id='$contentObjectAttributeID'" );
     }

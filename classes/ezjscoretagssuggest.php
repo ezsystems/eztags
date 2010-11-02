@@ -68,27 +68,15 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 					$tagsCount++;
 				}
 			}
-			$solrFilter = 'article/tags:(' . $solrFilter . ')';
+			$solrFilter = 'attr_eztags_lk:(' . $solrFilter . ')';
 
 	        $solrSearch = new eZSolr();
 	        $params = array( 'SearchOffset' => 0,
 	                         'SearchLimit' => 0,
-	                         'Facet' => array(array('field' => 'article/tags', 'limit' => 5 + $tagsCount, 'mincount', 1)),
+	                         'Facet' => array(array('field' => 'attr_eztags_lk', 'limit' => 5 + $tagsCount, 'mincount', 1)),
 	                         'SortBy' => null,
 	                         'Filter' => $solrFilter,
-	                         'SearchContentClassID' => null,
-	                         'SearchSectionID' => null,
-	                         'SearchSubTreeArray' => null,
-	                         'AsObjects' => true,
-	                         'SpellCheck' => null,
-	                         'IgnoreVisibility' => false,
-	                         'Limitation' => null,
-	                         'BoostFunctions' => null,
 	                         'QueryHandler' => 'ezpublish',
-	                         'EnableElevation' => true,
-	                         'ForceElevation' => false,
-	                         'SearchDate' => null,
-	                         'DistributedSearch' => null,
 	                         'FieldsToReturn' => null );
 	        $searchResult = $solrSearch->search( '', $params );
 			$facetResult = $searchResult['SearchExtras']->attribute('facet_fields');

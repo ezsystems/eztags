@@ -6,6 +6,16 @@
  */
 class eZTags
 {
+    
+    /// Contains the keywords
+    private $KeywordArray = array();
+
+    /// Contains parent IDs in same order as keywords
+    private $ParentArray = array();
+
+    /// Contains the ID attribute if fetched
+    private $ObjectAttributeID = false;
+    
     function attributes()
     {
         return array( 'keywords',
@@ -59,6 +69,7 @@ class eZTags
     {
         $keywordArray = explode( ',', $keywordString );
         $parentArray = explode( ',', $parentString );
+        $wordArray = array();
         foreach ( array_keys( $keywordArray ) as $key )
         {
             $wordArray[] = trim( $keywordArray[$key] ).",".trim($parentArray[$key]);
@@ -90,10 +101,10 @@ class eZTags
             foreach( $this->KeywordArray as $keyword )
             {
                 $keyword = $db->escapeString( $keyword );
-                $escapedKeywordArray[] = $keyword;
+                $escapedKeywordArray[] = '\'' . $keyword . '\'';
             }
-            $wordsString = implode( '\',\'', $escapedKeywordArray );
-            $existingWords = $db->arrayQuery( "SELECT * FROM eztags WHERE keyword IN ( '$wordsString' ) " );
+            $wordsString = $db->generateSQLINStatement( $escapedKeywordArray, 'keyword', false, true, 'string' );
+            $existingWords = $db->arrayQuery( "SELECT * FROM eztags WHERE $wordsString" );
         }
         else
         {
@@ -135,7 +146,8 @@ class eZTags
             $keyword = $db->escapeString( $keyword );
             $parent = trim( $newword['parent_id'] );
             $parent = $db->escapeString( $parent );
-            $db->query( "INSERT INTO eztags ( keyword, parent_id, modified ) VALUES ( '$keyword', '$parent', UNIX_TIMESTAMP(NOW()) )" );
+            $current_time = time();
+            $db->query( "INSERT INTO eztags ( keyword, parent_id, modified ) VALUES ( '$keyword', '$parent', $current_time )" );
 
             $keywordID = $db->lastSerialID( 'eztags', 'id' );
             $addRelationWordArray[] = array( 'keyword' => $keywordID, 'id' => $keywordID );
@@ -187,8 +199,10 @@ class eZTags
 
         if ( count( $removeWordRelationIDArray ) > 0 )
         {
-            $removeIDString = implode( ', ', $removeWordRelationIDArray );
-            $db->query( "DELETE FROM eztags_attribute_link WHERE keyword_id IN ( $removeIDString ) AND  eztags_attribute_link.objectattribute_id='$attributeID'" );
+            $removeIDString = $db->generateSQLINStatement( $removeWordRelationIDArray, 'keyword_id', false, true, 'int' );
+            $db->query( "DELETE FROM eztags_attribute_link WHERE 
+                $removeIDString AND  
+                eztags_attribute_link.objectattribute_id='$attributeID'" );
         }
 
         // Only store relation to new keywords
@@ -198,34 +212,12 @@ class eZTags
             $db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id ) VALUES ( '" . $keywordArray['id'] ."', '" . $attribute->attribute( 'id' ) . "' )" );
         }
 
-        /* Clean up no longer used words:
-         * 1. Select words having no links.
-         * 2. Delete them.
-         * We cannot do this in one cross-table DELETE since older MySQL versions do not support this.
-         */
-        if ( $db->databaseName() == 'oracle' )
-        {
-            $query =
-                'SELECT eztags.id FROM eztags, eztags_attribute_link ' .
-                'WHERE eztags.id=eztags_attribute_link.keyword_id(+) AND ' .
-                'eztags_attribute_link.keyword_id IS NULL';
-        }
-        else
-        {
-            $query =
-                'SELECT eztags.id FROM eztags LEFT JOIN eztags_attribute_link ' .
-                ' ON eztags.id=eztags_attribute_link.keyword_id' .
-                ' WHERE eztags_attribute_link.keyword_id IS NULL';
-        }
-        $unusedWordsIDs = $db->arrayQuery( $query );
-        foreach ( $unusedWordsIDs as $wordID )
-            $db->query( 'DELETE FROM eztags WHERE id=' . $wordID['id']. ' AND parent_id != 0' );
     }
 
     /*!
      Fetches the keywords for the given attribute.
     */
-    function fetch( &$attribute )
+    function fetch( $attribute )
     {
         if ( $attribute->attribute( 'id' ) === null )
             return;
@@ -307,7 +299,7 @@ class eZTags
                 $keywordIDArray[] = $word['keyword_id'];
             }
 
-            $keywordCondition = $db->generateSQLINStatement( $keywordIDArray, 'keyword_id' );
+            $keywordCondition = $db->generateSQLINStatement( $keywordIDArray, 'keyword_id', false, true, 'int' );
 
             if ( count( $keywordIDArray ) > 0 )
             {
@@ -326,7 +318,7 @@ class eZTags
                 {
                     $aNodes = eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
 
-                    foreach ( $aNodes as $key => $node )
+                    foreach ( $aNodes as $node )
                     {
                         $theObject = $node->object();
                         if ( $theObject->canRead() )
@@ -340,14 +332,6 @@ class eZTags
         return $return;
     }
 
-    /// Contains the keywords
-    public $KeywordArray = array();
-
-    /// Contains parent IDs in same order as keywords
-    public $ParentArray = array();
-
-    /// Contains the ID attribute if fetched
-    public $ObjectAttributeID = false;
 }
 
 ?>
