@@ -2,11 +2,11 @@
 
 $http = eZHTTPTool::instance();
 
-$TagID = $Params['TagID'];
+$tagID = $Params['TagID'];
 
-if ( is_numeric($TagID) && $TagID >= 1 )
+if ( is_numeric($tagID) && $tagID >= 1 )
 {
-	$tag = eZTagsObject::fetch($TagID);
+	$tag = eZTagsObject::fetch($tagID);
 	if(!$tag)
 	{
 		return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -14,7 +14,7 @@ if ( is_numeric($TagID) && $TagID >= 1 )
 
 	if($http->hasPostVariable('DiscardButton'))
 	{
-		return $Module->redirectToView( 'id', array( $TagID ) );
+		return $Module->redirectToView( 'id', array( $tagID ) );
 	}
 	else if($http->hasPostVariable('SaveButton'))
 	{
@@ -50,16 +50,16 @@ if ( is_numeric($TagID) && $TagID >= 1 )
 
 				$db->commit();
 
-				return $Module->redirectToView( 'id', array( $TagID ) );
+				return $Module->redirectToView( 'id', array( $tagID ) );
 			}
 			else
 			{
-				return $Module->redirectToView( 'edit', array( $TagID ) );
+				return $Module->redirectToView( 'edit', array( $tagID ) );
 			}
 		}
 		else
 		{
-			return $Module->redirectToView( 'edit', array( $TagID ) );
+			return $Module->redirectToView( 'edit', array( $tagID ) );
 		}
 	}
 	else

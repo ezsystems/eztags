@@ -2,14 +2,14 @@
 
 $http = eZHTTPTool::instance();
 
-$ParentTagID = $Params['ParentTagID'];
+$parentTagID = $Params['ParentTagID'];
 
-if ( is_numeric($ParentTagID) && $ParentTagID >= 0 )
+if ( is_numeric($parentTagID) && $parentTagID >= 0 )
 {
 	if($http->hasPostVariable('DiscardButton'))
 	{
-		if($ParentTagID > 0)
-			return $Module->redirectToView( 'id', array( $ParentTagID ) );
+		if($parentTagID > 0)
+			return $Module->redirectToView( 'id', array( $parentTagID ) );
 		else
 			return $Module->redirectToView( 'dashboard', array() );
 	}
@@ -45,28 +45,28 @@ if ( is_numeric($ParentTagID) && $ParentTagID >= 0 )
 			}
 			else
 			{
-				return $Module->redirectToView( 'add', array( $ParentTagID ) );
+				return $Module->redirectToView( 'add', array( $parentTagID ) );
 			}
 		}
 		else
 		{
-			return $Module->redirectToView( 'add', array( $ParentTagID ) );
+			return $Module->redirectToView( 'add', array( $parentTagID ) );
 		}
 	}
 	else
 	{
 		$tpl = eZTemplate::factory();
 
-		$tpl->setVariable('parent_id', $ParentTagID);
+		$tpl->setVariable('parent_id', $parentTagID);
 
 		$Result = array();
 		$Result['content'] = $tpl->fetch( 'design:tags/add.tpl' );
 		$Result['ui_context'] = 'edit';
 		$Result['path'] = array();
 
-		if($ParentTagID > 0)
+		if($parentTagID > 0)
 		{
-			$tempTag = eZTagsObject::fetch($ParentTagID);
+			$tempTag = eZTagsObject::fetch($parentTagID);
 			while($tempTag->hasParent())
 			{
 				$Result['path'][] = array(  'tag_id' => $tempTag->ID,

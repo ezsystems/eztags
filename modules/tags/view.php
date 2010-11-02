@@ -2,9 +2,9 @@
 
 $params = $Params['Parameters'];
 
-$TagName = end($params);
+$tagName = end($params);
 
-$tags = eZTagsObject::fetchByKeyword($TagName);
+$tags = eZTagsObject::fetchByKeyword($tagName);
 
 if(count($tags) > 0)
 {
