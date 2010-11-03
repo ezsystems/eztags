@@ -4,9 +4,12 @@ Requirements
 ============
 
     * eZ Publish 4.3+
-    * eZ Find
     * eZ JSCore
 
+Optional extensions
+===================
+
+    * eZ Find (used for tags suggestion and related tags feature)
 
 Installation
 ============

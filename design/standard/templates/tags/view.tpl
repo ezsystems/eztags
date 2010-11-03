@@ -33,42 +33,44 @@
         </div>
     </div>
 
-    <div class="extrainfo-column-position">
-        <div class="extrainfo-column">
-
-		    <div class="border-box">
-		    <div class="border-tl"><div class="border-tr"><div class="border-tc"></div></div></div>
-		    <div class="border-ml"><div class="border-mr"><div class="border-mc float-break">
-
-			{def $nodes_related=fetch( 'ezfind', 'search',
-			              hash( 'limit', 0, 'filter', concat('attr_eztags_lk:"',$tag.keyword,'"'), 'facet', array(hash('field', 'attr_eztags_lk', 'limit', 6)) ) )}
-
-			{if $nodes_related.SearchExtras.facet_fields.0.nameList|gt(1)}
-				<div class="block">
-					<h2>{'Related tags'|i18n( 'extension/eztags/tags/view' )}</h2>
-					<ul>
-						{foreach $nodes_related.SearchExtras.facet_fields.0.nameList as $name sequence $nodes_related.SearchExtras.facet_fields.0.countList as $count}
-							{if $name|downcase|ne($tag.keyword|downcase)}
-								{def $t=fetch( 'tags', 'object', hash( 'keyword', $name ) )}
-								{if is_set($t)}
-								{def $url=urlencode($t.keyword) $p=$t}		
-								{while $p.parent_id|gt(0)}
-									{set $p=$p.parent}
-									{set $url=concat(urlencode($p.keyword),"/",$url)}
-								{/while}
-								<li><img class="transparent-png-icon" src={concat('tag_icons/small/', $t.icon)|ezimage} title="{$t.keyword|wash(xhtml)}" alt="{$t.keyword|wash(xhtml)}" /> <a href={concat("tags/view/",$url)|ezurl}>{$t.keyword}</a> ({$count})</li>
-								{undef $p $url}
+	{if ezini('SearchSettings', 'SearchEngine', 'site.ini')|eq('ezsolr')}
+	    <div class="extrainfo-column-position">
+	        <div class="extrainfo-column">
+	
+			    <div class="border-box">
+			    <div class="border-tl"><div class="border-tr"><div class="border-tc"></div></div></div>
+			    <div class="border-ml"><div class="border-mr"><div class="border-mc float-break">
+	
+				{def $nodes_related=fetch( 'ezfind', 'search',
+				              hash( 'limit', 0, 'filter', concat('attr_eztags_lk:"',$tag.keyword,'"'), 'facet', array(hash('field', 'attr_eztags_lk', 'limit', 6)) ) )}
+	
+				{if $nodes_related.SearchExtras.facet_fields.0.nameList|gt(1)}
+					<div class="block">
+						<h2>{'Related tags'|i18n( 'extension/eztags/tags/view' )}</h2>
+						<ul>
+							{foreach $nodes_related.SearchExtras.facet_fields.0.nameList as $name sequence $nodes_related.SearchExtras.facet_fields.0.countList as $count}
+								{if $name|downcase|ne($tag.keyword|downcase)}
+									{def $t=fetch( 'tags', 'object', hash( 'keyword', $name ) )}
+									{if is_set($t)}
+									{def $url=urlencode($t.keyword) $p=$t}		
+									{while $p.parent_id|gt(0)}
+										{set $p=$p.parent}
+										{set $url=concat(urlencode($p.keyword),"/",$url)}
+									{/while}
+									<li><img class="transparent-png-icon" src={concat('tag_icons/small/', $t.icon)|ezimage} title="{$t.keyword|wash(xhtml)}" alt="{$t.keyword|wash(xhtml)}" /> <a href={concat("tags/view/",$url)|ezurl}>{$t.keyword}</a> ({$count})</li>
+									{undef $p $url}
+									{/if}
+									{undef $t}
 								{/if}
-								{undef $t}
-							{/if}
-						{/foreach}
-					</ul>
+							{/foreach}
+						</ul>
+					</div>
+				{/if}
+				</div></div></div>
+				<div class="border-bl"><div class="border-br"><div class="border-bc"></div></div></div>
 				</div>
-			{/if}
-			</div></div></div>
-			<div class="border-bl"><div class="border-br"><div class="border-bc"></div></div></div>
-			</div>
-        </div>
-    </div>
+	        </div>
+	    </div>
+    {/if}
 </div>
 </div>
