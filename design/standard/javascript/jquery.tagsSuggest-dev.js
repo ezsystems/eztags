@@ -4,14 +4,9 @@
 			searchId: $(this).attr('id'),
 			minCharacters: 1,
 			maxResults: undefined,
-			wildCard: "",
-			caseSensitive: false,
-			notCharacter: "!",
 			maxHeight:350,
-			highlightMatches: true,
 			ajaxResults: false,
 			suggestTimeout: 500,
-			wrapPlacement: false,
 			ezjscAutocomplete:'ezjsctagssuggest::autocomplete',
 			ezjscSuggest:'ezjsctagssuggest::suggest'
 		};
@@ -20,19 +15,6 @@
 		var timeout = null;
 
 		return this.each(function() {
-
-			function regexEscape(txt, omit) {
-				var specials = ['/', '.', '*', '+', '?', '|',
-								'(', ')', '[', ']', '{', '}', '\\'];
-				if (omit) {
-					for (var i=0; i < specials.length; i++) {
-						if (specials[i] === omit) { specials.splice(i,1); }
-					}
-				}
-				var escapePatt = new RegExp('(\\' + specials.join('|\\') + ')', 'g');
-				return txt.replace(escapePatt, '\\$1');
-			}
-
 			var
 				obj = $(this).find('.tagssuggestfield'),
 				names = $(this).find('.tagnames'),
@@ -40,7 +22,6 @@
 				parent_selector_tree = $(this).next('.parent-selector-tree'),
 				parent_selector_button = $(this).find('input[type="button"]'),
 				parentSelector = false,
-				wildCardPatt = new RegExp(regexEscape(settings.wildCard || ''),'g'),
 				results = $('<div />'),
 				currentSelection, pageX, pageY;
 
@@ -59,11 +40,7 @@
 				$.each(tag_names_array, function(index, value) {
 					addTagToList({'tag_name': value.replace(/^\s+|\s+$/g, ''), 'tag_parent_id': tag_parent_ids_array[index].replace(/^\s+|\s+$/g, '')}, tags_listed, removeTagFromList, '&times;');
 				});
-				//$.ez(settings.ezjscSuggest, {'tags_string': names.val() + ', ' + $('input[id$="title"]:first').val()}, function(data){buildSuggest(data);});
 			}
-			//else {
-			//	$.ez(settings.ezjscSuggest, {'tags_string': $('input[id$="title"]:first').val()}, function(data){buildSuggest(data);});
-			//}
 			runSuggest();
 
 			function addTagToList(item, list, callback, icon) {
@@ -153,29 +130,13 @@
 				currentSelection = el;
 			}
 
-			function buildAutocomplete(resultObjects, sFilterTxt) {
-				//strings = sFilterTxt.split(' ');
-				//sFilterTxt = "(" + strings[strings.length - 1] + ")";
-				sFilterTxt = "(" + sFilterTxt + ")";
-
-				var bOddRow = true, i, iFound = 0,
-					filterPatt = settings.caseSensitive ? new RegExp(sFilterTxt, "g") : new RegExp(sFilterTxt, "ig");
+			function buildAutocomplete(resultObjects) {
+				var bOddRow = true, i, iFound = 0;
 
 				$(results).html('').hide();
 
 				for (i = 0; i < resultObjects.length; i += 1) {
 					var item = $('<div />');
-					if (settings.highlightMatches === true) {
-						//text = text.replace(filterPatt, "<strong>$1</strong>");
-						// suggested feature by Olivier Portier
-
-						//text = text.replace(filterPatt, "$1<strong>");
-						//text = text + '</strong>';
-
-						//text = '<span class="count">(' + resultObjects[i].num + ')</span>' + text;
-					}
-
-					//text = '<span class="count">(' + resultObjects[i].num + ')</span>' + text;
 
 					$(item).append('<p class="text">' + (resultObjects[i].tag_parent_name ? '<span class="count">(' + resultObjects[i].tag_parent_name + ')</span>' : '') + resultObjects[i].tag_name + '</p>');
 
@@ -238,26 +199,11 @@
 
 			function runAutocomplete() {
 				if (obj.val()) $.ez(settings.ezjscAutocomplete, {'search_string': obj.val()}, function(data){
-					var
-						resultObjects = [],
-						sFilterTxt = (!settings.wildCard) ? regexEscape(obj.val()) : regexEscape(obj.val(), settings.wildCard).replace(wildCardPatt, '.*'),
-						bMatch = true, 
-						filterPatt, i;
-
-					if (settings.notCharacter && sFilterTxt.indexOf(settings.notCharacter) === 0) {
-						sFilterTxt = sFilterTxt.substr(settings.notCharacter.length, sFilterTxt.length);
-						if (sFilterTxt.length > 0) { bMatch = false; }
-					}
-
-					sFilterTxt = sFilterTxt || '.*';
-					sFilterTxt = settings.wildCard ? '^' + sFilterTxt : sFilterTxt;
-					filterPatt = settings.caseSensitive ? new RegExp(sFilterTxt) : new RegExp(sFilterTxt, "i");
-
 					if (typeof data === 'string') {
 						data = JSON.parse(data);
 					}
 
-					buildAutocomplete(data.content.tags, sFilterTxt);
+					buildAutocomplete(data.content.tags);
 				});
 				else {
 					$(results).html('').hide();
@@ -266,7 +212,7 @@
 
 			function keyListener(e) {
 				switch (e.keyCode) {
-					case 9:// tab key
+					case 9: // tab key
 						if (e.type == 'keydown') {
 							if ($(results).css('display') == 'block' && $(results).find('.resultItem.hover').length) {
 								e.preventDefault();
@@ -283,7 +229,7 @@
 							return true;
 						}
 						return false;
-					case 40:// down key
+					case 40: // down key
 						if (e.type == 'keydown') {
 							currentSelection = $(currentSelection).next().get(0);
 							if (typeof currentSelection === 'undefined') {
@@ -295,7 +241,7 @@
 							}
 						}
 						return false;
-					case 38:// up key
+					case 38: // up key
 						if (e.type == 'keydown') {
 							currentSelection = $(currentSelection).prev().get(0);
 							if (typeof currentSelection === 'undefined') {
@@ -306,25 +252,16 @@
 								$('.results-wrap', results).scrollTop(currentSelection.offsetTop);
 							}
 						}
-
 						return false;
 					default:
 						if (e.type == 'keyup') {
 							if (timeout) window.clearTimeout(timeout);
-							//var runSuggest_var = function() {runSuggest.apply(this, [e])};
-							//function aux() { runSuggest(); };
-							//timeout = window.setTimeout(function () {runSuggest.apply(this, [e])}, settings.suggestTimeout);
-							//if (obj.val()) {
 							timeout = setTimeout(runAutocomplete, settings.suggestTimeout);
-							//}
 						}
 				}
 				setParentSelectorButtonState();
 			}
 
-			// Prepare the input box to show suggest results by adding in the events
-			// that will initiate the search and placing the element on the page
-			// that will show the results.
 			$(results).addClass('jsonSuggestResults').
 				css({
 					//'top': (obj.position().top + obj.height() + 5) + 'px',
@@ -332,9 +269,7 @@
 					//'width': (obj.width() + 12) + 'px'
 				}).hide();
 
-			if (settings.wrapPlacement) obj.parent().after(results);
-			else obj.after(results);
-
+			obj.after(results);
 			obj.after(parentSelector);
 
 			obj.keydown(keyListener).keyup(keyListener).blur(function(e) {
@@ -344,9 +279,6 @@
 				var resPos = $(results).offset();
 				resPos.bottom = resPos.top + $(results).height();
 				resPos.right = resPos.left + $(results).width();
-
-				//console.log(pageX + ':' + pageY);
-
 				if (pageY < resPos.top || pageY > resPos.bottom || pageX < resPos.left || pageX > resPos.right) {
 					$(results).hide();
 				}
@@ -367,9 +299,6 @@
 					}
 				});
 			}
-
-			// Escape the not character if present so that it doesn't act in the regular expression
-			settings.notCharacter = regexEscape(settings.notCharacter || '');
 		});
 	};
 })(jQuery);

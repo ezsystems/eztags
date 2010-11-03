@@ -1,7 +1,12 @@
 /* SUGGEST */
 
+
+div.tagssuggestfieldwrap {float:left; position:relative; width:300px; margin:0 12px 0 0; height:22px; vertical-align:top;}
+input.tagssuggestfield {width:100%; margin:0; padding:1px 0; border:1px solid #A5ACB2;}
+fieldset input.button-add-tag {margin:0;}
+
 div.jsonSuggestResults {
-	top:20px;
+	top:19px;
 	position:absolute;
 	border:1px solid #CCCCCC;
 	background: white;
@@ -18,7 +23,6 @@ div.jsonSuggestResults div.results-wrap {
 	/*height:250px;*/
 }
 
-
 .jsonSuggestResults iframe
 {
 	display:none;/*sorry for IE5*/
@@ -31,7 +35,6 @@ div.jsonSuggestResults div.results-wrap {
 	width:3000px;/*must have for any big value*/
 	height:3000px;/*must have for any big value*/
 }
-
 
 div.jsonSuggestResults div.resultItem {
 	display:block;
@@ -72,5 +75,3 @@ div.no-results p.no-results {display:block;}
 
 div.tag-parent-selector {display:none;}
 div.tag-parent-selector #content_tree_menu .nodeicon {}
-
-

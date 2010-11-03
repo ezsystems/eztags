@@ -18,10 +18,10 @@
 			<p class="no-results">{'There are no tags to suggest'|i18n( 'extension/eztags/datatypes' )}.</p>
 		</div>
 
-		<div style="float:left; position:relative; width:300px; margin:0 12px 0 0;">
-			<input class="tagssuggestfield" style="width:296px;" type="text" size="70" name="xxx_{$attribute_base}_eztags_data_text_{$attribute.id}" value="" autocomplete="off"  />
+		<div class="tagssuggestfieldwrap">
+			<input class="tagssuggestfield" type="text" size="70" name="xxx_{$attribute_base}_eztags_data_text_{$attribute.id}" value="" autocomplete="off"  />
 		</div>
-		<input type="button" value="{'Add new'|i18n( 'extension/eztags/datatypes' )}" name="AddTagButton" class="button-disabled" disabled="disabled">
+		<input type="button" value="{'Add new'|i18n( 'extension/eztags/datatypes' )}" name="AddTagButton" class="button-add-tag button-disabled" disabled="disabled">
 
 		<input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier} tagnames" type="hidden" name="{$attribute_base}_eztags_data_text_{$attribute.id}" value="{$attribute.content.keyword_string|wash(xhtml)}"  />
 
