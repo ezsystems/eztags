@@ -1,10 +1,10 @@
 <?php
 
 /**
- * eZTagsNodeList class implements fetch functions for eztags
+ * eZTagsFunctionCollection class implements fetch functions for eztags
  * 
  */
-class eZTagsNodeList
+class eZTagsFunctionCollection
 {
     /**
      * Returns array with one element containing the count of nodes
@@ -231,6 +231,23 @@ class eZTagsNodeList
         }
         return array( 'result' => $keywordNodeArray );
     }
+
+    /**
+     * Fetches first object associated with provided keyword
+     * 
+     * @static
+     * @param string $keyword
+     * @return array
+     */
+	static public function fetchTagObject( $keyword )
+	{
+		$result = eZTagsObject::fetchByKeyword($keyword);
+
+		if(is_array($result) && count($result) > 0)
+			return array( 'result' => $result[0] );
+		else
+			return array( 'result' => null );
+	}
 }
 
 ?>
