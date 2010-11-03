@@ -6,16 +6,32 @@
  */
 class eZTags
 {
-    
-    /// Contains the keywords
+    /**
+     * Contains the keywords
+     * 
+     * @var array $KeywordArray
+     */
     private $KeywordArray = array();
 
-    /// Contains parent IDs in same order as keywords
+    /**
+     * Contains parent IDs in same order as keywords
+     * 
+     * @var array $ParentArray
+     */
     private $ParentArray = array();
 
-    /// Contains the ID attribute if fetched
+    /**
+     * Contains the ID attribute if fetched
+     * 
+     * @var integer $ObjectAttributeID
+     */
     private $ObjectAttributeID = false;
-    
+
+    /**
+     * Returns an array with attributes that are available
+     * 
+     * @return array
+     */
     function attributes()
     {
         return array( 'keywords',
@@ -25,11 +41,23 @@ class eZTags
                       'related_nodes' );
     }
 
+    /**
+     * Returns true if the provided attribute exists
+     * 
+     * @param string $name
+     * @return bool
+     */
     function hasAttribute( $name )
     {
         return in_array( $name, $this->attributes() );
     }
 
+    /**
+     * Returns the specified attribute
+     * 
+     * @param string $name
+     * @return mixed
+     */
     function attribute( $name )
     {
         switch ( $name )
@@ -62,9 +90,12 @@ class eZTags
         }
     }
 
-    /*!
-     Initialze the keyword index
-    */
+    /**
+     * Initializes the keyword index
+     * 
+     * @param string $keywordString
+     * @param string $parentString
+     */
     function initializeKeyword( $keywordString, $parentString )
     {
         $keywordArray = explode( ',', $keywordString );
@@ -85,9 +116,11 @@ class eZTags
         }
     }
 
-    /*!
-     Stores the keyword index to database
-    */
+    /**
+     * Stores the keyword index to database
+     * 
+     * @param eZContentObjectAttribute $attribute
+     */
     function store( $attribute )
     {
         $db = eZDB::instance();
@@ -214,9 +247,11 @@ class eZTags
 
     }
 
-    /*!
-     Fetches the keywords for the given attribute.
-    */
+    /**
+     * Fetches the keywords for the given attribute
+     * 
+     * @param eZContentObjectAttribute $attribute
+     */
     function fetch( $attribute )
     {
         if ( $attribute->attribute( 'id' ) === null )
@@ -244,41 +279,53 @@ class eZTags
         }
     }
 
-    /*!
-     Sets the keyword index
-    */
+    /**
+     * Sets the keyword index
+     * 
+     * @param array $keywords
+     * @param array $parents
+     */
     function setKeywordArray( $keywords, $parents = array() )
     {
         $this->KeywordArray = $keywords;
         $this->ParentArray = $parents;
     }
 
-    /*!
-     Returns the keyword index
-    */
+    /**
+     * Returns the keyword index
+     * 
+     * @return array
+     */
     function keywordArray( )
     {
         return $this->KeywordArray;
     }
 
-    /*!
-     Returns the keywords as a string
-    */
+    /**
+     * Returns the keywords as a string
+     * 
+     * @return string
+     */
     function keywordString()
     {
         return implode( ', ', $this->KeywordArray );
     }
 
+    /**
+     * Returns the parent IDs as a string
+     * 
+     * @return string
+     */
     function parentString()
     {
         return implode( ', ', $this->ParentArray );
     }
 
-    /*!
-     Returns the objects which have at least one keyword in common
-
-     \return an array of eZContentObjectTreeNode instances, or null if the attribute is not stored yet
-    */
+    /**
+     * Returns the objects which have at least one keyword in common
+     * 
+     * @return mixed
+     */
     function relatedObjects()
     {
         $return = false;
@@ -331,7 +378,6 @@ class eZTags
         }
         return $return;
     }
-
 }
 
 ?>

@@ -8,18 +8,23 @@ class eZTagsType extends eZDataType
 {
     const DATA_TYPE_STRING = 'eztags';
 
-    /*!
-     Initializes with a keyword id and a description.
-    */
+    /**
+     * Constructor
+     * 
+     */
     function __construct()
     {
         parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'extension/eztags/datatypes', 'Tags' ),
                            array( 'serialize_supported' => true ) );
     }
 
-    /*!
-     Sets the default value.
-    */
+    /**
+     * Sets the default value
+     * 
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param eZContentObjectVersion $currentVersion
+     * @param eZContentObjectAttribute $originalContentObjectAttribute
+     */
     function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
@@ -40,10 +45,14 @@ class eZTagsType extends eZDataType
         }
     }
 
-    /*!
-     Validates the input and returns true if the input was
-     valid for this datatype.
-    */
+    /**
+     * Validates the input and returns true if the input was valid for this datatype
+     * 
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return bool
+     */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -79,9 +88,14 @@ class eZTagsType extends eZDataType
         return eZInputValidator::STATE_ACCEPTED;
     }
 
-    /*!
-     Fetches the http post var keyword input and stores it in the data instance.
-    */
+    /**
+     * Fetches the http post var keyword input and stores it in the data instance
+     * 
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return bool
+     */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) &&
@@ -97,10 +111,11 @@ class eZTagsType extends eZDataType
         return false;
     }
 
-    /*!
-     Does nothing since it uses the data_text field in the content object attribute.
-     See fetchObjectAttributeHTTPInput for the actual storing.
-    */
+    /**
+     * Stores the object attribute
+     * 
+     * @param eZContentObjectAttribute $attribute
+     */
     function storeObjectAttribute( $attribute )
     {
         // create keyword index
@@ -111,19 +126,38 @@ class eZTagsType extends eZDataType
         }
     }
 
+    /**
+     * <NOT IMPLEMENTED YET>
+     * 
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentClassAttribute $attribute
+     * @return bool
+     */
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
         return eZInputValidator::STATE_ACCEPTED;
     }
 
+    /**
+     * <NOT IMPLEMENTED YET>
+     * 
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentClassAttribute $attribute
+     * @return bool
+     */
     function fetchClassAttributeHTTPInput( $http, $base, $attribute )
     {
         return true;
     }
 
-    /*!
-     Returns the content.
-    */
+    /**
+     * Returns the content
+     * 
+     * @param eZContentObjectAttribute $attribute
+     * @return eZTags
+     */
     function objectAttributeContent( $attribute )
     {
         $keyword = new eZTags();
@@ -132,9 +166,12 @@ class eZTagsType extends eZDataType
         return $keyword;
     }
 
-    /*!
-     Returns the meta data used for storing search indeces.
-    */
+    /**
+     * Returns the meta data used for storing search indeces
+     * 
+     * @param eZContentObjectAttribute $attribute
+     * @return string
+     */
     function metaData( $attribute )
     {
         $keyword = new eZTags();
@@ -144,9 +181,12 @@ class eZTagsType extends eZDataType
         return $return;
     }
 
-    /*!
-     Delete stored object attribute
-    */
+    /**
+     * Delete stored object attribute
+     * 
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param eZContentObjectVersion $version
+     */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         if ( $version != null ) // Do not delete if discarding draft
@@ -174,9 +214,13 @@ class eZTagsType extends eZDataType
                      WHERE objectattribute_id='$contentObjectAttributeID'" );
     }
 
-    /*!
-     Returns the content of the keyword for use as a title
-    */
+    /**
+     * Returns the content of the keyword for use as a title
+     * 
+     * @param eZContentObjectAttribute $attribute
+     * @param string $name
+     * @return string
+     */
     function title( $attribute, $name = null )
     {
         $keyword = new eZTags();
@@ -186,6 +230,12 @@ class eZTagsType extends eZDataType
         return $return;
     }
 
+    /**
+     * Returns true if content object attribute has content
+     * 
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return bool
+     */
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $keyword = new eZTags();
@@ -195,15 +245,22 @@ class eZTagsType extends eZDataType
         return count( $array ) > 0;
     }
 
+    /**
+     * Returns if the content is indexable
+     * 
+     * @return bool
+     */
     function isIndexable()
     {
         return true;
     }
 
-    /*!
-     \return string representation of an contentobjectattribute data for simplified export
-
-    */
+    /**
+     * Returns string representation of a content object attribute
+     * 
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return string
+     */
     function toString( $contentObjectAttribute )
     {
         $keyword = new eZTags();
@@ -211,6 +268,13 @@ class eZTagsType extends eZDataType
         return  $keyword->keywordString();
     }
 
+    /**
+     * Creates the content object attribute content from the input string
+     * 
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param string $string
+     * @return bool
+     */
     function fromString( $contentObjectAttribute, $string )
     {
         if ( $string != '' )
@@ -222,6 +286,13 @@ class eZTagsType extends eZDataType
         return true;
     }
 
+    /**
+     * Serializes the content object attribute
+     * 
+     * @param eZPackage $package
+     * @param eZContentObjectAttribute $objectAttribute
+     * @return DOMNode
+     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -239,6 +310,13 @@ class eZTagsType extends eZDataType
         return $node;
     }
 
+    /**
+     * Deserializes the content object attribute from provided DOM node
+     * 
+     * @param eZPackage $package
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param DOMNode $attributeNode
+     */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $keyWordString = $attributeNode->getElementsByTagName( 'keyword-string' )->item( 0 )->textContent;
@@ -248,6 +326,11 @@ class eZTagsType extends eZDataType
         $objectAttribute->setContent( $keyword );
     }
 
+    /**
+     * Returns if the content supports batch initialization
+     * 
+     * @return bool
+     */
     function supportsBatchInitializeObjectAttribute()
     {
         return true;
