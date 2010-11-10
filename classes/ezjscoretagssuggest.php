@@ -72,12 +72,12 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 						$tagsCount++;
 					}
 				}
-				$solrFilter = 'attr_eztags_lk:(' . $solrFilter . ')';
+				$solrFilter = 'ezf_df_tags:(' . $solrFilter . ')';
 	
 		        $solrSearch = new eZSolr();
 		        $params = array( 'SearchOffset' => 0,
 		                         'SearchLimit' => 0,
-		                         'Facet' => array(array('field' => 'attr_eztags_lk', 'limit' => 5 + $tagsCount, 'mincount', 1)),
+		                         'Facet' => array(array('field' => 'ezf_df_tags', 'limit' => 5 + $tagsCount, 'mincount', 1)),
 		                         'SortBy' => null,
 		                         'Filter' => $solrFilter,
 		                         'QueryHandler' => 'ezpublish',

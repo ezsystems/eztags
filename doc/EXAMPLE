@@ -1,13 +1,15 @@
-eZ Tags extension will create a couple of demo tags for you so you can see it in action.
+You can see eZ Tags in action by following the steps below:
 
-For it to work, you will have to do the following:
+1. Import sample tags to the database (sql/mysql/samples.sql) or create your own tags.
 
-1. Import sample data to the database (sql/mysql/samples.sql) or create your own tags
+2. Edit the Article class and add a new Tags attribute.
 
-2. Edit the Article class and add a new Tags attribute. Set the identifier of the new attribute to eztags
+3. Edit one of your Article objects and add some of the existing tags to the object.
 
-3. Edit one of your Article objects and add tags to the object
+4. Publish the object and view it on the frontend. You should see the list of tags
+   attached to the object just below the body of the article.
 
-4. Publish the object and view it on the frontend
-
-You should see the list of tags attached to the object just below the body of the article.
+5. (OPTIONAL) To be able to see related tags feature in action, first configure eZ Find
+   as per instructions in "doc/INSTALL" file. Then create/edit couple of more Article
+   objects, add tags to them and make sure that all objects share at least one tag.
+   Related tags should be displayed by opening http://yoursite.com/tags/view/tag_name

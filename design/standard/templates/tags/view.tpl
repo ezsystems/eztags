@@ -46,7 +46,7 @@
 			    <div class="border-ml"><div class="border-mr"><div class="border-mc float-break">
 	
 				{def $nodes_related=fetch( 'ezfind', 'search',
-				              hash( 'limit', 0, 'filter', concat('attr_eztags_lk:"',$tag.keyword,'"'), 'facet', array(hash('field', 'attr_eztags_lk', 'limit', 6)) ) )}
+				              hash( 'limit', 0, 'filter', concat('ezf_df_tags:"',$tag.keyword,'"'), 'facet', array(hash('field', 'ezf_df_tags', 'limit', 6)) ) )}
 	
 				{if $nodes_related.SearchExtras.facet_fields.0.nameList|gt(1)}
 					<div class="block">
