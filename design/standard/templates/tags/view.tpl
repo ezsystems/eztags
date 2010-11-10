@@ -14,11 +14,11 @@
 				</h1>
 			</div>
 
-		{def $nodes = fetch('content', 'tree', hash('parent_node_id', 2,
-													'extended_attribute_filter', hash('id', 'TagsAttributeFilter',
-														'params', hash('tag_id', $tag.id)),
-													'limit', 10,
-													'sort_by', array('published', false())))}
+			{def $nodes_latest = fetch('content', 'tree', hash('parent_node_id', 2,
+														'extended_attribute_filter', hash('id', 'TagsAttributeFilter',
+															'params', hash('tag_id', $tag.id)),
+														'limit', 10,
+														'sort_by', array('published', false())))}
 
 			{if $nodes_latest|count}
 				<div class="block">
