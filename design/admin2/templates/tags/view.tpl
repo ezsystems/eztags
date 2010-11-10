@@ -10,12 +10,13 @@
 	<div class="box-content">
 		{include uri='design:parts/tags_view_control_bar.tpl' tag_id=$tag.id}
 
-		{def $nodes=fetch( 'tags', 'node_list',
-		                   hash( 'alphabet', $tag.keyword, 'sort_by', array('published', false()) ) )}
+		{def $nodes = fetch('tags', 'node_list', hash('alphabet', $tag.keyword, 'sort_by', array('published', false())))}
 
-		<h2>{'Latest content'|i18n( 'extension/eztags/tags/view' )}</h2>
-		{foreach $nodes as $node}
-			{node_view_gui content_node=$node view=line}<br />
-		{/foreach}
+		{if $nodes|count}
+			<h2>{'Latest content'|i18n( 'extension/eztags/tags/view' )}</h2>
+			{foreach $nodes as $node}
+				{node_view_gui content_node=$node view=line}<br />
+			{/foreach}
+		{/if}
 	</div>
 </div>

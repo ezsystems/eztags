@@ -14,7 +14,7 @@
 				</h1>
 			</div>
 
-			{def $nodes_latest=fetch( 'tags', 'node_list', hash( 'alphabet', $tag.keyword, 'limit', 10, 'sort_by', array('published', false()) ) )}
+			{def $nodes_latest = fetch('tags', 'node_list', hash('alphabet', $tag.keyword, 'limit', 10, 'sort_by', array('published', false())))}
 
 			{if $nodes_latest|count}
 				<div class="block">
