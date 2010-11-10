@@ -26,10 +26,10 @@ class eztagsInfo
 {
     static function info()
     {
-        $eZCopyrightString = 'Copyright (C) 1999-2010 eZ Systems AS';
+        $eZCopyrightString = 'Copyright (C) 2010 Netgen d.o.o., 1999-2010 eZ Systems AS';
 
         return array( 'Name'      => '<a href="http://ez.no">eZ Tags</a> extension',
-                      'Version'   => '0.1.0',
+                      'Version'   => '1.0 alpha',
                       'Copyright' => $eZCopyrightString,
                       'License'   => 'GNU General Public License v2.0'
                     );
