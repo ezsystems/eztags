@@ -242,7 +242,7 @@ class eZTags
         // Store relations to keyword for this content object
         foreach ( $addRelationWordArray as $keywordArray )
         {
-            $db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id ) VALUES ( '" . $keywordArray['id'] ."', '" . $attribute->attribute( 'id' ) . "' )" );
+            $db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id, object_id ) VALUES ( '" . $keywordArray['id'] . "', '" . $attribute->attribute( 'id' ) . "', '" . $attribute->attribute( 'contentobject_id' ) . "' )" );
         }
 
     }

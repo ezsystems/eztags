@@ -10,7 +10,11 @@
 	<div class="box-content">
 		{include uri='design:parts/tags_view_control_bar.tpl' tag_id=$tag.id}
 
-		{def $nodes = fetch('tags', 'node_list', hash('alphabet', $tag.keyword, 'sort_by', array('published', false())))}
+		{def $nodes = fetch('content', 'tree', hash('parent_node_id', 2,
+													'extended_attribute_filter', hash('id', 'TagsAttributeFilter',
+														'params', hash('tag_id', $tag.id)),
+													'limit', 10,
+													'sort_by', array('published', false())))}
 
 		{if $nodes|count}
 			<h2>{'Latest content'|i18n( 'extension/eztags/tags/view' )}</h2>
