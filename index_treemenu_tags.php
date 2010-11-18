@@ -100,11 +100,11 @@ eZExtension::activateExtensions( 'default' );
 
 // load siteaccess
 include_once( 'access.php' );
-$access = eZSiteAccess::match( $uri,
+$access = accessType( $uri,
                       eZSys::hostname(),
                       eZSys::serverPort(),
                       eZSys::indexFile() );
-$access = eZSiteAccess::change( $access );
+$access = changeAccess( $access );
 $GLOBALS['eZCurrentAccess'] = $access;
 
 // Check for new extension loaded by siteaccess
@@ -123,6 +123,7 @@ else
 
 $moduleINI = eZINI::instance( 'module.ini' );
 $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
+array_push( $globalModuleRepositories, 'extension/eztags/modules' );
 eZModule::setGlobalPathList( $globalModuleRepositories );
 
 $module = eZModule::exists( 'tags' );
