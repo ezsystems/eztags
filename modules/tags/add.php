@@ -58,6 +58,7 @@ if ( is_numeric($parentTagID) && $parentTagID >= 0 )
 		$tpl = eZTemplate::factory();
 
 		$tpl->setVariable('parent_id', $parentTagID);
+		$tpl->setVariable('ui_context', 'edit');
 
 		$Result = array();
 		$Result['content'] = $tpl->fetch( 'design:tags/add.tpl' );
