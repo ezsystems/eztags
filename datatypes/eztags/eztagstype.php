@@ -335,6 +335,17 @@ class eZTagsType extends eZDataType
     {
         return true;
     }
+
+    /**
+     * Sets grouped_input to true for edit view of the datatype
+     * 
+     * @return array
+     */
+    function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
+    {
+        $info = array( 'edit' => array( 'grouped_input' => true ) );
+        return eZDataType::objectDisplayInformation( $objectAttribute, $info );
+    }
 }
 
 eZDataType::register( eZTagsType::DATA_TYPE_STRING, 'eZTagsType' );
