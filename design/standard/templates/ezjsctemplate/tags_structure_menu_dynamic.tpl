@@ -20,7 +20,6 @@ function TagsStructureMenu( path, persistent )
 {/default}
 
     this.expiry = "{fetch('content','content_tree_menu_expiry')}";
-    this.context = "{$ui_context}";
 
 {cache-block keys=array( false(), $access_type ) expiry=0 ignore_content_expiry}
 
@@ -111,16 +110,8 @@ function TagsStructureMenu( path, persistent )
             var icon = {/literal}{'tag_icons/small/'|ezimage}{literal} + item.icon;
         else
             var icon = {/literal}{'tag_icons/small/'|ezimage}{literal} + this.defaultIcon;
-        if ( this.context != 'browse' && item.id >= 0 )
-        {
-            html += '<a class="nodeicon" href="#" rel="' + item.id + '"><img src="' + icon + '" alt="" title="Icon" /><\/a>';
-        }
-        else
-        {
-            html += '<img src="' + icon + '" alt="" title="Icon" />';
-        }
 
-        html += '&nbsp;<a class="image-text" href="#" rel="' + item.id + '"';
+        html += '<a class="nodeicon" href="#" rel="' + item.id + '"><img src="' + icon + '" alt="" title="Icon" /><\/a>&nbsp;<a class="image-text" href="#" rel="' + item.id + '"';
 
         if ( this.showTips )
         {
