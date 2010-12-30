@@ -150,8 +150,14 @@ function TagsStructureMenu( path, persistent )
         }
 
         html += '><span class="node-name-normal">'
-            + item.keyword
-            + '<\/span>';
+            + item.keyword;
+        
+        if(item.synonyms_count > 0)
+    	{
+    		html += ' (+' + item.synonyms_count + ')';
+    	}
+        
+        html += '<\/span>';
 
         html += '<\/a>';
         html += '<div id="c'

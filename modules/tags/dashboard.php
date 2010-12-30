@@ -4,6 +4,7 @@ $contentInfoArray = array();
 
 $tpl = eZTemplate::factory();
 
+$tpl->setVariable('blocks', eZINI::instance('eztags.ini')->variable('Dashboard', 'DashboardBlocks'));
 $tpl->setVariable( 'persistent_variable', false );
 
 $Result = array();

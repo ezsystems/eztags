@@ -13,7 +13,7 @@ class eZTagsTemplateFunctions
      */
     function operatorList()
     {
-        return array( 'eztags_parent_string' );
+        return array( 'eztags_parent_string', 'latest_tags' );
     }
 
     /**
@@ -38,7 +38,10 @@ class eZTagsTemplateFunctions
     {
         return array( 'eztags_parent_string' => array( 'parent_id' => array( 'type' => 'integer',
                                                 'required' => true,
-                                                'default' => 0 ) )
+                                                'default' => 0 ) ),
+						'latest_tags' => array( 'limit' => array( 'type' => 'integer',
+                                                'required' => false,
+                                                'default' => 10 ) )
         );
 
     }
@@ -61,6 +64,10 @@ class eZTagsTemplateFunctions
             case 'eztags_parent_string':
             {
                 $operatorValue = $this->generateParentString( $namedParameters['parent_id'] );
+            } break;
+            case 'latest_tags':
+            {
+                $operatorValue = $this->fetchLatestTags( $namedParameters['limit'] );
             } break;
         }
     }
@@ -91,6 +98,17 @@ class eZTagsTemplateFunctions
         $keywordsArray[] = $tag->Keyword;
 
         return implode(' / ', array_reverse($keywordsArray));
+    }
+
+    /**
+     * Returns $limit latest tags
+     * 
+     * @param integer $limit
+     * @return array
+     */
+    function fetchLatestTags($limit)
+    {
+    	return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('main_tag_id' => 0), array('modified' => 'desc'), $limit );
     }
 }
 

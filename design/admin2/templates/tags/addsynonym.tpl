@@ -1,25 +1,17 @@
 {ezcss_require(array('jqmodal.css', 'contentstructure-tree.css'))}
 {ezscript_require(array('jqModal.js', 'eztagsselectparent.js'))}
 
-<div class="context-block tags-edit">
+<div class="context-block tags-add">
 	<div class="box-header">
-		<h1 class="context-title">{"Edit tag"|i18n('extension/eztags/tags/edit')}: {$tag.keyword|wash(xhtml)} [{$tag.id}]</h1>
+		<h1 class="context-title">{"New synonym tag"|i18n('extension/eztags/tags/edit')} ({"Main tag ID"|i18n('extension/eztags/tags/edit')}: {$main_tag.id}, {"Main tag name"|i18n('extension/eztags/tags/edit')}: {$main_tag.keyword|wash})</h1>
 		<div class="header-mainline"></div>
 	</div>
 
 	<div class="box-content">
-		<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/edit/', $tag.id)|ezurl}>
+		<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/addsynonym/', $main_tag.id)|ezurl}>
 			<div class="block tag-edit-keyword">
-				<label>{'Tag name'|i18n( 'extension/eztags/tags/edit' )}</label>
-				<input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{$tag.keyword|wash(xhtml)}" />
-			</div>
-
-			<div class="block tag-edit-parent">
-				<label>{'Parent tag'|i18n( 'extension/eztags/tags/edit' )}</label>
-				<input id="parent_id" type="hidden" name="TagEditParentID" value="{$tag.parent_id}" />
-				<input id="hide_tag_id" type="hidden" name="TagHideID" value="{$tag.id}" />
-				<span id="parent_keyword">{eztags_parent_string($tag.parent_id)|wash(xhtml)}</span>
-				<input class="button" type="button" name="SelectParentButton" id="parent-selector-button" value="{'Select parent'|i18n( 'extension/eztags/tags/edit' )}" />
+				<label>{'Synonym name'|i18n( 'extension/eztags/tags/edit' )}</label>
+				<input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="" />
 			</div>
 
 			<div class="controlbar">

@@ -180,7 +180,7 @@ class eZTags
             $parent = trim( $newword['parent_id'] );
             $parent = $db->escapeString( $parent );
             $current_time = time();
-            $db->query( "INSERT INTO eztags ( keyword, parent_id, modified ) VALUES ( '$keyword', '$parent', $current_time )" );
+            $db->query( "INSERT INTO eztags ( keyword, parent_id, main_tag_id, modified ) VALUES ( '$keyword', '$parent', 0, $current_time )" );
 
             $keywordID = $db->lastSerialID( 'eztags', 'id' );
             $addRelationWordArray[] = array( 'keyword' => $keywordID, 'id' => $keywordID );

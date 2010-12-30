@@ -12,9 +12,9 @@ if ( is_numeric($tagID) && $tagID > 0 )
 		return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 	}
 
-	if($tag->MainTagID != 0)
+	if($tag->MainTagID == 0)
 	{
-		return $Module->redirectToView( 'delete', array( $tag->MainTagID ) );
+		return $Module->redirectToView( 'delete', array( $tagID ) );
 	}
 
 	if($http->hasPostVariable('NoButton'))
@@ -33,7 +33,23 @@ if ( is_numeric($tagID) && $tagID > 0 )
 			$parentTag->store();
 		}
 
-		eZTagsObject::recursiveTagDelete($tag);
+		$mainTag = $tag->getMainTag();
+		$transferObjectsToMainTag = $http->hasPostVariable('TransferObjectsToMainTag');
+
+		foreach($tag->TagAttributeLinks as $tagAttributeLink)
+		{
+			if($transferObjectsToMainTag && !$mainTag->isRelatedToObject($tagAttributeLink->ObjectAttributeID, $tagAttributeLink->ObjectID))
+			{
+				$tagAttributeLink->KeywordID = $tag->MainTagID;
+				$tagAttributeLink->store();
+			}
+			else
+			{
+				$tagAttributeLink->remove();
+			}
+		}
+
+		$tag->remove();
 
 		$db->commit();
 
@@ -53,11 +69,11 @@ if ( is_numeric($tagID) && $tagID > 0 )
 		$tpl->setVariable('tag', $tag);
 
 		$Result = array();
-		$Result['content'] = $tpl->fetch( 'design:tags/delete.tpl' );
+		$Result['content'] = $tpl->fetch( 'design:tags/deletesynonym.tpl' );
 
 		$Result['ui_context'] = 'edit';
 		$Result['path'] = array( array( 'tag_id' => 0,
-		                                'text' => ezpI18n::tr( 'extension/eztags/tags/edit', 'Delete tag' ),
+		                                'text' => ezpI18n::tr( 'extension/eztags/tags/edit', 'Delete synonym' ),
 		                                'url' => false ) );
 
 		$contentInfoArray = array();

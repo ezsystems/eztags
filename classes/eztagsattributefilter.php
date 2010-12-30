@@ -17,10 +17,19 @@ class eZTagsAttributeFilter
 
 		if(isset($params['tag_id']) && is_numeric($params['tag_id']) && $params['tag_id'] > 0)
 		{
-			$tagID = $params['tag_id'];
+			$tagIDsArray = array($params['tag_id']);
+
+			if(!isset($params['include_synonyms']) || (isset($params['include_synonyms']) && $params['include_synonyms'] == true))
+			{
+				$tag = eZTagsObject::fetch($params['tag_id']);
+				foreach($tag->getSynonyms() as $synonym)
+				{
+					$tagIDsArray[] = $synonym->ID;
+				}
+			}
 
 			$returnArray['tables'] = ", eztags_attribute_link i1 ";
-			$returnArray['joins'] = " i1.keyword_id = $tagID AND i1.object_id = ezcontentobject.id AND ";
+			$returnArray['joins'] = " i1.keyword_id IN (" . implode(',', $tagIDsArray) . ") AND i1.object_id = ezcontentobject.id AND ";
 		}
 
 		return $returnArray;

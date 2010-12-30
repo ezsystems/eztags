@@ -15,5 +15,29 @@
 				<div class="float-break"></div>
 			</div></div>
 		</div>
+
+		<div class="block">
+			{def $right_blocks = array()}
+
+			<div class="left">
+				{foreach $blocks as $block sequence array('left', 'right') as $position}
+					{if $position|eq('left')}
+						<div class="dashboard-item">
+							{include uri=concat( 'design:tags/dashboard/', $block, '.tpl' )}
+						</div>
+					{else}
+						{append-block variable=$right_blocks}
+							<div class="dashboard-item">
+								{include uri=concat( 'design:tags/dashboard/', $block, '.tpl' )}
+							</div>
+						{/append-block}
+					{/if}
+				{/foreach}
+			</div>
+			<div class="right">
+				{$right_blocks|implode('')}
+			</div>
+			<div class="float-break"></div>
+		</div>
 	</div>
 </div>

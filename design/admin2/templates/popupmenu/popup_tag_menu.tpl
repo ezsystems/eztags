@@ -1,6 +1,9 @@
 {def $tags_add_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'add'))
 	$tags_edit_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'edit'))
-	$tags_delete_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'delete'))}
+	$tags_delete_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'delete'))
+	$tags_merge_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'merge'))
+	$tags_add_synonym_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'addsynonym'))
+	$tags_make_synonym_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'makesynonym'))}
 
 <script type="text/javascript">
 <!--
@@ -14,6 +17,15 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
 {/if}
 {if $tags_delete_access}
 	menuArray['TagMenu']['elements']['delete-tag'] = {ldelim} 'url': {"/tags/delete/%tagID%"|ezurl} {rdelim};
+{/if}
+{if $tags_merge_access}
+	menuArray['TagMenu']['elements']['merge-tag'] = {ldelim} 'url': {"/tags/merge/%tagID%"|ezurl} {rdelim};
+{/if}
+{if $tags_add_synonym_access}
+	menuArray['TagMenu']['elements']['add-synonym-tag'] = {ldelim} 'url': {"/tags/addsynonym/%tagID%"|ezurl} {rdelim};
+{/if}
+{if $tags_make_synonym_access}
+	menuArray['TagMenu']['elements']['make-synonym-tag'] = {ldelim} 'url': {"/tags/makesynonym/%tagID%"|ezurl} {rdelim};
 {/if}
 
 {if $tags_add_access}
@@ -35,6 +47,16 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
     {/if}
     {if $tags_delete_access}
     	<a id="delete-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Delete tag"|i18n("extension/eztags/tags/edit")}</a>
+    {/if}
+    {if $tags_merge_access}
+    	<a id="merge-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Merge tag"|i18n("extension/eztags/tags/edit")}</a>
+    {/if}
+    <hr />
+    {if $tags_add_synonym_access}
+    	<a id="add-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add synonym"|i18n("extension/eztags/tags/edit")}</a>
+    {/if}
+    {if $tags_make_synonym_access}
+    	<a id="make-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Make synonym"|i18n("extension/eztags/tags/edit")}</a>
     {/if}
 </div>
 

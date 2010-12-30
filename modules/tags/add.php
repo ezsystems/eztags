@@ -6,6 +6,15 @@ $parentTagID = $Params['ParentTagID'];
 
 if ( is_numeric($parentTagID) && $parentTagID >= 0 )
 {
+	if($parentTagID > 0)
+	{
+		$parentTag = eZTagsObject::fetch($parentTagID);
+		if($parentTag->MainTagID != 0)
+		{
+			return $Module->redirectToView( 'add', array( $parentTag->MainTagID ) );
+		}
+	}
+
 	if($http->hasPostVariable('DiscardButton'))
 	{
 		if($parentTagID > 0)
@@ -34,6 +43,7 @@ if ( is_numeric($parentTagID) && $parentTagID >= 0 )
 				}
 
 				$tag = new eZTagsObject(array('parent_id' => (int) $http->postVariable('TagEditParentID'),
+											  'main_tag_id' => 0,
 											  'keyword' => $http->postVariable( 'TagEditKeyword' ),
 											  'modified' => $currentTime));
 
@@ -67,7 +77,7 @@ if ( is_numeric($parentTagID) && $parentTagID >= 0 )
 
 		if($parentTagID > 0)
 		{
-			$tempTag = eZTagsObject::fetch($parentTagID);
+			$tempTag = $parentTag;
 			while($tempTag->hasParent())
 			{
 				$Result['path'][] = array(  'tag_id' => $tempTag->ID,

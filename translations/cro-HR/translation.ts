@@ -2,6 +2,45 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>extension/eztags/tags/dashboard</name>
+    <message>
+        <source>Tags search</source>
+        <translation>Pretraga oznaka</translation>
+    </message>
+    <message>
+        <source>Search tags</source>
+        <translation>Pretraži oznake</translation>
+    </message>
+    <message>
+        <source>Include synonyms in search</source>
+        <translation>Uključi sinonime u pretragu</translation>
+    </message>
+    <message>
+        <source>Latest tags</source>
+        <translation>Najnovije oznake</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Ime oznake</translation>
+    </message>
+    <message>
+        <source>Parent tag name</source>
+        <translation>Ime nadređene oznake</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation>Promjenjeno</translation>
+    </message>
+    <message>
+        <source>No parent</source>
+        <translation>Nema nadređene oznake</translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/tags/edit</name>
     <message>
         <source>no parent</source>
@@ -12,8 +51,24 @@
         <translation>Nova oznaka</translation>
     </message>
     <message>
+        <source>New synonym tag</source>
+        <translation>Novi sinonim</translation>
+    </message>
+    <message>
+        <source>Main tag ID</source>
+        <translation>ID glavne oznake</translation>
+    </message>
+    <message>
+        <source>Main tag name</source>
+        <translation>Ime glavne oznake</translation>
+    </message>
+    <message>
         <source>Tag name</source>
         <translation>Ime oznake</translation>
+    </message>
+    <message>
+        <source>Synonym name</source>
+        <translation>Ime sinonima</translation>
     </message>
     <message>
         <source>Parent tag</source>
@@ -28,12 +83,32 @@
         <translation>Dodaj podređenu oznaku</translation>
     </message>
     <message>
+        <source>Add synonym</source>
+        <translation>Dodaj sinonim</translation>
+    </message>
+    <message>
+        <source>Make synonym</source>
+        <translation>Pretvori u sinonim</translation>
+    </message>
+    <message>
         <source>Edit tag</source>
         <translation>Uredi oznaku</translation>
     </message>
     <message>
+        <source>Edit synonym</source>
+        <translation>Uredi sinonim</translation>
+    </message>
+    <message>
         <source>Delete tag</source>
         <translation>Izbriši oznaku</translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Spoji oznaku</translation>
+    </message>
+    <message>
+        <source>Delete synonym</source>
+        <translation>Izbriši sinonim</translation>
     </message>
     <message>
         <source>Save</source>
@@ -52,8 +127,28 @@
         <translation>Odaberite nadređenu oznaku iz stabla</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the "%keyword" tag? All children tags will also be deleted and removed from existing objects.</source>
-        <translation>Jeste li sigurni da želite izbrisati oznaku "%keyword"? Sve podređene oznake će također biti izbrisane i uklonjene iz postojećih objekata.</translation>
+        <source>Main tag</source>
+        <translation>Glavna oznaka</translation>
+    </message>
+    <message>
+        <source>Select main tag</source>
+        <translation>Odaberi glavnu oznaku</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the "%keyword" tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation>Jeste li sigurni da želite izbrisati oznaku "%keyword"? Sve podređene oznake i sinonimi će također biti izbrisani i uklonjeni iz postojećih objekata.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the "%keyword" synonym?</source>
+        <translation>Jeste li sigurni da želite izbrisati sinonim "%keyword"?</translation>
+    </message>
+    <message>
+        <source>Transfer all related objects to the main tag</source>
+        <translation>Prebaci sve povezane objekte na glavnu oznaku</translation>
+    </message>
+    <message>
+        <source>Merging this tag with another tag will delete the tag and it's synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
+        <translation>Spajanje ove oznake s drugom oznakom će izbrisati oznaku i njene sinonime i prebaciti sve povezane objekte na glavnu oznaku. Također, sve podređene oznake će postati podređene glavnoj oznaci.</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -62,6 +157,30 @@
     <message>
         <source>No</source>
         <translation>Ne</translation>
+    </message>
+    <message>
+        <source>The tag you're about to delete has</source>
+        <translation>Oznaka koju brišete ima</translation>
+    </message>
+    <message>
+        <source>The tag you're about to merge has</source>
+        <translation>Oznaka koju spajate ima</translation>
+    </message>
+    <message>
+        <source>number of first level children tags</source>
+        <translation>broj podređenih oznaka prve razine</translation>
+    </message>
+    <message>
+        <source>number of objects related to first level children tags</source>
+        <translation>broj objekata povezanih s podređenim oznakama prve razine</translation>
+    </message>
+    <message>
+        <source>number of synonyms</source>
+        <translation>broj sinonima</translation>
+    </message>
+    <message>
+        <source>number of objects related to synonyms</source>
+        <translation>broj objekata povezanih sa sinonimima</translation>
     </message>
 </context>
 <context>
@@ -75,12 +194,44 @@
         <translation>Najnoviji sadržaj</translation>
     </message>
     <message>
+        <source>No content</source>
+        <translation>Nema sadržaja</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Ime</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation>Promjenjeno</translation>
+    </message>
+    <message>
         <source>Related tags</source>
         <translation>Povezane oznake</translation>
     </message>
     <message>
         <source>Tag</source>
         <translation>Oznaka</translation>
+    </message>
+    <message>
+        <source>Synonym</source>
+        <translation>Sinonim</translation>
+    </message>
+    <message>
+        <source>Synonyms</source>
+        <translation>Sinonimi</translation>
+    </message>
+    <message>
+        <source>No synonyms</source>
+        <translation>Nema sinonima</translation>
+    </message>
+    <message>
+        <source>Main tag</source>
+        <translation>Glavna oznaka</translation>
     </message>
 </context>
 <context>

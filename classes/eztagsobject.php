@@ -7,6 +7,8 @@
  */
 class eZTagsObject extends eZPersistentObject
 {
+	public $TagAttributeLinks = null;
+
     /**
      * Constructor
      * 
@@ -14,6 +16,8 @@ class eZTagsObject extends eZPersistentObject
     function __construct( $row )
     {
         parent::__construct( $row );
+        
+        $this->TagAttributeLinks = eZTagsAttributeLinkObject::fetchByKeywordID($this->ID);
     }
 
     /**
@@ -31,6 +35,10 @@ class eZTagsObject extends eZPersistentObject
                                                              'datatype' => 'integer',
                                                              'default' => null,
                                                              'required' => false ),
+                                         'main_tag_id' => array( 'name' => 'MainTagID',
+                                                             'datatype' => 'integer',
+                                                             'default' => null,
+                                                             'required' => false ),
                                          'keyword' => array( 'name' => 'Keyword',
                                                              'datatype' => 'string',
                                                              'default' => '',
@@ -40,6 +48,10 @@ class eZTagsObject extends eZPersistentObject
                                                              'default' => 0,
                                                              'required' => false ) ),
                       'function_attributes' => array( 'parent' => 'getParent',
+                                                      'children' => 'getChildren',
+                                                      'related_objects' => 'getRelatedObjects',
+                                                      'main_tag' => 'getMainTag',
+                                                      'synonyms' => 'getSynonyms',
                                                       'icon' => 'getIcon' ),
                       'keys' => array( 'id' ),
                       'increment_key' => 'id',
@@ -49,23 +61,94 @@ class eZTagsObject extends eZPersistentObject
     }
 
     /**
-     * Returns tag parent
-     * 
-     * @return eZTagsObject
-     */
-	function getParent()
-	{
-		return eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => $this->ParentID) );
-	}
-
-    /**
-     * Returns weather tag has a parent
+     * Returns whether tag has a parent
      * 
      * @return bool
      */
 	function hasParent()
 	{
 		return eZPersistentObject::count( eZTagsObject::definition(), array('id' => $this->ParentID) );
+	}
+
+    /**
+     * Returns whether tag is related to object defined by eztags attribute id and object id
+     * 
+     * @param integer $objectAttributeID
+     * @param integer $objectID
+     * @return bool
+     */
+	function isRelatedToObject($objectAttributeID, $objectID)
+	{
+		foreach($this->TagAttributeLinks as $link)
+		{
+			if($link->ObjectAttributeID == $objectAttributeID && $link->ObjectID == $objectID)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+    /**
+     * Returns tag parent
+     * 
+     * @return eZTagsObject
+     */
+	function getParent()
+	{
+		return eZTagsObject::fetch($this->ParentID);
+	}
+
+    /**
+     * Returns first level children tags
+     * 
+     * @return array
+     */
+	function getChildren()
+	{
+		return eZTagsObject::fetchByParentID($this->ID);
+	}
+
+    /**
+     * Returns objects related to this tag
+     * 
+     * @return array
+     */
+	function getRelatedObjects()
+	{
+		if(count($this->TagAttributeLinks) > 0)
+		{
+			$objectIDArray = array();
+			foreach($this->TagAttributeLinks as $tagAttributeLink)
+			{
+				array_push($objectIDArray, $tagAttributeLink->ObjectID);
+			}
+	
+			return eZContentObject::fetchIDArray($objectIDArray);
+		}
+		
+		return array();
+	}
+
+    /**
+     * Returns the main tag for synonym
+     * 
+     * @return eZTagsObject
+     */
+	function getMainTag()
+	{
+		return eZTagsObject::fetch($this->MainTagID);
+	}
+
+    /**
+     * Returns synonyms for the tag
+     * 
+     * @return array
+     */
+	function getSynonyms()
+	{
+		return eZTagsObject::fetchSynonyms( $this->ID );
 	}
 
     /**
@@ -123,7 +206,7 @@ class eZTagsObject extends eZPersistentObject
      */	
 	static function fetchByParentID($parentID)
 	{
-		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('parent_id' => $parentID) );
+		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('parent_id' => $parentID, 'main_tag_id' => 0) );
 	}
 
     /**
@@ -135,11 +218,35 @@ class eZTagsObject extends eZPersistentObject
      */	
 	static function childrenCountByParentID($parentID)
 	{
-		return eZPersistentObject::count( eZTagsObject::definition(), array('parent_id' => $parentID) );
+		return eZPersistentObject::count( eZTagsObject::definition(), array('parent_id' => $parentID, 'main_tag_id' => 0) );
 	}
 
     /**
-     * Returns array of eZTagsObject objects for given fetch parameters
+     * Returns array of eZTagsObject objects that are synonyms of provided tag ID
+     * 
+     * @static
+     * @param integer $mainTagID
+     * @return array
+     */		
+	static function fetchSynonyms($mainTagID)
+	{
+		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('main_tag_id' => $mainTagID) );
+	}
+
+    /**
+     * Returns count of eZTagsObject objects that are synonyms of provided tag ID
+     * 
+     * @static
+     * @param integer $mainTagID
+     * @return integer
+     */		
+	static function synonymsCount($mainTagID)
+	{
+		return eZPersistentObject::count( eZTagsObject::definition(), array('main_tag_id' => $mainTagID) );
+	}
+
+    /**
+     * Returns array of eZTagsObject objects for given keyword
      * 
      * @static
      * @param mixed $param
@@ -165,13 +272,22 @@ class eZTagsObject extends eZPersistentObject
 			recursiveTagDelete($child);
 		}
 	
-		$tagAttributeLinks = eZTagsAttributeLinkObject::fetchByKeywordID($rootTag->ID);
-	
-		foreach($tagAttributeLinks as $tagAttributeLink)
+		foreach($rootTag->TagAttributeLinks as $tagAttributeLink)
 		{
 			$tagAttributeLink->remove();
 		}
-	
+
+		$synonyms = $rootTag->getSynonyms();
+		foreach($synonyms as $synonym)
+		{
+			foreach($synonym->TagAttributeLinks as $tagAttributeLink)
+			{
+				$tagAttributeLink->remove();
+			}
+			
+			$synonym->remove();
+		}
+
 		$rootTag->remove();
 	}
 }

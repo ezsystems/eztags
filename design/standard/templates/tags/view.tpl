@@ -16,7 +16,7 @@
 
 			{def $nodes_latest = fetch('content', 'tree', hash('parent_node_id', 2,
 														'extended_attribute_filter', hash('id', 'TagsAttributeFilter',
-															'params', hash('tag_id', $tag.id)),
+															'params', hash('tag_id', $tag.id, 'include_synonyms', true())),
 														'limit', 10,
 														'sort_by', array('published', false())))}
 

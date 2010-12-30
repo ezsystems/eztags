@@ -1,25 +1,35 @@
 {ezcss_require(array('jqmodal.css', 'contentstructure-tree.css'))}
 {ezscript_require(array('jqModal.js', 'eztagsselectparent.js'))}
 
+{def $children_object_count = 0}
+{def $synonym_object_count = 0}
+
 <div class="context-block tags-edit">
 	<div class="box-header">
-		<h1 class="context-title">{"Edit tag"|i18n('extension/eztags/tags/edit')}: {$tag.keyword|wash(xhtml)} [{$tag.id}]</h1>
+		<h1 class="context-title">{"Merge tag"|i18n('extension/eztags/tags/edit')}: {$tag.keyword|wash(xhtml)} [{$tag.id}]</h1>
 		<div class="header-mainline"></div>
 	</div>
 
 	<div class="box-content">
-		<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/edit/', $tag.id)|ezurl}>
-			<div class="block tag-edit-keyword">
-				<label>{'Tag name'|i18n( 'extension/eztags/tags/edit' )}</label>
-				<input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{$tag.keyword|wash(xhtml)}" />
-			</div>
+		<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/merge/', $tag.id)|ezurl}>
+			<p>{'Merging this tag with another tag will delete the tag and it\'s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.'|i18n('extension/eztags/tags/edit')}</p>
+
+			<p>{'The tag you\'re about to merge has'|i18n( 'extension/eztags/tags/edit' )}:</p>
+			<ul>
+				<li>{'number of first level children tags'|i18n( 'extension/eztags/tags/edit' )}: {$tag.children|count}</li>
+				{foreach $tag.children as $child}{set $children_object_count = $children_object_count|sum($child.related_objects|count)}{/foreach}
+				<li>{'number of objects related to first level children tags'|i18n( 'extension/eztags/tags/edit' )}: {$children_object_count}</li>
+				<li>{'number of synonyms'|i18n( 'extension/eztags/tags/edit' )}: {$tag.synonyms|count}</li>
+				{foreach $tag.synonyms as $synonym}{set $synonym_object_count = $synonym_object_count|sum($synonym.related_objects|count)}{/foreach}
+				<li>{'number of objects related to synonyms'|i18n( 'extension/eztags/tags/edit' )}: {$synonym_object_count}</li>
+			</ul>
 
 			<div class="block tag-edit-parent">
-				<label>{'Parent tag'|i18n( 'extension/eztags/tags/edit' )}</label>
-				<input id="parent_id" type="hidden" name="TagEditParentID" value="{$tag.parent_id}" />
+				<label>{'Main tag'|i18n( 'extension/eztags/tags/edit' )}</label>
+				<input id="parent_id" type="hidden" name="MainTagID" value="0" />
 				<input id="hide_tag_id" type="hidden" name="TagHideID" value="{$tag.id}" />
-				<span id="parent_keyword">{eztags_parent_string($tag.parent_id)|wash(xhtml)}</span>
-				<input class="button" type="button" name="SelectParentButton" id="parent-selector-button" value="{'Select parent'|i18n( 'extension/eztags/tags/edit' )}" />
+				<span id="parent_keyword">{eztags_parent_string(0)|wash(xhtml)}</span>
+				<input class="button" type="button" name="SelectParentButton" id="parent-selector-button" value="{'Select main tag'|i18n( 'extension/eztags/tags/edit' )}" />
 			</div>
 
 			<div class="controlbar">
@@ -57,3 +67,5 @@ function confirmDiscard( question )
 -->
 </script>
 {/literal}
+
+{undef}

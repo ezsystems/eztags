@@ -18,6 +18,13 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'main_tag_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'keyword' => 
       array (
         'length' => 255,

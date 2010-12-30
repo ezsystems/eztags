@@ -1,6 +1,7 @@
 CREATE TABLE `eztags` (
   `id` int(11) NOT NULL auto_increment,
   `parent_id` int(11) NOT NULL default '0',
+  `main_tag_id` int(11) NOT NULL default '0',
   `keyword` varchar(255) NOT NULL default '',
   `modified` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),

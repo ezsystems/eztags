@@ -14,7 +14,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 
 	if($tag->MainTagID != 0)
 	{
-		return $Module->redirectToView( 'edit', array( $tag->MainTagID ) );
+		return $Module->redirectToView( 'makesynonym', array( $tag->MainTagID ) );
 	}
 
 	if($http->hasPostVariable('DiscardButton'))
@@ -23,58 +23,50 @@ if ( is_numeric($tagID) && $tagID > 0 )
 	}
 	else if($http->hasPostVariable('SaveButton'))
 	{
-		if($http->hasPostVariable('TagEditKeyword') && strlen($http->postVariable( 'TagEditKeyword' )) > 0
-			&& $http->hasPostVariable('TagEditParentID') && is_numeric($http->postVariable('TagEditParentID'))
-			&& (int) $http->postVariable('TagEditParentID') >= 0)
+		if($http->hasPostVariable('MainTagID') && is_numeric($http->postVariable('MainTagID'))
+			&& (int) $http->postVariable('MainTagID') > 0)
 		{
 			$currentTime = time();
-			$newParentTag = eZTagsObject::fetch((int) $http->postVariable('TagEditParentID'));
+			$mainTag = eZTagsObject::fetch((int) $http->postVariable('MainTagID'));
+			$newParentTag = $mainTag->getParent();
+			$oldParentTag = $tag->getParent();
 
-			if($newParentTag || (int) $http->postVariable('TagEditParentID') == 0)
+			$db = eZDB::instance();
+			$db->begin();
+
+			if($oldParentTag)
 			{
-				$db = eZDB::instance();
-				$db->begin();
-
-				$oldParentTag = $tag->getParent();
-				if($oldParentTag)
-				{
-					$oldParentTag->Modified = $currentTime;
-					$oldParentTag->store();
-				}
-
-				if($newParentTag)
-				{
-					$newParentTag->Modified = $currentTime;
-					$newParentTag->store();
-				}
-
-				$newParentID = (int) $http->postVariable('TagEditParentID');
-
-				$synonyms = $tag->getSynonyms();
-				foreach($synonyms as $synonym)
-				{
-					$synonym->ParentID = $newParentID;
-					$synonym->Modified = $currentTime;
-					$synonym->store();
-				}
-
-				$tag->Keyword = $http->postVariable( 'TagEditKeyword' );
-				$tag->ParentID = $newParentID;
-				$tag->Modified = $currentTime;
-				$tag->store();
-
-				$db->commit();
-
-				return $Module->redirectToView( 'id', array( $tagID ) );
+				$oldParentTag->Modified = $currentTime;
+				$oldParentTag->store();
 			}
-			else
+
+			if($newParentTag)
 			{
-				return $Module->redirectToView( 'edit', array( $tagID ) );
+				$newParentTag->Modified = $currentTime;
+				$newParentTag->store();
 			}
+
+			$synonyms = $tag->getSynonyms();
+			foreach($synonyms as $synonym)
+			{
+				$synonym->ParentID = $mainTag->ParentID;
+				$synonym->MainTagID = $mainTag->ID;
+				$synonym->Modified = $currentTime;
+				$synonym->store();
+			}
+
+			$tag->ParentID = $mainTag->ParentID;
+			$tag->MainTagID = $mainTag->ID;
+			$tag->Modified = $currentTime;
+			$tag->store();
+
+			$db->commit();
+
+			return $Module->redirectToView( 'id', array( $tagID ) );
 		}
 		else
 		{
-			return $Module->redirectToView( 'edit', array( $tagID ) );
+			return $Module->redirectToView( 'makesynonym', array( $tagID ) );
 		}
 	}
 	else
@@ -84,7 +76,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 		$tpl->setVariable('tag', $tag);
 
 		$Result = array();
-		$Result['content'] = $tpl->fetch( 'design:tags/edit.tpl' );
+		$Result['content'] = $tpl->fetch( 'design:tags/makesynonym.tpl' );
 		$Result['ui_context'] = 'edit';
 		$Result['path'] = array();
 

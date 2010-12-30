@@ -2,6 +2,45 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>extension/eztags/tags/dashboard</name>
+    <message>
+        <source>Tags search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include synonyms in search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parent tag name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No parent</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/tags/edit</name>
     <message>
         <source>no parent</source>
@@ -12,7 +51,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>New synonym tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main tag ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main tag name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Tag name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Synonym name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -28,11 +83,31 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Add synonym</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make synonym</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Edit tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Edit synonym</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Delete tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete synonym</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -52,7 +127,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the "%keyword" tag? All children tags will also be deleted and removed from existing objects.</source>
+        <source>Main tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select main tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the "%keyword" tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the "%keyword" synonym?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transfer all related objects to the main tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Merging this tag with another tag will delete the tag and it's synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -61,6 +156,30 @@
     </message>
     <message>
         <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The tag you're about to delete has</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The tag you're about to merge has</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>number of first level children tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>number of objects related to first level children tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>number of synonyms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>number of objects related to synonyms</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -75,11 +194,43 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>No content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Related tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Synonym</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Synonyms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No synonyms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main tag</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
