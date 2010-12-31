@@ -1,5 +1,5 @@
 {ezcss_require(array('tagssuggest.css', 'jqmodal.css', 'contentstructure-tree.css'))}
-{ezscript_require(array('jqModal.js', 'jquery.tagsSuggest-dev.js', 'tagsSuggest-init.js'))}
+{ezscript_require(array('ezjsc::jquery', 'ezjsc::jqueryio', 'jqModal.js', 'jquery.tagsSuggest-dev.js', 'tagsSuggest-init.js'))}
 
 {default attribute_base=ContentObjectAttribute}
 <div class="tagssuggest" id="tagssuggest">
