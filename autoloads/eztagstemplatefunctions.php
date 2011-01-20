@@ -36,7 +36,7 @@ class eZTagsTemplateFunctions
      */
     function namedParameterList()
     {
-        return array( 'eztags_parent_string' => array( 'parent_id' => array( 'type' => 'integer',
+        return array( 'eztags_parent_string' => array( 'tag_id' => array( 'type' => 'integer',
                                                 'required' => true,
                                                 'default' => 0 ) ),
 						'latest_tags' => array( 'limit' => array( 'type' => 'integer',
@@ -63,7 +63,7 @@ class eZTagsTemplateFunctions
         {
             case 'eztags_parent_string':
             {
-                $operatorValue = $this->generateParentString( $namedParameters['parent_id'] );
+                $operatorValue = $this->generateParentString( $namedParameters['tag_id'] );
             } break;
             case 'latest_tags':
             {
@@ -73,19 +73,19 @@ class eZTagsTemplateFunctions
     }
 
     /**
-     * Generates tag heirarchy string for given parent ID
+     * Generates tag heirarchy string for given tag ID
      * 
-     * @param integer $parent_id
+     * @param integer $tag_id
      * @return string
      */
-    function generateParentString($parent_id)
+    function generateParentString($tag_id)
     {
-        if($parent_id == 0)
+        if($tag_id == 0)
         {
             return '(' . ezpI18n::tr( 'extension/eztags/tags/edit', 'no parent' ) . ')';
         }
 
-        $tag = eZTagsObject::fetch($parent_id);
+        $tag = eZTagsObject::fetch($tag_id);
 
         $keywordsArray = array();
 
