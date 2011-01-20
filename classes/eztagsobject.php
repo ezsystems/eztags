@@ -164,9 +164,18 @@ class eZTagsObject extends eZPersistentObject
 
 		$returnValue = $ini->variable( 'Icons', 'Default' );
 
-		if(array_key_exists($this->ID, $iconMap) && strlen($iconMap[$this->ID]) > 0)
+		if($this->MainTagID > 0)
 		{
-			$returnValue = $iconMap[$this->ID];
+			$variableName = 'MainTagID';
+		}
+		else
+		{
+			$variableName = 'ID';
+		}
+
+		if(array_key_exists($this->$variableName, $iconMap) && strlen($iconMap[$this->$variableName]) > 0)
+		{
+			$returnValue = $iconMap[$this->$variableName];
 		}
 		else
 		{
@@ -174,9 +183,9 @@ class eZTagsObject extends eZPersistentObject
 			while($tempTag->ParentID > 0)
 			{
 				$tempTag = $tempTag->getParent();
-				if(array_key_exists($tempTag->ID, $iconMap) && strlen($iconMap[$tempTag->ID]) > 0)
+				if(array_key_exists($tempTag->$variableName, $iconMap) && strlen($iconMap[$tempTag->$variableName]) > 0)
 				{
-					$returnValue = $iconMap[$tempTag->ID];
+					$returnValue = $iconMap[$tempTag->$variableName];
 					break;
 				}
 			}
