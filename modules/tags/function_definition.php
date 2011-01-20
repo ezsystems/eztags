@@ -1,10 +1,10 @@
 <?php
 
 $FunctionList = array();
-$FunctionList['object'] = array( 'name' => 'object',
+$FunctionList['object_by_keyword'] = array( 'name' => 'object_by_keyword',
                                         'operation_types' => array( 'read' ),
                                         'call_method' => array( 'class' => 'eZTagsFunctionCollection',
-                                                                'method' => 'fetchTagObject' ),
+                                                                'method' => 'fetchTagObjectByKeyword' ),
                                         'parameter_type' => 'standard',
                                         'parameters' => array( array( 'name' => 'keyword',
                                                                       'type' => 'string',

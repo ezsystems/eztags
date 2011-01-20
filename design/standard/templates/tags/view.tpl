@@ -54,7 +54,7 @@
 						<ul>
 							{foreach $nodes_related.SearchExtras.facet_fields.0.nameList as $name sequence $nodes_related.SearchExtras.facet_fields.0.countList as $count}
 								{if $name|downcase|ne($tag.keyword|downcase)}
-									{def $t=fetch( 'tags', 'object', hash( 'keyword', $name ) )}
+									{def $t=fetch( 'tags', 'object_by_keyword', hash( 'keyword', $name ) )}
 									{if is_set($t)}
 									{def $url=urlencode($t.keyword) $p=$t}		
 									{while $p.parent_id|gt(0)}

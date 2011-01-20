@@ -13,7 +13,7 @@ class eZTagsFunctionCollection
      * @param string $keyword
      * @return array
      */
-	static public function fetchTagObject( $keyword )
+	static public function fetchTagObjectByKeyword( $keyword )
 	{
 		$result = eZTagsObject::fetchByKeyword($keyword);
 
