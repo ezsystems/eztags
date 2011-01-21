@@ -161,10 +161,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select parent element in tag tree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Main tag</source>
         <translation type="unfinished"></translation>
     </message>
@@ -326,7 +322,7 @@
 <context>
     <name>extension/eztags/tags/treemenu</name>
     <message>
-        <source>Adding new tag - Select parent element in tag tree</source>
+        <source>Select tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

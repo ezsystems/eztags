@@ -161,10 +161,6 @@
         <translation>Jeste li sigurni da želite odustati?</translation>
     </message>
     <message>
-        <source>Select parent element in tag tree</source>
-        <translation>Odaberite nadređenu oznaku iz stabla</translation>
-    </message>
-    <message>
         <source>Main tag</source>
         <translation>Glavna oznaka</translation>
     </message>
@@ -326,8 +322,8 @@
 <context>
     <name>extension/eztags/tags/treemenu</name>
     <message>
-        <source>Adding new tag - Select parent element in tag tree</source>
-        <translation>Dodavanje nove oznake - odaberite nadređenu oznaku</translation>
+        <source>Select tag</source>
+        <translation>Odaberite oznaku</translation>
     </message>
     <message>
         <source>Parent tag ID</source>

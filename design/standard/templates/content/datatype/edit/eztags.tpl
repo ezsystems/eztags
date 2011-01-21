@@ -33,13 +33,5 @@
 	<input type="hidden" name="eztags_subtree_limit" id="eztags_subtree_limit" value="{$attribute.contentclass_attribute.data_int1}" />
 </div>
 
-<div class="jqmDialog parent-selector-tree">
-	<div class="jqmdIn">
-		<div class="jqmdTC"><span class="jqmdTCLeft"></span><span class="jqDrag">{'Adding new tag - Select parent element in tag tree'|i18n( 'extension/eztags/tags/treemenu' )}</span><span class="jqmdTCRight"></span></div>
-		<div class="jqmdBL"><div class="jqmdBR"><div class="jqmdBC"><div class="jqmdBCIn">
-			{include uri='design:ezjsctemplate/menu.tpl' root_tag=$root_tag}
-		</div></div></div></div>
-		<a href="#" class="jqmdX jqmClose"></a>
-	</div>
-</div>
+{include uri='design:ezjsctemplate/modal_dialog.tpl' root_tag=$root_tag}
 {/default}

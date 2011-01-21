@@ -36,15 +36,7 @@
 </div>
 
 {if $tag.lock_status|eq(0)}
-	<div class="jqmDialog" id="parent-selector-tree">
-		<div class="jqmdIn">
-			<div class="jqmdTC"><span class="jqmdTCLeft"></span><span class="jqDrag">{'Select parent element in tag tree'|i18n( 'extension/eztags/tags/edit' )}</span><span class="jqmdTCRight"></span></div>
-			<div class="jqmdBL"><div class="jqmdBR"><div class="jqmdBC"><div class="jqmdBCIn">
-				{include uri='design:ezjsctemplate/menu.tpl'}
-			</div></div></div></div>
-			<a href="#" class="jqmdX jqmClose"></a>
-		</div>
-	</div>
+	{include uri='design:ezjsctemplate/modal_dialog.tpl'}
 {/if}
 
 {literal}
