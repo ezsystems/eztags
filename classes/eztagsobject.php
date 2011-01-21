@@ -265,39 +265,33 @@ class eZTagsObject extends eZPersistentObject
 	function getIcon()
 	{
 		$ini = eZINI::instance( 'eztags.ini' );
-
 		$iconMap = $ini->variable( 'Icons', 'IconMap' );
-
-		$returnValue = $ini->variable( 'Icons', 'Default' );
+		$defaultIcon = $ini->variable( 'Icons', 'Default' );
 
 		if($this->MainTagID > 0)
 		{
-			$variableName = 'MainTagID';
+			$tag = $this->getMainTag();
 		}
 		else
 		{
-			$variableName = 'ID';
+			$tag = $this;
 		}
 
-		if(array_key_exists($this->$variableName, $iconMap) && strlen($iconMap[$this->$variableName]) > 0)
+		if(array_key_exists($tag->ID, $iconMap) && strlen($iconMap[$tag->ID]) > 0)
 		{
-			$returnValue = $iconMap[$this->$variableName];
+			return $iconMap[$tag->ID];
 		}
-		else
+
+		while($tag->ParentID > 0)
 		{
-			$tempTag = $this;
-			while($tempTag->ParentID > 0)
+			$tag = $tag->getParent();
+			if(array_key_exists($tag->ID, $iconMap) && strlen($iconMap[$tag->ID]) > 0)
 			{
-				$tempTag = $tempTag->getParent();
-				if(array_key_exists($tempTag->$variableName, $iconMap) && strlen($iconMap[$tempTag->$variableName]) > 0)
-				{
-					$returnValue = $iconMap[$tempTag->$variableName];
-					break;
-				}
+				return $iconMap[$tag->ID];
 			}
 		}
 
-		return $returnValue;
+		return $defaultIcon;
 	}
 
     /**
