@@ -77,6 +77,13 @@ $ViewList['merge'] = array(
     'default_navigation_part' => 'eztagsnavigationpart',
     'params' => array( 'TagID' ) );
 
+$ViewList['search'] = array(
+    'functions' => array( 'search' ),
+    'script' => 'search.php',
+    'default_navigation_part' => 'eztagsnavigationpart',
+    'params' => array( ),
+    'unordered_params' => array( 'offset' => 'Offset' ) );
+
 $ClassID = array(
     'name'=> 'Class',
     'values'=> array(),
@@ -100,5 +107,6 @@ $FunctionList['delete'] = array();
 $FunctionList['deletesynonym'] = array();
 $FunctionList['makesynonym'] = array();
 $FunctionList['merge'] = array();
+$FunctionList['search'] = array();
 
 ?>

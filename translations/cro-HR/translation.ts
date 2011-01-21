@@ -42,18 +42,6 @@
 <context>
     <name>extension/eztags/tags/dashboard</name>
     <message>
-        <source>Tags search</source>
-        <translation>Pretraga oznaka</translation>
-    </message>
-    <message>
-        <source>Search tags</source>
-        <translation>Pretraži oznake</translation>
-    </message>
-    <message>
-        <source>Include synonyms in search</source>
-        <translation>Uključi sinonime u pretragu</translation>
-    </message>
-    <message>
         <source>Latest tags</source>
         <translation>Najnovije oznake</translation>
     </message>
@@ -286,6 +274,45 @@
     <message>
         <source>No subtree limitations</source>
         <translation>Nema ograničenja po podstablu</translation>
+    </message>
+</context>
+<context>
+	<name>extension/eztags/tags/search</name>
+    <message>
+        <source>Tags search</source>
+        <translation>Pretraživanje oznaka</translation>
+    </message>
+    <message>
+        <source>Search tags</source>
+        <translation>Pretraži oznake</translation>
+    </message>
+    <message>
+        <source>Include synonyms in search</source>
+        <translation>Uključi sinonime u pretragu</translation>
+    </message>
+    <message>
+        <source>Empty search not allowed. Please enter your search query above.</source>
+        <translation>Prazna pretraga nije dozvoljena. Upišite vaš tekst pretrage u polje iznad.</translation>
+    </message>
+    <message>
+        <source>No tags were found while searching for "%1".</source>
+        <translation>Za pretragu "%1" nije pronađena nijedna oznaka.</translation>
+    </message>
+    <message>
+        <source>Search for "%1" returned %2 matches.</source>
+        <translation>Za pretragu "%1" je pronađeno %2 oznaka.</translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Ime oznake</translation>
+    </message>
+    <message>
+        <source>Parent tag</source>
+        <translation>Nadređena oznaka</translation>
+    </message>
+    <message>
+        <source>Main tag name</source>
+        <translation>Ime glavne oznake</translation>
     </message>
 </context>
 <context>

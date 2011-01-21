@@ -332,12 +332,25 @@ class eZTagsObject extends eZPersistentObject
      * Returns array of eZTagsObject objects for given params
      * 
      * @static
-     * @param mixed $params
+     * @param array $params
+     * @param array $limits
      * @return array
      */	
-	static function fetchList($params)
+	static function fetchList($params, $limits = null)
 	{
-		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, $params );
+		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, $params, null, $limits );
+	}
+
+    /**
+     * Returns count of eZTagsObject objects for given params
+     * 
+     * @static
+     * @param mixed $params
+     * @return integer
+     */	
+	static function fetchListCount($params)
+	{
+		return eZPersistentObject::count( eZTagsObject::definition(), $params );
 	}
 
     /**

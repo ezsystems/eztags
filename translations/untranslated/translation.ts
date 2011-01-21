@@ -42,18 +42,6 @@
 <context>
     <name>extension/eztags/tags/dashboard</name>
     <message>
-        <source>Tags search</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Search tags</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Include synonyms in search</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Latest tags</source>
         <translation type="unfinished"></translation>
     </message>
@@ -285,6 +273,45 @@
     </message>
     <message>
         <source>No subtree limitations</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+	<name>extension/eztags/tags/search</name>
+    <message>
+        <source>Tags search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Include synonyms in search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Empty search not allowed. Please enter your search query above.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No tags were found while searching for "%1".</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for "%1" returned %2 matches.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parent tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main tag name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
