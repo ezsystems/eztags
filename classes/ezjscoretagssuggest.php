@@ -18,8 +18,14 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 		$http = eZHTTPTool::instance();
 
 		$searchString = $http->postVariable('search_string');
+		$subTreeLimit = $http->postVariable('subtree_limit');
 
-		$tags = eZTagsObject::fetchByKeyword(array('like', $searchString . '%'));
+		$params = array('keyword' => array('like', $searchString . '%'));
+		if($subTreeLimit > 0)
+		{
+			$params['path_string'] = array('like', '%/' . $subTreeLimit . '/%');
+		}
+		$tags = eZTagsObject::fetchList($params);
 
 		$returnArray = array();
 		$returnArray['status'] = 'success';

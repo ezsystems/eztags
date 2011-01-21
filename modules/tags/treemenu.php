@@ -107,6 +107,7 @@ if ( is_numeric($TagID) && $TagID >= 0 )
 	        $childResponse['parent_id'] = $child->ParentID;
 	        $childResponse['has_children'] = ( eZTagsObject::childrenCountByParentID($child->ID) ) ? 1 : 0;
 	        $childResponse['synonyms_count'] = eZTagsObject::synonymsCount($child->ID);
+	        $childResponse['subtree_limitations_count'] = $child->getSubTreeLimitationsCount();
 	        $childResponse['keyword'] = $child->Keyword;
 	        $childResponse['url'] = 'tags/id/' . $child->ID;
 	        $childResponse['icon'] = lookupIcon($eztagsINI, $child);

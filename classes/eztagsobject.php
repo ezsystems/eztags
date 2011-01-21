@@ -9,6 +9,10 @@ class eZTagsObject extends eZPersistentObject
 {
 	public $TagAttributeLinks = null;
 
+	const LOCK_STATUS_UNLOCKED = 0;
+	const LOCK_STATUS_HARD_LOCK = 1;
+	const LOCK_STATUS_SOFT_LOCK = 2;
+
     /**
      * Constructor
      * 
@@ -43,6 +47,10 @@ class eZTagsObject extends eZPersistentObject
                                                              'datatype' => 'string',
                                                              'default' => '',
                                                              'required' => false ),
+                                         'path_string' => array( 'name' => 'PathString',
+                                                             'datatype' => 'string',
+                                                             'default' => '',
+                                                             'required' => false ),
                                          'modified' => array( 'name' => 'Modified',
                                                              'datatype' => 'integer',
                                                              'default' => 0,
@@ -50,6 +58,9 @@ class eZTagsObject extends eZPersistentObject
                       'function_attributes' => array( 'parent' => 'getParent',
                                                       'children' => 'getChildren',
                                                       'related_objects' => 'getRelatedObjects',
+                                                      'subtree_limitations' => 'getSubTreeLimitations',
+                                                      'subtree_limitations_count' => 'getSubTreeLimitationsCount',
+                                                      'lock_status' => 'getLockStatus',
                                                       'main_tag' => 'getMainTag',
                                                       'synonyms' => 'getSynonyms',
                                                       'icon' => 'getIcon' ),
@@ -59,6 +70,28 @@ class eZTagsObject extends eZPersistentObject
                       'sort' => array( 'keyword' => 'asc' ),
                       'name' => 'eztags' );
     }
+
+    /**
+     * Updates path string of the tag and all of it's children and synonyms.
+     * 
+     * @param eZTagsObject $parentTag
+     */
+	function updatePathString($parentTag)
+	{
+		$this->PathString = (($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/') . $this->ID . '/';
+		$this->store();
+		
+		foreach($this->getSynonyms() as $s)
+		{
+			$s->PathString = (($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/') . $s->ID . '/';
+			$s->store();
+		}
+		
+		foreach($this->getChildren() as $c)
+		{
+			$c->updatePathString($this);
+		}
+	}
 
     /**
      * Returns whether tag has a parent
@@ -129,6 +162,79 @@ class eZTagsObject extends eZPersistentObject
 		}
 		
 		return array();
+	}
+
+    /**
+     * Returns list of eZContentClassAttribute objects (represented as subtree limitations)
+     * 
+     * @return array
+     */
+	function getSubTreeLimitations()
+	{
+		if($this->MainNodeID == 0)
+		{
+			return eZPersistentObject::fetchObjectList(eZContentClassAttribute::definition(), null,
+																	array('data_type_string' => 'eztags',
+																		eZTagsType::SUBTREE_LIMIT_FIELD => $this->ID,
+																		'version' => eZContentClass::VERSION_STATUS_DEFINED));
+		}
+		else
+		{
+			return array();
+		}
+	}
+
+    /**
+     * Returns count of eZContentClassAttribute objects (represented as subtree limitation count)
+     * 
+     * @return integer
+     */
+	function getSubTreeLimitationsCount()
+	{
+		if($this->MainNodeID == 0)
+		{
+			return eZPersistentObject::count(eZContentClassAttribute::definition(),
+																	array('data_type_string' => 'eztags',
+																		eZTagsType::SUBTREE_LIMIT_FIELD => $this->ID,
+																		'version' => eZContentClass::VERSION_STATUS_DEFINED));
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+    /**
+     * Returns the lock status of current tag
+     * - unlocked - no subtree limitations
+     * - hard lock - tag is used as subtree limitation
+     * - soft lock - parent tag is used as subtree limitation
+     * 
+     * @return integer
+     */
+	function getLockStatus()
+	{
+		$retValue = self::LOCK_STATUS_UNLOCKED;
+
+		if($this->getSubTreeLimitationsCount() > 0)
+		{
+			$retValue = self::LOCK_STATUS_HARD_LOCK;
+		}
+		else
+		{
+			$tag = $this;
+			while($tag->ParentID > 0)
+			{
+				$tag = $tag->getParent();
+				if($tag->getSubTreeLimitationsCount() > 0)
+				{
+					$retValue = self::LOCK_STATUS_SOFT_LOCK;
+					break;
+				}
+			}
+		}
+
+		return $retValue;
 	}
 
     /**
@@ -207,6 +313,18 @@ class eZTagsObject extends eZPersistentObject
 	}
 
     /**
+     * Returns array of eZTagsObject objects for given params
+     * 
+     * @static
+     * @param mixed $params
+     * @return array
+     */	
+	static function fetchList($params)
+	{
+		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, $params );
+	}
+
+    /**
      * Returns array of eZTagsObject objects for given parent ID
      * 
      * @static
@@ -264,6 +382,18 @@ class eZTagsObject extends eZPersistentObject
 	static function fetchByKeyword($param)
 	{
 		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('keyword' => $param) );
+	}
+
+    /**
+     * Returns the array of eZTagsObject objects for given path string
+     * 
+     * @static
+     * @param string $param
+     * @return array
+     */		
+	static function fetchByPathString($param)
+	{
+		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('path_string' => array('like', $param . '%'), main_tag_id => 0) );
 	}
 
     /**

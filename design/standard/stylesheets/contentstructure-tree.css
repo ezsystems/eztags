@@ -96,6 +96,11 @@ div#contentstructure li a.image-text span.node-name-hiddenbyparent, div#contents
     padding: 0 0.2em 0 0.2em;
 }
 
+div#contentstructure li a.image-text span.node-name-normal.disabled
+{
+	color:silver;
+}
+
 div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
 {
     display: none;

@@ -7,6 +7,23 @@
 class eZTagsFunctionCollection
 {
     /**
+     * Fetches eZTagsObject object for the provided tag ID
+     * 
+     * @static
+     * @param integer $tag_id
+     * @return array
+     */
+	static public function fetchTagObject( $tag_id )
+	{
+		$result = eZTagsObject::fetch($tag_id);
+
+		if($result instanceof eZTagsObject)
+			return array( 'result' => $result );
+		else
+			return array( 'result' => null );
+	}
+
+    /**
      * Fetches first object associated with provided keyword
      * 
      * @static

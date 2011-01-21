@@ -149,7 +149,7 @@ function TagsStructureMenu( path, persistent )
 {literal}
         }
 
-        html += '><span class="node-name-normal">'
+        html += '><span class="node-name-normal' + ((item.subtree_limitations_count > 0) ? ' disabled' : '') + '">'
             + item.keyword;
         
         if(item.synonyms_count > 0)

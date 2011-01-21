@@ -171,20 +171,35 @@ class eZTags
             }
         }
 
+		// subtree limit as defined in class attribute
+		$attributeSubTreeLimit = $attribute->contentClassAttribute()->attribute( eZTagsType::SUBTREE_LIMIT_FIELD );
+
         // Store every new keyword
         $addRelationWordArray = array();
-        foreach ( $newWordArray as $newword )
+        // but only if allowed by class attribute
+        if($attribute->contentClassAttribute()->attribute( eZTagsType::DISABLE_ADDITION_FIELD ) == 0)
         {
-            $keyword = trim( $newword['keyword'] );
-            $keyword = $db->escapeString( $keyword );
-            $parent = trim( $newword['parent_id'] );
-            $parent = $db->escapeString( $parent );
-            $current_time = time();
-            $db->query( "INSERT INTO eztags ( keyword, parent_id, main_tag_id, modified ) VALUES ( '$keyword', '$parent', 0, $current_time )" );
+	        foreach ( $newWordArray as $newword )
+	        {
+	            $keyword = trim( $newword['keyword'] );
+	            $keyword = $db->escapeString( $keyword );
+	            $parent = trim( $newword['parent_id'] );
+	            $parent = $db->escapeString( $parent );
+	
+				$parentTag = eZTagsObject::fetch($parent);
+	            $pathString = ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/';
+	            $pathString = $db->escapeString( $pathString );
 
-            $keywordID = $db->lastSerialID( 'eztags', 'id' );
-            $addRelationWordArray[] = array( 'keyword' => $keywordID, 'id' => $keywordID );
-        }
+				if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 && strpos($pathString, '/' . $attributeSubTreeLimit . '/') !== false))
+				{
+	            	$current_time = time();
+	            	$db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( '$parent', 0, '$keyword', '$pathString', $current_time )" );
+	            	$keywordID = $db->lastSerialID( 'eztags', 'id' );
+	            	$db->query( "UPDATE eztags SET path_string = path_string + $keywordID + '/' WHERE id = $keywordID" );
+	            	$addRelationWordArray[] = array( 'keyword' => $keywordID, 'id' => $keywordID );
+				}
+	        }
+    	}
 
         $attributeID = $attribute->attribute( 'id' );
         // Find the words which is new for this attribute
@@ -242,7 +257,13 @@ class eZTags
         // Store relations to keyword for this content object
         foreach ( $addRelationWordArray as $keywordArray )
         {
-            $db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id, object_id ) VALUES ( '" . $keywordArray['id'] . "', '" . $attribute->attribute( 'id' ) . "', '" . $attribute->attribute( 'contentobject_id' ) . "' )" );
+        	$tag = eZTagsObject::fetch($keywordArray['id']);
+        	$pathString = $tag->PathString;
+
+        	if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 && strpos($pathString, '/' . $attributeSubTreeLimit . '/') !== false))
+        	{
+            	$db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id, object_id ) VALUES ( '" . $keywordArray['id'] . "', '" . $attribute->attribute( 'id' ) . "', '" . $attribute->attribute( 'contentobject_id' ) . "' )" );
+        	}
         }
 
     }

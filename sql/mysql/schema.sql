@@ -3,6 +3,7 @@ CREATE TABLE `eztags` (
   `parent_id` int(11) NOT NULL default '0',
   `main_tag_id` int(11) NOT NULL default '0',
   `keyword` varchar(255) NOT NULL default '',
+  `path_string` varchar(255) NOT NULL default '',
   `modified` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `eztags_keyword` (`keyword`),

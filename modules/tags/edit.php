@@ -17,50 +17,23 @@ if ( is_numeric($tagID) && $tagID > 0 )
 		return $Module->redirectToView( 'edit', array( $tag->MainTagID ) );
 	}
 
+	$lockStatus = $tag->getLockStatus();
+
 	if($http->hasPostVariable('DiscardButton'))
 	{
 		return $Module->redirectToView( 'id', array( $tagID ) );
 	}
 	else if($http->hasPostVariable('SaveButton'))
 	{
-		if($http->hasPostVariable('TagEditKeyword') && strlen($http->postVariable( 'TagEditKeyword' )) > 0
-			&& $http->hasPostVariable('TagEditParentID') && is_numeric($http->postVariable('TagEditParentID'))
-			&& (int) $http->postVariable('TagEditParentID') >= 0)
+		if($lockStatus == eZTagsObject::LOCK_STATUS_HARD_LOCK)
 		{
-			$currentTime = time();
-			$newParentTag = eZTagsObject::fetch((int) $http->postVariable('TagEditParentID'));
-
-			if($newParentTag || (int) $http->postVariable('TagEditParentID') == 0)
+			if($http->hasPostVariable('TagEditKeyword') && strlen($http->postVariable( 'TagEditKeyword' )) > 0)
 			{
 				$db = eZDB::instance();
 				$db->begin();
 
-				$oldParentTag = $tag->getParent();
-				if($oldParentTag)
-				{
-					$oldParentTag->Modified = $currentTime;
-					$oldParentTag->store();
-				}
-
-				if($newParentTag)
-				{
-					$newParentTag->Modified = $currentTime;
-					$newParentTag->store();
-				}
-
-				$newParentID = (int) $http->postVariable('TagEditParentID');
-
-				$synonyms = $tag->getSynonyms();
-				foreach($synonyms as $synonym)
-				{
-					$synonym->ParentID = $newParentID;
-					$synonym->Modified = $currentTime;
-					$synonym->store();
-				}
-
 				$tag->Keyword = $http->postVariable( 'TagEditKeyword' );
-				$tag->ParentID = $newParentID;
-				$tag->Modified = $currentTime;
+				$tag->Modified = time();
 				$tag->store();
 
 				$db->commit();
@@ -74,7 +47,60 @@ if ( is_numeric($tagID) && $tagID > 0 )
 		}
 		else
 		{
-			return $Module->redirectToView( 'edit', array( $tagID ) );
+			if($http->hasPostVariable('TagEditKeyword') && strlen($http->postVariable( 'TagEditKeyword' )) > 0
+				&& $http->hasPostVariable('TagEditParentID') && is_numeric($http->postVariable('TagEditParentID'))
+				&& (int) $http->postVariable('TagEditParentID') >= 0)
+			{
+				$currentTime = time();
+				$newParentTag = eZTagsObject::fetch((int) $http->postVariable('TagEditParentID'));
+	
+				if($newParentTag || (int) $http->postVariable('TagEditParentID') == 0)
+				{
+					$db = eZDB::instance();
+					$db->begin();
+
+					$oldParentTag = $tag->getParent();
+					if($oldParentTag)
+					{
+						$oldParentTag->Modified = $currentTime;
+						$oldParentTag->store();
+					}
+	
+					if($newParentTag)
+					{
+						$newParentTag->Modified = $currentTime;
+						$newParentTag->store();
+					}
+	
+					$newParentID = (int) $http->postVariable('TagEditParentID');
+	
+					$synonyms = $tag->getSynonyms();
+					foreach($synonyms as $synonym)
+					{
+						$synonym->ParentID = $newParentID;
+						$synonym->Modified = $currentTime;
+						$synonym->store();
+					}
+	
+					$tag->Keyword = $http->postVariable( 'TagEditKeyword' );
+					$tag->ParentID = $newParentID;
+					$tag->Modified = $currentTime;
+					$tag->store();
+					$tag->updatePathString(($newParentTag instanceof eZTagsObject) ? $newParentTag : false);
+	
+					$db->commit();
+	
+					return $Module->redirectToView( 'id', array( $tagID ) );
+				}
+				else
+				{
+					return $Module->redirectToView( 'edit', array( $tagID ) );
+				}
+			}
+			else
+			{
+				return $Module->redirectToView( 'edit', array( $tagID ) );
+			}
 		}
 	}
 	else

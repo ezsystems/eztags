@@ -7,6 +7,10 @@
 class eZTagsType extends eZDataType
 {
     const DATA_TYPE_STRING = 'eztags';
+    const SUBTREE_LIMIT_VARIABLE = '_eztags_subtree_limit_';
+    const SUBTREE_LIMIT_FIELD = 'data_int1';
+    const DISABLE_ADDITION_VARIABLE = '_eztags_disable_addition_';
+    const DISABLE_ADDITION_FIELD = 'data_int2';
 
     /**
      * Constructor
@@ -42,6 +46,12 @@ class eZTagsType extends eZDataType
                     $keyword->store( $contentObjectAttribute );
                 }
             }
+
+            $subTreeLimit = $originalContentObjectAttribute->attribute( self::SUBTREE_LIMIT_FIELD );
+            $contentObjectAttribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
+
+            $disableAddition = $originalContentObjectAttribute->attribute( self::DISABLE_ADDITION_FIELD );
+            $contentObjectAttribute->setAttribute( self::DISABLE_ADDITION_FIELD, $disableAddition );
         }
     }
 
@@ -127,7 +137,7 @@ class eZTagsType extends eZDataType
     }
 
     /**
-     * <NOT IMPLEMENTED YET>
+     * Validates class attribute HTTP input
      * 
      * @param eZHTTPTool $http
      * @param string $base
@@ -136,11 +146,31 @@ class eZTagsType extends eZDataType
      */
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
+    	$subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
+    	if( !$http->hasPostVariable( $subTreeLimitName ) || !is_numeric( $http->postVariable( $subTreeLimitName ) ) || $http->postVariable( $subTreeLimitName ) < 0 )
+    	{
+    		return eZInputValidator::STATE_INVALID;
+    	}
+
+		$subTreeLimit = $http->postVariable( $subTreeLimitName );
+
+		$tag = eZTagsObject::fetch($subTreeLimit);
+
+		if ( !( $tag instanceof eZTagsObject ) && $subTreeLimit > 0 )
+		{
+			return eZInputValidator::STATE_INVALID;
+		}
+
+		if( $subTreeLimit > 0 && $tag->MainTagID > 0)
+		{
+			return eZInputValidator::STATE_INVALID;
+		}
+
         return eZInputValidator::STATE_ACCEPTED;
     }
 
     /**
-     * <NOT IMPLEMENTED YET>
+     * Fetches class attribute HTTP input and stores it
      * 
      * @param eZHTTPTool $http
      * @param string $base
@@ -149,6 +179,22 @@ class eZTagsType extends eZDataType
      */
     function fetchClassAttributeHTTPInput( $http, $base, $attribute )
     {
+    	$subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
+    	if( !$http->hasPostVariable( $subTreeLimitName ) )
+    	{
+    		return false;
+    	}
+
+    	$data = $http->postVariable( $subTreeLimitName );
+    	$data2 = 0;
+
+		if( $http->hasPostVariable( $base . self::DISABLE_ADDITION_VARIABLE . $attribute->attribute( 'id' ) ) )
+		{
+			$data2 = 1;
+		}
+
+		$attribute->setAttribute(self::SUBTREE_LIMIT_FIELD, $data);
+		$attribute->setAttribute(self::DISABLE_ADDITION_FIELD, $data2);
         return true;
     }
 

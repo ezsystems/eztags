@@ -14,13 +14,15 @@
 				<input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{$tag.keyword|wash(xhtml)}" />
 			</div>
 
-			<div class="block tag-edit-parent">
-				<label>{'Parent tag'|i18n( 'extension/eztags/tags/edit' )}</label>
-				<input id="parent_id" type="hidden" name="TagEditParentID" value="{$tag.parent_id}" />
-				<input id="hide_tag_id" type="hidden" name="TagHideID" value="{$tag.id}" />
-				<span id="parent_keyword">{eztags_parent_string($tag.parent_id)|wash(xhtml)}</span>
-				<input class="button" type="button" name="SelectParentButton" id="parent-selector-button" value="{'Select parent'|i18n( 'extension/eztags/tags/edit' )}" />
-			</div>
+			{if $tag.lock_status|eq(0)}
+				<div class="block tag-edit-parent">
+					<label>{'Parent tag'|i18n( 'extension/eztags/tags/edit' )}</label>
+					<input id="eztags_parent_id_0" type="hidden" name="TagEditParentID" value="{$tag.parent_id}" />
+					<input id="hide_tag_id" type="hidden" name="TagHideID" value="{$tag.id}" />
+					<span id="eztags_parent_keyword_0">{eztags_parent_string($tag.parent_id)|wash(xhtml)}</span>
+					<input class="button" type="button" name="SelectParentButton" id="eztags-parent-selector-button-0" value="{'Select parent'|i18n( 'extension/eztags/tags/edit' )}" />
+				</div>
+			{/if}
 
 			<div class="controlbar">
 				<div class="block">
@@ -33,15 +35,17 @@
 	</div>
 </div>
 
-<div class="jqmDialog" id="parent-selector-tree">
-	<div class="jqmdIn">
-		<div class="jqmdTC"><span class="jqmdTCLeft"></span><span class="jqDrag">{'Select parent element in tag tree'|i18n( 'extension/eztags/tags/edit' )}</span><span class="jqmdTCRight"></span></div>
-		<div class="jqmdBL"><div class="jqmdBR"><div class="jqmdBC"><div class="jqmdBCIn">
-			{include uri='design:ezjsctemplate/menu.tpl'}
-		</div></div></div></div>
-		<a href="#" class="jqmdX jqmClose"></a>
+{if $tag.lock_status|eq(0)}
+	<div class="jqmDialog" id="parent-selector-tree">
+		<div class="jqmdIn">
+			<div class="jqmdTC"><span class="jqmdTCLeft"></span><span class="jqDrag">{'Select parent element in tag tree'|i18n( 'extension/eztags/tags/edit' )}</span><span class="jqmdTCRight"></span></div>
+			<div class="jqmdBL"><div class="jqmdBR"><div class="jqmdBC"><div class="jqmdBCIn">
+				{include uri='design:ezjsctemplate/menu.tpl'}
+			</div></div></div></div>
+			<a href="#" class="jqmdX jqmClose"></a>
+		</div>
 	</div>
-</div>
+{/if}
 
 {literal}
 <script language="JavaScript" type="text/javascript">

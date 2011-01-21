@@ -32,6 +32,13 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'path_string' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
       'modified' => 
       array (
         'length' => 11,

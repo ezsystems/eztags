@@ -16,10 +16,10 @@
 
 			<div class="block tag-edit-parent">
 				<label>{'Parent tag'|i18n( 'extension/eztags/tags/edit' )}</label>
-				<input id="parent_id" type="hidden" name="TagEditParentID" value="{$parent_id}" />
+				<input id="eztags_parent_id_0" type="hidden" name="TagEditParentID" value="{$parent_id}" />
 				<input id="hide_tag_id" type="hidden" name="TagHideID" value="-1" />
-				<span id="parent_keyword">{eztags_parent_string($parent_id)|wash(xhtml)}</span>
-				<input class="button" type="button" name="SelectParentButton" id="parent-selector-button" value="{'Select parent'|i18n( 'extension/eztags/tags/edit' )}" />
+				<span id="eztags_parent_keyword_0">{eztags_parent_string($parent_id)|wash(xhtml)}</span>
+				<input class="button" type="button" name="SelectParentButton" id="eztags-parent-selector-button-0" value="{'Select parent'|i18n( 'extension/eztags/tags/edit' )}" />
 			</div>
 
 			<div class="controlbar">

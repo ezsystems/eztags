@@ -23,6 +23,11 @@ if ( is_numeric($tagID) && $tagID > 0 )
 	}
 	else if($http->hasPostVariable('YesButton'))
 	{
+		if($tag->getLockStatus() == eZTagsObject::LOCK_STATUS_HARD_LOCK)
+		{
+			return $Module->redirectToView( 'id', array( $tag->ID ) );
+		}
+
 		$db = eZDB::instance();
 		$db->begin();
 

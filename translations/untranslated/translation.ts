@@ -2,6 +2,44 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+	<name>design/standard/class/datatype</name>
+    <message>
+        <source>Limit by tags subtree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable adding of new tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select subtree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No limit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+	<name>extension/eztags/parts</name>
+    <message>
+        <source>Any editing of this tag is disabled because the tag or its parents are used in one or more content class attributes as subtree limitation parameter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go back</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/tags/dashboard</name>
     <message>
         <source>Tags search</source>
@@ -231,6 +269,26 @@
     </message>
     <message>
         <source>Main tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subtree limitations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Class name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attribute identifier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No subtree limitations</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

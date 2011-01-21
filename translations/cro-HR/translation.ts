@@ -2,6 +2,44 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+	<name>design/standard/class/datatype</name>
+    <message>
+        <source>Limit by tags subtree</source>
+        <translation>Ograničenje po podstablu oznaka</translation>
+    </message>
+    <message>
+        <source>Disable adding of new tags</source>
+        <translation>Onemogući dodavanje novih oznaka</translation>
+    </message>
+    <message>
+        <source>Select subtree</source>
+        <translation>Odaberi podstablo</translation>
+    </message>
+    <message>
+        <source>No limit</source>
+        <translation>Nema ograničenja</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Da</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Ne</translation>
+    </message>
+</context>
+<context>
+	<name>extension/eztags/parts</name>
+    <message>
+        <source>Any editing of this tag is disabled because the tag or its parents are used in one or more content class attributes as subtree limitation parameter.</source>
+        <translation>Bilo kakvo uređivanje ove oznake je onemogućeno jer se oznaka ili njezini roditelji koriste u jednom ili više atributa klase kao parametar za ograničenje po podstablu.</translation>
+    </message>
+    <message>
+        <source>Go back</source>
+        <translation>Vrati se nazad</translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/tags/dashboard</name>
     <message>
         <source>Tags search</source>
@@ -232,6 +270,26 @@
     <message>
         <source>Main tag</source>
         <translation>Glavna oznaka</translation>
+    </message>
+    <message>
+        <source>Subtree limitations</source>
+        <translation>Ograničenja po podstablu</translation>
+    </message>
+    <message>
+        <source>Class ID</source>
+        <translation>ID klase</translation>
+    </message>
+    <message>
+        <source>Class name</source>
+        <translation>Ime klase</translation>
+    </message>
+    <message>
+        <source>Attribute identifier</source>
+        <translation>Identifikator atributa</translation>
+    </message>
+    <message>
+        <source>No subtree limitations</source>
+        <translation>Nema ograničenja po podstablu</translation>
     </message>
 </context>
 <context>

@@ -23,6 +23,11 @@ if ( is_numeric($tagID) && $tagID > 0 )
 	}
 	else if($http->hasPostVariable('SaveButton'))
 	{
+		if($tag->getLockStatus() == eZTagsObject::LOCK_STATUS_HARD_LOCK)
+		{
+			return $Module->redirectToView( 'id', array( $tag->ID ) );
+		}
+
 		if($http->hasPostVariable('MainTagID') && is_numeric($http->postVariable('MainTagID'))
 			&& (int) $http->postVariable('MainTagID') > 0)
 		{
@@ -43,7 +48,6 @@ if ( is_numeric($tagID) && $tagID > 0 )
 			foreach($children as $child)
 			{
 				$childSynonyms = $child->getSynonyms();
-
 				foreach($childSynonyms as $childSynonym)
 				{
 					$childSynonym->ParentID = $mainTag->ID;
@@ -54,6 +58,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 				$child->ParentID = $mainTag->ID;
 				$child->Modified = $currentTime;
 				$child->store();
+				$child->updatePathString($mainTag);
 			}
 
 			$synonyms = $tag->getSynonyms();

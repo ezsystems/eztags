@@ -35,8 +35,11 @@ if ( is_numeric($mainTagID) && $mainTagID > 0 )
 			$tag = new eZTagsObject(array('parent_id' => $mainTag->ParentID,
 										  'main_tag_id' => $mainTagID,
 										  'keyword' => $http->postVariable( 'TagEditKeyword' ),
+										  'path_string' => ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/',
 										  'modified' => $currentTime));
 
+			$tag->store();
+			$tag->PathString = $tag->PathString . $tag->ID . '/';
 			$tag->store();
 
 			$db->commit();

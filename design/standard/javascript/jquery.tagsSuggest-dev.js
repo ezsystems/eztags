@@ -21,6 +21,7 @@
 				parent_ids = $(this).find('.tagpids'),
 				parent_selector_tree = $(this).next('.parent-selector-tree'),
 				parent_selector_button = $(this).find('input[type="button"]'),
+				subtree_limit = $(this).find('#eztags_subtree_limit').val(),
 				parentSelector = false,
 				results = $('<div />'),
 				currentSelection, pageX, pageY;
@@ -198,7 +199,7 @@
 			}
 
 			function runAutocomplete() {
-				if (obj.val()) $.ez(settings.ezjscAutocomplete, {'search_string': obj.val()}, function(data){
+				if (obj.val()) $.ez(settings.ezjscAutocomplete, {'search_string': obj.val(), 'subtree_limit': subtree_limit}, function(data){
 					if (typeof data === 'string') {
 						data = JSON.parse(data);
 					}
