@@ -14,10 +14,10 @@
 	
 				<p>{'The tag you\'re about to delete has'|i18n( 'extension/eztags/tags/edit' )}:</p>
 				<ul>
-					<li>{'number of first level children tags'|i18n( 'extension/eztags/tags/edit' )}: {$tag.children|count}</li>
+					<li>{'number of first level children tags'|i18n( 'extension/eztags/tags/edit' )}: {$tag.children_count}</li>
 					{foreach $tag.children as $child}{set $children_object_count = $children_object_count|sum($child.related_objects|count)}{/foreach}
 					<li>{'number of objects related to first level children tags'|i18n( 'extension/eztags/tags/edit' )}: {$children_object_count}</li>
-					<li>{'number of synonyms'|i18n( 'extension/eztags/tags/edit' )}: {$tag.synonyms|count}</li>
+					<li>{'number of synonyms'|i18n( 'extension/eztags/tags/edit' )}: {$tag.synonyms_count}</li>
 					{foreach $tag.synonyms as $synonym}{set $synonym_object_count = $synonym_object_count|sum($synonym.related_objects|count)}{/foreach}
 					<li>{'number of objects related to synonyms'|i18n( 'extension/eztags/tags/edit' )}: {$synonym_object_count}</li>
 				</ul>

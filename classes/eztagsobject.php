@@ -57,12 +57,14 @@ class eZTagsObject extends eZPersistentObject
                                                              'required' => false ) ),
                       'function_attributes' => array( 'parent' => 'getParent',
                                                       'children' => 'getChildren',
+                                                      'children_count' => 'getChildrenCount',
                                                       'related_objects' => 'getRelatedObjects',
                                                       'subtree_limitations' => 'getSubTreeLimitations',
                                                       'subtree_limitations_count' => 'getSubTreeLimitationsCount',
                                                       'lock_status' => 'getLockStatus',
                                                       'main_tag' => 'getMainTag',
                                                       'synonyms' => 'getSynonyms',
+                                                      'synonyms_count' => 'getSynonymsCount',
                                                       'icon' => 'getIcon' ),
                       'keys' => array( 'id' ),
                       'increment_key' => 'id',
@@ -141,6 +143,16 @@ class eZTagsObject extends eZPersistentObject
 	function getChildren()
 	{
 		return eZTagsObject::fetchByParentID($this->ID);
+	}
+
+    /**
+     * Returns count of first level children tags
+     * 
+     * @return integer
+     */
+	function getChildrenCount()
+	{
+		return eZTagsObject::childrenCountByParentID($this->ID);
 	}
 
     /**
@@ -255,6 +267,16 @@ class eZTagsObject extends eZPersistentObject
 	function getSynonyms()
 	{
 		return eZTagsObject::fetchSynonyms( $this->ID );
+	}
+
+    /**
+     * Returns synonym count for the tag
+     * 
+     * @return array
+     */
+	function getSynonymsCount()
+	{
+		return eZTagsObject::synonymsCount( $this->ID );
 	}
 
     /**

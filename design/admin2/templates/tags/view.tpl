@@ -54,7 +54,7 @@
 				{if $tag.main_tag_id|eq(0)}
 					<h2>{'Synonyms'|i18n( 'extension/eztags/tags/view' )}</h2>
 
-					{if $tag.synonyms|count}
+					{if $tag.synonyms_count|gt(0)}
 						<table class="list" cellpadding="0" border="0">
 							<tbody>
 								<tr>

@@ -353,8 +353,8 @@ var treeMenu;
 		var rootTag = {ldelim}{*
 			*}"id":{$root_tag.id},{*
 			*}"parent_id":{$root_tag.parent_id},{*
-			*}"has_children":{if $root_tag.children|count}true{else}false{/if},{*
-			*}"synonyms_count":{$root_tag.synonyms|count},{*
+			*}"has_children":{if $root_tag.children_count|gt(0)}true{else}false{/if},{*
+			*}"synonyms_count":{$root_tag.synonyms_count},{*
 			*}"keyword":"{$root_tag.keyword|wash(javascript)}",{*
 			*}"url":{concat('tags/id/', $root_tag.id)|ezurl},{*
 			*}"icon":"{$root_tag.icon}",{*
