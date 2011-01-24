@@ -10,10 +10,5 @@
 		</p>
 	</div>
 
-	<div class="element">
-		<label>{'Disable adding of new tags'|i18n( 'design/standard/class/datatype' )}:</label>
-		<p>{cond($class_attribute.data_int2|eq(0), 'No', 'Yes')|i18n( 'design/standard/class/datatype' )}</p>
-	</div>
-
     <div class="break"></div>
 </div>

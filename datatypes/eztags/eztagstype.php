@@ -9,8 +9,6 @@ class eZTagsType extends eZDataType
     const DATA_TYPE_STRING = 'eztags';
     const SUBTREE_LIMIT_VARIABLE = '_eztags_subtree_limit_';
     const SUBTREE_LIMIT_FIELD = 'data_int1';
-    const DISABLE_ADDITION_VARIABLE = '_eztags_disable_addition_';
-    const DISABLE_ADDITION_FIELD = 'data_int2';
 
     /**
      * Constructor
@@ -49,9 +47,6 @@ class eZTagsType extends eZDataType
 
             $subTreeLimit = $originalContentObjectAttribute->attribute( self::SUBTREE_LIMIT_FIELD );
             $contentObjectAttribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
-
-            $disableAddition = $originalContentObjectAttribute->attribute( self::DISABLE_ADDITION_FIELD );
-            $contentObjectAttribute->setAttribute( self::DISABLE_ADDITION_FIELD, $disableAddition );
         }
     }
 
@@ -186,15 +181,8 @@ class eZTagsType extends eZDataType
     	}
 
     	$data = $http->postVariable( $subTreeLimitName );
-    	$data2 = 0;
-
-		if( $http->hasPostVariable( $base . self::DISABLE_ADDITION_VARIABLE . $attribute->attribute( 'id' ) ) )
-		{
-			$data2 = 1;
-		}
 
 		$attribute->setAttribute(self::SUBTREE_LIMIT_FIELD, $data);
-		$attribute->setAttribute(self::DISABLE_ADDITION_FIELD, $data2);
         return true;
     }
 

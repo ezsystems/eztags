@@ -176,30 +176,26 @@ class eZTags
 
         // Store every new keyword
         $addRelationWordArray = array();
-        // but only if allowed by class attribute
-        if($attribute->contentClassAttribute()->attribute( eZTagsType::DISABLE_ADDITION_FIELD ) == 0)
+        foreach ( $newWordArray as $newword )
         {
-	        foreach ( $newWordArray as $newword )
-	        {
-	            $keyword = trim( $newword['keyword'] );
-	            $keyword = $db->escapeString( $keyword );
-	            $parent = trim( $newword['parent_id'] );
-	            $parent = $db->escapeString( $parent );
-	
-				$parentTag = eZTagsObject::fetch($parent);
-	            $pathString = ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/';
-	            $pathString = $db->escapeString( $pathString );
+            $keyword = trim( $newword['keyword'] );
+            $keyword = $db->escapeString( $keyword );
+            $parent = trim( $newword['parent_id'] );
+            $parent = $db->escapeString( $parent );
 
-				if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 && strpos($pathString, '/' . $attributeSubTreeLimit . '/') !== false))
-				{
-	            	$current_time = time();
-	            	$db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( '$parent', 0, '$keyword', '$pathString', $current_time )" );
-	            	$keywordID = $db->lastSerialID( 'eztags', 'id' );
-	            	$db->query( "UPDATE eztags SET path_string = path_string + $keywordID + '/' WHERE id = $keywordID" );
-	            	$addRelationWordArray[] = array( 'keyword' => $keywordID, 'id' => $keywordID );
-				}
-	        }
-    	}
+			$parentTag = eZTagsObject::fetch($parent);
+            $pathString = ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/';
+            $pathString = $db->escapeString( $pathString );
+
+			if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 && strpos($pathString, '/' . $attributeSubTreeLimit . '/') !== false))
+			{
+            	$current_time = time();
+            	$db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( '$parent', 0, '$keyword', '$pathString', $current_time )" );
+            	$keywordID = $db->lastSerialID( 'eztags', 'id' );
+            	$db->query( "UPDATE eztags SET path_string = path_string + $keywordID + '/' WHERE id = $keywordID" );
+            	$addRelationWordArray[] = array( 'keyword' => $keywordID, 'id' => $keywordID );
+			}
+        }
 
         $attributeID = $attribute->attribute( 'id' );
         // Find the words which is new for this attribute

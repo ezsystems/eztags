@@ -11,11 +11,6 @@
 	<input class="button" type="button" name="SelectParentButton_{$class_attribute.id}" id="eztags-parent-selector-button-{$class_attribute.id}" value="{'Select subtree'|i18n( 'design/standard/class/datatype' )}" />
 </div>
 
-{* Tags addition enable/disable *}
-<div class="block">
-	<label><input type="checkbox" name="ContentClass_eztags_disable_addition_{$class_attribute.id}"{cond($class_attribute.data_int2|ne(0), ' checked="checked"', '')} /> {'Disable adding of new tags'|i18n( 'design/standard/class/datatype' )}</label>
-</div>
-
 {run-once}
 	{include uri='design:ezjsctemplate/modal_dialog.tpl'}
 {/run-once}

@@ -8,24 +8,12 @@
         <translation>Ograničenje po podstablu oznaka</translation>
     </message>
     <message>
-        <source>Disable adding of new tags</source>
-        <translation>Onemogući dodavanje novih oznaka</translation>
-    </message>
-    <message>
         <source>Select subtree</source>
         <translation>Odaberi podstablo</translation>
     </message>
     <message>
         <source>No limit</source>
         <translation>Nema ograničenja</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation>Da</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation>Ne</translation>
     </message>
 </context>
 <context>

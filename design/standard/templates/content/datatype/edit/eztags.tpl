@@ -22,7 +22,7 @@
 		<input class="tagssuggestfield" type="text" size="70" name="xxx_{$attribute_base}_eztags_data_text_{$attribute.id}" value="" autocomplete="off"  />
 	</div>
 
-	{if and(fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'add')), $attribute.contentclass_attribute.data_int2|eq(0))}
+	{if fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'add'))}
 		<input type="button" value="{'Add new'|i18n( 'extension/eztags/datatypes' )}" name="AddTagButton" class="button-add-tag button-disabled" disabled="disabled">
 	{/if}
 

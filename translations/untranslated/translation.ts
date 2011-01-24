@@ -8,23 +8,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Disable adding of new tags</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Select subtree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No limit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
