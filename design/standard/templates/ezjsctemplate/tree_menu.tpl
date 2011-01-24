@@ -375,7 +375,7 @@ var treeMenu;
     document.writeln( '<\/ul>' );
 
 	{if $root_tag}
-	    treeMenu.load( true, 2, {$root_tag.modified} );
+	    treeMenu.load( true, {$root_tag.id}, {$root_tag.modified} );
 	{else}
 		treeMenu.load( false, 0, 0 );
 	{/if}
