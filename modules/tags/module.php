@@ -94,12 +94,23 @@ $ClassID = array(
     'parameter' => array( 0, false, false, array( 'name' => 'asc' ) )
     );
 
+$TagID = array(
+    'name'=> 'Tag',
+    'values'=> array(),
+    'extension' => 'eztags',
+    'path' => 'classes/',
+    'file' => 'eztagsobject.php',
+    'class' => 'eZTagsObject',
+    'function' => 'fetchList',
+    'parameter' => array(array('parent_id' => 0, 'main_tag_id' => 0), null, false)
+	);
+
 $FunctionList = array();
 $FunctionList['read'] = array( 'Class' => $ClassID );
 $FunctionList['dashboard'] = array();
 $FunctionList['id'] = array();
 $FunctionList['view'] = array();
-$FunctionList['add'] = array();
+$FunctionList['add'] = array( 'Tag' => $TagID );
 $FunctionList['addsynonym'] = array();
 $FunctionList['edit'] = array();
 $FunctionList['editsynonym'] = array();

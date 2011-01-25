@@ -180,7 +180,7 @@
 				//var content_title = $('input[id$="title"]:first').val();
 				if (tag_names) {
 					tags_suggested.parent('div.tags-list').removeClass('no-results').addClass('loading');
-					$.ez(settings.ezjscSuggest, {'tags_string': tag_names}, function(data){
+					$.ez(settings.ezjscSuggest, {'tags_string': tag_names, 'subtree_limit': subtree_limit}, function(data){
 						if (!data.content.tags.length) {
 							tags_suggested.parent('div.tags-list').addClass('no-results').removeClass('loading');
 							return true;

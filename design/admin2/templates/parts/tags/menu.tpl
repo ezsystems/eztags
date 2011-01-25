@@ -1,4 +1,4 @@
-{if and(is_set($module_result.ui_context), $module_result.ui_context|eq('navigation'))}
+{if and(is_set($module_result.ui_context), $module_result.ui_context|eq('navigation'), fetch(user, has_access_to, hash(module, tags, function, read)))}
 <div id="content-tree">
 <div class="box-header"><div class="box-ml">
 <h4>{'Tags structure'|i18n( 'extension/eztags/tags/treemenu' )}</h4>

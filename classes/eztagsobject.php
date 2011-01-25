@@ -183,7 +183,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	function getSubTreeLimitations()
 	{
-		if($this->MainNodeID == 0)
+		if($this->MainTagID == 0)
 		{
 			return eZPersistentObject::fetchObjectList(eZContentClassAttribute::definition(), null,
 																	array('data_type_string' => 'eztags',
@@ -203,7 +203,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	function getSubTreeLimitationsCount()
 	{
-		if($this->MainNodeID == 0)
+		if($this->MainTagID == 0)
 		{
 			return eZPersistentObject::count(eZContentClassAttribute::definition(),
 																	array('data_type_string' => 'eztags',
@@ -336,9 +336,22 @@ class eZTagsObject extends eZPersistentObject
      * @param array $limits
      * @return array
      */	
-	static function fetchList($params, $limits = null)
+	static function fetchList($params, $limits = null, $asObject = true)
 	{
-		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, $params, null, $limits );
+		$tagsList = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, $params, null, $limits );
+
+		if($asObject)
+		{
+			return $tagsList;
+		}
+
+		$tagsArray = array();
+		foreach($tagsList as $tag)
+		{
+			$tagsArray[] = array('name' => $tag->Keyword, 'id' => $tag->ID);
+		}
+
+		return $tagsArray;
 	}
 
     /**

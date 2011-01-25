@@ -21,4 +21,6 @@ Shown[default]=true
 Shown[edit]=true
 Shown[navigation]=true
 Shown[browse]=true
+
+PolicyList[]=tags/read
 */ ?>

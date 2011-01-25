@@ -64,6 +64,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 	
 			$tagsString = $http->postVariable('tags_string');
 			$tagsArray = explode(',', $tagsString);
+			$subTreeLimit = $http->postVariable('subtree_limit');
 	
 			if(count($tagsArray) > 0 && strlen(trim($tagsArray[0])) > 0)
 			{
@@ -115,11 +116,14 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
 		foreach($tags as $tag)
 		{
-			$returnArrayChild = array();
-			$returnArrayChild['tag_parent_id'] = $tag->ParentID;
-			$returnArrayChild['tag_parent_name'] = ($tag->hasParent()) ? $tag->getParent()->Keyword : '';
-			$returnArrayChild['tag_name'] = $tag->Keyword;
-			$returnArray['tags'][] = $returnArrayChild;
+			if(!$subTreeLimit > 0 || ($subTreeLimit > 0 && strpos($tag->PathString, '/' . $subTreeLimit . '/') !== false))
+			{
+				$returnArrayChild = array();
+				$returnArrayChild['tag_parent_id'] = $tag->ParentID;
+				$returnArrayChild['tag_parent_name'] = ($tag->hasParent()) ? $tag->getParent()->Keyword : '';
+				$returnArrayChild['tag_name'] = $tag->Keyword;
+				$returnArray['tags'][] = $returnArrayChild;
+			}
 		}
 
 		return $returnArray;

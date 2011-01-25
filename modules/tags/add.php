@@ -3,6 +3,7 @@
 $http = eZHTTPTool::instance();
 
 $parentTagID = $Params['ParentTagID'];
+$parentTag = false;
 
 if ( is_numeric($parentTagID) && $parentTagID >= 0 )
 {
@@ -13,6 +14,31 @@ if ( is_numeric($parentTagID) && $parentTagID >= 0 )
 		{
 			return $Module->redirectToView( 'add', array( $parentTag->MainTagID ) );
 		}
+	}
+
+	$userLimitations = eZTagsTemplateFunctions::getSimplifiedUserAccess('tags', 'add');
+	$hasAccess = false;
+
+	if(!isset($userLimitations['simplifiedLimitations']['Tag']))
+	{
+		$hasAccess = true;
+	}
+	else
+	{
+		$parentTagPathString = ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/';
+		foreach($userLimitations['simplifiedLimitations']['Tag'] as $key => $value)
+		{
+			if(strpos($parentTagPathString, '/' . $value . '/') !== false)
+			{
+				$hasAccess = true;
+				break;
+			}
+		}
+	}
+
+	if(!$hasAccess)
+	{
+		return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
 	}
 
 	if($http->hasPostVariable('DiscardButton'))
