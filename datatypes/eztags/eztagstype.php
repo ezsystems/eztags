@@ -10,6 +10,9 @@ class eZTagsType extends eZDataType
     const SUBTREE_LIMIT_VARIABLE = '_eztags_subtree_limit_';
     const SUBTREE_LIMIT_FIELD = 'data_int1';
 
+	const SHOW_DROPDOWN_VARIABLE = '_eztags_show_dropdown_';
+	const SHOW_DROPDOWN_FIELD = 'data_int2';
+
     /**
      * Constructor
      * 
@@ -47,6 +50,9 @@ class eZTagsType extends eZDataType
 
             $subTreeLimit = $originalContentObjectAttribute->attribute( self::SUBTREE_LIMIT_FIELD );
             $contentObjectAttribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
+
+            $showDropdown = $originalContentObjectAttribute->attribute( self::SHOW_DROPDOWN_FIELD );
+            $contentObjectAttribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $showDropdown );
         }
     }
 
@@ -181,8 +187,14 @@ class eZTagsType extends eZDataType
     	}
 
     	$data = $http->postVariable( $subTreeLimitName );
+		$data2 = 0;
+		if( $http->hasPostVariable( $base . self::SHOW_DROPDOWN_VARIABLE . $attribute->attribute( 'id' ) ) )
+		{
+			$data2 = 1;
+		}
 
 		$attribute->setAttribute(self::SUBTREE_LIMIT_FIELD, $data);
+		$attribute->setAttribute(self::SHOW_DROPDOWN_FIELD, $data2);
         return true;
     }
 

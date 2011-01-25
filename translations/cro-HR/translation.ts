@@ -8,12 +8,24 @@
         <translation>Ograničenje po podstablu oznaka</translation>
     </message>
     <message>
+        <source>Show dropdown instead of autocomplete</source>
+        <translation>Prikaži padajući meni umjesto predloženih oznaka</translation>
+    </message>
+    <message>
         <source>Select subtree</source>
         <translation>Odaberi podstablo</translation>
     </message>
     <message>
         <source>No limit</source>
         <translation>Nema ograničenja</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Da</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Ne</translation>
     </message>
 </context>
 <context>
