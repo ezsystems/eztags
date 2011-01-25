@@ -69,15 +69,15 @@ class eZTagsTemplateFunctions
         {
             case 'eztags_parent_string':
             {
-                $operatorValue = $this->generateParentString( $namedParameters['tag_id'] );
+                $operatorValue = eZTagsTemplateFunctions::generateParentString( $namedParameters['tag_id'] );
             } break;
             case 'latest_tags':
             {
-                $operatorValue = $this->fetchLatestTags( $namedParameters['limit'] );
+                $operatorValue = eZTagsTemplateFunctions::fetchLatestTags( $namedParameters['limit'] );
             } break;
             case 'user_limitations':
             {
-                $operatorValue = $this->getSimplifiedUserAccess( $namedParameters['module'], $namedParameters['function'] );
+                $operatorValue = eZTagsTemplateFunctions::getSimplifiedUserAccess( $namedParameters['module'], $namedParameters['function'] );
             } break;
         }
     }
@@ -85,10 +85,11 @@ class eZTagsTemplateFunctions
     /**
      * Generates tag heirarchy string for given tag ID
      *
+     * @static
      * @param integer $tag_id
      * @return string
      */
-    function generateParentString($tag_id)
+    static function generateParentString($tag_id)
     {
         if($tag_id == 0)
         {
@@ -113,10 +114,11 @@ class eZTagsTemplateFunctions
     /**
      * Returns $limit latest tags
      *
+     * @static
      * @param integer $limit
      * @return array
      */
-    function fetchLatestTags($limit)
+    static function fetchLatestTags($limit)
     {
     	return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('main_tag_id' => 0), array('modified' => 'desc'), $limit );
     }
@@ -126,12 +128,14 @@ class eZTagsTemplateFunctions
      * Returns the same array as eZUser::hasAccessTo(), with "simplifiedLimitations".
      * 'simplifiedLimitations' array holds all the limitations names as defined in module.php.
      * If your limitation name is not defined as a key, then your user has full access to this limitation
+     * 
+     * @static
      * @param string $module Name of the module
      * @param string $function Name of the policy function ($FunctionList element in module.php)
      * @return array
      */
 
-	function getSimplifiedUserAccess( $module, $function )
+	static function getSimplifiedUserAccess( $module, $function )
 	{
 		$user = eZUser::currentUser();
 		$userAccess = $user->hasAccessTo( $module, $function );
