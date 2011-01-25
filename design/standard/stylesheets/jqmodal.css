@@ -31,4 +31,4 @@ a.jqmdX:hover {background-position:-87px -32px;}
 
 div.jqmDialog input:focus, div.jqmDialog input.iefocus { background-color: #eaffc3; }
 
-div.jqmDialog div#contentstructure ul#content_tree_menu {margin:0;}
+div.jqmDialog div#contentstructure ul.content_tree_menu {margin:0;}

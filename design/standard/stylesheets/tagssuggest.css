@@ -1,6 +1,5 @@
 /* SUGGEST */
 
-
 div.tagssuggestfieldwrap {float:left; position:relative; width:300px; margin:0 12px 0 0; height:22px; vertical-align:top;}
 input.tagssuggestfield {width:100%; margin:0; padding:1px 0; border:1px solid #A5ACB2;}
 fieldset input.button-add-tag {margin:0;}
@@ -75,3 +74,9 @@ div.no-results p.no-results {display:block;}
 
 div.tag-parent-selector {display:none;}
 div.tag-parent-selector #content_tree_menu .nodeicon {}
+
+/* tagsfilter override */
+
+.tagsfilter div.jsonSuggestResults {top:auto; position:static;}
+
+.tagsfilter .tagssuggestfieldwrap {height:auto;}

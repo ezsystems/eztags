@@ -345,7 +345,7 @@ var treeMenu;
 (function(){ldelim}
     var path         = [{if is_set( $module_result.path[0].tag_id)}{foreach $module_result.path as $element}'{$element.tag_id}'{delimiter}, {/delimiter}{/foreach}{/if}];
     var persistence  = {if $menu_persistence}true{else}false{/if};
-    var root_tag_id = {if $root_tag}{$root_tag.id}{else}0{/if};
+    var root_tag_id  = {if $root_tag}{$root_tag.id}{else}0{/if};
     treeMenu         = new TagsStructureMenu( path, persistence );
 
 {cache-block keys=array( 0, $access_type ) expiry=0}
@@ -370,7 +370,7 @@ var treeMenu;
 			*}"modified":0{rdelim};
 	{/if}
 
-    document.writeln( '<ul id="content_tree_menu">' );
+    document.writeln( '<ul class="content_tree_menu">' );
     document.writeln( treeMenu.generateEntry( rootTag, false, true ) );
     document.writeln( '<\/ul>' );
 

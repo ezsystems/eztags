@@ -16,12 +16,15 @@
 		{/foreach}
 	{else}
 		{set $has_add_access = true()}
-		{set $root_tag = fetch(tags, object, hash(tag_id, $user_limitations['simplifiedLimitations']['Tag'][0]))}
+		{set $root_tag = array()}
+		{foreach $user_limitations['simplifiedLimitations']['Tag'] as $key => $value}
+			{set $root_tag = $root_tag|append( fetch(tags, object, hash(tag_id, $value)) )}
+		{/foreach}
 	{/if}
 {/if}
 
 {default attribute_base=ContentObjectAttribute}
-<div class="tagssuggest" id="tagssuggest">
+<div class="tagssuggest{if $attribute.contentclass_attribute.data_int2} tagsfilter{/if}" id="tagssuggest">
 	<label>{'Selected tags'|i18n( 'extension/eztags/datatypes' )}:</label>
 	<div class="tags-list tags-listed no-results">
 		<p class="loading">{'Loading'|i18n( 'extension/eztags/datatypes' )}...</p>
@@ -35,7 +38,7 @@
 	</div>
 
 	<div class="tagssuggestfieldwrap">
-		<input class="tagssuggestfield" type="text" size="70" name="xxx_{$attribute_base}_eztags_data_text_{$attribute.id}" value="" autocomplete="off"  />
+		<input class="tagssuggestfield" type="text" size="70" name="suggest_{$attribute_base}_eztags_data_text_{$attribute.id}" value="" autocomplete="off" />
 	</div>
 
 	{if $has_add_access}

@@ -197,7 +197,11 @@ class eZTags
 			else
 			{
 				$hasAddAccess = true;
-				$attributeSubTreeLimit = $userLimitations['simplifiedLimitations']['Tag'][0];
+				$attributeSubTreeLimit = array();
+				foreach($userLimitations['simplifiedLimitations']['Tag'] as $key => $value)
+				{
+					$attributeSubTreeLimit[] = $value;
+				}
 			}
 		}
 
@@ -216,8 +220,25 @@ class eZTags
 				$parentTag = eZTagsObject::fetch($parent);
 	            $pathString = ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/';
 	            $pathString = $db->escapeString( $pathString );
-	
-				if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 && strpos($pathString, '/' . $attributeSubTreeLimit . '/') !== false))
+
+				$allowedByPolicy = false;
+				if(is_array($attributeSubTreeLimit))
+				{
+					foreach($attributeSubTreeLimit as $key => $value)
+					{
+						if($value > 0 && strpos($pathString, '/' . $value . '/') !== false)
+						{
+							$allowedByPolicy = true;
+							break;
+						}
+					}
+				}
+				else if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 && strpos($pathString, '/' . $attributeSubTreeLimit . '/') !== false))
+				{
+					$allowedByPolicy = true;
+				}
+
+				if($allowedByPolicy)
 				{
 	            	$current_time = time();
 	            	$db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( '$parent', 0, '$keyword', '$pathString', $current_time )" );
@@ -280,6 +301,7 @@ class eZTags
                 eztags_attribute_link.objectattribute_id='$attributeID'" );
         }
 
+		$attributeSubTreeLimit = $attribute->contentClassAttribute()->attribute( eZTagsType::SUBTREE_LIMIT_FIELD );
         // Only store relation to new keywords
         // Store relations to keyword for this content object
         foreach ( $addRelationWordArray as $keywordArray )
@@ -292,7 +314,6 @@ class eZTags
             	$db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id, object_id ) VALUES ( '" . $keywordArray['id'] . "', '" . $attribute->attribute( 'id' ) . "', '" . $attribute->attribute( 'contentobject_id' ) . "' )" );
         	}
         }
-
     }
 
     /**

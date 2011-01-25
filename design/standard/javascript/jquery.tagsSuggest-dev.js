@@ -17,16 +17,17 @@
 		return this.each(function() {
 			var
 				obj = $(this).find('.tagssuggestfield'),
+				isFilter = $(this).hasClass('tagsfilter'),
 				names = $(this).find('.tagnames'),
 				parent_ids = $(this).find('.tagpids'),
 				parent_selector_tree = $(this).next('.parent-selector-tree'),
-				parent_selector_button = $(this).find('input[type="button"]'),
+				parentSelectorButton = $(this).find('input[type="button"]'),
 				subtree_limit = $(this).find('#eztags_subtree_limit').val(),
 				parentSelector = false,
 				results = $('<div />'),
 				currentSelection, pageX, pageY;
 
-			parent_selector_button.click(function() {openParentSelector();});
+			parentSelectorButton.click(function() {openParentSelector();});
 
 			$(this).find('div.tags-listed').append('<ul class="float-break" />');
 			$(this).find('div.tags-suggested').append('<ul class="float-break" />');
@@ -42,21 +43,21 @@
 					addTagToList({'tag_name': value.replace(/^\s+|\s+$/g, ''), 'tag_parent_id': tag_parent_ids_array[index].replace(/^\s+|\s+$/g, '')}, tags_listed, removeTagFromList, '&times;');
 				});
 			}
-			runSuggest();
 
-			function addTagToList(item, list, callback, icon) {
+			runSuggest();
+			if ( isFilter ) runAutocomplete();
+
+			function addTagToList( item, list, callback, icon )
+			{
 				var tag = $('<li' + (!icon ? ' title="Add this tag"' : '') + '>' + item.tag_name + (icon ? '<a href="#" title="Remove tag">' + icon + '</a>' : '') + '</li>').data('tag', {'tag_parent_id': item.tag_parent_id, 'tag_name': item.tag_name});
-				if (icon) {
-					tag.find('a').click(function(e) {callback(tag); return false;})
-				}
-				else {
-					tag.click(function(e) {callback(tag); return false;});
-				}
+				if (icon) tag.find('a').click(function(e) {callback(tag); return false;})
+				else tag.click(function(e) {callback(tag); return false;});
 				list.append(tag);
 				list.parent('div.tags-list').removeClass('no-results');
 			}
 
-			function removeTagFromList(tag) {
+			function removeTagFromList(tag)
+			{
 				$(tag).remove();
 				updateValues();
 			}
@@ -81,8 +82,20 @@
 				runSuggest();
 			}
 
+			function emptyResults()
+			{
+				//if ( !isFilter ) $(results).html('');
+				$(results).html('');
+			}
+
+			function hideResults()
+			{
+				if ( !isFilter ) $(results).hide();
+			}
+
 			function openParentSelector() {
-				$(results).hide();
+				//$(results).hide();
+				hideResults();
 				if (!parentSelector) {
 					parentSelector = $('#content-tree');
 					bindParentSelectorTreeEvents();
@@ -96,7 +109,9 @@
 					addTagToList({'tag_name': obj.val().replace(/^\s+|\s+$/g, ''), 'tag_parent_id': $(this).attr('rel')}, tags_listed, removeTagFromList, '&times;');
 					updateValues();
 					clearTagSearchField();
-					$(results).html('').hide();
+					//$(results).html('').hide();
+					emptyResults();
+					hideResults();
 					$(parentSelector).hide();
 					parent_selector_tree.jqmHide(); 
 					return false;
@@ -105,10 +120,10 @@
 
 			function setParentSelectorButtonState() {
 				if (obj.val().replace(/^\s+|\s+$/g, '')) {
-					parent_selector_button.removeClass('button-disabled').addClass('button').removeAttr('disabled');
+					parentSelectorButton.removeClass('button-disabled').addClass('button').removeAttr('disabled');
 				}
 				else {
-					parent_selector_button.removeClass('button').addClass('button-disabled').attr('disabled', 'disabled');
+					parentSelectorButton.removeClass('button').addClass('button-disabled').attr('disabled', 'disabled');
 				}
 			}
 
@@ -119,10 +134,13 @@
 
 			function selectResultItem(item) {
 				obj.val(item.tag_name);
-				$(results).html('').hide();
+				//$(results).html('').hide();
+				emptyResults();
+				hideResults();
 				addTagToList(item, tags_listed, removeTagFromList, '&times;');
 				updateValues();
 				clearTagSearchField();
+				if ( isFilter ) runAutocomplete();
 			}
 
 			function setHoverClass(el) {
@@ -134,7 +152,9 @@
 			function buildAutocomplete(resultObjects) {
 				var bOddRow = true, i, iFound = 0;
 
-				$(results).html('').hide();
+				//$(results).html('').hide();
+				emptyResults();
+				hideResults();
 
 				for (i = 0; i < resultObjects.length; i += 1) {
 					var item = $('<div />');
@@ -143,7 +163,7 @@
 
 					$(item).addClass('resultItem').
 						addClass((bOddRow) ? 'odd' : 'even').
-						click(function(n) { return function() {
+						click(function(n) {return function() {
 							selectResultItem(resultObjects[n]);
 							obj.focus();
 							obj.val(obj.val());//move cursor to the string end (everybody say hello to ie)
@@ -198,16 +218,19 @@
 				}
 			}
 
-			function runAutocomplete() {
-				if (obj.val()) $.ez(settings.ezjscAutocomplete, {'search_string': obj.val(), 'subtree_limit': subtree_limit}, function(data){
-					if (typeof data === 'string') {
-						data = JSON.parse(data);
-					}
-
-					buildAutocomplete(data.content.tags);
-				});
-				else {
-					$(results).html('').hide();
+			function runAutocomplete()
+			{
+				if ( obj.val() || isFilter )
+					$.ez(settings.ezjscAutocomplete, {'search_string': obj.val(), 'subtree_limit': subtree_limit}, function(data)
+					{
+						if (typeof data === 'string') data = JSON.parse(data);
+						buildAutocomplete(data.content.tags);
+					});
+				else
+				{
+					//$(results).html('').hide();
+					emptyResults();
+					hideResults();
 				}
 			}
 
@@ -280,8 +303,10 @@
 				var resPos = $(results).offset();
 				resPos.bottom = resPos.top + $(results).height();
 				resPos.right = resPos.left + $(results).width();
-				if (pageY < resPos.top || pageY > resPos.bottom || pageX < resPos.left || pageX > resPos.right) {
-					$(results).hide();
+				if (pageY < resPos.top || pageY > resPos.bottom || pageX < resPos.left || pageX > resPos.right)
+				{
+					//$(results).hide();
+					hideResults();
 				}
 			}).focus(function(e) {
 				if ($('div', results).length > 0) {
