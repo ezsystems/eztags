@@ -18,8 +18,6 @@ function TagsStructureMenu( path, persistent, attr_id )
 
     this.expiry = "{fetch('content','content_tree_menu_expiry')}";
 
-{cache-block keys=array( false(), $access_type ) expiry=0 ignore_content_expiry}
-
     this.defaultIcon = "{ezini('Icons','Default','eztags.ini')}";
 
     this.hideTagID = jQuery('#hide_tag_id_' + this.attribute_id).val();
@@ -334,4 +332,3 @@ function TagsStructureMenu( path, persistent, attr_id )
 // -->
 </script>
 {/literal}
-{/cache-block}
