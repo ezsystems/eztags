@@ -1,4 +1,4 @@
-{def $latest_tags = latest_tags()}
+{def $latest_tags = latest_tags(10)}
 <h2>{'Latest tags'|i18n( 'extension/eztags/tags/dashboard' )}</h2>
 <table class="list" cellpadding="0" border="0">
 	<tbody>

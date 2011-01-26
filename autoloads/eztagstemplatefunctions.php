@@ -120,7 +120,7 @@ class eZTagsTemplateFunctions
      */
     static function fetchLatestTags($limit)
     {
-    	return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('main_tag_id' => 0), array('modified' => 'desc'), $limit );
+    	return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('main_tag_id' => 0), array('modified' => 'desc'), array('limit' => $limit) );
     }
 
     /**
