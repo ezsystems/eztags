@@ -1,7 +1,9 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function($) {
 
-	jQuery('.tagssuggest').tagsSuggest({ajaxResults:true, maxResults:24, minCharacters:1});
+	$('.tagssuggest').tagsSuggest({ajaxResults:true, maxResults:24, minCharacters:1});
 
-	jQuery('.jqmDialog').jqm({modal:true, overlay:60, overlayClass:'whiteOverlay'}).jqDrag('.jqDrag');
+	$('.jqmDialog').each(function(){
+		$(this).jqm({modal:true, overlay:60, overlayClass:'whiteOverlay'}).jqDrag('.jqDrag');
+	});
 
 });

@@ -1,34 +1,34 @@
 /* CONTENTSTRUCTURE TREE MENU STYLES */
 
-div#contentstructure
+div.contentstructure
 {
     overflow: hidden;
     padding-top: 0.5em;
 }
 
-div#contentstructure a {color:#0B4E7A;}
-div#contentstructure a:hover {color:#E24602;}
+div.contentstructure a {color:#0B4E7A;}
+div.contentstructure a:hover {color:#E24602;}
 
-div#contentstructure ul.content_tree_menu
+div.contentstructure ul.content_tree_menu
 {
     margin-top: 0;
     margin-left: 0.25em;
     padding-left: 0.5em;
 }
 
-div#contentstructure ul.content_tree_menu ul
+div.contentstructure ul.content_tree_menu ul
 {
     margin: 0;
     padding-top: 4px;
     padding-bottom: 0;
 }
 
-div#contentstructure ul.content_tree_menu ul ul
+div.contentstructure ul.content_tree_menu ul ul
 {
     margin-left: 0;
 }
 
-div#contentstructure ul.content_tree_menu li
+div.contentstructure ul.content_tree_menu li
 {
     list-style-type: none;
     white-space: nowrap;
@@ -37,7 +37,7 @@ div#contentstructure ul.content_tree_menu li
     padding:0;
 }
 
-div#contentstructure ul.content_tree_menu ul li
+div.contentstructure ul.content_tree_menu ul li
 {
     margin: 0;
     padding-top: 0;
@@ -48,39 +48,39 @@ div#contentstructure ul.content_tree_menu ul li
     background-position:left top;
 }
 
-div#contentstructure ul.content_tree_menu ul li.lastli
+div.contentstructure ul.content_tree_menu ul li.lastli
 {
     background-position: left -9990px;
     padding-bottom: 2px;
 }
 
-div#contentstructure ul.content_tree_menu li.disabled a,
-div#contentstructure ul.content_tree_menu li.disabled a:hover,
-div#contentstructure ul.content_tree_menu li.disabled a:hover span {color:silver; outline:none; cursor:default; text-decoration:none;}
+div.contentstructure ul.content_tree_menu li.disabled a,
+div.contentstructure ul.content_tree_menu li.disabled a:hover,
+div.contentstructure ul.content_tree_menu li.disabled a:hover span {color:silver; outline:none; cursor:default; text-decoration:none;}
 
-div#contentstructure ul.content_tree_menu li img
+div.contentstructure ul.content_tree_menu li img
 {
     vertical-align: middle;
 }
 
-div#contentstructure a.nodeicon
+div.contentstructure a.nodeicon
 {
     margin-left: 0;
     padding-left: 0;
 }
 
-div#contentstructure li span.node-name-normal
+div.contentstructure li span.node-name-normal
 {
     font-weight: normal;
 }
 
-div#contentstructure li.currentnode > a.image-text span.node-name-normal, div#contentstructure li.currentnode > a.image-text span.node-name-hidden, div#contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
+div.contentstructure li.currentnode > a.image-text span.node-name-normal, div.contentstructure li.currentnode > a.image-text span.node-name-hidden, div.contentstructure li.currentnode > a.image-text span.node-name-hiddenbyparent /* Highlighting of current node */
 {
     color: #E24602;
     padding: 0 0.25em 0 0.2em;
 }
 
-div#contentstructure li a.image-text span.node-name-hidden, div#contentstructure li.currentnode li a.image-text span.node-name-hidden
+div.contentstructure li a.image-text span.node-name-hidden, div.contentstructure li.currentnode li a.image-text span.node-name-hidden
 {
     font-weight: normal;
     font-style: normal;
@@ -88,7 +88,7 @@ div#contentstructure li a.image-text span.node-name-hidden, div#contentstructure
     padding: 0 0.2em 0 0.2em;
 }
 
-div#contentstructure li a.image-text span.node-name-hiddenbyparent, div#contentstructure li.currentnode li a.image-text span.node-name-hiddenbyparent
+div.contentstructure li a.image-text span.node-name-hiddenbyparent, div.contentstructure li.currentnode li a.image-text span.node-name-hiddenbyparent
 {
     font-weight: normal;
     font-style: normal;
@@ -96,12 +96,12 @@ div#contentstructure li a.image-text span.node-name-hiddenbyparent, div#contents
     padding: 0 0.2em 0 0.2em;
 }
 
-div#contentstructure li a.image-text span.node-name-normal.disabled
+div.contentstructure li a.image-text span.node-name-normal.disabled
 {
 	color:silver;
 }
 
-div#contentstructure span.node-hidden, div#contentstructure span.node-hiddenbyparent
+div.contentstructure span.node-hidden, div.contentstructure span.node-hiddenbyparent
 {
     display: none;
 }
@@ -117,12 +117,12 @@ a.openclose img, span.openclose img
     cursor: default;
 }
 
-div#contentstructure span.openclose
+div.contentstructure span.openclose
 {
     visibility: hidden;
 }
 
-div#contentstructure ul.content_tree_menu ul a.openclose-open, div#contentstructure ul.content_tree_menu ul a.openclose-close, div#contentstructure ul.content_tree_menu ul a.openclose-busy, div#contentstructure ul.content_tree_menu ul a.openclose-error
+div.contentstructure ul.content_tree_menu ul a.openclose-open, div.contentstructure ul.content_tree_menu ul a.openclose-close, div.contentstructure ul.content_tree_menu ul a.openclose-busy, div.contentstructure ul.content_tree_menu ul a.openclose-error
 {
     position: absolute;
     left: 0;
@@ -133,28 +133,28 @@ div#contentstructure ul.content_tree_menu ul a.openclose-open, div#contentstruct
     background: transparent url( '../images/contentstructure-tree/content_tree-icons.png' ) no-repeat center 0px scroll;
 }
 
-div#contentstructure ul.content_tree_menu ul a.openclose-close
+div.contentstructure ul.content_tree_menu ul a.openclose-close
 {
     background-position: center -16px;
 }
 
-div#contentstructure ul.content_tree_menu ul a.openclose-error
+div.contentstructure ul.content_tree_menu ul a.openclose-error
 {
     background-position: center -32px;
 }
 
-div#contentstructure ul.content_tree_menu ul a.openclose-busy
+div.contentstructure ul.content_tree_menu ul a.openclose-busy
 {
     background-position: center -48px;
     cursor: progress;
 }
 
-div#contentstructure ul.content_tree_menu div.loaded
+div.contentstructure ul.content_tree_menu div.loaded
 {
     display: block;
 }
 
-div#contentstructure ul.content_tree_menu div.hidden
+div.contentstructure ul.content_tree_menu div.hidden
 {
     display: none;
 }

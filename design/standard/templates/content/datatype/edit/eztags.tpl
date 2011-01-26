@@ -24,7 +24,7 @@
 {/if}
 
 {default attribute_base=ContentObjectAttribute}
-<div class="tagssuggest{if $attribute.contentclass_attribute.data_int2} tagsfilter{/if}" id="tagssuggest">
+<div class="tagssuggest{if $attribute.contentclass_attribute.data_int2} tagsfilter{/if}">
 	<label>{'Selected tags'|i18n( 'extension/eztags/datatypes' )}:</label>
 	<div class="tags-list tags-listed no-results">
 		<p class="loading">{'Loading'|i18n( 'extension/eztags/datatypes' )}...</p>
@@ -42,17 +42,17 @@
 	</div>
 
 	{if $has_add_access}
-		<input type="button" value="{'Add new'|i18n( 'extension/eztags/datatypes' )}" name="AddTagButton" class="button-add-tag button-disabled" disabled="disabled">
+		<input type="button" value="{'Add new'|i18n( 'extension/eztags/datatypes' )}" name="AddTagButton" class="button-add-tag button-disabled" disabled="disabled" />
 	{/if}
 
 	<input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier} tagnames" type="hidden" name="{$attribute_base}_eztags_data_text_{$attribute.id}" value="{$attribute.content.keyword_string|wash(xhtml)}"  />
 
 	<input id="ezcoa2-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box tagpids" type="hidden" name="{$attribute_base}_eztags_data_text2_{$attribute.id}" value="{$attribute.content.parent_string|wash(xhtml)}"  />
 
-	<input type="hidden" name="eztags_subtree_limit" id="eztags_subtree_limit" value="{$attribute.contentclass_attribute.data_int1}" />
+	<input type="hidden" class="eztags_subtree_limit" name="eztags_subtree_limit-{$attribute.id}" value="{$attribute.contentclass_attribute.data_int1}" />
 </div>
 
 {if $has_add_access}
-	{include uri='design:ezjsctemplate/modal_dialog.tpl' root_tag=$root_tag}
+	{include uri='design:ezjsctemplate/modal_dialog.tpl' attribute_id=$attribute.id root_tag=$root_tag}
 {/if}
 {/default}

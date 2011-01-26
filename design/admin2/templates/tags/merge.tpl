@@ -28,7 +28,7 @@
 				<div class="block tag-edit-parent">
 					<label>{'Main tag'|i18n( 'extension/eztags/tags/edit' )}</label>
 					<input id="eztags_parent_id_0" type="hidden" name="MainTagID" value="0" />
-					<input id="hide_tag_id" type="hidden" name="TagHideID" value="{$tag.id}" />
+					<input id="hide_tag_id_0" type="hidden" name="TagHideID" value="{$tag.id}" />
 					<span id="eztags_parent_keyword_0">{eztags_parent_string(0)|wash(xhtml)}</span>
 					<input class="button" type="button" name="SelectParentButton" id="eztags-parent-selector-button-0" value="{'Select main tag'|i18n( 'extension/eztags/tags/edit' )}" />
 				</div>
