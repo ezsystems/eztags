@@ -8,7 +8,7 @@
 			{set $url=concat(urlencode($p.keyword),"/",$url)}
 		{/while}
 
-		<img class="transparent-png-icon" src={concat('tag_icons/small/', $t.icon)|ezimage} title="{$t.keyword|wash(xhtml)}" /> <a href={concat('/tags/view/', $url)|ezurl}>{$keyword|wash(xhtml)}</a>{delimiter}, {/delimiter}
+		<img class="transparent-png-icon" src={concat('tag_icons/small/', $t.icon)|ezimage} title="{$t.keyword|wash(xhtml)}" alt="{$t.keyword|wash(xhtml)}" /> <a href={concat('/tags/view/', $url)|ezurl}>{$keyword|wash(xhtml)}</a>{delimiter}, {/delimiter}
 		{undef $t $p $url}
 	{/foreach}</p>
 {/if}
