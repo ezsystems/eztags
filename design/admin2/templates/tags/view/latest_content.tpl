@@ -26,3 +26,5 @@
 {else}
 	{"No content"|i18n("extension/eztags/tags/view")}
 {/if}
+
+{undef}
