@@ -10,6 +10,7 @@ if(count($tags) > 0)
 {
 	$tpl = eZTemplate::factory();
 
+	$tpl->setVariable('blocks', eZINI::instance('eztags.ini')->variable('View', 'ViewBlocks'));
 	$tpl->setVariable( 'tag', $tags[0] );
 	$tpl->setVariable( 'persistent_variable', false );
 

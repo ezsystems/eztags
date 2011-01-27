@@ -13,6 +13,7 @@ if ( is_numeric($tagID) && $tagID >= 1 )
 
 	$tpl = eZTemplate::factory();
 
+	$tpl->setVariable('blocks', eZINI::instance('eztags.ini')->variable('View', 'ViewBlocks'));
 	$tpl->setVariable( 'tag', $tag );
 	$tpl->setVariable( 'persistent_variable', false );
 
