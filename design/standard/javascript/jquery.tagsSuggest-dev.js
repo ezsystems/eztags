@@ -45,7 +45,7 @@
 				var tag_names_array = names.val().split(',');
 				var tag_parent_ids_array = parent_ids.val().split(',');
 				var tag_ids_array = tids.val().split(',');
-				$.each(tag_ids_array, function(index, value) {
+				$.each(tag_names_array, function(index, value) {
 					addTagToList({'tag_name': value.replace(/^\s+|\s+$/g, ''), 'tag_parent_id': tag_parent_ids_array[index].replace(/^\s+|\s+$/g, ''), 'tag_id': tag_ids_array[index].replace(/^\s+|\s+$/g, '')}, tags_listed, removeTagFromList, '&times;');
 				});
 			}

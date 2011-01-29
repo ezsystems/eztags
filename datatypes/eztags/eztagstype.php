@@ -69,25 +69,30 @@ class eZTagsType extends eZDataType
             $data2 = trim($http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ));
             $data3 = trim($http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ));
 
-            if ( $data == "" || $data2 == "" || $data3 == "" )
-            {
-                if ( !$classAttribute->attribute( 'is_information_collector' ) && $contentObjectAttribute->validateIsRequired() )
+			if(strlen($data) == 0 && strlen($data2) == 0 && strlen($data3) == 0)
+			{
+                if(!$classAttribute->attribute( 'is_information_collector' ) && $contentObjectAttribute->validateIsRequired())
                 {
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
-            }
-            else
-            {
-            	$dataArray = explode(',', $data);
-            	$data2Array = explode(',', $data2);
-            	$data3Array = explode(',', $data3);
-            	if(count($data2Array) != count($dataArray) || count($data3Array) != count($dataArray))
-            	{
+			}
+			else if(!(strlen($data) > 0 && strlen($data2) > 0 && strlen($data3) > 0))
+			{
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
+                return eZInputValidator::STATE_INVALID;
+			}
+			else
+			{
+				$dataArray = explode(', ', $data);
+				$data2Array = explode(', ', $data2);
+				$data3Array = explode(', ', $data3);
+				if(count($data2Array) != count($dataArray) || count($data3Array) != count($dataArray))
+				{
 					$contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
 					return eZInputValidator::STATE_INVALID;
-            	}
-            }
+				}
+			}
         }
         else if ( !$classAttribute->attribute( 'is_information_collector' ) && $contentObjectAttribute->validateIsRequired() )
         {

@@ -92,9 +92,9 @@ class eZTags
      */
     function createFromStrings( $idString, $keywordString, $parentString )
     {
-    	$idArray = explode( ',', $idString );
-        $keywordArray = explode( ',', $keywordString );
-        $parentArray = explode( ',', $parentString );
+    	$idArray = explode( ', ', $idString );
+        $keywordArray = explode( ', ', $keywordString );
+        $parentArray = explode( ', ', $parentString );
 
         $wordArray = array();
         foreach ( array_keys( $idArray ) as $key )
