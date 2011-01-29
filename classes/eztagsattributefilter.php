@@ -22,14 +22,21 @@ class eZTagsAttributeFilter
 			if(!isset($params['include_synonyms']) || (isset($params['include_synonyms']) && $params['include_synonyms'] == true))
 			{
 				$tag = eZTagsObject::fetch($params['tag_id']);
-				foreach($tag->getSynonyms() as $synonym)
+				if($tag instanceof eZTagsObject)
 				{
-					$tagIDsArray[] = $synonym->ID;
+					foreach($tag->getSynonyms() as $synonym)
+					{
+						$tagIDsArray[] = $synonym->ID;
+					}
 				}
 			}
 
 			$returnArray['tables'] = ", eztags_attribute_link i1 ";
-			$returnArray['joins'] = " i1.keyword_id IN (" . implode(',', $tagIDsArray) . ") AND i1.object_id = ezcontentobject.id AND ";
+
+			$db = eZDB::instance();
+			$dbString = $db->generateSQLINStatement($tagIDsArray, 'i1.keyword_id', false, true, 'int');
+
+			$returnArray['joins'] = " $dbString AND i1.object_id = ezcontentobject.id AND ";
 		}
 
 		return $returnArray;
