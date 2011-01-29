@@ -3,10 +3,16 @@
 $http = eZHTTPTool::instance();
 
 $mainTagID = $Params['MainTagID'];
-$mainTag = eZTagsObject::fetch($mainTagID);
 
 if ( is_numeric($mainTagID) && $mainTagID > 0 )
 {
+	$mainTag = eZTagsObject::fetch((int) $mainTagID);
+
+	if(!($mainTag instanceof eZTagsObject))
+	{
+		return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+	}
+
 	if($mainTag->MainTagID != 0)
 	{
 		return $Module->redirectToView( 'addsynonym', array( $mainTag->MainTagID ) );
@@ -18,7 +24,7 @@ if ( is_numeric($mainTagID) && $mainTagID > 0 )
 	}
 	else if($http->hasPostVariable('SaveButton'))
 	{
-		if($http->hasPostVariable('TagEditKeyword') && strlen($http->postVariable( 'TagEditKeyword' )) > 0)
+		if($http->hasPostVariable('TagEditKeyword') && strlen(trim($http->postVariable( 'TagEditKeyword' ))) > 0)
 		{
 			$currentTime = time();
 			$parentTag = eZTagsObject::fetch($mainTag->ParentID);
@@ -26,7 +32,7 @@ if ( is_numeric($mainTagID) && $mainTagID > 0 )
 			$db = eZDB::instance();
 			$db->begin();
 
-			if($parentTag)
+			if($parentTag instanceof eZTagsObject)
 			{
 				$parentTag->Modified = $currentTime;
 				$parentTag->store();
@@ -34,7 +40,7 @@ if ( is_numeric($mainTagID) && $mainTagID > 0 )
 
 			$tag = new eZTagsObject(array('parent_id' => $mainTag->ParentID,
 										  'main_tag_id' => $mainTagID,
-										  'keyword' => $http->postVariable( 'TagEditKeyword' ),
+										  'keyword' => trim($http->postVariable( 'TagEditKeyword' )),
 										  'path_string' => ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/',
 										  'modified' => $currentTime));
 

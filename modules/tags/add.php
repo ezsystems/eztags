@@ -9,7 +9,13 @@ if ( is_numeric($parentTagID) && $parentTagID >= 0 )
 {
 	if($parentTagID > 0)
 	{
-		$parentTag = eZTagsObject::fetch($parentTagID);
+		$parentTag = eZTagsObject::fetch((int) $parentTagID);
+
+		if(!($parentTag instanceof eZTagsObject))
+		{
+			return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+		}
+
 		if($parentTag->MainTagID != 0)
 		{
 			return $Module->redirectToView( 'add', array( $parentTag->MainTagID ) );
@@ -43,26 +49,26 @@ if ( is_numeric($parentTagID) && $parentTagID >= 0 )
 
 	if($http->hasPostVariable('DiscardButton'))
 	{
-		if($parentTagID > 0)
+		if($parentTag instanceof eZTagsObject)
 			return $Module->redirectToView( 'id', array( $parentTagID ) );
 		else
 			return $Module->redirectToView( 'dashboard', array() );
 	}
 	else if($http->hasPostVariable('SaveButton'))
 	{
-		if($http->hasPostVariable('TagEditKeyword') && strlen($http->postVariable( 'TagEditKeyword' )) > 0
+		if($http->hasPostVariable('TagEditKeyword') && strlen(trim($http->postVariable( 'TagEditKeyword' ))) > 0
 			&& $http->hasPostVariable('TagEditParentID') && is_numeric($http->postVariable('TagEditParentID'))
 			&& (int) $http->postVariable('TagEditParentID') >= 0)
 		{
 			$currentTime = time();
 			$newParentTag = eZTagsObject::fetch((int) $http->postVariable('TagEditParentID'));
 
-			if($newParentTag || (int) $http->postVariable('TagEditParentID') == 0)
+			if($newParentTag instanceof eZTagsObject || (int) $http->postVariable('TagEditParentID') == 0)
 			{
 				$db = eZDB::instance();
 				$db->begin();
 
-				if($newParentTag)
+				if($newParentTag instanceof eZTagsObject)
 				{
 					$newParentTag->Modified = $currentTime;
 					$newParentTag->store();
@@ -104,7 +110,7 @@ if ( is_numeric($parentTagID) && $parentTagID >= 0 )
 		$Result['ui_context'] = 'edit';
 		$Result['path'] = array();
 
-		if($parentTagID > 0)
+		if($parentTag instanceof eZTagsObject)
 		{
 			$tempTag = $parentTag;
 			while($tempTag->hasParent())

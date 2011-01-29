@@ -6,8 +6,8 @@ $tagID = $Params['TagID'];
 
 if ( is_numeric($tagID) && $tagID > 0 )
 {
-	$tag = eZTagsObject::fetch($tagID);
-	if(!$tag)
+	$tag = eZTagsObject::fetch((int) $tagID);
+	if(!($tag instanceof eZTagsObject))
 	{
 		return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 	}
@@ -32,7 +32,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 		$db->begin();
 
 		$parentTag = $tag->getParent();
-		if($parentTag)
+		if($parentTag instanceof eZTagsObject)
 		{
 			$parentTag->Modified = time();
 			$parentTag->store();
@@ -42,7 +42,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 
 		$db->commit();
 
-		if($parentTag)
+		if($parentTag instanceof eZTagsObject)
 		{
 			return $Module->redirectToView( 'id', array( $parentTag->ID ) );
 		}

@@ -2,11 +2,11 @@
 
 $tagID = $Params['TagID'];
 
-if ( is_numeric($tagID) && $tagID >= 1 )
+if ( is_numeric($tagID) && $tagID > 0 )
 {
-	$tag = eZTagsObject::fetch($tagID);
+	$tag = eZTagsObject::fetch((int) $tagID);
 
-	if(!$tag)
+	if(!($tag instanceof eZTagsObject))
 	{
 		return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 	}

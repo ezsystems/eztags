@@ -6,8 +6,8 @@ $tagID = $Params['TagID'];
 
 if ( is_numeric($tagID) && $tagID > 0 )
 {
-	$tag = eZTagsObject::fetch($tagID);
-	if(!$tag)
+	$tag = eZTagsObject::fetch((int) $tagID);
+	if(!($tag instanceof eZTagsObject))
 	{
 		return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 	}
@@ -27,12 +27,12 @@ if ( is_numeric($tagID) && $tagID > 0 )
 	{
 		if($lockStatus == eZTagsObject::LOCK_STATUS_HARD_LOCK)
 		{
-			if($http->hasPostVariable('TagEditKeyword') && strlen($http->postVariable( 'TagEditKeyword' )) > 0)
+			if($http->hasPostVariable('TagEditKeyword') && strlen(trim($http->postVariable( 'TagEditKeyword' ))) > 0)
 			{
 				$db = eZDB::instance();
 				$db->begin();
 
-				$tag->Keyword = $http->postVariable( 'TagEditKeyword' );
+				$tag->Keyword = trim($http->postVariable( 'TagEditKeyword' ));
 				$tag->Modified = time();
 				$tag->store();
 
@@ -47,7 +47,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 		}
 		else
 		{
-			if($http->hasPostVariable('TagEditKeyword') && strlen($http->postVariable( 'TagEditKeyword' )) > 0
+			if($http->hasPostVariable('TagEditKeyword') && strlen(trim($http->postVariable( 'TagEditKeyword' ))) > 0
 				&& $http->hasPostVariable('TagEditParentID') && is_numeric($http->postVariable('TagEditParentID'))
 				&& (int) $http->postVariable('TagEditParentID') >= 0)
 			{
@@ -60,13 +60,13 @@ if ( is_numeric($tagID) && $tagID > 0 )
 					$db->begin();
 
 					$oldParentTag = $tag->getParent();
-					if($oldParentTag)
+					if($oldParentTag instanceof eZTagsObject)
 					{
 						$oldParentTag->Modified = $currentTime;
 						$oldParentTag->store();
 					}
 	
-					if($newParentTag)
+					if($newParentTag instanceof eZTagsObject)
 					{
 						$newParentTag->Modified = $currentTime;
 						$newParentTag->store();
@@ -82,7 +82,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 						$synonym->store();
 					}
 	
-					$tag->Keyword = $http->postVariable( 'TagEditKeyword' );
+					$tag->Keyword = trim($http->postVariable( 'TagEditKeyword' ));
 					$tag->ParentID = $newParentID;
 					$tag->Modified = $currentTime;
 					$tag->store();

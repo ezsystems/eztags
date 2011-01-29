@@ -6,8 +6,8 @@ $tagID = $Params['TagID'];
 
 if ( is_numeric($tagID) && $tagID > 0 )
 {
-	$tag = eZTagsObject::fetch($tagID);
-	if(!$tag)
+	$tag = eZTagsObject::fetch((int) $tagID);
+	if(!($tag instanceof eZTagsObject))
 	{
 		return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 	}
@@ -23,7 +23,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 	}
 	else if($http->hasPostVariable('SaveButton'))
 	{
-		if($http->hasPostVariable('TagEditKeyword') && strlen($http->postVariable( 'TagEditKeyword' )) > 0)
+		if($http->hasPostVariable('TagEditKeyword') && strlen(trim($http->postVariable( 'TagEditKeyword' ))) > 0)
 		{
 			$currentTime = time();
 
@@ -31,13 +31,13 @@ if ( is_numeric($tagID) && $tagID > 0 )
 			$db->begin();
 
 			$parentTag = $tag->getParent();
-			if($parentTag)
+			if($parentTag instanceof eZTagsObject)
 			{
 				$parentTag->Modified = $currentTime;
 				$parentTag->store();
 			}
 
-			$tag->Keyword = $http->postVariable( 'TagEditKeyword' );
+			$tag->Keyword = trim($http->postVariable( 'TagEditKeyword' ));
 			$tag->Modified = $currentTime;
 			$tag->store();
 

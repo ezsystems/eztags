@@ -47,14 +47,19 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
     }
 
     /**
-     * Fetches the array of eZTagsAttributeLinkObject objects based on provided keyword ID
+     * Fetches the array of eZTagsAttributeLinkObject objects based on provided tag ID
      * 
-     * @param integer $keywordID
+     * @param integer $tagID
      * @return array
      */
-    static function fetchByKeywordID($keywordID)
+    static function fetchByTagID($tagID)
     {
-    	return eZPersistentObject::fetchObjectList( eZTagsAttributeLinkObject::definition(), null, array('keyword_id' => $keywordID) );
+    	$objects = eZPersistentObject::fetchObjectList( eZTagsAttributeLinkObject::definition(), null, array('keyword_id' => $tagID) );
+    	
+    	if(is_array($objects))
+    		return $objects;
+    	else
+    		return array();
     }
 }
 

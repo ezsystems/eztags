@@ -21,7 +21,7 @@ class eZTagsObject extends eZPersistentObject
     {
         parent::__construct( $row );
         
-        $this->TagAttributeLinks = eZTagsAttributeLinkObject::fetchByKeywordID($this->ID);
+        $this->TagAttributeLinks = eZTagsAttributeLinkObject::fetchByTagID($this->ID);
     }
 
     /**
@@ -102,7 +102,14 @@ class eZTagsObject extends eZPersistentObject
      */
 	function hasParent()
 	{
-		return eZPersistentObject::count( eZTagsObject::definition(), array('id' => $this->ParentID) );
+		$count = eZPersistentObject::count( eZTagsObject::definition(), array('id' => $this->ParentID) );
+
+		if($count > 0)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
     /**
@@ -235,7 +242,7 @@ class eZTagsObject extends eZPersistentObject
 		else
 		{
 			$tag = $this;
-			while($tag->ParentID > 0)
+			while($tag->hasParent())
 			{
 				$tag = $tag->getParent();
 				if($tag->getSubTreeLimitationsCount() > 0)
@@ -418,24 +425,24 @@ class eZTagsObject extends eZPersistentObject
      * Returns array of eZTagsObject objects for given keyword
      * 
      * @static
-     * @param mixed $param
+     * @param mixed $keyword
      * @return array
      */		
-	static function fetchByKeyword($param)
+	static function fetchByKeyword($keyword)
 	{
-		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('keyword' => $param) );
+		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('keyword' => $keyword) );
 	}
 
     /**
      * Returns the array of eZTagsObject objects for given path string
      * 
      * @static
-     * @param string $param
+     * @param string $pathString
      * @return array
      */		
-	static function fetchByPathString($param)
+	static function fetchByPathString($pathString)
 	{
-		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('path_string' => array('like', $param . '%'), main_tag_id => 0) );
+		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('path_string' => array('like', $pathString . '%'), main_tag_id => 0) );
 	}
 
     /**
