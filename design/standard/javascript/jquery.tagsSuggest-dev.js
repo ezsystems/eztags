@@ -23,6 +23,7 @@
 				isFilter = $(this).hasClass('tagsfilter'),
 				names = $(this).find('.tagnames'),
 				parent_ids = $(this).find('.tagpids'),
+				tids = $(this).find('.tagids'),
 				parentSelectorButton = $(this).find('input[type="button"]'),
 				subtree_limit = $(this).find('.eztags_subtree_limit').val(),
 				parentSelector = $(this).siblings('.parent-selector-tree:eq(0)'),
@@ -38,13 +39,14 @@
 			var tags_listed = $(this).find('div.tags-listed ul');
 			var tags_suggested = $(this).find('div.tags-suggested ul');
 
-			if (names.val() && parent_ids.val())
+			if (names.val() && parent_ids.val() && tids.val())
 			{
 				tags_listed.parent('div.tags-list').removeClass('no-results');
 				var tag_names_array = names.val().split(',');
 				var tag_parent_ids_array = parent_ids.val().split(',');
-				$.each(tag_names_array, function(index, value) {
-					addTagToList({'tag_name': value.replace(/^\s+|\s+$/g, ''), 'tag_parent_id': tag_parent_ids_array[index].replace(/^\s+|\s+$/g, '')}, tags_listed, removeTagFromList, '&times;');
+				var tag_ids_array = tids.val().split(',');
+				$.each(tag_ids_array, function(index, value) {
+					addTagToList({'tag_name': value.replace(/^\s+|\s+$/g, ''), 'tag_parent_id': tag_parent_ids_array[index].replace(/^\s+|\s+$/g, ''), 'tag_id': tag_ids_array[index].replace(/^\s+|\s+$/g, '')}, tags_listed, removeTagFromList, '&times;');
 				});
 			}
 
@@ -53,7 +55,7 @@
 
 			function addTagToList( item, list, callback, icon )
 			{
-				var tag = $('<li' + (!icon ? ' title="Add this tag"' : '') + '>' + item.tag_name + (icon ? '<a href="#" title="Remove tag">' + icon + '</a>' : '') + '</li>').data('tag', {'tag_parent_id': item.tag_parent_id, 'tag_name': item.tag_name});
+				var tag = $('<li' + (!icon ? ' title="Add this tag"' : '') + '>' + item.tag_name + (icon ? '<a href="#" title="Remove tag">' + icon + '</a>' : '') + '</li>').data('tag', {'tag_parent_id': item.tag_parent_id, 'tag_name': item.tag_name, 'tag_id': item.tag_id});
 				if (icon) tag.find('a').click(function(e) {callback(tag); return false;})
 				else tag.click(function(e) {callback(tag); return false;});
 				list.append(tag);
@@ -69,7 +71,7 @@
 			function moveTag(tag)
 			{
 				var tag_data = $(tag).data('tag');
-				addTagToList({'tag_parent_id': tag_data.tag_parent_id, 'tag_name': tag_data.tag_name}, tags_listed, removeTagFromList, '&times;');
+				addTagToList({'tag_parent_id': tag_data.tag_parent_id, 'tag_name': tag_data.tag_name, 'tag_id': tag_data.tag_id}, tags_listed, removeTagFromList, '&times;');
 				removeTagFromList(tag);
 				//updateValues();
 			}
@@ -78,14 +80,17 @@
 			{
 				var tag_names = '';
 				var tag_parent_ids = '';
+				var tag_tag_ids = '';
 				tags_listed.find('li').each(function(i)
 					{
 						tag_names += (tag_names == '' ? '' : ', ') + $(this).data('tag').tag_name;
 						tag_parent_ids += (tag_parent_ids == '' ? '' : ', ') + $(this).data('tag').tag_parent_id;
+						tag_tag_ids += (tag_tag_ids == '' ? '' : ', ') + $(this).data('tag').tag_id;
 					});
 				names.val(tag_names);
 				parent_ids.val(tag_parent_ids);
-				if (!tag_names && !tag_parent_ids) tags_listed.parent('div.tags-list').addClass('no-results');
+				tids.val(tag_tag_ids);
+				if (!tag_names && !tag_parent_ids && !tag_tag_ids) tags_listed.parent('div.tags-list').addClass('no-results');
 				runSuggest();
 			}
 
@@ -109,7 +114,7 @@
 			{
 				$('#' + parentSelector.attr('id') + ' .contentstructure a:not([class^=openclose])').live('click', function(e)
 				{
-					addTagToList({'tag_name': obj.val().replace(/^\s+|\s+$/g, ''), 'tag_parent_id': $(this).attr('rel')}, tags_listed, removeTagFromList, '&times;');
+					addTagToList({'tag_name': obj.val().replace(/^\s+|\s+$/g, ''), 'tag_parent_id': $(this).attr('rel'), 'tag_id': '0'}, tags_listed, removeTagFromList, '&times;');
 					updateValues();
 					clearTagSearchField();
 					emptyResults();
