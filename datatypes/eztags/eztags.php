@@ -162,6 +162,7 @@ class eZTags
 
 		$attributeID = $attribute->attribute( 'id' );
 		$objectID = $attribute->attribute( 'contentobject_id' );
+		$currentTime = time();
 
 		//get existing tags for object attribute
 		$existingTagIDs = array();
@@ -185,6 +186,7 @@ class eZTags
 			}
 		}
 
+		//and delete them
 		if(count($tagsToDelete) > 0)
 		{
 			$dbString = $db->generateSQLINStatement($tagsToDelete, 'keyword_id', false, true, 'int');
@@ -193,100 +195,129 @@ class eZTags
 
 		//get tags that are new to the object attribute
 		$newTags = array();
+		$tagsToLink = array();
 		foreach(array_keys($this->IDArray) as $key)
 		{
 			if(!in_array($this->IDArray[$key], $existingTagIDs))
 			{
-				$newTags[] = array('id' => $this->IDArray[$key], 'keyword' => $this->KeywordArray[$key], 'parent_id' => $this->ParentArray[$key]);
+				if($this->IDArray[$key] == 0)
+					$newTags[] = array('id' => $this->IDArray[$key], 'keyword' => $this->KeywordArray[$key], 'parent_id' => $this->ParentArray[$key]);
+				else
+					$tagsToLink[] = $this->IDArray[$key];
 			}
 		}
 
-		//we need to check if user has add premissions taking subtree limitations and policies into account
-		$hasAddAccess = false;
+		//we need to check if user really has access to tags/add, taking into account policy and subtree limits
 		$attributeSubTreeLimit = $attribute->contentClassAttribute()->attribute( eZTagsType::SUBTREE_LIMIT_FIELD );
-		$subTreeLimitTag = eZTagsObject::fetch($attributeSubTreeLimit);
-
 		$userLimitations = eZTagsTemplateFunctions::getSimplifiedUserAccess('tags', 'add');
-		if($userLimitations['accessWord'] != 'no')
+
+		if($userLimitations['accessWord'] != 'no' && count($newTags) > 0)
 		{
-			if(!isset($userLimitations['simplifiedLimitations']['Tag']))
-			{
-				$hasAddAccess = true;
-			}
-			else if($subTreeLimitTag instanceof eZTagsObject)
-			{
-				foreach($userLimitations['simplifiedLimitations']['Tag'] as $key => $value)
-				{
-					if(strpos($subTreeLimitTag->PathString, '/' . $value . '/') !== false)
-					{
-						$hasAddAccess = true;
-						break;
-					}
-				}
-			}
-			else
-			{
-				$hasAddAccess = true;
+			//first we need to fetch all locations user has access to
+			$userLimitations = isset($userLimitations['simplifiedLimitations']['Tag']) ? $userLimitations['simplifiedLimitations']['Tag'] : array();
+			$allowedLocations = eZTags::getAllowedLocations($attributeSubTreeLimit, $userLimitations);
 
-				$attributeSubTreeLimitArray = array();
-				foreach($userLimitations['simplifiedLimitations']['Tag'] as $key => $value)
-				{
-					$attributeSubTreeLimitArray[] = $value;
-				}
-			}
-		}
-
-		// Store every new tag
-		foreach($newTags as $tag)
-		{
-			if($tag['id'] == 0)
+			foreach($newTags as $t)
 			{
-				//if tag doesn't exist yet, store it before linking to object attribute
-				$keyword = $db->escapeString(trim($tag['keyword']));
-				$parentID = $tag['parent_id'];
-
-				$parentTag = eZTagsObject::fetch($parentID);
+				//and then for each tag check if user can save in one of the allowed locations
+				$parentTag = eZTagsObject::fetch($t['parent_id']);
 				$pathString = ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/';
 
-				$allowedBySubtreeLimit = false;
-				if(isset($attributeSubTreeLimitArray))
+				if(eZTags::canSave($pathString, $allowedLocations))
 				{
-					foreach($attributeSubTreeLimitArray as $key => $value)
-					{
-						if($value > 0 && strpos($pathString, '/' . $value . '/') !== false)
-						{
-							$allowedBySubtreeLimit = true;
-							break;
-						}
-					}
-				}
-				else if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 && strpos($pathString, '/' . $attributeSubTreeLimit . '/') !== false))
-				{
-					$allowedBySubtreeLimit = true;
-				}
-
-				if($allowedBySubtreeLimit && $hasAddAccess)
-				{
-					$current_time = time();
-					$db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( $parentID, 0, '$keyword', '$pathString', $current_time )" );
+					$db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( " .
+						$t['parent_id'] . ", 0, '" . $db->escapeString(trim($t['keyword'])) . "', '$pathString', $currentTime )" );
 					$tagID = (int) $db->lastSerialID( 'eztags', 'id' );
 					$db->query( "UPDATE eztags SET path_string = CONCAT(path_string, CAST($tagID AS CHAR), '/') WHERE id = $tagID" );
-					$pathString .= (string) $tagID . '/';
+					$tagsToLink[] = $tagID;
 				}
 			}
-			else
-			{
-				$tagID = $tag['id'];
-				$tagObject = eZTagsObject::fetch($tagID);
-				$pathString = $tagObject->PathString;
-			}
+		}
 
-			if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 && strpos($pathString, '/' . $attributeSubTreeLimit . '/') !== false))
+		//link tags to objects taking into account subtree limit
+		if(count($tagsToLink) > 0)
+		{
+			$dbString = $db->generateSQLINStatement($tagsToLink, 'id', false, true, 'int');
+			$tagsToLink = $db->arrayQuery( "SELECT id, path_string FROM eztags WHERE $dbString" );
+
+			if(is_array($tagsToLink) && count($tagsToLink) > 0)
 			{
-				$db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id, object_id ) VALUES ( $tagID, $attributeID, $objectID )" );
+				foreach($tagsToLink as $t)
+				{
+					if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 &&
+						strpos($t['path_string'], '/' . $attributeSubTreeLimit . '/') !== false))
+					{
+						$db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id, object_id ) VALUES ( " . $t['id'] . ", $attributeID, $objectID )" );
+					}
+				}
 			}
 		}
     }
+
+
+    /**
+     * Returns all allowed locations user has access to
+     * 
+     * @static
+     * @param int $attributeSubTreeLimit
+     * @param array $userLimitations
+     * @return bool
+     */
+	private static function getAllowedLocations($attributeSubTreeLimit, $userLimitations)
+	{
+		if(count($userLimitations) == 0)
+			return array((string) $attributeSubTreeLimit);
+		else
+		{
+			if($attributeSubTreeLimit == 0)
+				return $userLimitations;
+			else
+			{
+				$limitTag = eZTagsObject::fetch($attributeSubTreeLimit);
+				$pathString = ($limitTag instanceof eZTagsObject) ? $limitTag->PathString : '/';
+
+				foreach($userLimitations as $l)
+				{
+					if(strpos($pathString, '/' . $l . '/') !== false)
+						return array((string) $attributeSubTreeLimit);
+				}
+			}
+		}
+
+		return array();
+	}
+
+    /**
+     * Checks if tag (described by its path string) can be saved
+     * to one of the allowed locations
+     * 
+     * @static
+     * @param string $pathString
+     * @param array $userLimitations
+     * @return bool
+     */
+	private static function canSave($pathString, $allowedLocations)
+	{
+		if(count($allowedLocations) > 0)
+		{
+			if($allowedLocations[0] == 0)
+			{
+				return true;
+			}
+			else
+			{
+				foreach($allowedLocations as $l)
+				{
+					if(strpos($pathString, '/' . $l . '/') !== false)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
 
     /**
      * Returns the tags ID array
