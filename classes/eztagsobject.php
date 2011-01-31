@@ -7,8 +7,6 @@
  */
 class eZTagsObject extends eZPersistentObject
 {
-	public $TagAttributeLinks = null;
-
 	const LOCK_STATUS_UNLOCKED = 0;
 	const LOCK_STATUS_HARD_LOCK = 1;
 	const LOCK_STATUS_SOFT_LOCK = 2;
@@ -20,8 +18,6 @@ class eZTagsObject extends eZPersistentObject
     function __construct( $row )
     {
         parent::__construct( $row );
-        
-        $this->TagAttributeLinks = eZTagsAttributeLinkObject::fetchByTagID($this->ID);
     }
 
     /**
@@ -121,7 +117,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	function isRelatedToObject($objectAttributeID, $objectID)
 	{
-		foreach($this->TagAttributeLinks as $link)
+		foreach($this->getTagAttributeLinks() as $link)
 		{
 			if($link->ObjectAttributeID == $objectAttributeID && $link->ObjectID == $objectID)
 			{
@@ -169,10 +165,12 @@ class eZTagsObject extends eZPersistentObject
      */
 	function getRelatedObjects()
 	{
-		if(count($this->TagAttributeLinks) > 0)
+		$tagAttributeLinks = $this->getTagAttributeLinks();
+		
+		if(count($tagAttributeLinks) > 0)
 		{
 			$objectIDArray = array();
-			foreach($this->TagAttributeLinks as $tagAttributeLink)
+			foreach($tagAttributeLinks as $tagAttributeLink)
 			{
 				array_push($objectIDArray, $tagAttributeLink->ObjectID);
 			}
@@ -284,6 +282,16 @@ class eZTagsObject extends eZPersistentObject
 	function getSynonymsCount()
 	{
 		return eZTagsObject::synonymsCount( $this->ID );
+	}
+
+    /**
+     * Returns all links to objects for this tag
+     * 
+     * @return array
+     */
+	function getTagAttributeLinks()
+	{
+		return eZTagsAttributeLinkObject::fetchByTagID($this->ID);
 	}
 
     /**
@@ -460,7 +468,7 @@ class eZTagsObject extends eZPersistentObject
 			recursiveTagDelete($child);
 		}
 	
-		foreach($rootTag->TagAttributeLinks as $tagAttributeLink)
+		foreach($rootTag->getTagAttributeLinks() as $tagAttributeLink)
 		{
 			$tagAttributeLink->remove();
 		}
@@ -468,7 +476,7 @@ class eZTagsObject extends eZPersistentObject
 		$synonyms = $rootTag->getSynonyms();
 		foreach($synonyms as $synonym)
 		{
-			foreach($synonym->TagAttributeLinks as $tagAttributeLink)
+			foreach($synonym->getTagAttributeLinks() as $tagAttributeLink)
 			{
 				$tagAttributeLink->remove();
 			}

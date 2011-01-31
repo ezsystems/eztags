@@ -64,7 +64,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 			$synonyms = $tag->getSynonyms();
 			foreach($synonyms as $synonym)
 			{
-				foreach($synonym->TagAttributeLinks as $tagAttributeLink)
+				foreach($synonym->getTagAttributeLinks() as $tagAttributeLink)
 				{
 					if(!$mainTag->isRelatedToObject($tagAttributeLink->ObjectAttributeID, $tagAttributeLink->ObjectID))
 					{
@@ -80,7 +80,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 				$synonym->remove();
 			}
 
-			foreach($tag->TagAttributeLinks as $tagAttributeLink)
+			foreach($tag->getTagAttributeLinks() as $tagAttributeLink)
 			{
 				if(!$mainTag->isRelatedToObject($tagAttributeLink->ObjectAttributeID, $tagAttributeLink->ObjectID))
 				{

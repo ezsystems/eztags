@@ -36,7 +36,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 		$mainTag = $tag->getMainTag();
 		$transferObjectsToMainTag = $http->hasPostVariable('TransferObjectsToMainTag');
 
-		foreach($tag->TagAttributeLinks as $tagAttributeLink)
+		foreach($tag->getTagAttributeLinks() as $tagAttributeLink)
 		{
 			if($transferObjectsToMainTag && !$mainTag->isRelatedToObject($tagAttributeLink->ObjectAttributeID, $tagAttributeLink->ObjectID))
 			{
