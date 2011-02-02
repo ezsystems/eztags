@@ -2,34 +2,34 @@
 
 /**
  * eZTags class implements functions used by eztags datatype
- * 
+ *
  */
 class eZTags
 {
     /**
      * Contains IDs of the tags
-     * 
+     *
      * @var array $ParentArray
      */
     private $IDArray = array();
 
     /**
      * Contains the keywords in the same order as IDs
-     * 
+     *
      * @var array $KeywordArray
      */
     private $KeywordArray = array();
 
     /**
      * Contains parent IDs in same order as IDs
-     * 
+     *
      * @var array $ParentArray
      */
     private $ParentArray = array();
 
     /**
      * Returns an array with attributes that are available
-     * 
+     *
      * @return array
      */
     function attributes()
@@ -41,7 +41,7 @@ class eZTags
 
     /**
      * Returns true if the provided attribute exists
-     * 
+     *
      * @param string $name
      * @return bool
      */
@@ -52,7 +52,7 @@ class eZTags
 
     /**
      * Returns the specified attribute
-     * 
+     *
      * @param string $name
      * @return mixed
      */
@@ -85,7 +85,7 @@ class eZTags
 
     /**
      * Initializes the tags
-     * 
+     *
      * @param string $idString
      * @param string $keywordString
      * @param string $parentString
@@ -117,7 +117,7 @@ class eZTags
 
     /**
      * Fetches the tags for the given attribute
-     * 
+     *
      * @param eZContentObjectAttribute $attribute
      */
     function createFromAttribute( $attribute )
@@ -153,21 +153,26 @@ class eZTags
 
     /**
      * Stores the tags to database
-     * 
+     *
      * @param eZContentObjectAttribute $attribute
      */
     function store( $attribute )
     {
-        $db = eZDB::instance();
-
 		$attributeID = $attribute->attribute( 'id' );
 		$objectID = $attribute->attribute( 'contentobject_id' );
+
+		if(!(is_numeric($attributeID) && $attributeID > 0))
+		{
+			return;
+		}
+
+		$db = eZDB::instance();
 		$currentTime = time();
 
 		//get existing tags for object attribute
 		$existingTagIDs = array();
 		$existingTags = $db->arrayQuery( "SELECT DISTINCT keyword_id FROM eztags_attribute_link WHERE objectattribute_id = $attributeID" );
-			
+
 		if(is_array($existingTags))
 		{
 			foreach($existingTags as $t)
@@ -257,7 +262,7 @@ class eZTags
 
     /**
      * Returns all allowed locations user has access to
-     * 
+     *
      * @static
      * @param int $attributeSubTreeLimit
      * @param array $userLimitations
@@ -290,7 +295,7 @@ class eZTags
     /**
      * Checks if tag (described by its path string) can be saved
      * to one of the allowed locations
-     * 
+     *
      * @static
      * @param string $pathString
      * @param array $userLimitations
@@ -315,13 +320,13 @@ class eZTags
 				}
 			}
 		}
-		
+
 		return false;
 	}
 
     /**
      * Returns the tags ID array
-     * 
+     *
      * @return array
      */
     function idArray()
@@ -331,7 +336,7 @@ class eZTags
 
     /**
      * Returns the IDs as a string
-     * 
+     *
      * @return string
      */
     function idString()
@@ -341,7 +346,7 @@ class eZTags
 
     /**
      * Returns the keywords as a string
-     * 
+     *
      * @return string
      */
     function keywordString()
@@ -351,7 +356,7 @@ class eZTags
 
     /**
      * Returns the parent IDs as a string
-     * 
+     *
      * @return string
      */
     function parentString()
