@@ -34,7 +34,8 @@ class eZTags
      */
     function attributes()
     {
-        return array( 'id_string',
+        return array( 'tag_ids',
+                      'id_string',
                       'keyword_string',
                       'parent_string' );
     }
@@ -60,6 +61,11 @@ class eZTags
     {
         switch ( $name )
         {
+            case 'tag_ids' :
+            {
+                return $this->IDArray;
+            }break;
+
             case 'id_string' :
             {
                 return $this->idString();
