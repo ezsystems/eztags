@@ -23,6 +23,12 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 		$params = array('keyword' => array('like', $searchString . '%'));
 		if($subTreeLimit > 0)
 		{
+			$eztagsINI = eZINI::instance('eztags.ini');
+			if($eztagsINI->variable('EditObject', 'SubTreeLimitShowRootTag') == 'disabled')
+			{
+				$params['id'] = array('<>', $subTreeLimit);
+			}
+
 			$params['path_string'] = array('like', '%/' . $subTreeLimit . '/%');
 		}
 		$tags = eZTagsObject::fetchList($params);
