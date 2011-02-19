@@ -25,7 +25,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 	}
 	else if($http->hasPostVariable('SaveButton'))
 	{
-		if($lockStatus == eZTagsObject::LOCK_STATUS_HARD_LOCK)
+		if($lockStatus != eZTagsObject::LOCK_STATUS_UNLOCKED)
 		{
 			if($http->hasPostVariable('TagEditKeyword') && strlen(trim($http->postVariable( 'TagEditKeyword' ))) > 0)
 			{
