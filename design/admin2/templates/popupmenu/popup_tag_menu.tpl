@@ -56,7 +56,7 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
     	<a id="add-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add synonym"|i18n("extension/eztags/tags/edit")}</a>
     {/if}
     {if $tags_make_synonym_access}
-    	<a id="make-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Make synonym"|i18n("extension/eztags/tags/edit")}</a>
+    	<a id="make-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Convert to synonym"|i18n("extension/eztags/tags/edit")}</a>
     {/if}
 </div>
 

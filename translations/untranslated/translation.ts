@@ -113,7 +113,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Make synonym</source>
+        <source>Convert to synonym</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

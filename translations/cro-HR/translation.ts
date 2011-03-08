@@ -113,7 +113,7 @@
         <translation>Dodaj sinonim</translation>
     </message>
     <message>
-        <source>Make synonym</source>
+        <source>Convert to synonym</source>
         <translation>Pretvori u sinonim</translation>
     </message>
     <message>

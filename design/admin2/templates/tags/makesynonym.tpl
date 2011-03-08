@@ -3,7 +3,7 @@
 
 <div class="context-block tags-edit">
 	<div class="box-header">
-		<h1 class="context-title">{"Make synonym"|i18n('extension/eztags/tags/edit')}: {$tag.keyword|wash(xhtml)} [{$tag.id}]</h1>
+		<h1 class="context-title">{"Convert to synonym"|i18n('extension/eztags/tags/edit')}: {$tag.keyword|wash(xhtml)} [{$tag.id}]</h1>
 		<div class="header-mainline"></div>
 	</div>
 

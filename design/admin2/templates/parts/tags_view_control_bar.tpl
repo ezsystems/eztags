@@ -28,7 +28,7 @@
 			{/if}
 			{if fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'makesynonym'))}
 				<form name="tagmakesynonym" id="tagmakesynonym" style="float:left;" enctype="multipart/form-data" method="post" action={concat('tags/makesynonym/', $tag.id)|ezurl}>
-					<input class="button" type="submit" name="SubmitButton" value="{"Make synonym"|i18n("extension/eztags/tags/edit")}" />
+					<input class="button" type="submit" name="SubmitButton" value="{"Convert to synonym"|i18n("extension/eztags/tags/edit")}" />
 				</form>
 			{/if}
 		</div>
