@@ -47,7 +47,7 @@
     </message>
     <message>
         <source>%login_link_startLog in%login_link_end or %create_link_startcreate a user account%create_link_end to comment.</source>
-        <translation>%login_link_startConéctate%login_link_end o %create_link_startcrea una cuenta de usuario%create_link_end para comentar.</translation>
+        <translation>%login_link_startConéctate%login_link_end o %create_link_start crea una cuenta%create_link_end para comentar.</translation>
     </message>
     <message>
         <source>Tip a friend</source>
@@ -55,10 +55,35 @@
     </message>
 </context>
 <context>
+    <name>design/standard/class/datatype</name>
+    <message>
+        <source>Limit by tags subtree</source>
+        <translation>Límite por subárbol de tags</translation>
+    </message>
+    <message>
+        <source>Select subtree</source>
+        <translation>Seleccionar subarbol</translation>
+    </message>
+    <message>
+        <source>Show dropdown instead of autocomplete</source>
+        <translation>Mostrar combo en vez de la opción de autocompletado</translation>
+    </message>
+    <message>
+        <source>No limit</source>
+        <translation>Sin límite</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Sí</translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/datatypes</name>
     <message>
-        <location filename="eztagstype.php" line="17"/>
-        <location filename="eztagstype.php" line="0"/>
         <source>Tags</source>
         <translation>Tags</translation>
     </message>
@@ -80,7 +105,7 @@
     </message>
     <message>
         <source>There are no tags to suggest</source>
-        <translation>No hay tags sugeridos</translation>
+        <translation>No hay tags para sugerir</translation>
     </message>
     <message>
         <source>Add new</source>
@@ -88,23 +113,88 @@
     </message>
 </context>
 <context>
+    <name>extension/eztags/parts</name>
+    <message>
+        <source>Any editing of this tag is disabled because the tag or its parents are used in one or more content class attributes as subtree limitation parameter.</source>
+        <translation>No se puede editar este tag debido a que el tag o alguno de sus padres están sisendo usados en uno o más atributos de clase como parámetro de limitación por subárbol.</translation>
+    </message>
+    <message>
+        <source>Go back</source>
+        <translation>Volver</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/tags/dashboard</name>
+    <message>
+        <source>Latest tags</source>
+        <translation>Últimos tags</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Nombre de tag</translation>
+    </message>
+    <message>
+        <source>Parent tag name</source>
+        <translation>Nombre del tag padre</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation>Modificado</translation>
+    </message>
+    <message>
+        <source>No parent</source>
+        <translation>Sin padre</translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/tags/edit</name>
     <message>
-        <location filename="eztagstemplatefunctions.php" line="78"/>
         <source>no parent</source>
         <translation>sin padre</translation>
     </message>
     <message>
+        <source>Edit synonym</source>
+        <translation>Editar sinónimo</translation>
+    </message>
+    <message>
+        <source>Delete synonym</source>
+        <translation>Borrar sinónimo</translation>
+    </message>
+    <message>
         <source>Add child tag</source>
-        <translation>Añadir tag hija</translation>
+        <translation>Añadir tag hijo</translation>
     </message>
     <message>
         <source>Edit tag</source>
         <translation>Editar tag</translation>
     </message>
     <message>
+        <source>Delete tag</source>
+        <translation>Eliminar tag</translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Mezclar tag</translation>
+    </message>
+    <message>
+        <source>Add synonym</source>
+        <translation>Añadir sinónimo</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>Convertir en sinónimo</translation>
+    </message>
+    <message>
+        <source>New tag</source>
+        <translation>Nuevo tag</translation>
+    </message>
+    <message>
         <source>Tag name</source>
-        <translation>Nombre del tag</translation>
+        <translation>Nombre de tag</translation>
     </message>
     <message>
         <source>Parent tag</source>
@@ -124,15 +214,47 @@
     </message>
     <message>
         <source>Are you sure you want to discard changes?</source>
-        <translation>¿Seguro que quieres descartar los cambios?</translation>
+        <translation>¿Estás seguro de que quieres descartar los cambios?</translation>
     </message>
     <message>
-        <source>Select parent element in tag tree</source>
-        <translation>Seleccionar el elemento padre en el árbol de tags</translation>
+        <source>New synonym tag</source>
+        <translation>Nuevo tag sinónimo</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags will also be deleted and removed from existing objects.</source>
-        <translation>¿Seguro que quieres borrar el tag &quot;%keyword&quot;? Todos los tags hijos serán también eliminados de los objetos existentes.</translation>
+        <source>Main tag ID</source>
+        <translation>Id del tag principal</translation>
+    </message>
+    <message>
+        <source>Main tag name</source>
+        <translation>Nombre del tag principal</translation>
+    </message>
+    <message>
+        <source>Synonym name</source>
+        <translation>Nombre de sinónimo</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation>¿Estás seguro de qeu que quieres eliminar el tag &quot;%keyword&quot;? Todos los tags hijos y sinónimos serán también eliminados de los objetos existentes.</translation>
+    </message>
+    <message>
+        <source>The tag you&apos;re about to delete has</source>
+        <translation>El tag que estás a punto de borrar tiene</translation>
+    </message>
+    <message>
+        <source>number of first level children tags</source>
+        <translation>número de tags hijos de primer nivel</translation>
+    </message>
+    <message>
+        <source>number of objects related to first level children tags</source>
+        <translation>número de objetos relacionados con los tags hijos de primer nivel</translation>
+    </message>
+    <message>
+        <source>number of synonyms</source>
+        <translation>número de sinónimos</translation>
+    </message>
+    <message>
+        <source>number of objects related to synonyms</source>
+        <translation>número de objetos relacionados con sinónimos</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -143,14 +265,67 @@
         <translation>No</translation>
     </message>
     <message>
-        <location filename="delete.php" line="57"/>
-        <source>Delete tag</source>
-        <translation>Eliminar tag</translation>
+        <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>
+        <translation>¿Seguro que quieres eliminar el sinónimo &quot;%keyword&quot;?</translation>
     </message>
     <message>
-        <location filename="add.php" line="87"/>
-        <source>New tag</source>
-        <translation>Nuevo tag</translation>
+        <source>Transfer all related objects to the main tag</source>
+        <translation>Transferir todos los objetos relacionados al tag principal</translation>
+    </message>
+    <message>
+        <source>Main tag</source>
+        <translation>Tag principal</translation>
+    </message>
+    <message>
+        <source>Select main tag</source>
+        <translation>Seleccionar tag principal</translation>
+    </message>
+    <message>
+        <source>Merging this tag with another tag will delete the tag and it&apos;s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
+        <translation>Mezclar este tag con otro resultará en la eliminación del tag y de sus sinónimos y en la transferencia de todos los objetos relacionads al tag principal Además, todos los tags hijos pasarán a ser hijos del tag principal.</translation>
+    </message>
+    <message>
+        <source>The tag you&apos;re about to merge has</source>
+        <translation>El tag que estás a punto de mezclar tiene</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/tags/search</name>
+    <message>
+        <source>Tags search</source>
+        <translation>Buscar tags</translation>
+    </message>
+    <message>
+        <source>Search tags</source>
+        <translation>Buscar tags</translation>
+    </message>
+    <message>
+        <source>Include synonyms in search</source>
+        <translation>Incluir sinónimos en la búsqueda</translation>
+    </message>
+    <message>
+        <source>Empty search not allowed. Please enter your search query above.</source>
+        <translation>No se permiten búsquedas vacías. Por favor, introduce la cadena de búsqueda.</translation>
+    </message>
+    <message>
+        <source>No tags were found while searching for &quot;%1&quot;.</source>
+        <translation>No se encontraon tags al buscar por &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <source>Search for &quot;%1&quot; returned %2 matches.</source>
+        <translation>La búsqueda de &quot;%1&quot; devolvió %2 coincidencias.</translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Nombre de tag</translation>
+    </message>
+    <message>
+        <source>Parent tag</source>
+        <translation>Tag padre</translation>
+    </message>
+    <message>
+        <source>Main tag name</source>
+        <translation>Nombre del tag principal</translation>
     </message>
 </context>
 <context>
@@ -161,11 +336,11 @@
     </message>
     <message>
         <source>Tag ID</source>
-        <translation>Id del tag</translation>
+        <translation>ID de Tag</translation>
     </message>
     <message>
         <source>Parent tag ID</source>
-        <translation>Id del tag padre</translation>
+        <translation>ID del tag padre</translation>
     </message>
     <message>
         <source>Dynamic tree not allowed for this siteaccess</source>
@@ -184,36 +359,84 @@
         <translation>Tags del nivel superior</translation>
     </message>
     <message>
-        <source>Adding new tag - Select parent element in tag tree</source>
-        <translation>Añadiendo nuevo tag - Seleccionar elemento padre en el árbol de tags</translation>
+        <source>Select tag</source>
+        <translation>Escoger tag</translation>
     </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>
     <message>
-        <source>Tag</source>
-        <translation>Tag</translation>
+        <source>Tags Dashboard</source>
+        <translation>Escritorio de tags</translation>
     </message>
     <message>
         <source>Latest content</source>
         <translation>Último contenido</translation>
     </message>
     <message>
-        <source>Related tags</source>
-        <translation>Tags relacionados</translation>
+        <source>ID</source>
+        <translation>ID</translation>
     </message>
     <message>
-        <location filename="dashboard.php" line="12"/>
-        <source>Tags Dashboard</source>
-        <translation>Escritorio de tags</translation>
+        <source>Name</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <source>Modified</source>
+        <translation>Modificado</translation>
+    </message>
+    <message>
+        <source>No content</source>
+        <translation>Sin contenido</translation>
+    </message>
+    <message>
+        <source>Subtree limitations</source>
+        <translation>Limitaciones de subárbol</translation>
+    </message>
+    <message>
+        <source>Class ID</source>
+        <translation>ID de clase</translation>
+    </message>
+    <message>
+        <source>Class name</source>
+        <translation>Nombre de clase</translation>
+    </message>
+    <message>
+        <source>Attribute identifier</source>
+        <translation>Identificador de atributo</translation>
+    </message>
+    <message>
+        <source>No subtree limitations</source>
+        <translation>Sin limitaciones de subárbol</translation>
+    </message>
+    <message>
+        <source>Synonyms</source>
+        <translation>Sinónimos</translation>
+    </message>
+    <message>
+        <source>No synonyms</source>
+        <translation>Sin sinónimos</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Tag</translation>
+    </message>
+    <message>
+        <source>Synonym</source>
+        <translation>Sinónimo</translation>
+    </message>
+    <message>
+        <source>Main tag</source>
+        <translation>Tag principal</translation>
+    </message>
+    <message>
+        <source>Related tags</source>
+        <translation>Tags relacionados</translation>
     </message>
 </context>
 <context>
     <name>kernel/classes/datatypes</name>
     <message>
-        <location filename="eztagstype.php" line="70"/>
-        <location filename="eztagstype.php" line="78"/>
-        <location filename="eztagstype.php" line="85"/>
         <source>Input required.</source>
         <translation>Entrada obligatoria.</translation>
     </message>
