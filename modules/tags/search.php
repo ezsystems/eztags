@@ -38,7 +38,7 @@ if(strlen($tagsSearchText) > 0)
 		$params['main_tag_id'] = 0;
 	}
 
-	$limits = array('offset' => $offset);
+	$limits = array('offset' => $offset, 'limit' => $limit);
 
 	$tagsSearchCount = eZTagsObject::fetchListCount($params);
 	$tagsSearchResults = eZTagsObject::fetchList($params, $limits);
