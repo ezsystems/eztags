@@ -485,7 +485,7 @@ class eZTagsObject extends eZPersistentObject
 	
 		foreach($children as $child)
 		{
-			recursiveTagDelete($child);
+			eZTagsObject::recursiveTagDelete($child);
 		}
 	
 		foreach($rootTag->getTagAttributeLinks() as $tagAttributeLink)
