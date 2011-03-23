@@ -84,9 +84,9 @@ class eZTagsType extends eZDataType
 			}
 			else
 			{
-				$dataArray = explode(', ', $data);
-				$data2Array = explode(', ', $data2);
-				$data3Array = explode(', ', $data3);
+				$dataArray = explode('|#', $data);
+				$data2Array = explode('|#', $data2);
+				$data3Array = explode('|#', $data3);
 				if(count($data2Array) != count($dataArray) || count($data3Array) != count($dataArray))
 				{
 					$contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );

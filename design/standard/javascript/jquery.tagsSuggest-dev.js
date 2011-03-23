@@ -42,9 +42,9 @@
 			if (names.val() && parent_ids.val() && tids.val())
 			{
 				tags_listed.parent('div.tags-list').removeClass('no-results');
-				var tag_names_array = names.val().split(',');
-				var tag_parent_ids_array = parent_ids.val().split(',');
-				var tag_ids_array = tids.val().split(',');
+				var tag_names_array = names.val().split('|#');
+				var tag_parent_ids_array = parent_ids.val().split('|#');
+				var tag_ids_array = tids.val().split('|#');
 				$.each(tag_names_array, function(index, value) {
 					addTagToList({'tag_name': value.replace(/^\s+|\s+$/g, ''), 'tag_parent_id': tag_parent_ids_array[index].replace(/^\s+|\s+$/g, ''), 'tag_id': tag_ids_array[index].replace(/^\s+|\s+$/g, '')}, tags_listed, removeTagFromList, '&times;');
 				});
@@ -83,9 +83,9 @@
 				var tag_tag_ids = '';
 				tags_listed.find('li').each(function(i)
 					{
-						tag_names += (tag_names == '' ? '' : ', ') + $(this).data('tag').tag_name;
-						tag_parent_ids += (tag_parent_ids == '' ? '' : ', ') + $(this).data('tag').tag_parent_id;
-						tag_tag_ids += (tag_tag_ids == '' ? '' : ', ') + $(this).data('tag').tag_id;
+						tag_names += (tag_names == '' ? '' : '|#') + $(this).data('tag').tag_name;
+						tag_parent_ids += (tag_parent_ids == '' ? '' : '|#') + $(this).data('tag').tag_parent_id;
+						tag_tag_ids += (tag_tag_ids == '' ? '' : '|#') + $(this).data('tag').tag_id;
 					});
 				names.val(tag_names);
 				parent_ids.val(tag_parent_ids);

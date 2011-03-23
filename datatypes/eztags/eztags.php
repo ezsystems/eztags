@@ -98,20 +98,20 @@ class eZTags
      */
     function createFromStrings( $idString, $keywordString, $parentString )
     {
-    	$idArray = explode( ', ', $idString );
-        $keywordArray = explode( ', ', $keywordString );
-        $parentArray = explode( ', ', $parentString );
+    	$idArray = explode( '|#', $idString );
+        $keywordArray = explode( '|#', $keywordString );
+        $parentArray = explode( '|#', $parentString );
 
         $wordArray = array();
         foreach ( array_keys( $idArray ) as $key )
         {
-            $wordArray[] = trim( $idArray[$key] ) . "," . trim( $keywordArray[$key] ) . "," . trim($parentArray[$key]);
+            $wordArray[] = trim( $idArray[$key] ) . "|#" . trim( $keywordArray[$key] ) . "|#" . trim($parentArray[$key]);
         }
 
         $wordArray = array_unique( $wordArray );
         foreach ( $wordArray as $wordKey )
         {
-            $word = explode( ',', $wordKey );
+            $word = explode( '|#', $wordKey );
             if ($word[0] != '')
             {
             	$this->IDArray[] = (int) $word[0];
@@ -141,13 +141,13 @@ class eZTags
         $wordArray = array();
         foreach ( $words as $w )
         {
-            $wordArray[] = trim($w['id']) . "," . trim($w['keyword']) . "," . trim($w['parent_id']);
+            $wordArray[] = trim($w['id']) . "|#" . trim($w['keyword']) . "|#" . trim($w['parent_id']);
         }
 
         $wordArray = array_unique( $wordArray );
         foreach ( $wordArray as $wordKey )
         {
-            $word = explode( ',', $wordKey );
+            $word = explode( '|#', $wordKey );
             if ($word[0] != '')
             {
             	$this->IDArray[] = (int) $word[0];
@@ -347,7 +347,7 @@ class eZTags
      */
     function idString()
     {
-        return implode( ', ', $this->IDArray );
+        return implode( '|#', $this->IDArray );
     }
 
     /**
@@ -357,7 +357,7 @@ class eZTags
      */
     function keywordString()
     {
-        return implode( ', ', $this->KeywordArray );
+        return implode( '|#', $this->KeywordArray );
     }
 
     /**
@@ -367,7 +367,7 @@ class eZTags
      */
     function parentString()
     {
-        return implode( ', ', $this->ParentArray );
+        return implode( '|#', $this->ParentArray );
     }
 }
 
