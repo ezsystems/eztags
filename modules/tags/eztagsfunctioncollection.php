@@ -20,7 +20,7 @@ class eZTagsFunctionCollection
 		if($result instanceof eZTagsObject)
 			return array( 'result' => $result );
 		else
-			return array( 'result' => null );
+			return array( 'result' => false );
 	}
 
     /**
@@ -37,7 +37,7 @@ class eZTagsFunctionCollection
 		if(is_array($result) && count($result) > 0)
 			return array( 'result' => $result[0] );
 		else
-			return array( 'result' => null );
+			return array( 'result' => false );
 	}
 }
 
