@@ -124,7 +124,7 @@ class eZTagsCloud
                 $languageFilter = 'AND ' . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
                 $languageFilter .= 'AND ' . eZContentLanguage::languagesSQLFilter( 'ezcontentobject_attribute', 'language_id' );
 
-                $rs = $db->arrayQuery( "SELECT eztags.keyword, count(eztags.keyword) AS keyword_count
+                $rs = $db->arrayQuery( "SELECT eztags.id, eztags.keyword, count(eztags.keyword) AS keyword_count
                                         FROM eztags $sqlPermissionChecking[from], eztags_attribute_link
                                         LEFT JOIN ezcontentobject_attribute
                                             ON eztags_attribute_link.objectattribute_id = ezcontentobject_attribute.id
@@ -147,7 +147,7 @@ class eZTagsCloud
 
                 foreach( $rs as $row )
                 {
-                    $tags[$row['keyword']] = $row['keyword_count'];
+                    $tags[$row['id']] = $row['keyword_count'];
                 }
 
                 // To be able to combine count sorting with keyword sorting
@@ -187,12 +187,12 @@ class eZTagsCloud
                     $size = $minFontSize + ( ( $value - $minCount ) * $step );
                     $tagCloud[] = array( 'font_size' => $size,
                                          'count' => $value,
-                                         'tag' => $key );
+                                         'id' => $key );
                 }
 
                 $tpl = eZTemplate::factory();
                 $tpl->setVariable( 'tag_cloud', $tagCloud );
-                $operatorValue = $tpl->fetch( 'design:tagcloud/tagcloud.tpl' );
+                $operatorValue = $tpl->fetch( 'design:tagcloud.tpl' );
             } break;
         }
     }
