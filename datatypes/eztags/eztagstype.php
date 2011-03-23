@@ -318,7 +318,7 @@ class eZTagsType extends eZDataType
         $eztags = new eZTags();
         $eztags->createFromAttribute( $contentObjectAttribute  );
 
-        return $eztags->keywordString();
+        return $eztags->idString() . '|#' . $eztags->keywordString() . '|#' . $eztags->parentString();
     }
 
     /**
