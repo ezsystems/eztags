@@ -323,6 +323,9 @@ class eZTagsType extends eZDataType
 
     /**
      * Creates the content object attribute content from the input string
+     * Valid string value is list of ids, followed by list of keywords,
+     * followed by list of parent ids, all together separated by '|#'
+     * for example "1|#2|#3|#first tag|#second tag|#third tag|#12|#13|#14"
      * 
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @param string $string
@@ -330,7 +333,29 @@ class eZTagsType extends eZDataType
      */
     function fromString( $contentObjectAttribute, $string )
     {
-        return true;
+        if ( trim( $string ) != '' )
+        {
+            $itemsArray = explode( '|#', trim( $string ) );
+            if ( is_array( $itemsArray ) && !empty( $itemsArray ) && count( $itemsArray ) % 3 == 0 )
+            {
+            	$tagsCount = count( $itemsArray ) / 3;
+                $idArray = array_slice( $itemsArray, 0, $tagsCount );
+                $keywordArray = array_slice( $itemsArray, $tagsCount, $tagsCount );
+                $parentArray = array_slice( $itemsArray, $tagsCount * 2, $tagsCount );
+
+                $idString = implode( '|#', $idArray );
+                $keywordString = implode( '|#', $keywordArray );
+                $parentString = implode( '|#', $parentArray );
+
+                $eztags = new eZTags();
+                $eztags->createFromStrings( $idString, $keywordString, $parentString );
+                $contentObjectAttribute->setContent( $eztags );
+                
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
