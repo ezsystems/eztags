@@ -338,7 +338,7 @@ class eZTagsType extends eZDataType
             $itemsArray = explode( '|#', trim( $string ) );
             if ( is_array( $itemsArray ) && !empty( $itemsArray ) && count( $itemsArray ) % 3 == 0 )
             {
-            	$tagsCount = count( $itemsArray ) / 3;
+                $tagsCount = count( $itemsArray ) / 3;
                 $idArray = array_slice( $itemsArray, 0, $tagsCount );
                 $keywordArray = array_slice( $itemsArray, $tagsCount, $tagsCount );
                 $parentArray = array_slice( $itemsArray, $tagsCount * 2, $tagsCount );
