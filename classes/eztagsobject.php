@@ -61,7 +61,8 @@ class eZTagsObject extends eZPersistentObject
                                                       'main_tag' => 'getMainTag',
                                                       'synonyms' => 'getSynonyms',
                                                       'synonyms_count' => 'getSynonymsCount',
-                                                      'icon' => 'getIcon' ),
+                                                      'icon' => 'getIcon',
+                                                      'url' => 'getUrl' ),
                       'keys' => array( 'id' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZTagsObject',
@@ -329,6 +330,25 @@ class eZTagsObject extends eZPersistentObject
 		}
 
 		return $defaultIcon;
+	}
+
+    /**
+     * Returns the URL of the tag, to be used in tags/view
+     * 
+     * @return string
+     */
+	function getUrl()
+	{
+		$url = urlencode($this->Keyword);
+		$tag = $this;
+
+		while($tag->ParentID > 0)
+		{
+			$tag = $tag->getParent();
+			$url = urlencode($tag->Keyword) . '/' . $url;
+		}
+
+		return $url;
 	}
 
     /**
