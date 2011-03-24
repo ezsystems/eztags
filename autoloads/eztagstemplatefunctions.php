@@ -97,16 +97,18 @@ class eZTagsTemplateFunctions
         }
 
         $tag = eZTagsObject::fetch($tag_id);
+        $synonymsCount = $tag->getSynonymsCount();
 
         $keywordsArray = array();
 
         while($tag->hasParent())
         {
-            $keywordsArray[] = $tag->Keyword;
+            $keywordsArray[] = ($synonymsCount > 0) ? $tag->Keyword . ' (+' . $synonymsCount . ')' : $tag->Keyword;
             $tag = $tag->getParent();
+            $synonymsCount = $tag->getSynonymsCount();
         }
 
-        $keywordsArray[] = $tag->Keyword;
+        $keywordsArray[] = ($synonymsCount > 0) ? $tag->Keyword . ' (+' . $synonymsCount . ')' : $tag->Keyword;
 
         return implode(' / ', array_reverse($keywordsArray));
     }
