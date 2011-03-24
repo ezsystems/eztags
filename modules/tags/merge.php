@@ -44,22 +44,7 @@ if ( is_numeric($tagID) && $tagID > 0 )
 				$oldParentTag->store();
 			}
 
-			$children = $tag->getChildren();
-			foreach($children as $child)
-			{
-				$childSynonyms = $child->getSynonyms();
-				foreach($childSynonyms as $childSynonym)
-				{
-					$childSynonym->ParentID = $mainTag->ID;
-					$childSynonym->Modified = $currentTime;
-					$childSynonym->store();
-				}
-
-				$child->ParentID = $mainTag->ID;
-				$child->Modified = $currentTime;
-				$child->store();
-				$child->updatePathString($mainTag);
-			}
+			eZTagsObject::moveChildren($tag, $mainTag, $currentTime);
 
 			$synonyms = $tag->getSynonyms();
 			foreach($synonyms as $synonym)
@@ -93,10 +78,10 @@ if ( is_numeric($tagID) && $tagID > 0 )
 				}
 			}
 
+			$tag->remove();
+
 			$mainTag->Modified = $currentTime;
 			$mainTag->store();
-
-			$tag->remove();
 
 			$db->commit();
 

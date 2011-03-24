@@ -506,6 +506,26 @@ class eZTagsObject extends eZPersistentObject
 
 		$rootTag->remove();
 	}
+
+	static function moveChildren($tag, $targetTag, $currentTime)
+	{
+		$children = $tag->getChildren();
+		foreach($children as $child)
+		{
+			$childSynonyms = $child->getSynonyms();
+			foreach($childSynonyms as $childSynonym)
+			{
+				$childSynonym->ParentID = $targetTag->ID;
+				$childSynonym->Modified = $currentTime;
+				$childSynonym->store();
+			}
+
+			$child->ParentID = $targetTag->ID;
+			$child->Modified = $currentTime;
+			$child->store();
+			$child->updatePathString($targetTag);
+		}
+	}
 }
 
 ?>

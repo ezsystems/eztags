@@ -33,8 +33,8 @@ if ( is_numeric($tagID) && $tagID > 0 )
 		{
 			$currentTime = time();
 			$mainTag = eZTagsObject::fetch((int) $http->postVariable('MainTagID'));
-			$newParentTag = $mainTag->getParent();
 			$oldParentTag = $tag->getParent();
+			$newParentTag = $mainTag->getParent();
 
 			$db = eZDB::instance();
 			$db->begin();
@@ -51,6 +51,8 @@ if ( is_numeric($tagID) && $tagID > 0 )
 				$newParentTag->store();
 			}
 
+			eZTagsObject::moveChildren($tag, $mainTag, $currentTime);
+
 			$synonyms = $tag->getSynonyms();
 			foreach($synonyms as $synonym)
 			{
@@ -65,6 +67,9 @@ if ( is_numeric($tagID) && $tagID > 0 )
 			$tag->Modified = $currentTime;
 			$tag->store();
 			$tag->updatePathString(($newParentTag instanceof eZTagsObject) ? $newParentTag : false);
+
+			$mainTag->Modified = $currentTime;
+			$mainTag->store();
 
 			$db->commit();
 
