@@ -505,6 +505,14 @@ class eZTagsObject extends eZPersistentObject
 		$rootTag->remove();
 	}
 
+    /**
+     * Moves all children tags of the provided tag to the new location
+     * 
+     * @static
+     * @param eZTagsObject $tag
+     * @param eZTagsObject $targetTag
+     * @param integer $currentTime
+     */
 	static function moveChildren($tag, $targetTag, $currentTime)
 	{
 		$children = $tag->getChildren();
