@@ -456,16 +456,23 @@ class eZTagsObject extends eZPersistentObject
 	}
 
     /**
-     * Returns if tag with provided keyword and parent ID already exists
+     * Returns if tag with provided keyword and parent ID already exists, not counting tag with provided tag ID
      * 
      * @static
      * @param string $keyword
      * @param integer $parentID
      * @return bool
      */	
-	static function exists($keyword, $parentID)
+	static function exists($tagID, $keyword, $parentID)
 	{
-		$count = eZTagsObject::fetchListCount(array('keyword' => array('like', trim($keyword)), 'parent_id' => $parentID));
+		$params = array('keyword' => array('like', trim($keyword)), 'parent_id' => $parentID);
+
+		if($tagID > 0)
+		{
+			$params['id'] = array('!=', $tagID);
+		}
+
+		$count = eZTagsObject::fetchListCount($params);
 		if($count > 0)
 			return true;
 		return false;

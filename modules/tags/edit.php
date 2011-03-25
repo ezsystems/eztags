@@ -49,7 +49,7 @@ if($http->hasPostVariable('SaveButton'))
 	$newParentID = ($newParentTag instanceof eZTagsObject) ? $newParentTag->ID : 0;
 
 	$newKeyword = trim($http->postVariable( 'TagEditKeyword' ));
-	if(empty($error) && eZTagsObject::exists($newKeyword, $newParentID))
+	if(empty($error) && eZTagsObject::exists($tag->ID, $newKeyword, $newParentID))
 	{
 		$error = ezpI18n::tr('extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.');
 	}
