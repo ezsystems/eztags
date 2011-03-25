@@ -10,11 +10,23 @@
 		<div class="header-mainline"></div>
 	</div>
 
-	<div class="box-content">
-		{if $tag.lock_status|eq(0)}
+	{if $error|count}
+		<div class="message-error">
+			<h2>{$error|wash}</h2>
+		</div>
+	{/if}
+
+	{if $warning|count}
+		<div class="message-warning">
+			<h2>{$warning|wash}</h2>
+		</div>
+	{/if}
+
+	{if $merge_allowed}
+		<div class="box-content">
 			<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/merge/', $tag.id)|ezurl}>
 				<p>{'Merging this tag with another tag will delete the tag and it\'s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.'|i18n('extension/eztags/tags/edit')}</p>
-	
+
 				<p>{'The tag you\'re about to merge has'|i18n( 'extension/eztags/tags/edit' )}:</p>
 				<ul>
 					<li>{'number of first level children tags'|i18n( 'extension/eztags/tags/edit' )}: {$tag.children_count}</li>
@@ -24,7 +36,7 @@
 					{foreach $tag.synonyms as $synonym}{set $synonym_object_count = $synonym_object_count|sum($synonym.related_objects|count)}{/foreach}
 					<li>{'number of objects related to synonyms'|i18n( 'extension/eztags/tags/edit' )}: {$synonym_object_count}</li>
 				</ul>
-	
+
 				<div class="block tag-edit-parent">
 					<label>{'Main tag'|i18n( 'extension/eztags/tags/edit' )}</label>
 					<input id="eztags_parent_id_0" type="hidden" name="MainTagID" value="0" />
@@ -32,7 +44,7 @@
 					<span id="eztags_parent_keyword_0">{eztags_parent_string(0)|wash(xhtml)}</span>
 					<input class="button" type="button" name="SelectParentButton" id="eztags-parent-selector-button-0" value="{'Select main tag'|i18n( 'extension/eztags/tags/edit' )}" />
 				</div>
-	
+
 				<div class="controlbar">
 					<div class="block">
 						<input class="defaultbutton" type="submit" name="SaveButton" value="{'Save'|i18n( 'extension/eztags/tags/edit' )}" />
@@ -41,13 +53,17 @@
 					</div>
 				</div>
 			</form>
-		{else}
-			{include uri='design:parts/tag_hard_locked.tpl' tag_id=$tag.id}
-		{/if}
-	</div>
+		</div>
+	{else}
+		<div class="controlbar">
+			<div class="block">
+				<input class="button" type="button" onclick="javascript:history.back();" value="{'Go back'|i18n( 'extension/eztags/errors' )}" />
+			</div>
+		</div>
+	{/if}
 </div>
 
-{if $tag.lock_status|eq(0)}
+{if $merge_allowed}
 	{include uri='design:ezjsctemplate/modal_dialog.tpl'}
 
 	{literal}
@@ -57,7 +73,7 @@
 	{
 	    // Disable/bypass the reload-based (plain HTML) confirmation interface.
 	    document.tageditform.DiscardConfirm.value = "0";
-	
+
 	    // Ask user if she really wants do it, return this to the handler.
 	    return confirm( question );
 	}

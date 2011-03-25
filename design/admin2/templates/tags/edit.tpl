@@ -7,6 +7,18 @@
 		<div class="header-mainline"></div>
 	</div>
 
+	{if $error|count}
+		<div class="message-error">
+			<h2>{$error|wash}</h2>
+		</div>
+	{/if}
+
+	{if $warning|count}
+		<div class="message-warning">
+			<h2>{$warning|wash}</h2>
+		</div>
+	{/if}
+
 	<div class="box-content">
 		<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/edit/', $tag.id)|ezurl}>
 			<div class="block tag-edit-keyword">
@@ -14,15 +26,13 @@
 				<input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{$tag.keyword|wash(xhtml)}" />
 			</div>
 
-			{if $tag.lock_status|eq(0)}
-				<div class="block tag-edit-parent">
-					<label>{'Parent tag'|i18n( 'extension/eztags/tags/edit' )}</label>
-					<input id="eztags_parent_id_0" type="hidden" name="TagEditParentID" value="{$tag.parent_id}" />
-					<input id="hide_tag_id_0" type="hidden" name="TagHideID" value="{$tag.id}" />
-					<span id="eztags_parent_keyword_0">{eztags_parent_string($tag.parent_id)|wash(xhtml)}</span>
-					<input class="button" type="button" name="SelectParentButton" id="eztags-parent-selector-button-0" value="{'Select parent'|i18n( 'extension/eztags/tags/edit' )}" />
-				</div>
-			{/if}
+			<div class="block tag-edit-parent">
+				<label>{'Parent tag'|i18n( 'extension/eztags/tags/edit' )}</label>
+				<input id="eztags_parent_id_0" type="hidden" name="TagEditParentID" value="{$tag.parent_id}" />
+				<input id="hide_tag_id_0" type="hidden" name="TagHideID" value="{$tag.id}" />
+				<span id="eztags_parent_keyword_0">{eztags_parent_string($tag.parent_id)|wash(xhtml)}</span>
+				<input class="button" type="button" name="SelectParentButton" id="eztags-parent-selector-button-0" value="{'Select parent'|i18n( 'extension/eztags/tags/edit' )}" />
+			</div>
 
 			<div class="controlbar">
 				<div class="block">
@@ -35,9 +45,7 @@
 	</div>
 </div>
 
-{if $tag.lock_status|eq(0)}
-	{include uri='design:ezjsctemplate/modal_dialog.tpl'}
-{/if}
+{include uri='design:ezjsctemplate/modal_dialog.tpl'}
 
 {literal}
 <script language="JavaScript" type="text/javascript">

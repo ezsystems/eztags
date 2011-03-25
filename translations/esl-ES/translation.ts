@@ -113,14 +113,29 @@
     </message>
 </context>
 <context>
-    <name>extension/eztags/parts</name>
+	<name>extension/eztags/errors</name>
     <message>
-        <source>Any editing of this tag is disabled because the tag or its parents are used in one or more content class attributes as subtree limitation parameter.</source>
-        <translation>No se puede editar este tag debido a que el tag o alguno de sus padres están sisendo usados en uno o más atributos de clase como parámetro de limitación por subárbol.</translation>
+        <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selected target tag is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name cannot be empty.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Go back</source>
         <translation>Volver</translation>
+    </message>
+</context>
+<context>
+	<name>extension/eztags/warnings</name>
+    <message>
+        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

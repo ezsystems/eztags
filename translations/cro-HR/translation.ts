@@ -29,14 +29,29 @@
     </message>
 </context>
 <context>
-	<name>extension/eztags/parts</name>
+	<name>extension/eztags/errors</name>
     <message>
-        <source>Any editing of this tag is disabled because the tag or its parents are used in one or more content class attributes as subtree limitation parameter.</source>
-        <translation>Bilo kakvo uređivanje ove oznake je onemogućeno jer se oznaka ili njezini roditelji koriste u jednom ili više atributa klase kao parametar za ograničenje po podstablu.</translation>
+        <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
+        <translation>Oznaku nije moguće uređivati jer se koristi kao ograničenje po podstablu u jednom ili više atributa klase.</translation>
+    </message>
+    <message>
+        <source>Selected target tag is invalid.</source>
+        <translation>Odabrana odredišna oznaka je neispravna.</translation>
+    </message>
+    <message>
+        <source>Name cannot be empty.</source>
+        <translation>Ime ne može biti prazno.</translation>
     </message>
     <message>
         <source>Go back</source>
         <translation>Vrati se nazad</translation>
+    </message>
+</context>
+<context>
+	<name>extension/eztags/warnings</name>
+    <message>
+        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
+        <translation>PAŽNJA: Oznaka je unutar ograničenja po podstablu. Micanje oznake van tih ograničenja može dovesti do nekonzistentnosti jer bi objekti imali oznake koje ne bi trebali imati.</translation>
     </message>
 </context>
 <context>

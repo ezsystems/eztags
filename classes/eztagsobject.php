@@ -7,10 +7,6 @@
  */
 class eZTagsObject extends eZPersistentObject
 {
-	const LOCK_STATUS_UNLOCKED = 0;
-	const LOCK_STATUS_HARD_LOCK = 1;
-	const LOCK_STATUS_SOFT_LOCK = 2;
-
     /**
      * Constructor
      * 
@@ -57,7 +53,6 @@ class eZTagsObject extends eZPersistentObject
                                                       'related_objects' => 'getRelatedObjects',
                                                       'subtree_limitations' => 'getSubTreeLimitations',
                                                       'subtree_limitations_count' => 'getSubTreeLimitationsCount',
-                                                      'lock_status' => 'getLockStatus',
                                                       'main_tag' => 'getMainTag',
                                                       'synonyms' => 'getSynonyms',
                                                       'synonyms_count' => 'getSynonymsCount',
@@ -223,36 +218,23 @@ class eZTagsObject extends eZPersistentObject
 	}
 
     /**
-     * Returns the lock status of current tag
-     * - unlocked - no subtree limitations
-     * - hard lock - tag is used as subtree limitation
-     * - soft lock - parent tag is used as subtree limitation
+     * Checks if any of the parents have subtree limits defined
      * 
-     * @return integer
+     * @return bool
      */
-	function getLockStatus()
+	function isInsideSubTreeLimit()
 	{
-		$retValue = self::LOCK_STATUS_UNLOCKED;
-
-		if($this->getSubTreeLimitationsCount() > 0)
+		$tag = $this;
+		while($tag->hasParent())
 		{
-			$retValue = self::LOCK_STATUS_HARD_LOCK;
-		}
-		else
-		{
-			$tag = $this;
-			while($tag->hasParent())
+			$tag = $tag->getParent();
+			if($tag->getSubTreeLimitationsCount() > 0)
 			{
-				$tag = $tag->getParent();
-				if($tag->getSubTreeLimitationsCount() > 0)
-				{
-					$retValue = self::LOCK_STATUS_SOFT_LOCK;
-					break;
-				}
+				return true;
 			}
 		}
 
-		return $retValue;
+		return false;
 	}
 
     /**

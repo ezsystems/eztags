@@ -7,6 +7,12 @@
 		<div class="header-mainline"></div>
 	</div>
 
+	{if $error|count}
+		<div class="message-error">
+			<h2>{$error|wash}</h2>
+		</div>
+	{/if}
+
 	<div class="box-content">
 		<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/addsynonym/', $main_tag.id)|ezurl}>
 			<div class="block tag-edit-keyword">

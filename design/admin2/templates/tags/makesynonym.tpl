@@ -7,8 +7,20 @@
 		<div class="header-mainline"></div>
 	</div>
 
-	<div class="box-content">
-		{if $tag.lock_status|eq(0)}
+	{if $error|count}
+		<div class="message-error">
+			<h2>{$error|wash}</h2>
+		</div>
+	{/if}
+
+	{if $warning|count}
+		<div class="message-warning">
+			<h2>{$warning|wash}</h2>
+		</div>
+	{/if}
+
+	{if $convert_allowed}
+		<div class="box-content">
 			<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/makesynonym/', $tag.id)|ezurl}>
 				<div class="block tag-edit-parent">
 					<label>{'Main tag'|i18n( 'extension/eztags/tags/edit' )}</label>
@@ -17,7 +29,7 @@
 					<span id="eztags_parent_keyword_0">{eztags_parent_string(0)|wash(xhtml)}</span>
 					<input class="button" type="button" name="SelectParentButton" id="eztags-parent-selector-button-0" value="{'Select main tag'|i18n( 'extension/eztags/tags/edit' )}" />
 				</div>
-	
+
 				<div class="controlbar">
 					<div class="block">
 						<input class="defaultbutton" type="submit" name="SaveButton" value="{'Save'|i18n( 'extension/eztags/tags/edit' )}" />
@@ -26,15 +38,19 @@
 					</div>
 				</div>
 			</form>
-		{else}
-			{include uri='design:parts/tag_hard_locked.tpl' tag_id=$tag.id}
-		{/if}
-	</div>
+		</div>
+	{else}
+		<div class="controlbar">
+			<div class="block">
+				<input class="button" type="button" onclick="javascript:history.back();" value="{'Go back'|i18n( 'extension/eztags/errors' )}" />
+			</div>
+		</div>
+	{/if}
 </div>
 
-{if $tag.lock_status|eq(0)}
+{if $convert_allowed}
 	{include uri='design:ezjsctemplate/modal_dialog.tpl'}
-	
+
 	{literal}
 	<script language="JavaScript" type="text/javascript">
 	<!--
@@ -42,7 +58,7 @@
 	{
 	    // Disable/bypass the reload-based (plain HTML) confirmation interface.
 	    document.tageditform.DiscardConfirm.value = "0";
-	
+
 	    // Ask user if she really wants do it, return this to the handler.
 	    return confirm( question );
 	}

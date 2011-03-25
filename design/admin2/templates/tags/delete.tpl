@@ -7,11 +7,17 @@
 		<div class="header-mainline"></div>
 	</div>
 
-	<div class="box-content">
-		{if $tag.lock_status|ne(1)}
+	{if $error|count}
+		<div class="message-error">
+			<h2>{$error|wash}</h2>
+		</div>
+	{/if}
+
+	{if $delete_allowed}
+		<div class="box-content">
 			<form name="tagdeleteform" id="tagdeleteform" enctype="multipart/form-data" method="post" action={concat('tags/delete/', $tag.id)|ezurl}>
 				<p>{'Are you sure you want to delete the "%keyword" tag? All children tags and synonyms will also be deleted and removed from existing objects.'|i18n( 'extension/eztags/tags/edit',, hash('%keyword', $tag.keyword|wash(xhtml)))}</p>
-	
+
 				<p>{'The tag you\'re about to delete has'|i18n( 'extension/eztags/tags/edit' )}:</p>
 				<ul>
 					<li>{'number of first level children tags'|i18n( 'extension/eztags/tags/edit' )}: {$tag.children_count}</li>
@@ -21,7 +27,7 @@
 					{foreach $tag.synonyms as $synonym}{set $synonym_object_count = $synonym_object_count|sum($synonym.related_objects|count)}{/foreach}
 					<li>{'number of objects related to synonyms'|i18n( 'extension/eztags/tags/edit' )}: {$synonym_object_count}</li>
 				</ul>
-	
+
 				<div class="controlbar">
 					<div class="block">
 						<input class="defaultbutton" type="submit" name="YesButton" value="{'Yes'|i18n( 'extension/eztags/tags/edit' )}" />
@@ -29,10 +35,14 @@
 					</div>
 				</div>
 			</form>
-		{else}
-			{include uri='design:parts/tag_hard_locked.tpl' tag_id=$tag.id}
-		{/if}
-	</div>
+		</div>
+	{else}
+		<div class="controlbar">
+			<div class="block">
+				<input class="button" type="button" onclick="javascript:history.back();" value="{'Go back'|i18n( 'extension/eztags/errors' )}" />
+			</div>
+		</div>
+	{/if}
 </div>
 
 {undef}
