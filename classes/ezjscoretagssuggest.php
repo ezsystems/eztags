@@ -70,7 +70,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 			$http = eZHTTPTool::instance();
 	
 			$tagsString = $http->postVariable('tags_string');
-			$tagsArray = explode(',', $tagsString);
+			$tagsArray = explode('|#', $tagsString);
 			$subTreeLimit = $http->postVariable('subtree_limit');
 	
 			if(count($tagsArray) > 0 && strlen(trim($tagsArray[0])) > 0)
