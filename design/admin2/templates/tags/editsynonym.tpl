@@ -17,7 +17,7 @@
 		<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/editsynonym/', $tag.id)|ezurl}>
 			<div class="block tag-edit-keyword">
 				<label>{'Synonym name'|i18n( 'extension/eztags/tags/edit' )}</label>
-				<input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{$tag.keyword|wash(xhtml)}" />
+				<input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{cond(ezhttp_hasvariable('TagEditKeyword', 'post'), ezhttp('TagEditKeyword', 'post'), $tag.keyword)|trim|wash(xhtml)}" />
 			</div>
 
 			<div class="controlbar">
