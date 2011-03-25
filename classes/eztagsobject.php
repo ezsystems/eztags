@@ -456,6 +456,22 @@ class eZTagsObject extends eZPersistentObject
 	}
 
     /**
+     * Returns if tag with provided keyword and parent ID already exists
+     * 
+     * @static
+     * @param string $keyword
+     * @param integer $parentID
+     * @return bool
+     */	
+	static function exists($keyword, $parentID)
+	{
+		$count = eZTagsObject::fetchListCount(array('keyword' => array('like', trim($keyword)), 'parent_id' => $parentID));
+		if($count > 0)
+			return true;
+		return false;
+	}
+
+    /**
      * Recursively deletes all children tags of the given tag, including the given tag itself
      * 
      * @static

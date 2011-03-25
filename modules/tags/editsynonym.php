@@ -33,6 +33,12 @@ if($http->hasPostVariable('SaveButton'))
 		$error = ezpI18n::tr('extension/eztags/errors', 'Name cannot be empty.');
 	}
 
+	$newKeyword = trim($http->postVariable( 'TagEditKeyword' ));
+	if(empty($error) && eZTagsObject::exists($newKeyword, $tag->ParentID))
+	{
+		$error = ezpI18n::tr('extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.');
+	}
+
 	if(empty($error))
 	{
 		$currentTime = time();
@@ -47,7 +53,7 @@ if($http->hasPostVariable('SaveButton'))
 			$parentTag->store();
 		}
 
-		$tag->Keyword = trim($http->postVariable( 'TagEditKeyword' ));
+		$tag->Keyword = $newKeyword;
 		$tag->Modified = $currentTime;
 		$tag->store();
 

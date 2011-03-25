@@ -45,6 +45,15 @@ if($http->hasPostVariable('SaveButton'))
 		$error = ezpI18n::tr('extension/eztags/errors', 'Selected target tag is invalid.');
 	}
 
+	$newParentTag = eZTagsObject::fetch((int) $http->postVariable('TagEditParentID'));
+	$newParentID = ($newParentTag instanceof eZTagsObject) ? $newParentTag->ID : 0;
+
+	$newKeyword = trim($http->postVariable( 'TagEditKeyword' ));
+	if(empty($error) && eZTagsObject::exists($newKeyword, $newParentID))
+	{
+		$error = ezpI18n::tr('extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.');
+	}
+
 	if(empty($error))
 	{
 		$currentTime = time();
@@ -53,7 +62,6 @@ if($http->hasPostVariable('SaveButton'))
 		$db->begin();
 
 		$oldParentTag = $tag->getParent();
-		$newParentTag = eZTagsObject::fetch((int) $http->postVariable('TagEditParentID'));
 
 		if($oldParentTag instanceof eZTagsObject)
 		{
@@ -67,8 +75,6 @@ if($http->hasPostVariable('SaveButton'))
 			$newParentTag->store();
 		}
 
-		$newParentID = ($newParentTag instanceof eZTagsObject) ? $newParentTag->ID : 0;
-
 		$synonyms = $tag->getSynonyms();
 		foreach($synonyms as $synonym)
 		{
@@ -77,7 +83,7 @@ if($http->hasPostVariable('SaveButton'))
 			$synonym->store();
 		}
 
-		$tag->Keyword = trim($http->postVariable( 'TagEditKeyword' ));
+		$tag->Keyword = $newKeyword;
 		$tag->ParentID = $newParentID;
 		$tag->Modified = $currentTime;
 		$tag->store();

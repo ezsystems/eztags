@@ -43,6 +43,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Tag/synonym with that name already exists in selected location.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Go back</source>
         <translation type="unfinished"></translation>
     </message>

@@ -212,7 +212,20 @@ class eZTags
 			if(!in_array($this->IDArray[$key], $existingTagIDs))
 			{
 				if($this->IDArray[$key] == 0)
-					$newTags[] = array('id' => $this->IDArray[$key], 'keyword' => $this->KeywordArray[$key], 'parent_id' => $this->ParentArray[$key]);
+				{
+					// We won't allow adding tags to the database that already exist, but instead, we link to the existing tags
+					$existing = eZTagsObject::fetchList(array('keyword' => array('like', trim($this->KeywordArray[$key])), 'parent_id' => $this->ParentArray[$key]));
+
+					if(is_array($existing) && !empty($existing))
+					{
+						if(!in_array($existing[0]->ID, $existingTagIDs))
+							$tagsToLink[] = $existing[0]->ID;
+					}
+					else
+					{
+						$newTags[] = array('id' => $this->IDArray[$key], 'keyword' => $this->KeywordArray[$key], 'parent_id' => $this->ParentArray[$key]);
+					}
+				}
 				else
 					$tagsToLink[] = $this->IDArray[$key];
 			}

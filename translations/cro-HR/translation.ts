@@ -43,6 +43,10 @@
         <translation>Ime ne može biti prazno.</translation>
     </message>
     <message>
+        <source>Tag/synonym with that name already exists in selected location.</source>
+        <translation>Oznaka/sinonim s tim imenom već postoji na odabranoj lokaciji.</translation>
+    </message>
+    <message>
         <source>Go back</source>
         <translation>Vrati se nazad</translation>
     </message>

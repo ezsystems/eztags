@@ -57,6 +57,11 @@ else
 			}
 		}
 
+		if(empty($error) && eZTagsObject::exists($tag->Keyword, $mainTag->ParentID))
+		{
+			$error = ezpI18n::tr('extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.');
+		}
+
 		if(empty($error))
 		{
 			$currentTime = time();
