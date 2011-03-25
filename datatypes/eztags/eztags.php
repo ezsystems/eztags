@@ -368,9 +368,9 @@ class eZTags
      *
      * @return string
      */
-    function keywordString()
+    function keywordString($separator = '|#')
     {
-        return implode( '|#', $this->KeywordArray );
+        return implode( $separator, $this->KeywordArray );
     }
 
     /**

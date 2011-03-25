@@ -232,7 +232,7 @@ class eZTagsType extends eZDataType
         $eztags = new eZTags();
         $eztags->createFromAttribute( $attribute );
 
-        return $eztags->keywordString();
+        return $eztags->keywordString(', ');
     }
 
     /**
