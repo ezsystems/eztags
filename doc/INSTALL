@@ -11,6 +11,11 @@ Optional extensions
 
     * eZ Find (used for tags suggestion and related tags feature)
 
+Upgrade
+=======
+
+If upgrading the extension, see doc/UPGRADE
+
 Installation
 ============
 
