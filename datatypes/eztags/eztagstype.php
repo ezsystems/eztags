@@ -242,21 +242,8 @@ class eZTagsType extends eZDataType
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute( "version" );
 
+        // We remove the link between the tag and the object attribute to be removed
         $db = eZDB::instance();
-
-        /* First we retrieve all the tag IDs related to this object attribute */
-        $res = $db->arrayQuery( "SELECT keyword_id
-                                 FROM eztags_attribute_link
-                                 WHERE objectattribute_id = $contentObjectAttributeID
-                                 AND objectattribute_version = $contentObjectAttributeVersion" );
-        if ( !count ( $res ) )
-        {
-            /* If there are no tags at all, we abort the function as there
-             * is nothing more to do */
-            return;
-        }
-
-        /* We remove the link between the tag and the object attribute to be removed */
         $db->query( "DELETE FROM eztags_attribute_link
                      WHERE objectattribute_id = $contentObjectAttributeID
                      AND objectattribute_version = $contentObjectAttributeVersion" );
