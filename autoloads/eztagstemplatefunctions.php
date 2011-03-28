@@ -69,15 +69,15 @@ class eZTagsTemplateFunctions
         {
             case 'eztags_parent_string':
             {
-                $operatorValue = eZTagsTemplateFunctions::generateParentString( $namedParameters['tag_id'] );
+                $operatorValue = self::generateParentString( $namedParameters['tag_id'] );
             } break;
             case 'latest_tags':
             {
-                $operatorValue = eZTagsTemplateFunctions::fetchLatestTags( $namedParameters['limit'] );
+                $operatorValue = self::fetchLatestTags( $namedParameters['limit'] );
             } break;
             case 'user_limitations':
             {
-                $operatorValue = eZTagsTemplateFunctions::getSimplifiedUserAccess( $namedParameters['module'], $namedParameters['function'] );
+                $operatorValue = self::getSimplifiedUserAccess( $namedParameters['module'], $namedParameters['function'] );
             } break;
         }
     }

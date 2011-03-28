@@ -94,7 +94,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	function hasParent()
 	{
-		$count = eZPersistentObject::count( eZTagsObject::definition(), array('id' => $this->ParentID) );
+		$count = eZPersistentObject::count( self::definition(), array('id' => $this->ParentID) );
 
 		if($count > 0)
 		{
@@ -111,7 +111,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	function getParent()
 	{
-		return eZTagsObject::fetch($this->ParentID);
+		return self::fetch($this->ParentID);
 	}
 
     /**
@@ -121,7 +121,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	function getChildren()
 	{
-		return eZTagsObject::fetchByParentID($this->ID);
+		return self::fetchByParentID($this->ID);
 	}
 
     /**
@@ -131,7 +131,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	function getChildrenCount()
 	{
-		return eZTagsObject::childrenCountByParentID($this->ID);
+		return self::childrenCountByParentID($this->ID);
 	}
 
     /**
@@ -233,7 +233,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	function getMainTag()
 	{
-		return eZTagsObject::fetch($this->MainTagID);
+		return self::fetch($this->MainTagID);
 	}
 
     /**
@@ -243,7 +243,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	function getSynonyms()
 	{
-		return eZTagsObject::fetchSynonyms( $this->ID );
+		return self::fetchSynonyms( $this->ID );
 	}
 
     /**
@@ -253,7 +253,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	function getSynonymsCount()
 	{
-		return eZTagsObject::synonymsCount( $this->ID );
+		return self::synonymsCount( $this->ID );
 	}
 
     /**
@@ -331,7 +331,7 @@ class eZTagsObject extends eZPersistentObject
      */
 	static function fetch($id)
 	{
-		return eZPersistentObject::fetchObject( eZTagsObject::definition(), null, array('id' => $id) );
+		return eZPersistentObject::fetchObject( self::definition(), null, array('id' => $id) );
 	}
 
     /**
@@ -344,7 +344,7 @@ class eZTagsObject extends eZPersistentObject
      */	
 	static function fetchList($params, $limits = null, $asObject = true)
 	{
-		$tagsList = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, $params, null, $limits );
+		$tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, $params, null, $limits );
 
 		if($asObject)
 		{
@@ -369,7 +369,7 @@ class eZTagsObject extends eZPersistentObject
      */	
 	static function fetchListCount($params)
 	{
-		return eZPersistentObject::count( eZTagsObject::definition(), $params );
+		return eZPersistentObject::count( self::definition(), $params );
 	}
 
     /**
@@ -381,7 +381,7 @@ class eZTagsObject extends eZPersistentObject
      */	
 	static function fetchByParentID($parentID)
 	{
-		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('parent_id' => $parentID, 'main_tag_id' => 0) );
+		return eZPersistentObject::fetchObjectList( self::definition(), null, array('parent_id' => $parentID, 'main_tag_id' => 0) );
 	}
 
     /**
@@ -393,7 +393,7 @@ class eZTagsObject extends eZPersistentObject
      */	
 	static function childrenCountByParentID($parentID)
 	{
-		return eZPersistentObject::count( eZTagsObject::definition(), array('parent_id' => $parentID, 'main_tag_id' => 0) );
+		return eZPersistentObject::count( self::definition(), array('parent_id' => $parentID, 'main_tag_id' => 0) );
 	}
 
     /**
@@ -405,7 +405,7 @@ class eZTagsObject extends eZPersistentObject
      */		
 	static function fetchSynonyms($mainTagID)
 	{
-		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('main_tag_id' => $mainTagID) );
+		return eZPersistentObject::fetchObjectList( self::definition(), null, array('main_tag_id' => $mainTagID) );
 	}
 
     /**
@@ -417,7 +417,7 @@ class eZTagsObject extends eZPersistentObject
      */		
 	static function synonymsCount($mainTagID)
 	{
-		return eZPersistentObject::count( eZTagsObject::definition(), array('main_tag_id' => $mainTagID) );
+		return eZPersistentObject::count( self::definition(), array('main_tag_id' => $mainTagID) );
 	}
 
     /**
@@ -429,7 +429,7 @@ class eZTagsObject extends eZPersistentObject
      */		
 	static function fetchByKeyword($keyword)
 	{
-		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('keyword' => $keyword) );
+		return eZPersistentObject::fetchObjectList( self::definition(), null, array('keyword' => $keyword) );
 	}
 
     /**
@@ -441,7 +441,7 @@ class eZTagsObject extends eZPersistentObject
      */		
 	static function fetchByPathString($pathString)
 	{
-		return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('path_string' => array('like', $pathString . '%'), main_tag_id => 0) );
+		return eZPersistentObject::fetchObjectList( self::definition(), null, array('path_string' => array('like', $pathString . '%'), main_tag_id => 0) );
 	}
 
     /**
@@ -461,7 +461,7 @@ class eZTagsObject extends eZPersistentObject
 			$params['id'] = array('!=', $tagID);
 		}
 
-		$count = eZTagsObject::fetchListCount($params);
+		$count = self::fetchListCount($params);
 		if($count > 0)
 			return true;
 		return false;
@@ -475,11 +475,11 @@ class eZTagsObject extends eZPersistentObject
      */
 	static function recursiveTagDelete($rootTag)
 	{
-		$children = eZTagsObject::fetchByParentID($rootTag->ID);
+		$children = self::fetchByParentID($rootTag->ID);
 	
 		foreach($children as $child)
 		{
-			eZTagsObject::recursiveTagDelete($child);
+			self::recursiveTagDelete($child);
 		}
 	
 		foreach($rootTag->getTagAttributeLinks() as $tagAttributeLink)

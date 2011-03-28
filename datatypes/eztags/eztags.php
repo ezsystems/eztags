@@ -241,7 +241,7 @@ class eZTags
 		{
 			//first we need to fetch all locations user has access to
 			$userLimitations = isset($userLimitations['simplifiedLimitations']['Tag']) ? $userLimitations['simplifiedLimitations']['Tag'] : array();
-			$allowedLocations = eZTags::getAllowedLocations($attributeSubTreeLimit, $userLimitations);
+			$allowedLocations = self::getAllowedLocations($attributeSubTreeLimit, $userLimitations);
 
 			foreach($newTags as $t)
 			{
@@ -249,7 +249,7 @@ class eZTags
 				$parentTag = eZTagsObject::fetch($t['parent_id']);
 				$pathString = ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/';
 
-				if(eZTags::canSave($pathString, $allowedLocations))
+				if(self::canSave($pathString, $allowedLocations))
 				{
 					$db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( " .
 						$t['parent_id'] . ", 0, '" . $db->escapeString(trim($t['keyword'])) . "', '$pathString', $currentTime )" );

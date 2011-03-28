@@ -58,7 +58,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      */
     static function fetchByTagID($tagID)
     {
-		$objects = eZPersistentObject::fetchObjectList( eZTagsAttributeLinkObject::definition(), null, array('keyword_id' => $tagID) );
+		$objects = eZPersistentObject::fetchObjectList( self::definition(), null, array('keyword_id' => $tagID) );
 
 		if(is_array($objects))
 			return $objects;
@@ -77,7 +77,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      */
     static function fetchByObjectAttributeAndKeywordID($objectAttributeID, $objectAttributeVersion, $objectID, $keywordID)
     {
-		$objects = eZPersistentObject::fetchObjectList( eZTagsAttributeLinkObject::definition(), null,
+		$objects = eZPersistentObject::fetchObjectList( self::definition(), null,
 															array('objectattribute_id' => $objectAttributeID,
 																	'objectattribute_version' => $objectAttributeVersion,
 																	'object_id' => $objectID,
