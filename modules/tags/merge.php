@@ -78,7 +78,12 @@ else
 			{
 				foreach($synonym->getTagAttributeLinks() as $tagAttributeLink)
 				{
-					if(!$mainTag->isRelatedToObject($tagAttributeLink->ObjectAttributeID, $tagAttributeLink->ObjectID))
+					$link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID($tagAttributeLink->ObjectAttributeID,
+															$tagAttributeLink->ObjectAttributeVersion,
+															$tagAttributeLink->ObjectID,
+															$mainTag->ID);
+
+					if(!($link instanceof eZTagsAttributeLinkObject))
 					{
 						$tagAttributeLink->KeywordID = $mainTag->ID;
 						$tagAttributeLink->store();
@@ -94,7 +99,12 @@ else
 
 			foreach($tag->getTagAttributeLinks() as $tagAttributeLink)
 			{
-				if(!$mainTag->isRelatedToObject($tagAttributeLink->ObjectAttributeID, $tagAttributeLink->ObjectID))
+				$link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID($tagAttributeLink->ObjectAttributeID,
+														$tagAttributeLink->ObjectAttributeVersion,
+														$tagAttributeLink->ObjectID,
+														$mainTag->ID);
+
+				if(!($link instanceof eZTagsAttributeLinkObject))
 				{
 					$tagAttributeLink->KeywordID = $mainTag->ID;
 					$tagAttributeLink->store();

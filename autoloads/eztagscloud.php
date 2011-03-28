@@ -128,6 +128,7 @@ class eZTagsCloud
                                         FROM eztags $sqlPermissionChecking[from], eztags_attribute_link
                                         LEFT JOIN ezcontentobject_attribute
                                             ON eztags_attribute_link.objectattribute_id = ezcontentobject_attribute.id
+                                            AND eztags_attribute_link.objectattribute_version = ezcontentobject_attribute.version
                                         LEFT JOIN ezcontentobject
                                             ON ezcontentobject_attribute.contentobject_id = ezcontentobject.id
                                         LEFT JOIN ezcontentobject_tree

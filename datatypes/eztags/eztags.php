@@ -136,7 +136,8 @@ class eZTags
         $db = eZDB::instance();
         $words = $db->arrayQuery( "SELECT eztags.id, eztags.keyword, eztags.parent_id FROM eztags_attribute_link, eztags
                                     WHERE eztags_attribute_link.keyword_id = eztags.id AND
-                                    eztags_attribute_link.objectattribute_id = " . $attribute->attribute( 'id' ) );
+                                    eztags_attribute_link.objectattribute_id = " . $attribute->attribute( 'id' ) . " AND
+                                    eztags_attribute_link.objectattribute_version = " . $attribute->attribute( 'version' ) );
 
         $wordArray = array();
         foreach ( $words as $w )
@@ -165,6 +166,7 @@ class eZTags
     function store( $attribute )
     {
 		$attributeID = $attribute->attribute( 'id' );
+		$attributeVersion = $attribute->attribute( 'version' );
 		$objectID = $attribute->attribute( 'contentobject_id' );
 
 		if(!(is_numeric($attributeID) && $attributeID > 0))
@@ -177,7 +179,7 @@ class eZTags
 
 		//get existing tags for object attribute
 		$existingTagIDs = array();
-		$existingTags = $db->arrayQuery( "SELECT DISTINCT keyword_id FROM eztags_attribute_link WHERE objectattribute_id = $attributeID" );
+		$existingTags = $db->arrayQuery( "SELECT DISTINCT keyword_id FROM eztags_attribute_link WHERE objectattribute_id = $attributeID AND objectattribute_version = $attributeVersion" );
 
 		if(is_array($existingTags))
 		{
@@ -201,7 +203,7 @@ class eZTags
 		if(count($tagsToDelete) > 0)
 		{
 			$dbString = $db->generateSQLINStatement($tagsToDelete, 'keyword_id', false, true, 'int');
-			$db->query( "DELETE FROM eztags_attribute_link WHERE $dbString AND eztags_attribute_link.objectattribute_id = $attributeID" );
+			$db->query( "DELETE FROM eztags_attribute_link WHERE $dbString AND eztags_attribute_link.objectattribute_id = $attributeID AND eztags_attribute_link.objectattribute_version = $attributeVersion" );
 		}
 
 		//get tags that are new to the object attribute
@@ -271,7 +273,7 @@ class eZTags
 					if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 &&
 						strpos($t['path_string'], '/' . $attributeSubTreeLimit . '/') !== false))
 					{
-						$db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id, object_id ) VALUES ( " . $t['id'] . ", $attributeID, $objectID )" );
+						$db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id, objectattribute_version, object_id ) VALUES ( " . $t['id'] . ", $attributeID, $attributeVersion, $objectID )" );
 					}
 				}
 			}

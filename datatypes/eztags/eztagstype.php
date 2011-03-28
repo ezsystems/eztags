@@ -37,14 +37,10 @@ class eZTagsType extends eZDataType
             $originalContentObjectAttributeID = $originalContentObjectAttribute->attribute( 'id' );
             $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
 
-            // if translating or copying an object
-            if ( $originalContentObjectAttributeID != $contentObjectAttributeID )
+            $eztags = $originalContentObjectAttribute->content();
+            if ( $eztags instanceof eZTags )
             {
-                $eztags = $originalContentObjectAttribute->content();
-                if ( $eztags instanceof eZTags )
-                {
-                    $eztags->store( $contentObjectAttribute );
-                }
+                $eztags->store( $contentObjectAttribute );
             }
         }
     }
@@ -243,19 +239,16 @@ class eZTagsType extends eZDataType
      */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
-        if ( $version != null ) // Do not delete if discarding draft
-        {
-            return;
-        }
-
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $contentObjectAttributeVersion = $contentObjectAttribute->attribute( "version" );
 
         $db = eZDB::instance();
 
         /* First we retrieve all the tag IDs related to this object attribute */
         $res = $db->arrayQuery( "SELECT keyword_id
                                  FROM eztags_attribute_link
-                                 WHERE objectattribute_id = $contentObjectAttributeID" );
+                                 WHERE objectattribute_id = $contentObjectAttributeID
+                                 AND objectattribute_version = $contentObjectAttributeVersion" );
         if ( !count ( $res ) )
         {
             /* If there are no tags at all, we abort the function as there
@@ -265,7 +258,8 @@ class eZTagsType extends eZDataType
 
         /* We remove the link between the tag and the object attribute to be removed */
         $db->query( "DELETE FROM eztags_attribute_link
-                     WHERE objectattribute_id = $contentObjectAttributeID" );
+                     WHERE objectattribute_id = $contentObjectAttributeID
+                     AND objectattribute_version = $contentObjectAttributeVersion" );
     }
 
     /**

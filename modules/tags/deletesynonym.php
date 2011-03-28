@@ -40,14 +40,29 @@ if($http->hasPostVariable('YesButton'))
 	$mainTag = $tag->getMainTag();
 	$transferObjectsToMainTag = $http->hasPostVariable('TransferObjectsToMainTag');
 
-	foreach($tag->getTagAttributeLinks() as $tagAttributeLink)
+	if($transferObjectsToMainTag)
 	{
-		if($transferObjectsToMainTag && !$mainTag->isRelatedToObject($tagAttributeLink->ObjectAttributeID, $tagAttributeLink->ObjectID))
+		foreach($tag->getTagAttributeLinks() as $tagAttributeLink)
 		{
-			$tagAttributeLink->KeywordID = $tag->MainTagID;
-			$tagAttributeLink->store();
+			$link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID($tagAttributeLink->ObjectAttributeID,
+										$tagAttributeLink->ObjectAttributeVersion,
+										$tagAttributeLink->ObjectID,
+										$mainTag->ID);
+
+			if(!($link instanceof eZTagsAttributeLinkObject))
+			{
+				$tagAttributeLink->KeywordID = $mainTag->ID;
+				$tagAttributeLink->store();
+			}
+			else
+			{
+				$tagAttributeLink->remove();
+			}
 		}
-		else
+	}
+	else
+	{
+		foreach($tag->getTagAttributeLinks() as $tagAttributeLink)
 		{
 			$tagAttributeLink->remove();
 		}

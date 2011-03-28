@@ -105,26 +105,6 @@ class eZTagsObject extends eZPersistentObject
 	}
 
     /**
-     * Returns whether tag is related to object defined by eztags attribute id and object id
-     * 
-     * @param integer $objectAttributeID
-     * @param integer $objectID
-     * @return bool
-     */
-	function isRelatedToObject($objectAttributeID, $objectID)
-	{
-		foreach($this->getTagAttributeLinks() as $link)
-		{
-			if($link->ObjectAttributeID == $objectAttributeID && $link->ObjectID == $objectID)
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-
-    /**
      * Returns tag parent
      * 
      * @return eZTagsObject
@@ -161,19 +141,28 @@ class eZTagsObject extends eZPersistentObject
      */
 	function getRelatedObjects()
 	{
-		$tagAttributeLinks = $this->getTagAttributeLinks();
-		
-		if(count($tagAttributeLinks) > 0)
+		// Not an easy task to fetch published objects with API and take care of current_version, status
+		// and attribute version, so just use SQL to fetch all related object ids in one go
+		$tagID = $this->ID;
+
+		$db = eZDB::instance();
+		$result = $db->arrayQuery("SELECT DISTINCT(o.id) AS object_id FROM eztags_attribute_link l
+									INNER JOIN ezcontentobject o ON l.object_id = o.id
+									AND l.objectattribute_version = o.current_version
+									AND o.status = 1
+									WHERE l.keyword_id = $tagID");
+
+		if(is_array($result) && !empty($result))
 		{
 			$objectIDArray = array();
-			foreach($tagAttributeLinks as $tagAttributeLink)
+			foreach($result as $r)
 			{
-				array_push($objectIDArray, $tagAttributeLink->ObjectID);
+				array_push($objectIDArray, $r['object_id']);
 			}
-	
+
 			return eZContentObject::fetchIDArray($objectIDArray);
 		}
-		
+
 		return array();
 	}
 

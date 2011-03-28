@@ -36,7 +36,7 @@ class eZTagsAttributeFilter
 			$db = eZDB::instance();
 			$dbString = $db->generateSQLINStatement($tagIDsArray, 'i1.keyword_id', false, true, 'int');
 
-			$returnArray['joins'] = " $dbString AND i1.object_id = ezcontentobject.id AND ";
+			$returnArray['joins'] = " $dbString AND i1.object_id = ezcontentobject.id AND i1.objectattribute_version = ezcontentobject.current_version AND ";
 		}
 
 		return $returnArray;
