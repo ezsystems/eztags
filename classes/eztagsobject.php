@@ -149,7 +149,7 @@ class eZTagsObject extends eZPersistentObject
 		$result = $db->arrayQuery("SELECT DISTINCT(o.id) AS object_id FROM eztags_attribute_link l
 									INNER JOIN ezcontentobject o ON l.object_id = o.id
 									AND l.objectattribute_version = o.current_version
-									AND o.status = 1
+									AND o.status = " . eZContentObject::STATUS_PUBLISHED . "
 									WHERE l.keyword_id = $tagID");
 
 		if(is_array($result) && !empty($result))
