@@ -37,7 +37,7 @@ if($http->hasPostVariable('YesButton'))
 		$parentTag->store();
 	}
 
-	$mainTag = $tag->getMainTag();
+	$mainTagID = $tag->MainTagID;
 	$transferObjectsToMainTag = $http->hasPostVariable('TransferObjectsToMainTag');
 
 	if($transferObjectsToMainTag)
@@ -47,11 +47,11 @@ if($http->hasPostVariable('YesButton'))
 			$link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID($tagAttributeLink->ObjectAttributeID,
 										$tagAttributeLink->ObjectAttributeVersion,
 										$tagAttributeLink->ObjectID,
-										$mainTag->ID);
+										$mainTagID);
 
 			if(!($link instanceof eZTagsAttributeLinkObject))
 			{
-				$tagAttributeLink->KeywordID = $mainTag->ID;
+				$tagAttributeLink->KeywordID = $mainTagID;
 				$tagAttributeLink->store();
 			}
 			else
@@ -72,14 +72,7 @@ if($http->hasPostVariable('YesButton'))
 
 	$db->commit();
 
-	if($parentTag instanceof eZTagsObject)
-	{
-		return $Module->redirectToView( 'id', array( $parentTag->ID ) );
-	}
-	else
-	{
-		return $Module->redirectToView( 'dashboard', array() );
-	}
+	return $Module->redirectToView( 'id', array( $mainTagID ) );
 }
 
 $tpl = eZTemplate::factory();
