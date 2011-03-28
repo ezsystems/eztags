@@ -27,7 +27,12 @@
 			</div>
 
 			<div class="block tag-edit-parent">
-				{def $parent_tag_id = cond(ezhttp_hasvariable('TagEditParentID', 'post'), ezhttp('TagEditParentID', 'post'), $tag.parent_id)}
+				{if ezhttp_hasvariable('TagEditParentID', 'post')}
+					{def $parent_tag_id = ezhttp('TagEditParentID', 'post')}
+				{else}
+					{def $parent_tag_id = $tag.parent_id}
+				{/if}
+
 				<label>{'Parent tag'|i18n( 'extension/eztags/tags/edit' )}</label>
 				<input id="eztags_parent_id_0" type="hidden" name="TagEditParentID" value="{$parent_tag_id}" />
 				<input id="hide_tag_id_0" type="hidden" name="TagHideID" value="{$tag.id}" />

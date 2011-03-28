@@ -23,7 +23,12 @@
 		<div class="box-content">
 			<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/makesynonym/', $tag.id)|ezurl}>
 				<div class="block tag-edit-parent">
-					{def $main_tag_id = cond(ezhttp_hasvariable('MainTagID', 'post'), ezhttp('MainTagID', 'post'), 0)}
+					{if ezhttp_hasvariable('MainTagID', 'post')}
+						{def $main_tag_id = ezhttp('MainTagID', 'post')}
+					{else}
+						{def $main_tag_id = 0}
+					{/if}
+
 					<label>{'Main tag'|i18n( 'extension/eztags/tags/edit' )}</label>
 					<input id="eztags_parent_id_0" type="hidden" name="MainTagID" value="{$main_tag_id}" />
 					<input id="hide_tag_id_0" type="hidden" name="TagHideID" value="{$tag.id}" />

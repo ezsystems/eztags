@@ -3,10 +3,14 @@
 $http = eZHTTPTool::instance();
 
 $parentTagID = $Params['ParentTagID'];
+
+if($http->hasPostVariable('TagEditParentID'))
+	$parentTagID = $http->postVariable('TagEditParentID');
+
 $error = '';
 $parentTag = false;
 
-if ( !(is_numeric($parentTagID) && $parentTagID >= 0) )
+if ( !(is_numeric($parentTagID) && (int) $parentTagID >= 0) )
 {
 	return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
@@ -66,23 +70,8 @@ if($http->hasPostVariable('SaveButton'))
 		$error = ezpI18n::tr('extension/eztags/errors', 'Name cannot be empty.');
 	}
 
-	if(empty($error) && !($http->hasPostVariable('TagEditParentID') && is_numeric($http->postVariable('TagEditParentID'))
-		&& (int) $http->postVariable('TagEditParentID') >= 0))
-	{
-		$error = ezpI18n::tr('extension/eztags/errors', 'Selected target tag is invalid.');
-	}
-
-	if(empty($error))
-	{
-		$newParentTag = eZTagsObject::fetch((int) $http->postVariable('TagEditParentID'));
-		if(!($newParentTag instanceof eZTagsObject || (int) $http->postVariable('TagEditParentID') == 0))
-		{
-			$error = ezpI18n::tr('extension/eztags/errors', 'Selected target tag is invalid.');
-		}
-	}
-
 	$newKeyword = trim($http->postVariable( 'TagEditKeyword' ));
-	if(empty($error) && eZTagsObject::exists(0, $newKeyword, ($newParentTag instanceof eZTagsObject) ? $newParentTag->ID : 0))
+	if(empty($error) && eZTagsObject::exists(0, $newKeyword, ($parentTag instanceof eZTagsObject) ? $parentTag->ID : 0))
 	{
 		$error = ezpI18n::tr('extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.');
 	}
@@ -94,16 +83,16 @@ if($http->hasPostVariable('SaveButton'))
 		$db = eZDB::instance();
 		$db->begin();
 
-		if($newParentTag instanceof eZTagsObject)
+		if($parentTag instanceof eZTagsObject)
 		{
-			$newParentTag->Modified = $currentTime;
-			$newParentTag->store();
+			$parentTag->Modified = $currentTime;
+			$parentTag->store();
 		}
 
-		$tag = new eZTagsObject(array('parent_id' => ($newParentTag instanceof eZTagsObject) ? $newParentTag->ID : 0,
+		$tag = new eZTagsObject(array('parent_id' => ($parentTag instanceof eZTagsObject) ? $parentTag->ID : 0,
 									  'main_tag_id' => 0,
 									  'keyword' => $newKeyword,
-									  'path_string' => ($newParentTag instanceof eZTagsObject) ? $newParentTag->PathString : '/',
+									  'path_string' => ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/',
 									  'modified' => $currentTime));
 
 		$tag->store();

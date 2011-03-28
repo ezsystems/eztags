@@ -14,14 +14,19 @@
 	{/if}
 
 	<div class="box-content">
-		<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/add/', $parent_id)|ezurl}>
+		{if ezhttp_hasvariable('TagEditParentID', 'post')}
+			{def $parent_tag_id = ezhttp('TagEditParentID', 'post')}
+		{else}
+			{def $parent_tag_id = $parent_id}
+		{/if}
+
+		<form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat('tags/add/', $parent_tag_id)|ezurl}>
 			<div class="block tag-edit-keyword">
 				<label>{'Tag name'|i18n( 'extension/eztags/tags/edit' )}</label>
 				<input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{cond(ezhttp_hasvariable('TagEditKeyword', 'post'), ezhttp('TagEditKeyword', 'post'), '')|trim|wash(xhtml)}" />
 			</div>
 
 			<div class="block tag-edit-parent">
-				{def $parent_tag_id = cond(ezhttp_hasvariable('TagEditParentID', 'post'), ezhttp('TagEditParentID', 'post'), $parent_id)}
 				<label>{'Parent tag'|i18n( 'extension/eztags/tags/edit' )}</label>
 				<input id="eztags_parent_id_0" type="hidden" name="TagEditParentID" value="{$parent_tag_id}" />
 				<input id="hide_tag_id_0" type="hidden" name="TagHideID" value="-1" />
