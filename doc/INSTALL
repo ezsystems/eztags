@@ -19,6 +19,13 @@ If upgrading the extension, see doc/UPGRADE
 Installation
 ============
 
+ IMPORTANT NOTE: There is a bug in eZ Image Editor 1.1 extension (ezie, released with eZ Publish 4.4)
+ that prevents eZ Tags datatype from functioning if your site is using jQuery version 1.4.3 and above.
+ This bug is fixed in extension version 1.2 (released with eZ Publish 4.5). To fix this, upgrade the
+ extension to 1.2, or downgrade your jQuery to 1.4.2
+ Bugfix commit is located at: https://github.com/ezsystems/ezie/commit/6f29d071b8b100d62651ce8b696b97bf0f8f8b98
+
+
  1. Unpack/unzip
 
     Unpack the downloaded package into the 'extension' directory of your eZ Publish installation.
