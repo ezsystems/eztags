@@ -372,7 +372,7 @@ var treeMenu;
 (function(){ldelim}
     var path         = [{if is_set( $module_result.path[0].tag_id)}{foreach $module_result.path as $element}'{$element.tag_id}'{delimiter}, {/delimiter}{/foreach}{/if}];
     var persistence  = {if $menu_persistence}true{else}false{/if};
-    var currentDate  = {currentdate()};
+    var currentDate  = new Date().valueOf();
     treeMenu         = new TagsStructureMenu( path, persistence );
 
     var rootTag = {ldelim}{*
