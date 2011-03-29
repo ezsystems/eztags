@@ -64,15 +64,18 @@ else
 
 		if(empty($error))
 		{
-			$oldParentTag = $tag->getParent();
 			$newParentTag = $mainTag->getParent();
 
 			$db = eZDB::instance();
 			$db->begin();
 
-			if($oldParentTag instanceof eZTagsObject)
+			if($tag->ParentID != $mainTag->ParentID)
 			{
-				$oldParentTag->updateModified();
+				$oldParentTag = $tag->getParent();
+				if($oldParentTag instanceof eZTagsObject)
+				{
+					$oldParentTag->updateModified();
+				}
 			}
 
 			eZTagsObject::moveChildren($tag, $mainTag);
