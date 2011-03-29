@@ -64,7 +64,6 @@ else
 
 		if(empty($error))
 		{
-			$currentTime = time();
 			$oldParentTag = $tag->getParent();
 			$newParentTag = $mainTag->getParent();
 
@@ -73,35 +72,24 @@ else
 
 			if($oldParentTag instanceof eZTagsObject)
 			{
-				$oldParentTag->Modified = $currentTime;
-				$oldParentTag->store();
+				$oldParentTag->updateModified();
 			}
 
-			if($newParentTag instanceof eZTagsObject)
-			{
-				$newParentTag->Modified = $currentTime;
-				$newParentTag->store();
-			}
-
-			eZTagsObject::moveChildren($tag, $mainTag, $currentTime);
+			eZTagsObject::moveChildren($tag, $mainTag);
 
 			$synonyms = $tag->getSynonyms();
 			foreach($synonyms as $synonym)
 			{
 				$synonym->ParentID = $mainTag->ParentID;
 				$synonym->MainTagID = $mainTag->ID;
-				$synonym->Modified = $currentTime;
 				$synonym->store();
 			}
 
 			$tag->ParentID = $mainTag->ParentID;
 			$tag->MainTagID = $mainTag->ID;
-			$tag->Modified = $currentTime;
 			$tag->store();
 			$tag->updatePathString(($newParentTag instanceof eZTagsObject) ? $newParentTag : false);
-
-			$mainTag->Modified = $currentTime;
-			$mainTag->store();
+			$tag->updateModified();
 
 			$db->commit();
 

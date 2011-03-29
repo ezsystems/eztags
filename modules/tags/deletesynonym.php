@@ -33,8 +33,7 @@ if($http->hasPostVariable('YesButton'))
 	$parentTag = $tag->getParent();
 	if($parentTag instanceof eZTagsObject)
 	{
-		$parentTag->Modified = time();
-		$parentTag->store();
+		$parentTag->updateModified();
 	}
 
 	$mainTagID = $tag->MainTagID;

@@ -372,9 +372,9 @@ var treeMenu;
 (function(){ldelim}
     var path         = [{if is_set( $module_result.path[0].tag_id)}{foreach $module_result.path as $element}'{$element.tag_id}'{delimiter}, {/delimiter}{/foreach}{/if}];
     var persistence  = {if $menu_persistence}true{else}false{/if};
+    var currentDate  = {currentdate()};
     treeMenu         = new TagsStructureMenu( path, persistence );
 
-{cache-block keys=array( 0, $access_type ) expiry=0}
     var rootTag = {ldelim}{*
         *}"id":0,{*
 		*}"parent_id":0,{*
@@ -382,15 +382,14 @@ var treeMenu;
         *}"keyword":"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
         *}"url":{'tags/dashboard'|ezurl},{*
         *}"icon":"",{*
-        *}"modified":0{rdelim};
+        *}"modified":currentDate{rdelim};
 
     document.writeln( '<ul id="content_tree_menu">' );
     document.writeln( treeMenu.generateEntry( rootTag, false, true ) );
     document.writeln( '<\/ul>' );
 
-    treeMenu.load( false, 0, 0 );
+    treeMenu.load( false, 0, currentDate );
 {rdelim})();
-{/cache-block}
 
 // -->
 </script>

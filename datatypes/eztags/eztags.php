@@ -252,9 +252,14 @@ class eZTags
 				if(self::canSave($pathString, $allowedLocations))
 				{
 					$db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( " .
-						$t['parent_id'] . ", 0, '" . $db->escapeString(trim($t['keyword'])) . "', '$pathString', $currentTime )" );
+						$t['parent_id'] . ", 0, '" . $db->escapeString(trim($t['keyword'])) . "', '$pathString', 0 )" );
 					$tagID = (int) $db->lastSerialID( 'eztags', 'id' );
 					$db->query( "UPDATE eztags SET path_string = CONCAT(path_string, CAST($tagID AS CHAR), '/') WHERE id = $tagID" );
+
+					$pathArray = explode( '/', trim( $pathString, '/' ) );
+					array_push($pathArray, $tagID);
+					$db->query( "UPDATE eztags SET modified = $currentTime WHERE " . $db->generateSQLINStatement( $pathArray, 'id', false, true, 'int' ) );
+
 					$tagsToLink[] = $tagID;
 				}
 			}

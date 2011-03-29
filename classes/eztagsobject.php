@@ -323,6 +323,28 @@ class eZTagsObject extends eZPersistentObject
 	}
 
     /**
+     * Updates modified timestamp on current tag and all of its parents
+     * Expensive to run through API, so SQL takes care of it
+     * 
+     */
+    function updateModified()
+    {
+        $pathArray = explode( '/', trim( $this->PathString, '/' ) );
+
+        if($this->MainNodeID > 0)
+        {
+            array_push($pathArray, $this->MainNodeID);
+        }
+
+        if ( count( $pathArray ) > 0 )
+        {
+            $db = eZDB::instance();
+            $db->query( 'UPDATE eztags SET modified = ' . time() .
+                        ' WHERE ' . $db->generateSQLINStatement( $pathArray, 'id', false, true, 'int' ) );
+        }
+    }
+
+    /**
      * Returns eZTagsObject for given ID
      * 
      * @static
@@ -507,10 +529,10 @@ class eZTagsObject extends eZPersistentObject
      * @static
      * @param eZTagsObject $tag
      * @param eZTagsObject $targetTag
-     * @param integer $currentTime
      */
-	static function moveChildren($tag, $targetTag, $currentTime)
+	static function moveChildren($tag, $targetTag)
 	{
+		$currentTime = time();
 		$children = $tag->getChildren();
 		foreach($children as $child)
 		{
@@ -518,7 +540,6 @@ class eZTagsObject extends eZPersistentObject
 			foreach($childSynonyms as $childSynonym)
 			{
 				$childSynonym->ParentID = $targetTag->ID;
-				$childSynonym->Modified = $currentTime;
 				$childSynonym->store();
 			}
 

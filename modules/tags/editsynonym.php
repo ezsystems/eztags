@@ -41,20 +41,10 @@ if($http->hasPostVariable('SaveButton'))
 
 	if(empty($error))
 	{
-		$currentTime = time();
-
 		$db = eZDB::instance();
 		$db->begin();
 
-		$parentTag = $tag->getParent();
-		if($parentTag instanceof eZTagsObject)
-		{
-			$parentTag->Modified = $currentTime;
-			$parentTag->store();
-		}
-
 		$tag->Keyword = $newKeyword;
-		$tag->Modified = $currentTime;
 		$tag->store();
 
 		$db->commit();

@@ -56,38 +56,27 @@ if($http->hasPostVariable('SaveButton'))
 
 	if(empty($error))
 	{
-		$currentTime = time();
-
 		$db = eZDB::instance();
 		$db->begin();
 
 		$oldParentTag = $tag->getParent();
-
 		if($oldParentTag instanceof eZTagsObject)
 		{
-			$oldParentTag->Modified = $currentTime;
-			$oldParentTag->store();
-		}
-
-		if($newParentTag instanceof eZTagsObject)
-		{
-			$newParentTag->Modified = $currentTime;
-			$newParentTag->store();
+			$oldParentTag->updateModified();
 		}
 
 		$synonyms = $tag->getSynonyms();
 		foreach($synonyms as $synonym)
 		{
 			$synonym->ParentID = $newParentID;
-			$synonym->Modified = $currentTime;
 			$synonym->store();
 		}
 
 		$tag->Keyword = $newKeyword;
 		$tag->ParentID = $newParentID;
-		$tag->Modified = $currentTime;
 		$tag->store();
 		$tag->updatePathString(($newParentTag instanceof eZTagsObject) ? $newParentTag : false);
+		$tag->updateModified();
 
 		$db->commit();
 

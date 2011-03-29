@@ -41,27 +41,20 @@ if($http->hasPostVariable('SaveButton'))
 
 	if(empty($error))
 	{
-		$currentTime = time();
 		$parentTag = eZTagsObject::fetch($mainTag->ParentID);
 
 		$db = eZDB::instance();
 		$db->begin();
 
-		if($parentTag instanceof eZTagsObject)
-		{
-			$parentTag->Modified = $currentTime;
-			$parentTag->store();
-		}
-
 		$tag = new eZTagsObject(array('parent_id' => $mainTag->ParentID,
 									  'main_tag_id' => $mainTagID,
 									  'keyword' => $newKeyword,
-									  'path_string' => ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/',
-									  'modified' => $currentTime));
+									  'path_string' => ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/'));
 
 		$tag->store();
 		$tag->PathString = $tag->PathString . $tag->ID . '/';
 		$tag->store();
+		$tag->updateModified();
 
 		$db->commit();
 

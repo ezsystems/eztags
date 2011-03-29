@@ -59,7 +59,6 @@ else
 
 		if(empty($error))
 		{
-			$currentTime = time();
 			$oldParentTag = $tag->getParent();
 
 			$db = eZDB::instance();
@@ -67,11 +66,10 @@ else
 
 			if($oldParentTag instanceof eZTagsObject)
 			{
-				$oldParentTag->Modified = $currentTime;
-				$oldParentTag->store();
+				$oldParentTag->updateModified();
 			}
 
-			eZTagsObject::moveChildren($tag, $mainTag, $currentTime);
+			eZTagsObject::moveChildren($tag, $mainTag);
 
 			$synonyms = $tag->getSynonyms();
 			foreach($synonyms as $synonym)
@@ -117,8 +115,7 @@ else
 
 			$tag->remove();
 
-			$mainTag->Modified = $currentTime;
-			$mainTag->store();
+			$mainTag->updateModified();
 
 			$db->commit();
 
