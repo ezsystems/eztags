@@ -9,6 +9,7 @@ var treeMenu_{$attribute_id};
     var tag_path                = [{if is_set( $module_result.path[0].tag_id)}{foreach $module_result.path as $element}'{$element.tag_id}'{delimiter}, {/delimiter}{/foreach}{/if}];
     var persistence             = {if $menu_persistence}true{else}false{/if};
     var root_tag_id             = {if $root_tag}{$root_tag.id}{else}0{/if};
+    var currentDate             = new Date().valueOf();
     treeMenu_{$attribute_id}    = new TagsStructureMenu( tag_path, persistence, '{$attribute_id}' );
 
     {if $root_tag}
@@ -29,7 +30,7 @@ var treeMenu_{$attribute_id};
             *}"keyword":"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
             *}"url":{'tags/dashboard'|ezurl},{*
             *}"icon":"",{*
-            *}"modified":0{rdelim};
+            *}"modified":currentDate{rdelim};
     {/if}
 
     document.writeln( '<ul class="content_tree_menu">' );
@@ -39,7 +40,7 @@ var treeMenu_{$attribute_id};
     {if $root_tag}
         treeMenu_{$attribute_id}.load( true, {$root_tag.id}, {$root_tag.modified} );
     {else}
-        treeMenu_{$attribute_id}.load( false, 0, 0 );
+        treeMenu_{$attribute_id}.load( false, 0, currentDate );
     {/if}
 {rdelim})();
 // -->
