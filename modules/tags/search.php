@@ -28,20 +28,30 @@ if ( $http->hasVariable( 'TagsIncludeSynonyms' ) )
 
 if ( !empty( $tagsSearchText ) )
 {
+    $limits = array( 'offset' => $offset, 'limit' => $limit );
     $params = array( 'keyword' => array( 'like', '%' . $tagsSearchText . '%' ) );
+    $customFields = array( array( 'operation' => 'COUNT( * )', 'name' => 'row_count' ) );
+
+    $customConds = null;
     if ( $tagsSearchSubTree > 0 )
     {
-        $params['path_string'] = array( 'like', '%/' . $tagsSearchSubTree . '/%' );
+        if ( $tagsIncludeSynonyms )
+        {
+            $customConds = ' AND ( path_string LIKE "%/' . $tagsSearchSubTree . '/%" OR main_tag_id = ' . $tagsSearchSubTree . ' ) ';
+        }
+        else
+        {
+            $params['path_string'] = array( 'like', '%/' . $tagsSearchSubTree . '/%' );
+        }
     }
-    if ( !$tagsIncludeSynonyms )
+    else if ( !$tagsIncludeSynonyms )
     {
         $params['main_tag_id'] = 0;
     }
 
-    $limits = array( 'offset' => $offset, 'limit' => $limit );
-
-    $tagsSearchCount = eZTagsObject::fetchListCount( $params );
-    $tagsSearchResults = eZTagsObject::fetchList( $params, $limits );
+    $tagsSearchResults = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, $params, null, $limits, true, false, null, null, $customConds );
+    $tagsSearchCount = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), array(), $params, array(), null, false, false, $customFields, null, $customConds );
+    $tagsSearchCount = $tagsSearchCount[0]['row_count'];
 }
 
 $tpl = eZTemplate::factory();
