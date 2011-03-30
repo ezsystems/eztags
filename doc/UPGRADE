@@ -9,7 +9,7 @@ and after 1.0beta tag (7e918fd), you MUST run SQL commands marked with "Versioni
 
 
 Upgrade from 1.0beta/1.0alpha to 1.0
-============
+====================================
 
  1. Unpack/unzip
 
@@ -18,7 +18,7 @@ Upgrade from 1.0beta/1.0alpha to 1.0
  2. Regenerate autoload array
 
     Run the following from your eZ Publish root folder
-	
+
     php bin/php/ezpgenerateautoloads.php --extension
 
     Or go to Setup -> Extensions and click the "Regenerate autoload arrays" button
@@ -37,5 +37,5 @@ Upgrade from 1.0beta/1.0alpha to 1.0
  5. Run PHP upgrade script
 
     Use the following command from your eZ Publish root folder:
-    
+
     php extension/eztags/update/common/scripts/updatetagspathstring.php

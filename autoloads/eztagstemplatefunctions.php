@@ -36,18 +36,18 @@ class eZTagsTemplateFunctions
      */
     function namedParameterList()
     {
-        return array( 'eztags_parent_string' => array( 'tag_id' => array( 'type' => 'integer',
-                                                'required' => true,
-                                                'default' => 0 ) ),
-						'latest_tags' => array( 'limit' => array( 'type' => 'integer',
-                                                'required' => false,
-                                                'default' => 10 ) ),
-						'user_limitations' => array( 'module' => array( 'type' => 'string',
-                                                'required' => true,
-                                                'default' => '' ),
-                                                'function' => array( 'type' => 'string',
-                                                'required' => true,
-                                                'default' => '' ) )
+        return array( 'eztags_parent_string' => array( 'tag_id' => array( 'type'     => 'integer',
+                                                                          'required' => true,
+                                                                          'default'  => 0 ) ),
+                        'latest_tags'        => array( 'limit'  => array( 'type'     => 'integer',
+                                                                          'required' => false,
+                                                                          'default'  => 10 ) ),
+                        'user_limitations'   => array( 'module' => array( 'type'     => 'string',
+                                                                          'required' => true,
+                                                                          'default'  => '' ),
+                                                                          'function' => array( 'type'     => 'string',
+                                                                                               'required' => true,
+                                                                                               'default'  => '' ) )
         );
 
     }
@@ -89,28 +89,28 @@ class eZTagsTemplateFunctions
      * @param integer $tag_id
      * @return string
      */
-    static function generateParentString($tag_id)
+    static function generateParentString( $tag_id )
     {
-        if($tag_id == 0)
+        if ( $tag_id == 0 )
         {
             return '(' . ezpI18n::tr( 'extension/eztags/tags/edit', 'no parent' ) . ')';
         }
 
-        $tag = eZTagsObject::fetch($tag_id);
+        $tag = eZTagsObject::fetch( $tag_id );
         $synonymsCount = $tag->getSynonymsCount();
 
         $keywordsArray = array();
 
-        while($tag->hasParent())
+        while ( $tag->hasParent() )
         {
-            $keywordsArray[] = ($synonymsCount > 0) ? $tag->Keyword . ' (+' . $synonymsCount . ')' : $tag->Keyword;
+            $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->Keyword . ' (+' . $synonymsCount . ')' : $tag->Keyword;
             $tag = $tag->getParent();
             $synonymsCount = $tag->getSynonymsCount();
         }
 
-        $keywordsArray[] = ($synonymsCount > 0) ? $tag->Keyword . ' (+' . $synonymsCount . ')' : $tag->Keyword;
+        $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->Keyword . ' (+' . $synonymsCount . ')' : $tag->Keyword;
 
-        return implode(' / ', array_reverse($keywordsArray));
+        return implode( ' / ', array_reverse( $keywordsArray ) );
     }
 
     /**
@@ -120,9 +120,12 @@ class eZTagsTemplateFunctions
      * @param integer $limit
      * @return array
      */
-    static function fetchLatestTags($limit)
+    static function fetchLatestTags( $limit )
     {
-    	return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array('main_tag_id' => 0), array('modified' => 'desc'), array('limit' => $limit) );
+        return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null,
+                                                    array( 'main_tag_id' => 0 ),
+                                                    array( 'modified' => 'desc' ),
+                                                    array( 'limit' => $limit ) );
     }
 
     /**
@@ -130,36 +133,36 @@ class eZTagsTemplateFunctions
      * Returns the same array as eZUser::hasAccessTo(), with "simplifiedLimitations".
      * 'simplifiedLimitations' array holds all the limitations names as defined in module.php.
      * If your limitation name is not defined as a key, then your user has full access to this limitation
-     * 
+     *
      * @static
      * @param string $module Name of the module
      * @param string $function Name of the policy function ($FunctionList element in module.php)
      * @return array
      */
 
-	static function getSimplifiedUserAccess( $module, $function )
-	{
-		$user = eZUser::currentUser();
-		$userAccess = $user->hasAccessTo( $module, $function );
+    static function getSimplifiedUserAccess( $module, $function )
+    {
+        $user = eZUser::currentUser();
+        $userAccess = $user->hasAccessTo( $module, $function );
 
-		$userAccess['simplifiedLimitations'] = array();
-		if( $userAccess['accessWord'] == 'limited' )
-		{
-			foreach( $userAccess['policies'] as $policy )
-			{
-				foreach( $policy as $limitationName => $limitationList )
-				{
-					foreach( $limitationList as $limitationValue )
-					{
-						$userAccess['simplifiedLimitations'][$limitationName][] = $limitationValue;
-					}
+        $userAccess['simplifiedLimitations'] = array();
+        if ( $userAccess['accessWord'] == 'limited' )
+        {
+            foreach ( $userAccess['policies'] as $policy )
+            {
+                foreach ( $policy as $limitationName => $limitationList )
+                {
+                    foreach ( $limitationList as $limitationValue )
+                    {
+                        $userAccess['simplifiedLimitations'][$limitationName][] = $limitationValue;
+                    }
 
-					$userAccess['simplifiedLimitations'][$limitationName] = array_unique($userAccess['simplifiedLimitations'][$limitationName]);
-				}
-			}
-		}
-		return $userAccess;
-	}
+                    $userAccess['simplifiedLimitations'][$limitationName] = array_unique( $userAccess['simplifiedLimitations'][$limitationName] );
+                }
+            }
+        }
+        return $userAccess;
+    }
 }
 
 ?>

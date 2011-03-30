@@ -6,7 +6,7 @@
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * $Version: 03/01/2009 +r14
  */
 (function($) {
@@ -49,7 +49,7 @@ open:function(s,t){var h=H[s],c=h.c,cc='.'+c.closeClass,z=(parseInt(h.w.css('z-i
   r.html(c.ajaxText).load(u,function(){if(c.onLoad)c.onLoad.call(this,h);if(cc)h.w.jqmAddClose($(cc,h.w));e(h);});}
  else if(cc)h.w.jqmAddClose($(cc,h.w));
 
- if(c.toTop&&h.o)h.w.before('<span id="jqmP'+h.w[0]._jqm+'"></span>').insertAfter(h.o);	
+ if(c.toTop&&h.o)h.w.before('<span id="jqmP'+h.w[0]._jqm+'"></span>').insertAfter(h.o);
  (c.onShow)?c.onShow(h):h.w.show();e(h);return F;
 },
 close:function(s){var h=H[s];if(!h.a)return F;h.a=F;
@@ -75,7 +75,7 @@ hs=function(w,t,c){return w.each(function(){var s=this._jqm;$(t).each(function()
  * Copyright (c) 2007 Brice Burgess <bhb@iceburg.net>, http://www.iceburg.net
  * Licensed under the MIT License:
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * $Version: 2007.08.19 +r2
  */
 

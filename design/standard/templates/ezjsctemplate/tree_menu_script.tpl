@@ -7,7 +7,7 @@ function TagsStructureMenu( path, persistent, attr_id )
     this.cookieValidity = 3650; // days
     this.useCookie      = persistent;
     this.cookie         = this.useCookie ? _getCookie( this.cookieName ) : '';
-    this.open           = ( this.cookie )? this.cookie.split( '/' ): [];
+    this.open           = ( this.cookie ) ? this.cookie.split( '/' ): [];
     this.autoOpenPath   = path;
     this.attribute_id   = attr_id;
 {/literal}
@@ -22,7 +22,7 @@ function TagsStructureMenu( path, persistent, attr_id )
 
     this.hideTagID = jQuery('#hide_tag_id_' + this.attribute_id).val();
 
-	this.showTips       = {if ezini('TreeMenu','ToolTips','eztags.ini')|eq('enabled')}true{else}false{/if};
+    this.showTips       = {if ezini('TreeMenu','ToolTips','eztags.ini')|eq('enabled')}true{else}false{/if};
     this.autoOpen       = false;
 
 {literal}
@@ -54,7 +54,7 @@ function TagsStructureMenu( path, persistent, attr_id )
 
     function _delCookie( name )
     {
-    	_setCookie( name, '', ( new Date() - 86400000 ) );
+        _setCookie( name, '', ( new Date() - 86400000 ) );
     }
 
     this.setOpen = function( tagID )
@@ -121,12 +121,12 @@ function TagsStructureMenu( path, persistent, attr_id )
 
         html += '><span class="node-name-normal">'
             + item.keyword;
-        
+
         if(item.synonyms_count > 0)
-    	{
-    		html += ' (+' + item.synonyms_count + ')';
-    	}
-        
+        {
+            html += ' (+' + item.synonyms_count + ')';
+        }
+
         html += '<\/span>';
 
         html += '<\/a>';

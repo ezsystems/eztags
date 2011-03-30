@@ -7,7 +7,7 @@
 <div class="box-bc"><div class="box-ml"><div class="box-content">
 
 <div id="contentstructure">
-	{include uri='design:tagsstructuremenu/tags_structure_menu_dynamic.tpl' menu_persistence=true()}
+    {include uri='design:tagsstructuremenu/tags_structure_menu_dynamic.tpl' menu_persistence=true()}
 </div>
 
 </div></div></div>

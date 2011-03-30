@@ -16,7 +16,7 @@ SET l.objectattribute_version = o.current_version;
 DROP INDEX `eztags_attr_link_kid_oaid` ON `eztags_attribute_link`;
 DROP INDEX `eztags_attr_link_oaid` ON `eztags_attribute_link`;
 
-CREATE INDEX `eztags_attr_link_kid_oaid_oav` ON `eztags_attribute_link` (`keyword_id`,`objectattribute_id`,`objectattribute_version`);
-CREATE INDEX `eztags_attr_link_oaid_oav` ON `eztags_attribute_link` (`objectattribute_id`,`objectattribute_version`);
+CREATE INDEX `eztags_attr_link_kid_oaid_oav` ON `eztags_attribute_link` ( `keyword_id`, `objectattribute_id`, `objectattribute_version` );
+CREATE INDEX `eztags_attr_link_oaid_oav` ON `eztags_attribute_link` ( `objectattribute_id`, `objectattribute_version` );
 
 -- END: Versioning support

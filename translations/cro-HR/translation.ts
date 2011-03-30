@@ -2,7 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
-	<name>design/standard/class/datatype</name>
+    <name>design/standard/class/datatype</name>
     <message>
         <source>Limit by tags subtree</source>
         <translation>Ograničenje po podstablu oznaka</translation>
@@ -29,7 +29,7 @@
     </message>
 </context>
 <context>
-	<name>extension/eztags/errors</name>
+    <name>extension/eztags/errors</name>
     <message>
         <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
         <translation>Oznaku nije moguće uređivati jer se koristi kao ograničenje po podstablu u jednom ili više atributa klase.</translation>
@@ -52,7 +52,7 @@
     </message>
 </context>
 <context>
-	<name>extension/eztags/warnings</name>
+    <name>extension/eztags/warnings</name>
     <message>
         <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
         <translation>PAŽNJA: Oznaka je unutar ograničenja po podstablu. Micanje oznake van tih ograničenja može dovesti do nekonzistentnosti jer bi objekti imali oznake koje ne bi trebali imati.</translation>
@@ -296,7 +296,7 @@
     </message>
 </context>
 <context>
-	<name>extension/eztags/tags/search</name>
+    <name>extension/eztags/tags/search</name>
     <message>
         <source>Tags search</source>
         <translation>Pretraživanje oznaka</translation>

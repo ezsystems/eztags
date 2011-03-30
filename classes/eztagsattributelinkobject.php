@@ -23,31 +23,31 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      */
     static function definition()
     {
-        return array( 'fields' => array( 'id' => array( 'name' => 'ID',
-                                                        'datatype' => 'integer',
-                                                        'default' => 0,
-                                                        'required' => true ),
-                                         'keyword_id' => array( 'name' => 'KeywordID',
-                                                             'datatype' => 'integer',
-                                                             'default' => 0,
-                                                             'required' => true ),
-                                         'objectattribute_id' => array( 'name' => 'ObjectAttributeID',
-                                                             'datatype' => 'integer',
-                                                             'default' => 0,
-                                                             'required' => true ),
-                                         'objectattribute_version' => array( 'name' => 'ObjectAttributeVersion',
-                                                             'datatype' => 'integer',
-                                                             'default' => 0,
-                                                             'required' => true ),
-                                         'object_id' => array( 'name' => 'ObjectID',
-                                                             'datatype' => 'integer',
-                                                             'default' => 0,
-                                                             'required' => true ) ),
-                      'keys' => array( 'id' ),
+        return array( 'fields'        => array( 'id'                      => array( 'name'     => 'ID',
+                                                                                    'datatype' => 'integer',
+                                                                                    'default'  => 0,
+                                                                                    'required' => true ),
+                                                'keyword_id'              => array( 'name'     => 'KeywordID',
+                                                                                    'datatype' => 'integer',
+                                                                                    'default'  => 0,
+                                                                                    'required' => true ),
+                                                'objectattribute_id'      => array( 'name'     => 'ObjectAttributeID',
+                                                                                    'datatype' => 'integer',
+                                                                                    'default'  => 0,
+                                                                                    'required' => true ),
+                                                'objectattribute_version' => array( 'name'     => 'ObjectAttributeVersion',
+                                                                                    'datatype' => 'integer',
+                                                                                    'default'  => 0,
+                                                                                    'required' => true ),
+                                                'object_id'               => array( 'name'     => 'ObjectID',
+                                                                                    'datatype' => 'integer',
+                                                                                    'default'  => 0,
+                                                                                    'required' => true ) ),
+                      'keys'          => array( 'id' ),
                       'increment_key' => 'id',
-                      'class_name' => 'eZTagsAttributeLinkObject',
-                      'sort' => array( 'id' => 'asc' ),
-                      'name' => 'eztags_attribute_link' );
+                      'class_name'    => 'eZTagsAttributeLinkObject',
+                      'sort'          => array( 'id' => 'asc' ),
+                      'name'          => 'eztags_attribute_link' );
     }
 
     /**
@@ -56,14 +56,14 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      * @param integer $tagID
      * @return array
      */
-    static function fetchByTagID($tagID)
+    static function fetchByTagID( $tagID )
     {
-		$objects = eZPersistentObject::fetchObjectList( self::definition(), null, array('keyword_id' => $tagID) );
+        $objects = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'keyword_id' => $tagID ) );
 
-		if(is_array($objects))
-			return $objects;
-		else
-			return array();
+        if ( is_array( $objects ) )
+            return $objects;
+        else
+            return array();
     }
 
     /**
@@ -75,18 +75,18 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      * @param integer $keywordID
      * @return eZTagsAttributeLinkObject if found, false otherwise
      */
-    static function fetchByObjectAttributeAndKeywordID($objectAttributeID, $objectAttributeVersion, $objectID, $keywordID)
+    static function fetchByObjectAttributeAndKeywordID( $objectAttributeID, $objectAttributeVersion, $objectID, $keywordID )
     {
-		$objects = eZPersistentObject::fetchObjectList( self::definition(), null,
-															array('objectattribute_id' => $objectAttributeID,
-																	'objectattribute_version' => $objectAttributeVersion,
-																	'object_id' => $objectID,
-																	'keyword_id' => $keywordID) );
+        $objects = eZPersistentObject::fetchObjectList( self::definition(), null,
+                                                        array( 'objectattribute_id'      => $objectAttributeID,
+                                                               'objectattribute_version' => $objectAttributeVersion,
+                                                               'object_id'               => $objectID,
+                                                               'keyword_id'              => $keywordID ) );
 
-		if(is_array($objects) && !empty($objects))
-			return $objects[0];
-		else
-			return false;
+        if ( is_array( $objects ) && !empty( $objects ) )
+            return $objects[0];
+        else
+            return false;
     }
 }
 

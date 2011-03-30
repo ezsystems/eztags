@@ -64,28 +64,28 @@ class eZTags
             case 'tag_ids' :
             {
                 return $this->IDArray;
-            }break;
+            } break;
 
             case 'id_string' :
             {
                 return $this->idString();
-            }break;
+            } break;
 
             case 'keyword_string' :
             {
                 return $this->keywordString();
-            }break;
+            } break;
 
             case 'parent_string' :
             {
                 return $this->parentString();
-            }break;
+            } break;
 
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZTags::attribute' );
+                eZDebug::writeError( "Attribute '$name' does not exist", "eZTags::attribute" );
                 return null;
-            }break;
+            } break;
         }
     }
 
@@ -98,14 +98,14 @@ class eZTags
      */
     function createFromStrings( $idString, $keywordString, $parentString )
     {
-    	$idArray = explode( '|#', $idString );
+        $idArray = explode( '|#', $idString );
         $keywordArray = explode( '|#', $keywordString );
         $parentArray = explode( '|#', $parentString );
 
         $wordArray = array();
         foreach ( array_keys( $idArray ) as $key )
         {
-            $wordArray[] = trim( $idArray[$key] ) . "|#" . trim( $keywordArray[$key] ) . "|#" . trim($parentArray[$key]);
+            $wordArray[] = trim( $idArray[$key] ) . "|#" . trim( $keywordArray[$key] ) . "|#" . trim( $parentArray[$key] );
         }
 
         $wordArray = array_unique( $wordArray );
@@ -114,7 +114,7 @@ class eZTags
             $word = explode( '|#', $wordKey );
             if ($word[0] != '')
             {
-            	$this->IDArray[] = (int) $word[0];
+                $this->IDArray[] = (int) $word[0];
                 $this->KeywordArray[] = $word[1];
                 $this->ParentArray[] = (int) $word[2];
             }
@@ -142,7 +142,7 @@ class eZTags
         $wordArray = array();
         foreach ( $words as $w )
         {
-            $wordArray[] = trim($w['id']) . "|#" . trim($w['keyword']) . "|#" . trim($w['parent_id']);
+            $wordArray[] = trim( $w['id'] ) . "|#" . trim( $w['keyword'] ) . "|#" . trim( $w['parent_id'] );
         }
 
         $wordArray = array_unique( $wordArray );
@@ -151,7 +151,7 @@ class eZTags
             $word = explode( '|#', $wordKey );
             if ($word[0] != '')
             {
-            	$this->IDArray[] = (int) $word[0];
+                $this->IDArray[] = (int) $word[0];
                 $this->KeywordArray[] = $word[1];
                 $this->ParentArray[] = (int) $word[2];
             }
@@ -165,126 +165,125 @@ class eZTags
      */
     function store( $attribute )
     {
-		$attributeID = $attribute->attribute( 'id' );
-		$attributeVersion = $attribute->attribute( 'version' );
-		$objectID = $attribute->attribute( 'contentobject_id' );
+        $attributeID = $attribute->attribute( 'id' );
+        $attributeVersion = $attribute->attribute( 'version' );
+        $objectID = $attribute->attribute( 'contentobject_id' );
 
-		if(!(is_numeric($attributeID) && $attributeID > 0))
-		{
-			return;
-		}
+        if ( !( is_numeric( $attributeID ) && $attributeID > 0 ) )
+        {
+            return;
+        }
 
-		$db = eZDB::instance();
-		$currentTime = time();
+        $db = eZDB::instance();
+        $currentTime = time();
 
-		//get existing tags for object attribute
-		$existingTagIDs = array();
-		$existingTags = $db->arrayQuery( "SELECT DISTINCT keyword_id FROM eztags_attribute_link WHERE objectattribute_id = $attributeID AND objectattribute_version = $attributeVersion" );
+        //get existing tags for object attribute
+        $existingTagIDs = array();
+        $existingTags = $db->arrayQuery( "SELECT DISTINCT keyword_id FROM eztags_attribute_link WHERE objectattribute_id = $attributeID AND objectattribute_version = $attributeVersion" );
 
-		if(is_array($existingTags))
-		{
-			foreach($existingTags as $t)
-			{
-				$existingTagIDs[] = (int) $t['keyword_id'];
-			}
-		}
+        if ( is_array($existingTags ) )
+        {
+            foreach ( $existingTags as $t )
+            {
+                $existingTagIDs[] = (int) $t['keyword_id'];
+            }
+        }
 
-		//get tags to delete from object attribute
-		$tagsToDelete = array();
-		foreach($existingTagIDs as $tid)
-		{
-			if(!in_array($tid, $this->IDArray))
-			{
-				$tagsToDelete[] = $tid;
-			}
-		}
+        //get tags to delete from object attribute
+        $tagsToDelete = array();
+        foreach ( $existingTagIDs as $tid )
+        {
+            if ( !in_array( $tid, $this->IDArray ) )
+            {
+                $tagsToDelete[] = $tid;
+            }
+        }
 
-		//and delete them
-		if(count($tagsToDelete) > 0)
-		{
-			$dbString = $db->generateSQLINStatement($tagsToDelete, 'keyword_id', false, true, 'int');
-			$db->query( "DELETE FROM eztags_attribute_link WHERE $dbString AND eztags_attribute_link.objectattribute_id = $attributeID AND eztags_attribute_link.objectattribute_version = $attributeVersion" );
-		}
+        //and delete them
+        if ( count($tagsToDelete) > 0 )
+        {
+            $dbString = $db->generateSQLINStatement( $tagsToDelete, 'keyword_id', false, true, 'int' );
+            $db->query( "DELETE FROM eztags_attribute_link WHERE $dbString AND eztags_attribute_link.objectattribute_id = $attributeID AND eztags_attribute_link.objectattribute_version = $attributeVersion" );
+        }
 
-		//get tags that are new to the object attribute
-		$newTags = array();
-		$tagsToLink = array();
-		foreach(array_keys($this->IDArray) as $key)
-		{
-			if(!in_array($this->IDArray[$key], $existingTagIDs))
-			{
-				if($this->IDArray[$key] == 0)
-				{
-					// We won't allow adding tags to the database that already exist, but instead, we link to the existing tags
-					$existing = eZTagsObject::fetchList(array('keyword' => array('like', trim($this->KeywordArray[$key])), 'parent_id' => $this->ParentArray[$key]));
+        //get tags that are new to the object attribute
+        $newTags = array();
+        $tagsToLink = array();
+        foreach ( array_keys( $this->IDArray ) as $key )
+        {
+            if ( !in_array( $this->IDArray[$key], $existingTagIDs ) )
+            {
+                if ( $this->IDArray[$key] == 0 )
+                {
+                    // We won't allow adding tags to the database that already exist, but instead, we link to the existing tags
+                    $existing = eZTagsObject::fetchList( array( 'keyword' => array( 'like', trim( $this->KeywordArray[$key] ) ), 'parent_id' => $this->ParentArray[$key] ) );
 
-					if(is_array($existing) && !empty($existing))
-					{
-						if(!in_array($existing[0]->ID, $existingTagIDs))
-							$tagsToLink[] = $existing[0]->ID;
-					}
-					else
-					{
-						$newTags[] = array('id' => $this->IDArray[$key], 'keyword' => $this->KeywordArray[$key], 'parent_id' => $this->ParentArray[$key]);
-					}
-				}
-				else
-					$tagsToLink[] = $this->IDArray[$key];
-			}
-		}
+                    if ( is_array( $existing ) && !empty( $existing ) )
+                    {
+                        if ( !in_array( $existing[0]->ID, $existingTagIDs ) )
+                            $tagsToLink[] = $existing[0]->ID;
+                    }
+                    else
+                    {
+                        $newTags[] = array( 'id' => $this->IDArray[$key], 'keyword' => $this->KeywordArray[$key], 'parent_id' => $this->ParentArray[$key] );
+                    }
+                }
+                else
+                    $tagsToLink[] = $this->IDArray[$key];
+            }
+        }
 
-		//we need to check if user really has access to tags/add, taking into account policy and subtree limits
-		$attributeSubTreeLimit = $attribute->contentClassAttribute()->attribute( eZTagsType::SUBTREE_LIMIT_FIELD );
-		$userLimitations = eZTagsTemplateFunctions::getSimplifiedUserAccess('tags', 'add');
+        //we need to check if user really has access to tags/add, taking into account policy and subtree limits
+        $attributeSubTreeLimit = $attribute->contentClassAttribute()->attribute( eZTagsType::SUBTREE_LIMIT_FIELD );
+        $userLimitations = eZTagsTemplateFunctions::getSimplifiedUserAccess('tags', 'add');
 
-		if($userLimitations['accessWord'] != 'no' && count($newTags) > 0)
-		{
-			//first we need to fetch all locations user has access to
-			$userLimitations = isset($userLimitations['simplifiedLimitations']['Tag']) ? $userLimitations['simplifiedLimitations']['Tag'] : array();
-			$allowedLocations = self::getAllowedLocations($attributeSubTreeLimit, $userLimitations);
+        if ( $userLimitations['accessWord'] != 'no' && count( $newTags ) > 0 )
+        {
+            //first we need to fetch all locations user has access to
+            $userLimitations = isset( $userLimitations['simplifiedLimitations']['Tag'] ) ? $userLimitations['simplifiedLimitations']['Tag'] : array();
+            $allowedLocations = self::getAllowedLocations( $attributeSubTreeLimit, $userLimitations );
 
-			foreach($newTags as $t)
-			{
-				//and then for each tag check if user can save in one of the allowed locations
-				$parentTag = eZTagsObject::fetch($t['parent_id']);
-				$pathString = ($parentTag instanceof eZTagsObject) ? $parentTag->PathString : '/';
+            foreach ( $newTags as $t )
+            {
+                //and then for each tag check if user can save in one of the allowed locations
+                $parentTag = eZTagsObject::fetch( $t['parent_id'] );
+                $pathString = ( $parentTag instanceof eZTagsObject ) ? $parentTag->PathString : '/';
 
-				if(self::canSave($pathString, $allowedLocations))
-				{
-					$db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( " .
-						$t['parent_id'] . ", 0, '" . $db->escapeString(trim($t['keyword'])) . "', '$pathString', 0 )" );
-					$tagID = (int) $db->lastSerialID( 'eztags', 'id' );
-					$db->query( "UPDATE eztags SET path_string = CONCAT(path_string, CAST($tagID AS CHAR), '/') WHERE id = $tagID" );
+                if ( self::canSave( $pathString, $allowedLocations ) )
+                {
+                    $db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( " .
+                                 $t['parent_id'] . ", 0, '" . $db->escapeString( trim( $t['keyword'] ) ) . "', '$pathString', 0 )" );
+                    $tagID = (int) $db->lastSerialID( 'eztags', 'id' );
+                    $db->query( "UPDATE eztags SET path_string = CONCAT(path_string, CAST($tagID AS CHAR), '/') WHERE id = $tagID" );
 
-					$pathArray = explode( '/', trim( $pathString, '/' ) );
-					array_push($pathArray, $tagID);
-					$db->query( "UPDATE eztags SET modified = $currentTime WHERE " . $db->generateSQLINStatement( $pathArray, 'id', false, true, 'int' ) );
+                    $pathArray = explode( '/', trim( $pathString, '/' ) );
+                    array_push( $pathArray, $tagID );
+                    $db->query( "UPDATE eztags SET modified = $currentTime WHERE " . $db->generateSQLINStatement( $pathArray, 'id', false, true, 'int' ) );
 
-					$tagsToLink[] = $tagID;
-				}
-			}
-		}
+                    $tagsToLink[] = $tagID;
+                }
+            }
+        }
 
-		//link tags to objects taking into account subtree limit
-		if(count($tagsToLink) > 0)
-		{
-			$dbString = $db->generateSQLINStatement($tagsToLink, 'id', false, true, 'int');
-			$tagsToLink = $db->arrayQuery( "SELECT id, path_string FROM eztags WHERE $dbString" );
+        //link tags to objects taking into account subtree limit
+        if ( count( $tagsToLink ) > 0 )
+        {
+            $dbString = $db->generateSQLINStatement( $tagsToLink, 'id', false, true, 'int' );
+            $tagsToLink = $db->arrayQuery( "SELECT id, path_string FROM eztags WHERE $dbString" );
 
-			if(is_array($tagsToLink) && count($tagsToLink) > 0)
-			{
-				foreach($tagsToLink as $t)
-				{
-					if($attributeSubTreeLimit == 0 || ($attributeSubTreeLimit > 0 &&
-						strpos($t['path_string'], '/' . $attributeSubTreeLimit . '/') !== false))
-					{
-						$db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id, objectattribute_version, object_id ) VALUES ( " . $t['id'] . ", $attributeID, $attributeVersion, $objectID )" );
-					}
-				}
-			}
-		}
+            if ( is_array( $tagsToLink ) && count( $tagsToLink ) > 0 )
+            {
+                foreach ( $tagsToLink as $t )
+                {
+                    if ( $attributeSubTreeLimit == 0 || ( $attributeSubTreeLimit > 0 &&
+                         strpos( $t['path_string'], '/' . $attributeSubTreeLimit . '/' ) !== false ) )
+                    {
+                        $db->query( "INSERT INTO eztags_attribute_link ( keyword_id, objectattribute_id, objectattribute_version, object_id ) VALUES ( " . $t['id'] . ", $attributeID, $attributeVersion, $objectID )" );
+                    }
+                }
+            }
+        }
     }
-
 
     /**
      * Returns all allowed locations user has access to
@@ -294,29 +293,29 @@ class eZTags
      * @param array $userLimitations
      * @return bool
      */
-	private static function getAllowedLocations($attributeSubTreeLimit, $userLimitations)
-	{
-		if(count($userLimitations) == 0)
-			return array((string) $attributeSubTreeLimit);
-		else
-		{
-			if($attributeSubTreeLimit == 0)
-				return $userLimitations;
-			else
-			{
-				$limitTag = eZTagsObject::fetch($attributeSubTreeLimit);
-				$pathString = ($limitTag instanceof eZTagsObject) ? $limitTag->PathString : '/';
+    private static function getAllowedLocations( $attributeSubTreeLimit, $userLimitations )
+    {
+        if ( count( $userLimitations ) == 0 )
+            return array( (string) $attributeSubTreeLimit );
+        else
+        {
+            if ( $attributeSubTreeLimit == 0 )
+                return $userLimitations;
+            else
+            {
+                $limitTag = eZTagsObject::fetch( $attributeSubTreeLimit );
+                $pathString = ( $limitTag instanceof eZTagsObject ) ? $limitTag->PathString : '/';
 
-				foreach($userLimitations as $l)
-				{
-					if(strpos($pathString, '/' . $l . '/') !== false)
-						return array((string) $attributeSubTreeLimit);
-				}
-			}
-		}
+                foreach ( $userLimitations as $l )
+                {
+                    if ( strpos( $pathString, '/' . $l . '/' ) !== false )
+                        return array( (string) $attributeSubTreeLimit );
+                }
+            }
+        }
 
-		return array();
-	}
+        return array();
+    }
 
     /**
      * Checks if tag (described by its path string) can be saved
@@ -327,28 +326,28 @@ class eZTags
      * @param array $userLimitations
      * @return bool
      */
-	private static function canSave($pathString, $allowedLocations)
-	{
-		if(count($allowedLocations) > 0)
-		{
-			if($allowedLocations[0] == 0)
-			{
-				return true;
-			}
-			else
-			{
-				foreach($allowedLocations as $l)
-				{
-					if(strpos($pathString, '/' . $l . '/') !== false)
-					{
-						return true;
-					}
-				}
-			}
-		}
+    private static function canSave( $pathString, $allowedLocations )
+    {
+        if ( count( $allowedLocations ) > 0 )
+        {
+            if ( $allowedLocations[0] == 0 )
+            {
+                return true;
+            }
+            else
+            {
+                foreach ( $allowedLocations as $l )
+                {
+                    if ( strpos( $pathString, '/' . $l . '/' ) !== false )
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
     /**
      * Returns the tags ID array
@@ -375,7 +374,7 @@ class eZTags
      *
      * @return string
      */
-    function keywordString($separator = '|#')
+    function keywordString( $separator = '|#' )
     {
         return implode( $separator, $this->KeywordArray );
     }

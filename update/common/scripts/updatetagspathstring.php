@@ -5,9 +5,9 @@ require 'autoload.php';
 
 $cli = eZCLI::instance();
 
-$script = eZScript::instance( array( 'description' => ( "\nUpdates path string of all the tags.\n" ),
-                                     'use-session' => false,
-                                     'use-modules' => false,
+$script = eZScript::instance( array( 'description'    => ( '\nUpdates path string of all the tags.\n' ),
+                                     'use-session'    => false,
+                                     'use-modules'    => false,
                                      'use-extensions' => true ) );
 
 $script->startup();
@@ -30,7 +30,7 @@ while ( $firstLevelTags = eZPersistentObject::fetchObjectList( eZTagsObject::def
 
         $db->begin();
 
-        $tag->updatePathString(false);
+        $tag->updatePathString( false );
 
         $db->commit();
 

@@ -107,7 +107,7 @@
 			function openParentSelector()
 			{
 				hideResults();
-				parentSelector.jqmShow(); 
+				parentSelector.jqmShow();
 			}
 
 			function bindParentSelectorTreeEvents()
@@ -120,7 +120,7 @@
 					emptyResults();
 					hideResults();
 					if ( isFilter ) runAutocomplete();
-					parentSelector.jqmHide(); 
+					parentSelector.jqmHide();
 					return false;
 				});
 			}

@@ -2,7 +2,7 @@
 
 /**
  * eZTagsType class implements the eztags datatype
- * 
+ *
  */
 class eZTagsType extends eZDataType
 {
@@ -11,12 +11,12 @@ class eZTagsType extends eZDataType
     const SUBTREE_LIMIT_VARIABLE = '_eztags_subtree_limit_';
     const SUBTREE_LIMIT_FIELD = 'data_int1';
 
-	const SHOW_DROPDOWN_VARIABLE = '_eztags_show_dropdown_';
-	const SHOW_DROPDOWN_FIELD = 'data_int2';
+    const SHOW_DROPDOWN_VARIABLE = '_eztags_show_dropdown_';
+    const SHOW_DROPDOWN_FIELD = 'data_int2';
 
     /**
      * Constructor
-     * 
+     *
      */
     function __construct()
     {
@@ -25,7 +25,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Sets the default value
-     * 
+     *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @param eZContentObjectVersion $currentVersion
      * @param eZContentObjectAttribute $originalContentObjectAttribute
@@ -47,7 +47,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Validates the input and returns true if the input was valid for this datatype
-     * 
+     *
      * @param eZHTTPTool $http
      * @param string $base
      * @param eZContentObjectAttribute $contentObjectAttribute
@@ -61,34 +61,34 @@ class eZTagsType extends eZDataType
              $http->hasPostVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) &&
              $http->hasPostVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $data = trim($http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ));
-            $data2 = trim($http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ));
-            $data3 = trim($http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ));
+            $data = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) );
+            $data2 = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) );
+            $data3 = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) );
 
-			if(strlen($data) == 0 && strlen($data2) == 0 && strlen($data3) == 0)
-			{
-                if(!$classAttribute->attribute( 'is_information_collector' ) && $contentObjectAttribute->validateIsRequired())
+            if (strlen( $data ) == 0 && strlen( $data2 ) == 0 && strlen( $data3 ) == 0 )
+            {
+                if ( !$classAttribute->attribute( 'is_information_collector' ) && $contentObjectAttribute->validateIsRequired() )
                 {
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
-			}
-			else if(!(strlen($data) > 0 && strlen($data2) > 0 && strlen($data3) > 0))
-			{
+            }
+            else if ( !( strlen( $data)  > 0 && strlen( $data2 ) > 0 && strlen( $data3 ) > 0 ) )
+            {
                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
                 return eZInputValidator::STATE_INVALID;
-			}
-			else
-			{
-				$dataArray = explode('|#', $data);
-				$data2Array = explode('|#', $data2);
-				$data3Array = explode('|#', $data3);
-				if(count($data2Array) != count($dataArray) || count($data3Array) != count($dataArray))
-				{
-					$contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
-					return eZInputValidator::STATE_INVALID;
-				}
-			}
+            }
+            else
+            {
+                $dataArray = explode( '|#', $data );
+                $data2Array = explode( '|#', $data2 );
+                $data3Array = explode( '|#', $data3 );
+                if ( count( $data2Array ) != count( $dataArray ) || count( $data3Array ) != count( $dataArray ) )
+                {
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
+                    return eZInputValidator::STATE_INVALID;
+                }
+            }
         }
         else if ( !$classAttribute->attribute( 'is_information_collector' ) && $contentObjectAttribute->validateIsRequired() )
         {
@@ -101,7 +101,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Fetches the http post var keyword input and stores it in the data instance
-     * 
+     *
      * @param eZHTTPTool $http
      * @param string $base
      * @param eZContentObjectAttribute $contentObjectAttribute
@@ -129,7 +129,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Stores the object attribute
-     * 
+     *
      * @param eZContentObjectAttribute $attribute
      */
     function storeObjectAttribute( $attribute )
@@ -143,7 +143,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Validates class attribute HTTP input
-     * 
+     *
      * @param eZHTTPTool $http
      * @param string $base
      * @param eZContentClassAttribute $attribute
@@ -151,32 +151,32 @@ class eZTagsType extends eZDataType
      */
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
-    	$subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
-    	if( !$http->hasPostVariable( $subTreeLimitName ) || !is_numeric( $http->postVariable( $subTreeLimitName ) ) || $http->postVariable( $subTreeLimitName ) < 0 )
-    	{
-    		return eZInputValidator::STATE_INVALID;
-    	}
+        $subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
+        if ( !$http->hasPostVariable( $subTreeLimitName ) || !is_numeric( $http->postVariable( $subTreeLimitName ) ) || $http->postVariable( $subTreeLimitName ) < 0 )
+        {
+            return eZInputValidator::STATE_INVALID;
+        }
 
-		$subTreeLimit = $http->postVariable( $subTreeLimitName );
+        $subTreeLimit = $http->postVariable( $subTreeLimitName );
 
-		$tag = eZTagsObject::fetch($subTreeLimit);
+        $tag = eZTagsObject::fetch( $subTreeLimit );
 
-		if ( !( $tag instanceof eZTagsObject ) && $subTreeLimit > 0 )
-		{
-			return eZInputValidator::STATE_INVALID;
-		}
+        if ( !( $tag instanceof eZTagsObject ) && $subTreeLimit > 0 )
+        {
+            return eZInputValidator::STATE_INVALID;
+        }
 
-		if( $subTreeLimit > 0 && $tag->MainTagID > 0)
-		{
-			return eZInputValidator::STATE_INVALID;
-		}
+        if ( $subTreeLimit > 0 && $tag->MainTagID > 0 )
+        {
+            return eZInputValidator::STATE_INVALID;
+        }
 
         return eZInputValidator::STATE_ACCEPTED;
     }
 
     /**
      * Fetches class attribute HTTP input and stores it
-     * 
+     *
      * @param eZHTTPTool $http
      * @param string $base
      * @param eZContentClassAttribute $attribute
@@ -184,28 +184,28 @@ class eZTagsType extends eZDataType
      */
     function fetchClassAttributeHTTPInput( $http, $base, $attribute )
     {
-    	$subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
-    	if( !$http->hasPostVariable( $subTreeLimitName ) )
-    	{
-    		return false;
-    	}
+        $subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
+        if ( !$http->hasPostVariable( $subTreeLimitName ) )
+        {
+            return false;
+        }
 
-    	$data = $http->postVariable( $subTreeLimitName );
-		$data2 = 0;
-		if( $http->hasPostVariable( $base . self::SHOW_DROPDOWN_VARIABLE . $attribute->attribute( 'id' ) ) )
-		{
-			$data2 = 1;
-		}
+        $data = $http->postVariable( $subTreeLimitName );
+        $data2 = 0;
+        if ( $http->hasPostVariable( $base . self::SHOW_DROPDOWN_VARIABLE . $attribute->attribute( 'id' ) ) )
+        {
+            $data2 = 1;
+        }
 
-		$attribute->setAttribute(self::SUBTREE_LIMIT_FIELD, $data);
-		$attribute->setAttribute(self::SHOW_DROPDOWN_FIELD, $data2);
+        $attribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $data );
+        $attribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $data2 );
 
         return true;
     }
 
     /**
      * Returns the content
-     * 
+     *
      * @param eZContentObjectAttribute $attribute
      * @return eZTags
      */
@@ -219,7 +219,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Returns the meta data used for storing search indeces
-     * 
+     *
      * @param eZContentObjectAttribute $attribute
      * @return string
      */
@@ -228,12 +228,12 @@ class eZTagsType extends eZDataType
         $eztags = new eZTags();
         $eztags->createFromAttribute( $attribute );
 
-        return $eztags->keywordString(', ');
+        return $eztags->keywordString( ', ' );
     }
 
     /**
      * Delete stored object attribute
-     * 
+     *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @param eZContentObjectVersion $version
      */
@@ -251,7 +251,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Returns the content of eztags attribute for use as a title
-     * 
+     *
      * @param eZContentObjectAttribute $attribute
      * @param string $name
      * @return string
@@ -266,21 +266,21 @@ class eZTagsType extends eZDataType
 
     /**
      * Returns true if content object attribute has content
-     * 
+     *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @return bool
      */
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $eztags = new eZTags();
-        $eztags->createFromAttribute($contentObjectAttribute);
+        $eztags->createFromAttribute( $contentObjectAttribute );
 
-        return count($eztags->idArray()) > 0;
+        return count( $eztags->idArray() ) > 0;
     }
 
     /**
      * Returns if the content is indexable
-     * 
+     *
      * @return bool
      */
     function isIndexable()
@@ -290,7 +290,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Returns string representation of a content object attribute
-     * 
+     *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @return string
      */
@@ -307,7 +307,7 @@ class eZTagsType extends eZDataType
      * Valid string value is list of ids, followed by list of keywords,
      * followed by list of parent ids, all together separated by '|#'
      * for example "1|#2|#3|#first tag|#second tag|#third tag|#12|#13|#14"
-     * 
+     *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @param string $string
      * @return bool
@@ -331,7 +331,7 @@ class eZTagsType extends eZDataType
                 $eztags = new eZTags();
                 $eztags->createFromStrings( $idString, $keywordString, $parentString );
                 $contentObjectAttribute->setContent( $eztags );
-                
+
                 return true;
             }
         }
@@ -341,7 +341,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Serializes the content object attribute
-     * 
+     *
      * @param eZPackage $package
      * @param eZContentObjectAttribute $objectAttribute
      * @return DOMNode
@@ -368,14 +368,14 @@ class eZTagsType extends eZDataType
 
     /**
      * Deserializes the content object attribute from provided DOM node
-     * 
+     *
      * @param eZPackage $package
      * @param eZContentObjectAttribute $objectAttribute
      * @param DOMNode $attributeNode
      */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-    	$idString = $attributeNode->getElementsByTagName( 'id-string' )->item( 0 )->textContent;
+        $idString = $attributeNode->getElementsByTagName( 'id-string' )->item( 0 )->textContent;
         $keywordString = $attributeNode->getElementsByTagName( 'keyword-string' )->item( 0 )->textContent;
         $parentString = $attributeNode->getElementsByTagName( 'parent-string' )->item( 0 )->textContent;
 
@@ -386,7 +386,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Returns if the content supports batch initialization
-     * 
+     *
      * @return bool
      */
     function supportsBatchInitializeObjectAttribute()
@@ -396,7 +396,7 @@ class eZTagsType extends eZDataType
 
     /**
      * Sets grouped_input to true for edit view of the datatype
-     * 
+     *
      * @return array
      */
     function objectDisplayInformation( $objectAttribute, $mergeInfo = false )

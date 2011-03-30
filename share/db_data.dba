@@ -1,9 +1,9 @@
 <?php
 // This array contains the database data
 $data = array (
-  'eztags' => 
+  'eztags' =>
   array (
-    'fields' => 
+    'fields' =>
     array (
       0 => 'id',
       1 => 'parent_id',
@@ -12,9 +12,9 @@ $data = array (
       4 => 'path_string',
       5 => 'modified',
     ),
-    'rows' => 
+    'rows' =>
     array (
-      0 => 
+      0 =>
       array (
         0 => '1',
         1 => '0',
@@ -23,7 +23,7 @@ $data = array (
         4 => '/1/',
         5 => '1287705600',
       ),
-      1 => 
+      1 =>
       array (
         0 => '2',
         1 => '0',
@@ -32,7 +32,7 @@ $data = array (
         4 => '/2/',
         5 => '1287705600',
       ),
-      2 => 
+      2 =>
       array (
         0 => '3',
         1 => '0',
@@ -41,7 +41,7 @@ $data = array (
         4 => '/3/',
         5 => '1287705600',
       ),
-      3 => 
+      3 =>
       array (
         0 => '4',
         1 => '0',
@@ -52,7 +52,7 @@ $data = array (
       ),
     ),
   ),
-  '_info' => 
+  '_info' =>
   array (
     'format' => 'generic',
   ),

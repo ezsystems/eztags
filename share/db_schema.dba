@@ -1,45 +1,45 @@
 <?php
 // This array contains the database schema
 $schema = array (
-  'eztags' => 
+  'eztags' =>
   array (
     'name' => 'eztags',
-    'fields' => 
+    'fields' =>
     array (
-      'id' => 
+      'id' =>
       array (
         'type' => 'auto_increment',
         'default' => false,
       ),
-      'parent_id' => 
+      'parent_id' =>
       array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
       ),
-      'main_tag_id' => 
+      'main_tag_id' =>
       array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
       ),
-      'keyword' => 
+      'keyword' =>
       array (
         'length' => 255,
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
       ),
-      'path_string' => 
+      'path_string' =>
       array (
         'length' => 255,
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
       ),
-      'modified' => 
+      'modified' =>
       array (
         'length' => 11,
         'type' => 'int',
@@ -47,28 +47,28 @@ $schema = array (
         'default' => 0,
       ),
     ),
-    'indexes' => 
+    'indexes' =>
     array (
-      'PRIMARY' => 
+      'PRIMARY' =>
       array (
         'type' => 'primary',
-        'fields' => 
+        'fields' =>
         array (
           0 => 'id',
         ),
       ),
-      'eztags_keyword' => 
+      'eztags_keyword' =>
       array (
         'type' => 'non-unique',
-        'fields' => 
+        'fields' =>
         array (
           0 => 'keyword',
         ),
       ),
-      'eztags_keyword_id' => 
+      'eztags_keyword_id' =>
       array (
         'type' => 'non-unique',
-        'fields' => 
+        'fields' =>
         array (
           0 => 'keyword',
           1 => 'id',
@@ -76,38 +76,38 @@ $schema = array (
       ),
     ),
   ),
-  'eztags_attribute_link' => 
+  'eztags_attribute_link' =>
   array (
     'name' => 'eztags_attribute_link',
-    'fields' => 
+    'fields' =>
     array (
-      'id' => 
+      'id' =>
       array (
         'type' => 'auto_increment',
         'default' => false,
       ),
-      'keyword_id' => 
+      'keyword_id' =>
       array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
       ),
-      'objectattribute_id' => 
+      'objectattribute_id' =>
       array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
       ),
-      'objectattribute_version' => 
+      'objectattribute_version' =>
       array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
       ),
-      'object_id' => 
+      'object_id' =>
       array (
         'length' => 11,
         'type' => 'int',
@@ -115,53 +115,53 @@ $schema = array (
         'default' => 0,
       ),
     ),
-    'indexes' => 
+    'indexes' =>
     array (
-      'PRIMARY' => 
+      'PRIMARY' =>
       array (
         'type' => 'primary',
-        'fields' => 
+        'fields' =>
         array (
           0 => 'id',
         ),
       ),
-      'eztags_attr_link_keyword_id' => 
+      'eztags_attr_link_keyword_id' =>
       array (
         'type' => 'non-unique',
-        'fields' => 
+        'fields' =>
         array (
           0 => 'keyword_id',
         ),
       ),
-      'eztags_attr_link_kid_oaid' => 
+      'eztags_attr_link_kid_oaid' =>
       array (
         'type' => 'non-unique',
-        'fields' => 
+        'fields' =>
         array (
           0 => 'keyword_id',
           1 => 'objectattribute_id',
         ),
       ),
-      'eztags_attr_link_kid_oid' => 
+      'eztags_attr_link_kid_oid' =>
       array (
         'type' => 'non-unique',
-        'fields' => 
+        'fields' =>
         array (
           0 => 'keyword_id',
           1 => 'object_id',
         ),
       ),
-      'eztags_attr_link_oaid' => 
+      'eztags_attr_link_oaid' =>
       array (
         'type' => 'non-unique',
-        'fields' => 
+        'fields' =>
         array (
           0 => 'objectattribute_id',
         ),
       ),
     ),
   ),
-  '_info' => 
+  '_info' =>
   array (
     'format' => 'generic',
   ),

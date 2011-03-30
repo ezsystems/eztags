@@ -26,10 +26,6 @@
 
 class eZTagsCloud
 {
-    function eZTagsCloud()
-    {
-    }
-
     function operatorList()
     {
         return array( 'eztagscloud' );
@@ -42,9 +38,9 @@ class eZTagsCloud
 
     function namedParameterList()
     {
-        return array( 'eztagscloud' => array( 'params' => array( 'type' => 'array',
-                        'required' => false,
-                        'default' => array() ) ) );
+        return array( 'eztagscloud' => array( 'params' => array( 'type'     => 'array',
+                                                                 'required' => false,
+                                                                 'default'  => array() ) ) );
     }
 
     function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
@@ -77,12 +73,12 @@ class eZTagsCloud
                 if ( isset( $params['offset'] ) )
                     $dbParams['offset'] = $params['offset'];
 
-	            if ( isset( $params['sort_by'] ) && is_array( $params['sort_by'] ) && count(  $params['sort_by'] ) )
+                if ( isset( $params['sort_by'] ) && is_array( $params['sort_by'] ) && count( $params['sort_by'] ) )
                 {
                     $orderBySql = 'ORDER BY ';
                     $orderArr = is_string( $params['sort_by'][0] ) ? array( $params['sort_by'] ) : $params['sort_by'];
 
-                    foreach( $orderArr as $key => $order )
+                    foreach ( $orderArr as $key => $order )
                     {
                         if ( $key !== 0 ) $orderBySql .= ', ';
                         $direction = isset( $order[1] ) ? $order[1] : false;
@@ -90,7 +86,7 @@ class eZTagsCloud
                         {
                             case 'keyword':
                             {
-                                $orderBySql .= 'ezkeyword.keyword ' . ( $direction ? 'ASC' : 'DESC');
+                                $orderBySql .= 'eztags.keyword ' . ( $direction ? 'ASC' : 'DESC');
                             }break;
                             case 'count':
                             {
@@ -102,18 +98,18 @@ class eZTagsCloud
 
                 $db = eZDB::instance();
 
-                if( $classIdentifier )
+                if ( $classIdentifier )
                 {
                     $classID = eZContentObjectTreeNode::classIDByIdentifier( $classIdentifier );
                     $classIdentifierSQL = "AND ezcontentobject.contentclass_id = '" . $classID . "'";
                 }
 
-                if( $parentNodeID )
+                if ( $parentNodeID )
                 {
                     $node = eZContentObjectTreeNode::fetch( $parentNodeID );
                     if ( $node )
                         $pathString = "AND ezcontentobject_tree.path_string like '" . $node->attribute( 'path_string' ) . "%'";
-                    $parentNodeIDSQL = 'AND ezcontentobject_tree.node_id != ' . (int)$parentNodeID;
+                    $parentNodeIDSQL = "AND ezcontentobject_tree.node_id != " . (int) $parentNodeID;
                 }
 
                 $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( true, false );
@@ -171,24 +167,24 @@ class eZTagsCloud
                 $maxCount = 0;
                 $minCount = 0;
 
-                if( count( $tags ) != 0 )
+                if ( count( $tags ) != 0 )
                 {
                     $maxCount = max( array_values( $tags ) );
-                    $minCount = min( array_values($tags ) );
+                    $minCount = min( array_values( $tags ) );
                 }
 
                 $spread = $maxCount - $minCount;
                 if ( $spread == 0 )
                     $spread = 1;
 
-                $step = ( $maxFontSize - $minFontSize )/( $spread );
+                $step = ( $maxFontSize - $minFontSize ) / ( $spread );
 
-                foreach ($tags as $key => $value)
+                foreach ( $tags as $key => $value )
                 {
                     $size = $minFontSize + ( ( $value - $minCount ) * $step );
                     $tagCloud[] = array( 'font_size' => $size,
-                                         'count' => $value,
-                                         'id' => $key );
+                                         'count'     => $value,
+                                         'id'        => $key );
                 }
 
                 $tpl = eZTemplate::factory();
