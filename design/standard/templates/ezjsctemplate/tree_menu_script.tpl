@@ -111,9 +111,9 @@ function TagsStructureMenu( path, persistent, attr_id )
         if ( this.showTips )
         {
 {/literal}
-            html += ' title="{"Tag ID"|i18n('extension/eztags/tags/treemenu')|wash(xhtml)|wash(javascript)}: '
+            html += ' title="{"Tag ID"|i18n('extension/eztags/tags/treemenu')|wash|wash(javascript)}: '
                 + item.id
-                + ', {"Parent tag ID"|i18n('extension/eztags/tags/treemenu')|wash(xhtml)|wash(javascript)}: '
+                + ', {"Parent tag ID"|i18n('extension/eztags/tags/treemenu')|wash|wash(javascript)}: '
                 + item.parent_id
                 + '"';
 {literal}

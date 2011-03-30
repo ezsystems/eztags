@@ -1,12 +1,12 @@
 <div class="context-block tags-delete">
     <div class="box-header">
-        <h1 class="context-title">{"Delete synonym"|i18n('extension/eztags/tags/edit')}: {$tag.keyword|wash(xhtml)} [{$tag.id}]</h1>
+        <h1 class="context-title">{"Delete synonym"|i18n( 'extension/eztags/tags/edit' )}: {$tag.keyword|wash} [{$tag.id}]</h1>
         <div class="header-mainline"></div>
     </div>
 
     <div class="box-content">
-        <form name="tagdeleteform" id="tagdeleteform" enctype="multipart/form-data" method="post" action={concat('tags/deletesynonym/', $tag.id)|ezurl}>
-            <p>{'Are you sure you want to delete the "%keyword" synonym?'|i18n( 'extension/eztags/tags/edit',, hash('%keyword', $tag.keyword|wash(xhtml)))}</p>
+        <form name="tagdeleteform" id="tagdeleteform" enctype="multipart/form-data" method="post" action={concat( 'tags/deletesynonym/', $tag.id )|ezurl}>
+            <p>{'Are you sure you want to delete the "%keyword" synonym?'|i18n( 'extension/eztags/tags/edit', , hash( '%keyword', $tag.keyword|wash ) )}</p>
 
             <p><label for="TransferObjectsToMainTag"><input type="checkbox" id="TransferObjectsToMainTag" name="TransferObjectsToMainTag" checked="checked" /> {'Transfer all related objects to the main tag'|i18n( 'extension/eztags/tags/edit' )}</label></p>
 

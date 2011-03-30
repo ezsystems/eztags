@@ -9,7 +9,7 @@
             <div class="box-bc"><div class="box-ml">
                 <div class="button-left">
                     <form name="tagadd" id="tagadd" style="float:left;" enctype="multipart/form-data" method="post" action={'tags/add/0'|ezurl}>
-                        <input class="defaultbutton" type="submit" name="SubmitButton" value="{"Add child tag"|i18n("extension/eztags/tags/edit")}" />
+                        <input class="defaultbutton" type="submit" name="SubmitButton" value="{"Add child tag"|i18n( "extension/eztags/tags/edit" )}" />
                     </form>
                 </div>
                 <div class="float-break"></div>
@@ -20,8 +20,8 @@
             {def $right_blocks = array()}
 
             <div class="left">
-                {foreach $blocks as $block sequence array('left', 'right') as $position}
-                    {if $position|eq('left')}
+                {foreach $blocks as $block sequence array( 'left', 'right' ) as $position}
+                    {if $position|eq( 'left' )}
                         <div class="dashboard-item">
                             {include uri=concat( 'design:tags/dashboard/', $block, '.tpl' )}
                         </div>
@@ -35,7 +35,7 @@
                 {/foreach}
             </div>
             <div class="right">
-                {$right_blocks|implode('')}
+                {$right_blocks|implode( '' )}
             </div>
             <div class="float-break"></div>
         </div>

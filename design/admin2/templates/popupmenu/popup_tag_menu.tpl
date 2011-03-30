@@ -1,9 +1,9 @@
-{def $tags_add_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'add'))
-    $tags_edit_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'edit'))
-    $tags_delete_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'delete'))
-    $tags_merge_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'merge'))
-    $tags_add_synonym_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'addsynonym'))
-    $tags_make_synonym_access = fetch('user', 'has_access_to', hash('module', 'tags', 'function', 'makesynonym'))}
+{def $tags_add_access = fetch( user, has_access_to, hash( module, tags, function, add ) )
+     $tags_edit_access = fetch( user, has_access_to, hash( module, tags, function, edit ) )
+     $tags_delete_access = fetch( user, has_access_to, hash( module, tags, function, delete ) )
+     $tags_merge_access = fetch( user, has_access_to, hash( module, tags, function, merge ) )
+     $tags_add_synonym_access = fetch( user, has_access_to, hash( module, tags, function, addsynonym ) )
+     $tags_make_synonym_access = fetch( user, has_access_to, hash( module, tags, function, makesynonym ) )}
 
 <script type="text/javascript">
 <!--
@@ -40,23 +40,23 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
         <div class="break"></div>
     </div>
     {if $tags_add_access}
-        <a id="add-child-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add child tag"|i18n("extension/eztags/tags/edit")}</a>
+        <a id="add-child-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add child tag"|i18n( "extension/eztags/tags/edit" )}</a>
     {/if}
     {if $tags_edit_access}
-        <a id="edit-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Edit tag"|i18n("extension/eztags/tags/edit")}</a>
+        <a id="edit-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Edit tag"|i18n( "extension/eztags/tags/edit" )}</a>
     {/if}
     {if $tags_delete_access}
-        <a id="delete-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Delete tag"|i18n("extension/eztags/tags/edit")}</a>
+        <a id="delete-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Delete tag"|i18n( "extension/eztags/tags/edit" )}</a>
     {/if}
     {if $tags_merge_access}
-        <a id="merge-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Merge tag"|i18n("extension/eztags/tags/edit")}</a>
+        <a id="merge-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Merge tag"|i18n( "extension/eztags/tags/edit" )}</a>
     {/if}
     <hr />
     {if $tags_add_synonym_access}
-        <a id="add-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add synonym"|i18n("extension/eztags/tags/edit")}</a>
+        <a id="add-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add synonym"|i18n( "extension/eztags/tags/edit" )}</a>
     {/if}
     {if $tags_make_synonym_access}
-        <a id="make-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Convert to synonym"|i18n("extension/eztags/tags/edit")}</a>
+        <a id="make-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Convert to synonym"|i18n( "extension/eztags/tags/edit" )}</a>
     {/if}
 </div>
 
@@ -65,7 +65,7 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
         <div class="popupmenuheader"><h3 id="tag-simple-header">XXX</h3>
             <div class="break"></div>
         </div>
-        <a id="add-child-tag-simple" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenuSimple' )">{"Add child tag"|i18n("extension/eztags/tags/edit")}</a>
+        <a id="add-child-tag-simple" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenuSimple' )">{"Add child tag"|i18n( "extension/eztags/tags/edit" )}</a>
     </div>
 {/if}
 
