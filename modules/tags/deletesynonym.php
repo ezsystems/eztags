@@ -38,6 +38,7 @@ if ( $http->hasPostVariable( 'YesButton' ) )
 
     $mainTagID = $tag->MainTagID;
 
+    $tag->registerSearchObjects();
     if ( $http->hasPostVariable( 'TransferObjectsToMainTag' ) )
     {
         foreach ( $tag->getTagAttributeLinks() as $tagAttributeLink )

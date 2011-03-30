@@ -345,6 +345,23 @@ class eZTagsObject extends eZPersistentObject
     }
 
     /**
+     * Registers all objects related to this tag to search engine for processing
+     *
+     */
+    function registerSearchObjects()
+    {
+        if ( eZINI::instance( 'site.ini' )->variable( 'SearchSettings', 'DelayedIndexing' ) == 'enabled'
+            || eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'ReindexWhenDelayedIndexingDisabled' ) == 'enabled' )
+        {
+            $relatedObjects = $this->getRelatedObjects();
+            foreach ( $relatedObjects as $relatedObject )
+            {
+                eZContentOperationCollection::registerSearchObject( $relatedObject->ID, $relatedObject->CurrentVersion );
+            }
+        }
+    }
+
+    /**
      * Returns eZTagsObject for given ID
      *
      * @static
@@ -506,6 +523,7 @@ class eZTagsObject extends eZPersistentObject
             self::recursiveTagDelete( $child );
         }
 
+        $rootTag->registerSearchObjects();
         foreach ( $rootTag->getTagAttributeLinks() as $tagAttributeLink )
         {
             $tagAttributeLink->remove();

@@ -46,6 +46,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
         $tag->Keyword = $newKeyword;
         $tag->store();
+        $tag->registerSearchObjects();
 
         $db->commit();
 

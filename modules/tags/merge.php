@@ -75,6 +75,7 @@ else
             $synonyms = $tag->getSynonyms();
             foreach ( $synonyms as $synonym )
             {
+                $synonym->registerSearchObjects();
                 foreach ( $synonym->getTagAttributeLinks() as $tagAttributeLink )
                 {
                     $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(
@@ -97,6 +98,7 @@ else
                 $synonym->remove();
             }
 
+            $tag->registerSearchObjects();
             foreach ( $tag->getTagAttributeLinks() as $tagAttributeLink )
             {
                 $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(

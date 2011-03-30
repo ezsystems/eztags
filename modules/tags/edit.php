@@ -79,6 +79,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $tag->store();
         $tag->updatePathString( ( $newParentTag instanceof eZTagsObject ) ? $newParentTag : false );
         $tag->updateModified();
+        $tag->registerSearchObjects();
 
         $db->commit();
 
