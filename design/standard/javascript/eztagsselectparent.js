@@ -15,7 +15,7 @@ jQuery(document).ready(function($) {
 	function getParentTagHierarchy(tag, i) {
 		if (tag.attr('rel') == 0) if (i == 0) return '(no parent)'; else return '';
 		var parent = getParentTagHierarchy(tag.parents('div:first').prev('a'), ++i);
-		return (parent ? parent + ' / ' : '') + tag.find('span').html();
+		return (parent ? parent + ' / ' : '') + tag.parent().find('span').html();
 	}
 
 	$('.contentstructure a:not([class^="openclose"])').live('click', function(e) {
