@@ -286,7 +286,7 @@ class eZTagsObject extends eZPersistentObject
             $tag = $this;
         }
 
-        if ( array_key_exists( $tag->ID, $iconMap ) && strlen( $iconMap[$tag->ID] ) > 0 )
+        if ( array_key_exists( $tag->ID, $iconMap ) && !empty( $iconMap[$tag->ID] ) )
         {
             return $iconMap[$tag->ID];
         }
@@ -294,7 +294,7 @@ class eZTagsObject extends eZPersistentObject
         while ( $tag->ParentID > 0 )
         {
             $tag = $tag->getParent();
-            if ( array_key_exists( $tag->ID, $iconMap ) && strlen( $iconMap[$tag->ID] ) > 0 )
+            if ( array_key_exists( $tag->ID, $iconMap ) && !empty( $iconMap[$tag->ID] ) )
             {
                 return $iconMap[$tag->ID];
             }
@@ -336,7 +336,7 @@ class eZTagsObject extends eZPersistentObject
             array_push( $pathArray, $this->MainNodeID );
         }
 
-        if ( count( $pathArray ) > 0 )
+        if ( !empty( $pathArray ) )
         {
             $db = eZDB::instance();
             $db->query( "UPDATE eztags SET modified = " . time() .

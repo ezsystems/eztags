@@ -2,16 +2,16 @@
 
 $http = eZHTTPTool::instance();
 
-$tagID = $Params['TagID'];
+$tagID = (int) $Params['TagID'];
 $warning = '';
 $error = '';
 
-if ( !( is_numeric( $tagID ) && $tagID > 0 ) )
+if ( $tagID <= 0 )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
-$tag = eZTagsObject::fetch( (int) $tagID );
+$tag = eZTagsObject::fetch( $tagID );
 if ( !( $tag instanceof eZTagsObject ) )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -39,8 +39,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
     }
 
-    if ( empty( $error ) && !( $http->hasPostVariable( 'TagEditParentID' ) && is_numeric( $http->postVariable( 'TagEditParentID' ) )
-        && (int) $http->postVariable( 'TagEditParentID' ) >= 0 ) )
+    if ( empty( $error ) && !( $http->hasPostVariable( 'TagEditParentID' ) && (int) $http->postVariable( 'TagEditParentID' ) >= 0 ) )
     {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
     }

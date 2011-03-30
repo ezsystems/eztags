@@ -73,7 +73,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
             $tagsArray = explode( '|#', $tagsString );
             $subTreeLimit = $http->postVariable( 'subtree_limit' );
 
-            if ( count( $tagsArray ) > 0 && strlen( trim( $tagsArray[0] ) ) > 0 )
+            if ( !empty( $tagsArray ) && strlen( trim( $tagsArray[0] ) ) > 0 )
             {
                 $solrFilter = '"' . trim( $tagsArray[0] ) . '"';
                 $filteredTagsArray[] = strtolower( trim( $tagsArray[0] ) );
@@ -109,7 +109,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
                     }
                 }
 
-                if ( count($tags) > 0 )
+                if ( !empty( $tags ) )
                 {
                     $tags = eZTagsObject::fetchByKeyword( array( $tags ) );
                 }

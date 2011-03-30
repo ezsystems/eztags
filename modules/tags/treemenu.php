@@ -60,7 +60,7 @@ function lookupIcon( $ini, $tag )
 
     $returnValue = '';
 
-    if ( array_key_exists( $tag->ID, $iconMap ) && strlen( $iconMap[$tag->ID] ) > 0 )
+    if ( array_key_exists( $tag->ID, $iconMap ) && !empty( $iconMap[$tag->ID] ) )
     {
         $returnValue = $iconMap[$tag->ID];
     }
@@ -70,7 +70,7 @@ function lookupIcon( $ini, $tag )
         while ( $tempTag->ParentID > 0 )
         {
             $tempTag = $tempTag->getParent();
-            if ( array_key_exists( $tempTag->ID, $iconMap ) && strlen( $iconMap[$tempTag->ID] ) > 0)
+            if ( array_key_exists( $tempTag->ID, $iconMap ) && !empty( $iconMap[$tempTag->ID] ) )
             {
                 $returnValue = $iconMap[$tempTag->ID];
                 break;

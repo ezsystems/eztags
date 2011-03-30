@@ -65,15 +65,7 @@ class eZTagsType extends eZDataType
             $data2 = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) );
             $data3 = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) );
 
-            if (strlen( $data ) == 0 && strlen( $data2 ) == 0 && strlen( $data3 ) == 0 )
-            {
-                if ( !$classAttribute->attribute( 'is_information_collector' ) && $contentObjectAttribute->validateIsRequired() )
-                {
-                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
-                    return eZInputValidator::STATE_INVALID;
-                }
-            }
-            else if ( !( strlen( $data)  > 0 && strlen( $data2 ) > 0 && strlen( $data3 ) > 0 ) )
+            if ( empty( $data ) || empty( $data2 ) || empty( $data3 ) )
             {
                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
                 return eZInputValidator::STATE_INVALID;
@@ -152,12 +144,12 @@ class eZTagsType extends eZDataType
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
         $subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
-        if ( !$http->hasPostVariable( $subTreeLimitName ) || !is_numeric( $http->postVariable( $subTreeLimitName ) ) || $http->postVariable( $subTreeLimitName ) < 0 )
+        if ( !$http->hasPostVariable( $subTreeLimitName ) || (int) $http->postVariable( $subTreeLimitName ) < 0 )
         {
             return eZInputValidator::STATE_INVALID;
         }
 
-        $subTreeLimit = $http->postVariable( $subTreeLimitName );
+        $subTreeLimit = (int) $http->postVariable( $subTreeLimitName );
 
         $tag = eZTagsObject::fetch( $subTreeLimit );
 
@@ -185,12 +177,12 @@ class eZTagsType extends eZDataType
     function fetchClassAttributeHTTPInput( $http, $base, $attribute )
     {
         $subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
-        if ( !$http->hasPostVariable( $subTreeLimitName ) )
+        if ( !$http->hasPostVariable( $subTreeLimitName ) || (int) $http->postVariable( $subTreeLimitName ) < 0 )
         {
             return false;
         }
 
-        $data = $http->postVariable( $subTreeLimitName );
+        $data = (int) $http->postVariable( $subTreeLimitName );
         $data2 = 0;
         if ( $http->hasPostVariable( $base . self::SHOW_DROPDOWN_VARIABLE . $attribute->attribute( 'id' ) ) )
         {
@@ -274,8 +266,9 @@ class eZTagsType extends eZDataType
     {
         $eztags = new eZTags();
         $eztags->createFromAttribute( $contentObjectAttribute );
+        $idArray = $eztags->idArray();
 
-        return count( $eztags->idArray() ) > 0;
+        return !empty( $idArray );
     }
 
     /**

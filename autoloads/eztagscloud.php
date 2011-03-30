@@ -73,7 +73,7 @@ class eZTagsCloud
                 if ( isset( $params['offset'] ) )
                     $dbParams['offset'] = $params['offset'];
 
-                if ( isset( $params['sort_by'] ) && is_array( $params['sort_by'] ) && count( $params['sort_by'] ) )
+                if ( isset( $params['sort_by'] ) && is_array( $params['sort_by'] ) && !empty( $params['sort_by'] ) )
                 {
                     $orderBySql = 'ORDER BY ';
                     $orderArr = is_string( $params['sort_by'][0] ) ? array( $params['sort_by'] ) : $params['sort_by'];
@@ -167,7 +167,7 @@ class eZTagsCloud
                 $maxCount = 0;
                 $minCount = 0;
 
-                if ( count( $tags ) != 0 )
+                if ( !empty( $tags ) )
                 {
                     $maxCount = max( array_values( $tags ) );
                     $minCount = min( array_values( $tags ) );

@@ -34,7 +34,7 @@ class eZTagsFunctionCollection
     {
         $result = eZTagsObject::fetchByKeyword( $keyword );
 
-        if( is_array( $result ) && count( $result ) > 0 )
+        if( is_array( $result ) && !empty( $result ) )
             return array( 'result' => $result[0] );
         else
             return array( 'result' => false );

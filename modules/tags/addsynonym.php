@@ -2,15 +2,15 @@
 
 $http = eZHTTPTool::instance();
 
-$mainTagID = $Params['MainTagID'];
+$mainTagID = (int) $Params['MainTagID'];
 $error = '';
 
-if ( !( is_numeric( $mainTagID ) && $mainTagID > 0 ) )
+if ( $mainTagID <= 0 )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
-$mainTag = eZTagsObject::fetch( (int) $mainTagID );
+$mainTag = eZTagsObject::fetch( $mainTagID );
 if ( !( $mainTag instanceof eZTagsObject ) )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );

@@ -2,17 +2,17 @@
 
 $http = eZHTTPTool::instance();
 
-$tagID = $Params['TagID'];
+$tagID = (int) $Params['TagID'];
 $convertAllowed = true;
 $warning = '';
 $error = '';
 
-if ( !( is_numeric( $tagID ) && $tagID > 0) )
+if ( $tagID <= 0 )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
-$tag = eZTagsObject::fetch( (int) $tagID );
+$tag = eZTagsObject::fetch( $tagID );
 if ( !( $tag instanceof eZTagsObject ) )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -42,8 +42,7 @@ else
 
     if ( $http->hasPostVariable( 'SaveButton' ) )
     {
-        if ( !( $http->hasPostVariable( 'MainTagID' ) && is_numeric( $http->postVariable( 'MainTagID' ) )
-            && (int) $http->postVariable( 'MainTagID' ) > 0 ) )
+        if ( !( $http->hasPostVariable( 'MainTagID' ) && (int) $http->postVariable( 'MainTagID' ) > 0 ) )
         {
             $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
         }

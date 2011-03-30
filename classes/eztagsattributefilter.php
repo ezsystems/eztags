@@ -15,13 +15,13 @@ class eZTagsAttributeFilter
     {
         $returnArray = array( 'tables' => '', 'joins'  => '', 'columns' => '' );
 
-        if ( isset( $params['tag_id'] ) && is_numeric( $params['tag_id'] ) && $params['tag_id'] > 0 )
+        if ( isset( $params['tag_id'] ) && (int) $params['tag_id'] > 0 )
         {
-            $tagIDsArray = array( $params['tag_id'] );
+            $tagIDsArray = array( (int) $params['tag_id'] );
 
             if ( !isset( $params['include_synonyms'] ) || ( isset( $params['include_synonyms'] ) && $params['include_synonyms'] == true ) )
             {
-                $tag = eZTagsObject::fetch( $params['tag_id'] );
+                $tag = eZTagsObject::fetch( (int) $params['tag_id'] );
                 if ( $tag instanceof eZTagsObject )
                 {
                     foreach ( $tag->getSynonyms() as $synonym )

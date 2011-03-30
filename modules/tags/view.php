@@ -1,10 +1,7 @@
 <?php
 
-$params = $Params['Parameters'];
-$tagName = end( $params );
-
-$tags = eZTagsObject::fetchByKeyword( $tagName );
-if ( count( $tags ) == 0 )
+$tags = eZTagsObject::fetchByKeyword( end( $Params['Parameters'] ) );
+if ( empty( $tags ) )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }

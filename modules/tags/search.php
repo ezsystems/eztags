@@ -4,7 +4,7 @@ $http = eZHTTPTool::instance();
 
 $tagsSearchResults = array();
 $tagsSearchCount = 0;
-$offset = ( isset( $Params['Offset'] ) && is_numeric( $Params['Offset'] ) && $Params['Offset'] > 0 ) ? (int) $Params['Offset'] : 0;
+$offset = ( isset( $Params['Offset'] ) && (int) $Params['Offset'] > 0 ) ? (int) $Params['Offset'] : 0;
 $limit = 15;
 $viewParameters = array( 'offset' => $offset );
 
@@ -15,7 +15,7 @@ if ( $http->hasVariable( 'TagsSearchText' ) )
 }
 
 $tagsSearchSubTree = 0;
-if ( $http->hasVariable( 'TagsSearchSubTree' ) && is_numeric( $http->variable( 'TagsSearchSubTree' ) ) && $http->variable( 'TagsSearchSubTree' ) > 0 )
+if ( $http->hasVariable( 'TagsSearchSubTree' ) && (int) $http->variable( 'TagsSearchSubTree' ) > 0 )
 {
     $tagsSearchSubTree = (int) $http->variable( 'TagsSearchSubTree' );
 }
@@ -26,7 +26,7 @@ if ( $http->hasVariable( 'TagsIncludeSynonyms' ) )
     $tagsIncludeSynonyms = true;
 }
 
-if ( strlen( $tagsSearchText ) > 0 )
+if ( !empty( $tagsSearchText ) )
 {
     $params = array( 'keyword' => array( 'like', '%' . $tagsSearchText . '%' ) );
     if ( $tagsSearchSubTree > 0 )

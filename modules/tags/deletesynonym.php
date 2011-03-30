@@ -2,14 +2,14 @@
 
 $http = eZHTTPTool::instance();
 
-$tagID = $Params['TagID'];
+$tagID = (int) $Params['TagID'];
 
-if ( !( is_numeric( $tagID ) && $tagID > 0 ) )
+if ( $tagID <= 0 )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
-$tag = eZTagsObject::fetch( (int) $tagID );
+$tag = eZTagsObject::fetch( $tagID );
 if ( !( $tag instanceof eZTagsObject ) )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -37,9 +37,8 @@ if ( $http->hasPostVariable( 'YesButton' ) )
     }
 
     $mainTagID = $tag->MainTagID;
-    $transferObjectsToMainTag = $http->hasPostVariable( 'TransferObjectsToMainTag' );
 
-    if ( $transferObjectsToMainTag )
+    if ( $http->hasPostVariable( 'TransferObjectsToMainTag' ) )
     {
         foreach ( $tag->getTagAttributeLinks() as $tagAttributeLink )
         {

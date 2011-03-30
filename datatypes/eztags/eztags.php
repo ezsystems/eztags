@@ -165,14 +165,14 @@ class eZTags
      */
     function store( $attribute )
     {
-        $attributeID = $attribute->attribute( 'id' );
-        $attributeVersion = $attribute->attribute( 'version' );
-        $objectID = $attribute->attribute( 'contentobject_id' );
-
-        if ( !( is_numeric( $attributeID ) && $attributeID > 0 ) )
+        if( !( $attribute instanceof eZContentObjectAttribute ) )
         {
             return;
         }
+
+        $attributeID = $attribute->attribute( 'id' );
+        $attributeVersion = $attribute->attribute( 'version' );
+        $objectID = $attribute->attribute( 'contentobject_id' );
 
         $db = eZDB::instance();
         $currentTime = time();
@@ -200,7 +200,7 @@ class eZTags
         }
 
         //and delete them
-        if ( count($tagsToDelete) > 0 )
+        if ( !empty( $tagsToDelete ) )
         {
             $dbString = $db->generateSQLINStatement( $tagsToDelete, 'keyword_id', false, true, 'int' );
             $db->query( "DELETE FROM eztags_attribute_link WHERE $dbString AND eztags_attribute_link.objectattribute_id = $attributeID AND eztags_attribute_link.objectattribute_version = $attributeVersion" );
@@ -237,7 +237,7 @@ class eZTags
         $attributeSubTreeLimit = $attribute->contentClassAttribute()->attribute( eZTagsType::SUBTREE_LIMIT_FIELD );
         $userLimitations = eZTagsTemplateFunctions::getSimplifiedUserAccess('tags', 'add');
 
-        if ( $userLimitations['accessWord'] != 'no' && count( $newTags ) > 0 )
+        if ( $userLimitations['accessWord'] != 'no' && !empty( $newTags ) )
         {
             //first we need to fetch all locations user has access to
             $userLimitations = isset( $userLimitations['simplifiedLimitations']['Tag'] ) ? $userLimitations['simplifiedLimitations']['Tag'] : array();
@@ -266,12 +266,12 @@ class eZTags
         }
 
         //link tags to objects taking into account subtree limit
-        if ( count( $tagsToLink ) > 0 )
+        if ( !empty( $tagsToLink ) )
         {
             $dbString = $db->generateSQLINStatement( $tagsToLink, 'id', false, true, 'int' );
             $tagsToLink = $db->arrayQuery( "SELECT id, path_string FROM eztags WHERE $dbString" );
 
-            if ( is_array( $tagsToLink ) && count( $tagsToLink ) > 0 )
+            if ( is_array( $tagsToLink ) && !empty( $tagsToLink ) )
             {
                 foreach ( $tagsToLink as $t )
                 {
@@ -295,7 +295,7 @@ class eZTags
      */
     private static function getAllowedLocations( $attributeSubTreeLimit, $userLimitations )
     {
-        if ( count( $userLimitations ) == 0 )
+        if ( empty( $userLimitations ) )
             return array( (string) $attributeSubTreeLimit );
         else
         {
@@ -328,7 +328,7 @@ class eZTags
      */
     private static function canSave( $pathString, $allowedLocations )
     {
-        if ( count( $allowedLocations ) > 0 )
+        if ( !empty( $allowedLocations ) )
         {
             if ( $allowedLocations[0] == 0 )
             {

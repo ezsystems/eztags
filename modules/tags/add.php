@@ -2,22 +2,22 @@
 
 $http = eZHTTPTool::instance();
 
-$parentTagID = $Params['ParentTagID'];
+$parentTagID = (int) $Params['ParentTagID'];
 
 if ( $http->hasPostVariable( 'TagEditParentID' ) )
-    $parentTagID = $http->postVariable( 'TagEditParentID' );
+    $parentTagID = (int) $http->postVariable( 'TagEditParentID' );
 
 $error = '';
 $parentTag = false;
 
-if ( !( is_numeric( $parentTagID ) && (int) $parentTagID >= 0 ) )
+if ( $parentTagID < 0 )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
 if ( $parentTagID > 0 )
 {
-    $parentTag = eZTagsObject::fetch( (int) $parentTagID );
+    $parentTag = eZTagsObject::fetch( $parentTagID );
 
     if ( !( $parentTag instanceof eZTagsObject ) )
     {
@@ -65,7 +65,7 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
 
 if ( $http->hasPostVariable('SaveButton' ) )
 {
-    if ( !( $http->hasPostVariable( 'TagEditKeyword' ) && strlen( trim( $http->postVariable( 'TagEditKeyword' ) ) ) > 0) )
+    if ( !( $http->hasPostVariable( 'TagEditKeyword' ) && strlen( trim( $http->postVariable( 'TagEditKeyword' ) ) ) > 0 ) )
     {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
     }
