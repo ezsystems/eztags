@@ -350,14 +350,20 @@ class eZTagsObject extends eZPersistentObject
      */
     function registerSearchObjects()
     {
+        $eZTagsINI = eZINI::instance( 'eztags.ini' );
+
         if ( eZINI::instance( 'site.ini' )->variable( 'SearchSettings', 'DelayedIndexing' ) == 'enabled'
-            || eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'ReindexWhenDelayedIndexingDisabled' ) == 'enabled' )
+            || $eZTagsINI->variable( 'SearchSettings', 'ReindexWhenDelayedIndexingDisabled' ) == 'enabled' )
         {
             $relatedObjects = $this->getRelatedObjects();
             foreach ( $relatedObjects as $relatedObject )
             {
                 eZContentOperationCollection::registerSearchObject( $relatedObject->ID, $relatedObject->CurrentVersion );
             }
+        }
+        else
+        {
+            eZHTTPTool::instance()->setSessionVariable( 'eZTagsShowReindexMessage', 1 );
         }
     }
 

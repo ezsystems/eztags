@@ -46,7 +46,7 @@
                 <div class="border-tl"><div class="border-tr"><div class="border-tc"></div></div></div>
                 <div class="border-ml"><div class="border-mr"><div class="border-mc float-break">
 
-                {def $nodes_related = fetch( ezfind, search, hash( limit, 0, 
+                {def $nodes_related = fetch( ezfind, search, hash( limit, 0,
                                                                    filter, concat( 'ezf_df_tags:"', $tag.keyword, '"' ),
                                                                    facet, array( hash( field, 'ezf_df_tags', limit, 6 ) ) ) )}
 

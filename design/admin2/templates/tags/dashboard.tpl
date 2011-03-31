@@ -4,6 +4,12 @@
         <div class="header-mainline"></div>
     </div>
 
+    {if $show_reindex_message}
+        <div class="message-warning">
+            <h2>{'Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.'|i18n( 'extension/eztags/warnings' )}</h2>
+        </div>
+    {/if}
+
     <div class="box-content">
         <div id="controlbar-top" class="controlbar">
             <div class="box-bc"><div class="box-ml">

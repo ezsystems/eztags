@@ -1,6 +1,7 @@
 <?php
 
 $tagID = (int) $Params['TagID'];
+$http = eZHTTPTool::instance();
 
 if ( $tagID <= 0 )
 {
@@ -18,6 +19,13 @@ $tpl = eZTemplate::factory();
 $tpl->setVariable( 'blocks', eZINI::instance( 'eztags.ini' )->variable( 'View', 'ViewBlocks' ) );
 $tpl->setVariable( 'tag', $tag );
 $tpl->setVariable( 'persistent_variable', false );
+$tpl->setVariable( 'show_reindex_message', false );
+
+if ( $http->hasSessionVariable( 'eZTagsShowReindexMessage' ) )
+{
+    $http->removeSessionVariable( 'eZTagsShowReindexMessage' );
+    $tpl->setVariable( 'show_reindex_message', true );
+}
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:tags/view.tpl' );

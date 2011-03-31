@@ -11,6 +11,12 @@
         <div class="header-mainline"></div>
     </div>
 
+    {if $show_reindex_message}
+        <div class="message-warning">
+            <h2>{'Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.'|i18n( 'extension/eztags/warnings' )}</h2>
+        </div>
+    {/if}
+
     <div class="box-content">
         {if $tag.main_tag_id|eq( 0 )}
             {include uri='design:parts/tags_view_control_bar.tpl' tag=$tag}
