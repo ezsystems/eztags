@@ -128,7 +128,7 @@ class eZTags
      */
     function createFromAttribute( $attribute )
     {
-        if ( $attribute->attribute( 'id' ) === null )
+        if ( !( $attribute instanceof eZContentObjectAttribute && is_numeric( $attribute->attribute( 'id' ) ) ) )
         {
             return;
         }
@@ -165,7 +165,7 @@ class eZTags
      */
     function store( $attribute )
     {
-        if( !( $attribute instanceof eZContentObjectAttribute ) )
+        if ( !( $attribute instanceof eZContentObjectAttribute && is_numeric( $attribute->attribute( 'id' ) ) ) )
         {
             return;
         }
