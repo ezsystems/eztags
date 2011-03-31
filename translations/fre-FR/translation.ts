@@ -2,7 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
-<name>design/standard/class/datatype</name>
+	<name>design/standard/class/datatype</name>
     <message>
         <source>Limit by tags subtree</source>
         <translation>Limiter à une sous arborescence de tag</translation>
@@ -29,7 +29,7 @@
     </message>
 </context>
 <context>
-<name>extension/eztags/errors</name>
+	<name>extension/eztags/errors</name>
     <message>
         <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
         <translation>Le tag ne peut as être modifié car il est utilisé comme limitation d'arborescence par un ou plusieurs attributs de classes.</translation>
@@ -42,17 +42,25 @@
         <source>Name cannot be empty.</source>
         <translation>Le nom ne peut pas être vide.</translation>
     </message>
+	<message>
+		<source>Tag/synonym with that name already exists in selected location.</source>
+		<translation>Ce tag avec ce nom existe déjà dans l'emplacement sélectionné.</translation>
+	</message>
     <message>
         <source>Go back</source>
         <translation>Retour en arrière</translation>
     </message>
 </context>
 <context>
-<name>extension/eztags/warnings</name>
+	<name>extension/eztags/warnings</name>
     <message>
         <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
-        <translation type="unfinished">ATTENTTION: Le tag est dans les limites d'arborescence de l'attribut de classe. Si il est déplacé en dehors de ces limits, cela peut provoquer </translation>
+        <translation>ATTENTTION: Le tag est dans les limites d'arborescence de l'attribut de classe. Si il est déplacé en dehors de ces limits, cela peut provoquer </translation>
     </message>
+	<message>
+		<source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
+		<translation>La réindexation est obligatoire pour voir les changements dans le moteur de recherche. Activer "DelayedIndexing" dans le ficier site.ini pour réindexer automatiquement.</translation>
+	</message>
 </context>
 <context>
     <name>extension/eztags/tags/dashboard</name>
