@@ -39,17 +39,15 @@ class eZTagsTemplateFunctions
         return array( 'eztags_parent_string' => array( 'tag_id' => array( 'type'     => 'integer',
                                                                           'required' => true,
                                                                           'default'  => 0 ) ),
-                        'latest_tags'        => array( 'limit'  => array( 'type'     => 'integer',
+                      'latest_tags'          => array( 'limit'  => array( 'type'     => 'integer',
                                                                           'required' => false,
                                                                           'default'  => 10 ) ),
-                        'user_limitations'   => array( 'module' => array( 'type'     => 'string',
+                      'user_limitations'     => array( 'module' => array( 'type'     => 'string',
                                                                           'required' => true,
                                                                           'default'  => '' ),
                                                                           'function' => array( 'type'     => 'string',
                                                                                                'required' => true,
-                                                                                               'default'  => '' ) )
-        );
-
+                                                                                               'default'  => '' ) ) );
     }
 
     /**

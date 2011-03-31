@@ -1,9 +1,29 @@
 <?php
 
 $http = eZHTTPTool::instance();
+$keywordArray = $Params['Parameters'];
 
-$tags = eZTagsObject::fetchByKeyword( end( $Params['Parameters'] ) );
-if ( empty( $tags ) )
+if ( !( is_array( $keywordArray ) && !empty( $keywordArray ) ) )
+{
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+}
+
+$parentID = 0;
+for ( $i = 0; $i < count( $keywordArray ) - 1; $i++ )
+{
+    $tags = eZTagsObject::fetchList( array( 'parent_id' => $parentID, 'main_tag_id' => 0, 'keyword' => urldecode( trim( $keywordArray[$i] ) ) ) );
+    if ( is_array( $tags ) && !empty( $tags ) )
+    {
+        $parentID = $tags[0]->ID;
+    }
+    else
+    {
+        return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+    }
+}
+
+$tags = eZTagsObject::fetchList( array( 'parent_id' => $parentID, 'keyword' => urldecode( trim( $keywordArray[count( $keywordArray ) - 1] ) ) ) );
+if ( !( is_array( $tags ) && !empty( $tags ) ) )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
@@ -31,7 +51,7 @@ while ( $tempTag->hasParent() )
     $tempTag = $tempTag->getParent();
     $Result['path'][] = array( 'tag_id' => $tempTag->ID,
                                'text'   => $tempTag->Keyword,
-                               'url'    => 'tags/view/' . urlencode( $tempTag->Keyword ) );
+                               'url'    => 'tags/view/' . $tempTag->getUrl() );
 }
 
 $Result['path'] = array_reverse( $Result['path'] );
