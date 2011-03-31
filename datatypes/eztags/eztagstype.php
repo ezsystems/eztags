@@ -65,7 +65,15 @@ class eZTagsType extends eZDataType
             $data2 = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) );
             $data3 = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) );
 
-            if ( empty( $data ) || empty( $data2 ) || empty( $data3 ) )
+            if ( strlen( $data ) == 0 && strlen( $data2 ) == 0 && strlen( $data3 ) == 0 )
+            {
+                if ( $contentObjectAttribute->validateIsRequired() )
+                {
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
+                    return eZInputValidator::STATE_INVALID;
+                }
+            }
+            else if ( !( strlen( $data ) > 0 && strlen( $data2 ) > 0 && strlen( $data3 ) > 0 ) )
             {
                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
                 return eZInputValidator::STATE_INVALID;
@@ -82,7 +90,7 @@ class eZTagsType extends eZDataType
                 }
             }
         }
-        else if ( !$classAttribute->attribute( 'is_information_collector' ) && $contentObjectAttribute->validateIsRequired() )
+        else if ( $contentObjectAttribute->validateIsRequired() )
         {
             $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
             return eZInputValidator::STATE_INVALID;
