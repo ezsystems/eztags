@@ -57,8 +57,7 @@ function arrayToJSON( $array )
 function lookupIcon( $ini, $tag )
 {
     $iconMap = $ini->variable( 'Icons', 'IconMap' );
-
-    $returnValue = '';
+    $returnValue = $ini->variable( 'Icons', 'Default' );
 
     if ( array_key_exists( $tag->ID, $iconMap ) && !empty( $iconMap[$tag->ID] ) )
     {
@@ -78,7 +77,7 @@ function lookupIcon( $ini, $tag )
         }
     }
 
-    return $returnValue;
+    return eZURLOperator::eZImage( eZTemplate::factory() , 'tag_icons/small/' . $returnValue, '' );
 }
 
 while ( @ob_end_clean() );

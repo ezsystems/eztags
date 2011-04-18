@@ -20,7 +20,7 @@ var treeMenu_{$attribute_id};
             *}"synonyms_count":{$root_tag.synonyms_count},{*
             *}"keyword":"{$root_tag.keyword|wash(javascript)}",{*
             *}"url":{concat('tags/id/', $root_tag.id)|ezurl},{*
-            *}"icon":"{$root_tag.icon}",{*
+            *}"icon":{concat('tag_icons/small/', $root_tag.icon)|ezimage},{*
             *}"modified":{$root_tag.modified}{rdelim};
     {else}
         var rootTag = {ldelim}{*
@@ -29,7 +29,7 @@ var treeMenu_{$attribute_id};
             *}"has_children":true,{*
             *}"keyword":"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
             *}"url":{'tags/dashboard'|ezurl},{*
-            *}"icon":"",{*
+            *}"icon":{concat('tag_icons/small/', ezini('Icons', 'Default', 'eztags.ini'))|ezimage},{*
             *}"modified":currentDate{rdelim};
     {/if}
 

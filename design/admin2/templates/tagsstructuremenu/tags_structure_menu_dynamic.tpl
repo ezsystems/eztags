@@ -24,8 +24,6 @@ function TagsStructureMenu( path, persistent )
 
 {cache-block keys=array( false(), $access_type ) expiry=0 ignore_content_expiry}
 
-    this.defaultIcon = "{ezini('Icons','Default','eztags.ini')}";
-
     this.showTips       = {if ezini('TreeMenu','ToolTips','eztags.ini')|eq('enabled')}true{else}false{/if};
     this.autoOpen       = {if ezini('TreeMenu','AutoopenCurrentTag','eztags.ini')|eq('enabled')}true{else}false{/if};
 
@@ -107,10 +105,6 @@ function TagsStructureMenu( path, persistent )
                 +' )"><\/a>';
         }
 
-        if(item.icon.length > 0)
-            var icon = {/literal}{'tag_icons/small/'|ezimage}{literal} + item.icon;
-        else
-            var icon = {/literal}{'tag_icons/small/'|ezimage}{literal} + this.defaultIcon;
         if ( this.context != 'browse' && item.id >= 0 )
         {
             html += '<a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, '
@@ -124,13 +118,13 @@ function TagsStructureMenu( path, persistent )
                 + ', '
                 + -1
                 + ' ); return false"><img src="'
-                + icon
+                + item.icon
                 + '" title="' + item.keyword + '" /><\/a>';
         }
         else
         {
             html += '<img src="'
-                + icon
+                + item.icon
                 + '" title="' + item.keyword + '" />';
         }
 
@@ -381,7 +375,7 @@ var treeMenu;
         *}"has_children":true,{*
         *}"keyword":"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
         *}"url":{'tags/dashboard'|ezurl},{*
-        *}"icon":"",{*
+        *}"icon":{concat('tag_icons/small/', ezini('Icons', 'Default', 'eztags.ini'))|ezimage},{*
         *}"modified":currentDate{rdelim};
 
     document.writeln( '<ul id="content_tree_menu">' );

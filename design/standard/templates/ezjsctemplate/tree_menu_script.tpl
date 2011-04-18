@@ -18,8 +18,6 @@ function TagsStructureMenu( path, persistent, attr_id )
 
     this.expiry = "{fetch('content','content_tree_menu_expiry')}";
 
-    this.defaultIcon = "{ezini('Icons','Default','eztags.ini')}";
-
     this.hideTagID = jQuery('#hide_tag_id_' + this.attribute_id).val();
 
     this.showTips       = {if ezini('TreeMenu','ToolTips','eztags.ini')|eq('enabled')}true{else}false{/if};
@@ -101,12 +99,7 @@ function TagsStructureMenu( path, persistent, attr_id )
                 +' )"><\/a>';
         }
 
-        if(item.icon.length > 0)
-            var icon = {/literal}{'tag_icons/small/'|ezimage}{literal} + item.icon;
-        else
-            var icon = {/literal}{'tag_icons/small/'|ezimage}{literal} + this.defaultIcon;
-
-        html += '<a class="nodeicon" href="#" rel="' + item.id + '"><img src="' + icon + '" alt="" title="Icon" /><\/a>&nbsp;<a class="image-text" href="#" rel="' + item.id + '"';
+        html += '<a class="nodeicon" href="#" rel="' + item.id + '"><img src="' + item.icon + '" alt="" title="Icon" /><\/a>&nbsp;<a class="image-text" href="#" rel="' + item.id + '"';
 
         if ( this.showTips )
         {
