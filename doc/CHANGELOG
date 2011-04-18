@@ -1,0 +1,12 @@
+eZ Tags extension changelog
+
+1.0.1 (18.04.2011)
+==========================
+
+* Bugfix: Tag icons in tree menu did not work well with the override system (thanks Jérôme Vieilledent)
+
+
+1.0 (04.04.2011)
+==========================
+
+* Initial release
