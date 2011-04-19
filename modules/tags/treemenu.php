@@ -77,7 +77,7 @@ function lookupIcon( $ini, $tag )
         }
     }
 
-    return eZURLOperator::eZImage( eZTemplate::factory() , 'tag_icons/small/' . $returnValue, '' );
+    return eZURLOperator::eZImage( eZTemplate::factory(), 'tag_icons/small/' . $returnValue, '' );
 }
 
 while ( @ob_end_clean() );
