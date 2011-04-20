@@ -5,7 +5,7 @@
 	<name>design/standard/class/datatype</name>
     <message>
         <source>Limit by tags subtree</source>
-        <translation>Limiter à une sous arborescence de tag</translation>
+        <translation>Limiter à une sous arborescence de mots clés</translation>
     </message>
     <message>
         <source>Show dropdown instead of autocomplete</source>
@@ -32,11 +32,11 @@
 	<name>extension/eztags/errors</name>
     <message>
         <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
-        <translation>Le tag ne peut as être modifié car il est utilisé comme limitation d'arborescence par un ou plusieurs attributs de classes.</translation>
+        <translation>Le mot clé ne peut pas être modifié car il est utilisé comme limitation de l'arborescence par un ou plusieurs attributs de classes.</translation>
     </message>
     <message>
         <source>Selected target tag is invalid.</source>
-        <translation>Le tag parent sélectionné n'est pas valide.</translation>
+        <translation>Le mot clé parent sélectionné n'est pas valide.</translation>
     </message>
     <message>
         <source>Name cannot be empty.</source>
@@ -44,7 +44,7 @@
     </message>
 	<message>
 		<source>Tag/synonym with that name already exists in selected location.</source>
-		<translation>Ce tag avec ce nom existe déjà dans l'emplacement sélectionné.</translation>
+		<translation>Ce mot clé existe déjà dans l'emplacement sélectionné.</translation>
 	</message>
     <message>
         <source>Go back</source>
@@ -55,7 +55,7 @@
 	<name>extension/eztags/warnings</name>
     <message>
         <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
-        <translation>ATTENTTION: Le tag est dans les limites d'arborescence de l'attribut de classe. Si il est déplacé en dehors de ces limits, cela peut provoquer </translation>
+        <translation>ATTENTION: Le mot clé est dans les limites de l'arborescence des attributs de classe. Si il est déplacé en dehors de ces limites, cela peut conduire à des incohérences telles que les objets pourraient avoir des mots clés qu'ils ne sont pas supposés avoir. </translation>
     </message>
 	<message>
 		<source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
@@ -66,7 +66,7 @@
     <name>extension/eztags/tags/dashboard</name>
     <message>
         <source>Latest tags</source>
-        <translation>Derniers tags</translation>
+        <translation>Derniers mots clés</translation>
     </message>
     <message>
         <source>ID</source>
@@ -74,11 +74,11 @@
     </message>
     <message>
         <source>Tag name</source>
-        <translation>Nom</translation>
+        <translation>Mot clé</translation>
     </message>
     <message>
         <source>Parent tag name</source>
-        <translation>Tag parent</translation>
+        <translation>Mot clé parent</translation>
     </message>
     <message>
         <source>Modified</source>
@@ -97,7 +97,7 @@
     </message>
     <message>
         <source>New tag</source>
-        <translation>Nouveau tag</translation>
+        <translation>Nouveau mot clé</translation>
     </message>
     <message>
         <source>New synonym tag</source>
@@ -105,15 +105,15 @@
     </message>
     <message>
         <source>Main tag ID</source>
-        <translation>ID du tag principal</translation>
+        <translation>ID du mot clé principal</translation>
     </message>
     <message>
         <source>Main tag name</source>
-        <translation>Nom du tag principal</translation>
+        <translation>Mot clé principal</translation>
     </message>
     <message>
         <source>Tag name</source>
-        <translation>Nom</translation>
+        <translation>Mot clé</translation>
     </message>
     <message>
         <source>Synonym name</source>
@@ -121,7 +121,7 @@
     </message>
     <message>
         <source>Parent tag</source>
-        <translation>Tag parent</translation>
+        <translation>Mot clé parent</translation>
     </message>
     <message>
         <source>Select parent</source>
@@ -129,7 +129,7 @@
     </message>
     <message>
         <source>Add child tag</source>
-        <translation>Créer un tag en enfant</translation>
+        <translation>Créer un mot clé enfant</translation>
     </message>
     <message>
         <source>Add synonym</source>
@@ -141,7 +141,7 @@
     </message>
     <message>
         <source>Edit tag</source>
-        <translation>Modifier le tag</translation>
+        <translation>Modifier le mot clé</translation>
     </message>
     <message>
         <source>Edit synonym</source>
@@ -149,11 +149,11 @@
     </message>
     <message>
         <source>Delete tag</source>
-        <translation>Supprimer le tag</translation>
+        <translation>Supprimer le mot clé</translation>
     </message>
     <message>
         <source>Merge tag</source>
-        <translation>Fusionner le tag</translation>
+        <translation>Fusionner le mot clé</translation>
     </message>
     <message>
         <source>Delete synonym</source>
@@ -169,31 +169,31 @@
     </message>
     <message>
         <source>Are you sure you want to discard changes?</source>
-        <translation>Etes vous sur de vouloir annuler les changements ?</translation>
+        <translation>Etes vous sûr de vouloir annuler les changements ?</translation>
     </message>
     <message>
         <source>Main tag</source>
-        <translation>Tag principal</translation>
+        <translation>Mot clé principal</translation>
     </message>
     <message>
         <source>Select main tag</source>
-        <translation>Sélectionner le tag principal</translation>
+        <translation>Sélectionner le mot clé  principal</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the "%keyword" tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
-        <translation>Etes vous sur de vouloir supprimer le tag "%keyword" ? Tous les tags et synonymes en enfant seront aussi supprimés et enlevé des objets existants.</translation>
+        <translation>Etes vous sûr de vouloir supprimer le mot clé "%keyword" ? Tous les mots clés et synonymes enfant seront aussi supprimés et enlevés des objets existants.</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the "%keyword" synonym?</source>
-        <translation>Etes vous sur de vouloir supprimer le synonyme "%keyword" ?</translation>
+        <translation>Etes vous sûr de vouloir supprimer le synonyme "%keyword" ?</translation>
     </message>
     <message>
         <source>Transfer all related objects to the main tag</source>
-        <translation>Transférer tous les objets en relation au tag principal</translation>
+        <translation>Transférer tous les objets en relation au mlot clé principal</translation>
     </message>
     <message>
         <source>Merging this tag with another tag will delete the tag and it's synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
-        <translation>Fusionner ce tag avec un autre tag détruira le tag, ses synonymes et transfera tous les objets en relation au tag principal. Tous les tags en enfant passeront en enfant du tag principal.</translation>
+        <translation>Fusionner ce mot clé avec un autre détruira ce dernier ainsi que ses synonymes et transferera tous les objets en relation au mot clé principal. Tous les mots clés enfant deviendront enfant du mot clé principal.</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -205,19 +205,19 @@
     </message>
     <message>
         <source>The tag you're about to delete has</source>
-        <translation>Le tag que vous allez supprimer est</translation>
+        <translation>Le mot clé que vous allez supprimer est</translation>
     </message>
     <message>
         <source>The tag you're about to merge has</source>
-        <translation>Le tag que vous allez fusionner est</translation>
+        <translation>Le mot clé que vous allez fusionner est</translation>
     </message>
     <message>
         <source>number of first level children tags</source>
-        <translation>Nombre de tags en enfant de premier niveau</translation>
+        <translation>Nombre de mots clés enfant de premier niveau</translation>
     </message>
     <message>
         <source>number of objects related to first level children tags</source>
-        <translation>Nombre d'objets en relaion aux tags de premier niveau</translation>
+        <translation>Nombre d'objets en relaion avec les mots clés de premier niveau</translation>
     </message>
     <message>
         <source>number of synonyms</source>
@@ -225,7 +225,7 @@
     </message>
     <message>
         <source>number of objects related to synonyms</source>
-        <translation>Nombre d'objets en relation au synonyme</translation>
+        <translation>Nombre d'objets en relation avec les synonymes</translation>
     </message>
 </context>
 <context>
@@ -256,11 +256,11 @@
     </message>
     <message>
         <source>Related tags</source>
-        <translation>Tags en relation</translation>
+        <translation>Mots clés en relation</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation>Tag</translation>
+        <translation>Mot clé</translation>
     </message>
     <message>
         <source>Synonym</source>
@@ -276,11 +276,11 @@
     </message>
     <message>
         <source>Main tag</source>
-        <translation>Tag principal</translation>
+        <translation>Mot clé principal</translation>
     </message>
     <message>
         <source>Subtree limitations</source>
-        <translation>Limitations d'arborescence</translation>
+        <translation>Limitations de l'arborescence</translation>
     </message>
     <message>
         <source>Class ID</source>
@@ -292,7 +292,7 @@
     </message>
     <message>
         <source>Attribute identifier</source>
-        <translation>Identifiant de l'attribute</translation>
+        <translation>Identifiant de l'attribut</translation>
     </message>
     <message>
         <source>No subtree limitations</source>
@@ -303,11 +303,11 @@
 <name>extension/eztags/tags/search</name>
     <message>
         <source>Tags search</source>
-        <translation>Chercher parmis les tags</translation>
+        <translation>Chercher par mots clés</translation>
     </message>
     <message>
         <source>Search tags</source>
-        <translation>Chercher dans les tags</translation>
+        <translation>Chercher des mots clés</translation>
     </message>
     <message>
         <source>Include synonyms in search</source>
@@ -315,11 +315,11 @@
     </message>
     <message>
         <source>Empty search not allowed. Please enter your search query above.</source>
-        <translation>Les recherches vides ne sont pas permises. Merci d'entrer votre recherche dans le champ ci-dessus.</translation>
+        <translation>Les recherches vides ne sont pas autorisées. Merci de saisir votre recherche dans le champ ci-dessus.</translation>
     </message>
     <message>
         <source>No tags were found while searching for "%1".</source>
-        <translation>Aucun tag trouvé pour votre recherche "%1".</translation>
+        <translation>Aucun mot clé trouvé pour votre recherche "%1".</translation>
     </message>
     <message>
         <source>Search for "%1" returned %2 matches.</source>
@@ -327,7 +327,7 @@
     </message>
     <message>
         <source>Tag name</source>
-        <translation>Nom du tag</translation>
+        <translation>Mot clé</translation>
     </message>
     <message>
         <source>Parent tag</source>
@@ -335,14 +335,14 @@
     </message>
     <message>
         <source>Main tag name</source>
-        <translation>Nom du tag principal</translation>
+        <translation>Mot clé principal</translation>
     </message>
 </context>
 <context>
     <name>extension/eztags/datatypes</name>
     <message>
         <source>Tags</source>
-        <translation>Tags</translation>
+        <translation>Mots clés</translation>
     </message>
     <message>
         <source>Loading</source>
@@ -350,42 +350,42 @@
     </message>
     <message>
         <source>Selected tags</source>
-        <translation>Tags sélectionnés</translation>
+        <translation>Mots clés sélectionnés</translation>
     </message>
     <message>
         <source>There are no selected tags</source>
-        <translation>Il y a aucun tag sélectionné</translation>
+        <translation>Il y a aucun mot clé sélectionné</translation>
     </message>
     <message>
         <source>Suggested tags</source>
-        <translation>Tags suggérés</translation>
+        <translation>Mot clés suggérés</translation>
     </message>
     <message>
         <source>There are no tags to suggest</source>
-        <translation>Il n'y a ancun tag suggéré</translation>
+        <translation>Il n'y a ancun mot clé suggéré</translation>
     </message>
     <message>
         <source>Add new</source>
-        <translation>Ajouter un nouveau tag</translation>
+        <translation>Ajouter un nouveau mot clé</translation>
     </message>
 </context>
 <context>
     <name>extension/eztags/tags/treemenu</name>
     <message>
         <source>Select tag</source>
-        <translation>Tag sélectionné</translation>
+        <translation>Mot clé sélectionné</translation>
     </message>
     <message>
         <source>Parent tag ID</source>
-        <translation>ID du tag parent</translation>
+        <translation>ID du mot clé parent</translation>
     </message>
     <message>
         <source>Tag ID</source>
-        <translation>ID du tag</translation>
+        <translation>ID du mot clé</translation>
     </message>
     <message>
         <source>Top Level Tags</source>
-        <translation>Racine des tags</translation>
+        <translation>Racine des mots clés</translation>
     </message>
     <message>
         <source>Dynamic tree not allowed for this siteaccess</source>
@@ -393,7 +393,7 @@
     </message>
     <message>
         <source>Tag does not exist</source>
-        <translation>Ce tag n'existe pas</translation>
+        <translation>Ce mot clé n'existe pas</translation>
     </message>
     <message>
         <source>Internal error</source>
@@ -401,7 +401,7 @@
     </message>
     <message>
         <source>Tags structure</source>
-        <translation>Structure des tags</translation>
+        <translation>Structure des mots clés</translation>
     </message>
 </context>
 </TS>
