@@ -122,6 +122,10 @@ else
 
             $mainTag->updateModified();
 
+            /* Extended Hook */
+            if ((eZPublishSDK::VERSION_MAJOR >= 4) && (eZPublishSDK::VERSION_MINOR >= 5))
+                $tag = ezpEvent::getInstance()->filter( 'tag/merge', array('tag'=>$tag,'mainTag'=>$mainTag ));
+
             $db->commit();
 
             return $Module->redirectToView( 'id', array( $mainTag->ID ) );

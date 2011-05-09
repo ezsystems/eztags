@@ -81,6 +81,10 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $tag->updateModified();
         $tag->registerSearchObjects();
 
+	/* Extended Hook */
+        if ((eZPublishSDK::VERSION_MAJOR >= 4) && (eZPublishSDK::VERSION_MINOR >= 5))
+            $tag = ezpEvent::getInstance()->filter( 'tag/edit', $tag );
+
         $db->commit();
 
         return $Module->redirectToView( 'id', array( $tagID ) );
