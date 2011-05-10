@@ -133,13 +133,14 @@ $schema = array (
           0 => 'keyword_id',
         ),
       ),
-      'eztags_attr_link_kid_oaid' =>
+      'eztags_attr_link_kid_oaid_oav' =>
       array (
         'type' => 'non-unique',
         'fields' =>
         array (
           0 => 'keyword_id',
           1 => 'objectattribute_id',
+          2 => 'objectattribute_version',
         ),
       ),
       'eztags_attr_link_kid_oid' =>
@@ -151,12 +152,13 @@ $schema = array (
           1 => 'object_id',
         ),
       ),
-      'eztags_attr_link_oaid' =>
+      'eztags_attr_link_oaid_oav' =>
       array (
         'type' => 'non-unique',
         'fields' =>
         array (
           0 => 'objectattribute_id',
+          1 => 'objectattribute_version',
         ),
       ),
     ),
