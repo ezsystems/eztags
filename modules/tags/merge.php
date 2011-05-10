@@ -123,7 +123,7 @@ else
             $mainTag->updateModified();
 
             /* Extended Hook */
-            if ((eZPublishSDK::VERSION_MAJOR >= 4) && (eZPublishSDK::VERSION_MINOR >= 5))
+	if (class_exists( 'ezpEvent', false ))
                 $tag = ezpEvent::getInstance()->filter( 'tag/merge', array('tag'=>$tag,'mainTag'=>$mainTag ));
 
             $db->commit();
