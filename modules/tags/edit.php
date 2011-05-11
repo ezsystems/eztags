@@ -81,6 +81,10 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $tag->updateModified();
         $tag->registerSearchObjects();
 
+	/* Extended Hook */
+	if (class_exists( 'ezpEvent', false ))
+            $tag = ezpEvent::getInstance()->filter( 'tag/edit', $tag );
+
         $db->commit();
 
         return $Module->redirectToView( 'id', array( $tagID ) );

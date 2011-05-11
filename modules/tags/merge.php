@@ -122,6 +122,10 @@ else
 
             $mainTag->updateModified();
 
+            /* Extended Hook */
+	if (class_exists( 'ezpEvent', false ))
+                $tag = ezpEvent::getInstance()->filter( 'tag/merge', array('tag'=>$tag,'mainTag'=>$mainTag ));
+
             $db->commit();
 
             return $Module->redirectToView( 'id', array( $mainTag->ID ) );

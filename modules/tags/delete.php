@@ -47,6 +47,10 @@ else
 
         eZTagsObject::recursiveTagDelete( $tag );
 
+        /* Extended Hook */
+	if (class_exists( 'ezpEvent', false ))
+            $tag = ezpEvent::getInstance()->filter( 'tag/delete', $tag );	
+
         $db->commit();
 
         if ( $parentTag instanceof eZTagsObject )
