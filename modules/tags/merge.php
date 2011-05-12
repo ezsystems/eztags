@@ -123,8 +123,8 @@ else
             $mainTag->updateModified();
 
             /* Extended Hook */
-	if (class_exists( 'ezpEvent', false ))
-                $tag = ezpEvent::getInstance()->filter( 'tag/merge', array('tag'=>$tag,'mainTag'=>$mainTag ));
+            if ( class_exists( 'ezpEvent', false ) )
+                $tag = ezpEvent::getInstance()->filter( 'tag/merge', array( 'tag' => $tag, 'mainTag' => $mainTag ) );
 
             $db->commit();
 

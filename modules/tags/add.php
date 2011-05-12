@@ -92,8 +92,8 @@ if ( $http->hasPostVariable('SaveButton' ) )
         $tag->updateModified();
 
         /* Extended Hook */
-        if (class_exists( 'ezpEvent', false ))
-	    $tag = ezpEvent::getInstance()->filter( 'tag/add', $tag );	
+        if ( class_exists( 'ezpEvent', false ) )
+            $tag = ezpEvent::getInstance()->filter( 'tag/add', $tag );
 
         $db->commit();
 
