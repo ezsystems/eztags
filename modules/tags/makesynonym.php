@@ -91,8 +91,8 @@ else
             $tag->MainTagID = $mainTag->ID;
             $tag->store();
 
-			if ( !$newParentTag instanceof eZTagsObject )
-				$newParentTag = false;
+            if ( !$newParentTag instanceof eZTagsObject )
+                $newParentTag = false;
             $tag->updatePathString( $newParentTag );
             $tag->updateDepth( $newParentTag );
             $tag->updateModified();
