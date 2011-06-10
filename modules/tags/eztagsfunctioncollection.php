@@ -39,6 +39,68 @@ class eZTagsFunctionCollection
         else
             return array( 'result' => false );
     }
+
+    /**
+     * Fetches subtree of tags by specified parameters
+     *
+     * @static
+     * @param integer $parentTagID
+     * @param array $sortBy
+     * @param integer $offset
+     * @param integer $limit
+     * @param integer $depth
+     * @param string $depthOperator
+     * @param bool $includeSynonyms
+     * @return array
+     */
+    static public function fetchTagTree( $parentTagID, $sortBy, $offset, $limit, $depth, $depthOperator, $includeSynonyms )
+    {
+        if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
+            return array( 'result' => false );
+
+        $params = array( 'SortBy' => $sortBy,
+                         'Offset' => $offset,
+                         'Limit'  => $limit,
+                         'IncludeSynonyms' => $includeSynonyms );
+
+        if ( $depth !== false )
+        {
+            $params['Depth'] = $depth;
+            $params['DepthOperator'] = $depthOperator;
+        }
+
+        $tags = eZTagsObject::subTreeByTagID( $params, $parentTagID );
+
+        return array( 'result' => $tags );
+    }
+
+    /**
+     * Fetches subtree tag count by specified parameters
+     *
+     * @static
+     * @param integer $parentTagID
+     * @param integer $depth
+     * @param string $depthOperator
+     * @param bool $includeSynonyms
+     * @return integer
+     */
+    static public function fetchTagTreeCount( $parentTagID, $depth, $depthOperator, $includeSynonyms )
+    {
+        if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
+            return array( 'result' => 0 );
+
+        $params = array( 'IncludeSynonyms' => $includeSynonyms );
+
+        if ( $depth !== false )
+        {
+            $params['Depth'] = $depth;
+            $params['DepthOperator'] = $depthOperator;
+        }
+
+        $tagsCount = eZTagsObject::subTreeCountByTagID( $params, $parentTagID );
+
+        return array( 'result' => $tagsCount );
+    }
 }
 
 ?>

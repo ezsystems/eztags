@@ -415,9 +415,9 @@ class eZTagsObject extends eZPersistentObject
      * @param array $limits
      * @return array
      */
-    static function fetchList( $params, $limits = null, $asObject = true )
+    static function fetchList( $params, $limits = null, $asObject = true, $sorts = null )
     {
-        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, $params, null, $limits );
+        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, $params, $sorts, $limits );
 
         if ( $asObject )
         {
@@ -603,6 +603,180 @@ class eZTagsObject extends eZPersistentObject
             $child->updatePathString( $targetTag );
             $child->updateDepth( $targetTag );
         }
+    }
+
+    /**
+     * Fetches subtree of tags by specified parameters
+     *
+     * @static
+     * @param array $params
+     * @param integer $tagID
+     * @return array
+     */
+    static function subTreeByTagID( $params = array(), $tagID = 0 )
+    {
+        if ( !is_numeric( $tagID ) || (int) $tagID < 0 )
+            return false;
+
+        $tag = eZTagsObject::fetch( (int) $tagID );
+        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->MainNodeID != 0 )
+            return false;
+
+        if ( !is_array( $params ) )
+            $params = array();
+
+        $offset          = ( isset( $params['Offset'] ) && (int) $params['Offset'] > 0 )   ? (int) $params['Offset']           : 0;
+        $limit           = ( isset( $params['Limit'] ) && (int) $params['Limit'] > 0 )     ? (int) $params['Limit']            : 0;
+        $sortBy          = ( isset( $params['SortBy'] ) && is_array( $params['SortBy'] ) ) ? $params['SortBy']                 : array();
+        $depth           = ( isset( $params['Depth'] ) )                                   ? $params['Depth']                  : false;
+        $depthOperator   = ( isset( $params['DepthOperator'] ) )                           ? $params['DepthOperator']          : false;
+        $includeSynonyms = ( isset( $params['IncludeSynonyms'] ) )                         ? (bool) $params['IncludeSynonyms'] : false;
+
+        $fetchParams = array();
+
+        if ( (int) $tagID > 0 )
+        {
+            $fetchParams['path_string'] = array( 'like', '%/' . (string) ( (int) $tagID ) . '/%' );
+            $fetchParams['id'] = array( '!=', (int) $tagID );
+        }
+
+        if ( !$includeSynonyms )
+            $fetchParams['main_tag_id'] = 0;
+
+        if ( $depth !== false && (int) $depth > 0 )
+        {
+            $tagDepth = 0;
+            if ( $tag instanceof eZTagsObject )
+                $tagDepth = (int) $tag->Depth;
+
+            $depth = (int) $depth + $tagDepth;
+
+            $sqlDepthOperator = '<=';
+            if ( $depthOperator == 'lt' )
+                $sqlDepthOperator = '<';
+            else if ( $depthOperator == 'gt' )
+                $sqlDepthOperator = '>';
+            else if ( $depthOperator == 'le' )
+                $sqlDepthOperator = '<=';
+            else if ( $depthOperator == 'ge' )
+                $sqlDepthOperator = '>=';
+            else if ( $depthOperator == 'eq' )
+                $sqlDepthOperator = '=';
+
+            $fetchParams['depth'] = array( $sqlDepthOperator, $depth );
+        }
+
+        $limits = array( 'offset' => $offset );
+
+        if ( $limit > 0 )
+            $limits['limit'] = $limit;
+
+        $sorts = array();
+        if ( !empty( $sortBy ) )
+        {
+            $columnArray = array( 'id', 'parent_id', 'main_tag_id', 'keyword', 'depth', 'path_string', 'modified' );
+            $orderArray = array( 'asc', 'desc' );
+
+            if ( count( $sortBy ) == 2 && !is_array( $sortBy[0] ) && !is_array( $sortBy[1] ) )
+            {
+                $sortBy = array( $sortBy );
+            }
+
+            foreach ( $sortBy as $sortCond )
+            {
+                if ( is_array( $sortCond ) && count( $sortCond ) == 2 )
+                {
+                    if ( in_array( strtolower( trim( $sortCond[0] ) ), $columnArray ) )
+                    {
+                        $sortCond[0] = trim( strtolower( $sortCond[0] ) );
+
+                        if( in_array( strtolower( trim( $sortCond[1] ) ), $orderArray ) )
+                            $sortCond[1] = trim( strtolower( $sortCond[1] ) );
+                        else
+                            $sortCond[1] = 'asc';
+
+                        if ( !array_key_exists( $sortCond[0], $sorts ) )
+                            $sorts[$sortCond[0]] = $sortCond[1];
+                    }
+                }
+            }
+        }
+
+        if ( empty( $sorts ) )
+            $sorts = null;
+
+        $fetchResults = self::fetchList( $fetchParams, $limits, true, $sorts );
+
+        if ( is_array( $fetchResults ) && !empty( $fetchResults ) )
+            return $fetchResults;
+
+        return false;
+    }
+
+    /**
+     * Fetches subtree tag count by specified parameters
+     *
+     * @static
+     * @param array $params
+     * @param integer $tagID
+     * @return integer
+     */
+    static function subTreeCountByTagID( $params = array(), $tagID = 0 )
+    {
+        if ( !is_numeric( $tagID ) || (int) $tagID < 0 )
+            return 0;
+
+        $tag = eZTagsObject::fetch( (int) $tagID );
+        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->MainNodeID != 0 )
+            return 0;
+
+        if ( !is_array( $params ) )
+            $params = array();
+
+        $depth           = ( isset( $params['Depth'] ) )                                   ? $params['Depth']                  : false;
+        $depthOperator   = ( isset( $params['DepthOperator'] ) )                           ? $params['DepthOperator']          : false;
+        $includeSynonyms = ( isset( $params['IncludeSynonyms'] ) )                         ? (bool) $params['IncludeSynonyms'] : false;
+
+        $fetchParams = array();
+
+        if ( (int) $tagID > 0 )
+        {
+            $fetchParams['path_string'] = array( 'like', '%/' . (string) ( (int) $tagID ) . '/%' );
+            $fetchParams['id'] = array( '!=', (int) $tagID );
+        }
+
+        if ( !$includeSynonyms )
+            $fetchParams['main_tag_id'] = 0;
+
+        if ( $depth !== false && (int) $depth > 0 )
+        {
+            $tagDepth = 0;
+            if ( $tag instanceof eZTagsObject )
+                $tagDepth = (int) $tag->Depth;
+
+            $depth = (int) $depth + $tagDepth;
+
+            $sqlDepthOperator = '<=';
+            if ( $depthOperator == 'lt' )
+                $sqlDepthOperator = '<';
+            else if ( $depthOperator == 'gt' )
+                $sqlDepthOperator = '>';
+            else if ( $depthOperator == 'le' )
+                $sqlDepthOperator = '<=';
+            else if ( $depthOperator == 'ge' )
+                $sqlDepthOperator = '>=';
+            else if ( $depthOperator == 'eq' )
+                $sqlDepthOperator = '=';
+
+            $fetchParams['depth'] = array( $sqlDepthOperator, $depth );
+        }
+
+        $count = self::fetchListCount( $fetchParams );
+
+        if ( is_numeric( $count ) )
+            return $count;
+
+        return 0;
     }
 }
 
