@@ -90,7 +90,11 @@ else
             $tag->ParentID = $mainTag->ParentID;
             $tag->MainTagID = $mainTag->ID;
             $tag->store();
-            $tag->updatePathString( ( $newParentTag instanceof eZTagsObject ) ? $newParentTag : false );
+
+			if ( !$newParentTag instanceof eZTagsObject )
+				$newParentTag = false;
+            $tag->updatePathString( $newParentTag );
+            $tag->updateDepth( $newParentTag );
             $tag->updateModified();
 
             $db->commit();

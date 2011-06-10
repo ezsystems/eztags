@@ -248,11 +248,12 @@ class eZTags
                 //and then for each tag check if user can save in one of the allowed locations
                 $parentTag = eZTagsObject::fetch( $t['parent_id'] );
                 $pathString = ( $parentTag instanceof eZTagsObject ) ? $parentTag->PathString : '/';
+                $depth = ( $parentTag instanceof eZTagsObject ) ? $parentTag->Depth + 1 : 1;
 
                 if ( self::canSave( $pathString, $allowedLocations ) )
                 {
-                    $db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, path_string, modified ) VALUES ( " .
-                                 $t['parent_id'] . ", 0, '" . $db->escapeString( trim( $t['keyword'] ) ) . "', '$pathString', 0 )" );
+                    $db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, depth, path_string, modified ) VALUES ( " .
+                                 $t['parent_id'] . ", 0, '" . $db->escapeString( trim( $t['keyword'] ) ) . "', $depth, '$pathString', 0 )" );
                     $tagID = (int) $db->lastSerialID( 'eztags', 'id' );
                     $db->query( "UPDATE eztags SET path_string = CONCAT(path_string, CAST($tagID AS CHAR), '/') WHERE id = $tagID" );
 

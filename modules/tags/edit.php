@@ -77,7 +77,11 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $tag->Keyword = $newKeyword;
         $tag->ParentID = $newParentID;
         $tag->store();
-        $tag->updatePathString( ( $newParentTag instanceof eZTagsObject ) ? $newParentTag : false );
+
+		if ( !$newParentTag instanceof eZTagsObject )
+			$newParentTag = false;
+        $tag->updatePathString( $newParentTag );
+        $tag->updateDepth( $newParentTag );
         $tag->updateModified();
         $tag->registerSearchObjects();
 

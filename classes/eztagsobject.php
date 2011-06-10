@@ -601,6 +601,7 @@ class eZTagsObject extends eZPersistentObject
             $child->Modified = $currentTime;
             $child->store();
             $child->updatePathString( $targetTag );
+            $child->updateDepth( $targetTag );
         }
     }
 }

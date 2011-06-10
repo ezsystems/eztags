@@ -84,6 +84,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
         $tag = new eZTagsObject( array( 'parent_id'   => ( $parentTag instanceof eZTagsObject ) ? $parentTag->ID : 0,
                                         'main_tag_id' => 0,
                                         'keyword'     => $newKeyword,
+                                        'depth'       => ( $parentTag instanceof eZTagsObject ) ? $parentTag->Depth + 1 : 1,
                                         'path_string' => ( $parentTag instanceof eZTagsObject ) ? $parentTag->PathString : '/' ) );
 
         $tag->store();
