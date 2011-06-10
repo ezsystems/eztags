@@ -39,6 +39,10 @@ class eZTagsObject extends eZPersistentObject
                                                                               'datatype' => 'string',
                                                                               'default'  => '',
                                                                               'required' => false ),
+                                                      'depth'       => array( 'name'     => 'Depth',
+                                                                              'datatype' => 'integer',
+                                                                              'default'  => 1,
+                                                                              'required' => false ),
                                                       'path_string' => array( 'name'     => 'PathString',
                                                                               'datatype' => 'string',
                                                                               'default'  => '',
@@ -84,6 +88,30 @@ class eZTagsObject extends eZPersistentObject
         foreach ( $this->getChildren() as $c )
         {
             $c->updatePathString( $this );
+        }
+    }
+
+    /**
+     * Updates depth of the tag and all of it's children and synonyms.
+     *
+     * @param eZTagsObject $parentTag
+     */
+    function updateDepth( $parentTag )
+    {
+        $depth = ( $parentTag instanceof eZTagsObject ) ? $parentTag->Depth + 1 : 1;
+
+        $this->Depth = $depth;
+        $this->store();
+
+        foreach ( $this->getSynonyms() as $s )
+        {
+            $s->Depth = $depth;
+            $s->store();
+        }
+
+        foreach ( $this->getChildren() as $c )
+        {
+            $c->updateDepth( $this );
         }
     }
 
