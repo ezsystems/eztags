@@ -2,7 +2,7 @@
 {ezscript_require( array( 'ezjsc::jquery', 'ezjsc::jqueryio', 'jqModal.js', 'jquery.tagsSuggest.js', 'tagsSuggest-init.js' ) )}
 
 {def $has_add_access = false()}
-{def $root_tag = fetch( tags, object, hash( tag_id, $attribute.contentclass_attribute.data_int1 ) )}
+{def $root_tag = fetch( tags, tag, hash( tag_id, $attribute.contentclass_attribute.data_int1 ) )}
 
 {def $user_limitations = user_limitations( 'tags', 'add' )}
 {if $user_limitations['accessWord']|ne( 'no' )}
@@ -19,7 +19,7 @@
         {set $has_add_access = true()}
         {set $root_tag = array()}
         {foreach $user_limitations['simplifiedLimitations']['Tag'] as $key => $value}
-            {set $root_tag = $root_tag|append( fetch( tags, object, hash( tag_id, $value ) ) )}
+            {set $root_tag = $root_tag|append( fetch( tags, tag, hash( tag_id, $value ) ) )}
         {/foreach}
     {/if}
 {/if}

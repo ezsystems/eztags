@@ -13,7 +13,7 @@ class eZTagsFunctionCollection
      * @param integer $tag_id
      * @return array
      */
-    static public function fetchTagObject( $tag_id )
+    static public function fetchTag( $tag_id )
     {
         $result = eZTagsObject::fetch( $tag_id );
 
@@ -24,18 +24,18 @@ class eZTagsFunctionCollection
     }
 
     /**
-     * Fetches first object associated with provided keyword
+     * Fetches all tags named with provided keyword
      *
      * @static
      * @param string $keyword
      * @return array
      */
-    static public function fetchTagObjectByKeyword( $keyword )
+    static public function fetchTagsByKeyword( $keyword )
     {
         $result = eZTagsObject::fetchByKeyword( $keyword );
 
         if( is_array( $result ) && !empty( $result ) )
-            return array( 'result' => $result[0] );
+            return array( 'result' => $result );
         else
             return array( 'result' => false );
     }

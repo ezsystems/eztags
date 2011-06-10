@@ -57,9 +57,9 @@
                             {def $t = false()}
                             {foreach $nodes_related.SearchExtras.facet_fields.0.nameList as $name sequence $nodes_related.SearchExtras.facet_fields.0.countList as $count}
                                 {if $name|downcase|ne( $tag.keyword|downcase )}
-                                    {set $t = fetch( tags, object_by_keyword, hash( keyword, $name ) )}
-                                    {if $t}
-                                        <li><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $t.icon )|ezimage} title="{$t.keyword|wash}" alt="{$t.keyword|wash}" /> <a href={concat( 'tags/view/', $t.url )|ezurl}>{$t.keyword|wash}</a> ({$count})</li>
+                                    {set $t = fetch( tags, tags_by_keyword, hash( keyword, $name ) )}
+                                    {if $t|count}
+                                        <li><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $t[0].icon )|ezimage} title="{$t[0].keyword|wash}" alt="{$t[0].keyword|wash}" /> <a href={concat( 'tags/view/', $t[0].url )|ezurl}>{$t[0].keyword|wash}</a> ({$count})</li>
                                     {/if}
                                 {/if}
                             {/foreach}
