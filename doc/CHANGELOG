@@ -1,6 +1,6 @@
 eZ Tags extension changelog
 
-1.1
+1.1 (13.06.2011)
 ==========================
 
 * New fetches (tags/list, tags/list_count, tags/tree, tags/tree_count)
