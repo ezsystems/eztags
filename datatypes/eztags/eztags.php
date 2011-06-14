@@ -34,7 +34,8 @@ class eZTags
      */
     function attributes()
     {
-        return array( 'tag_ids',
+        return array( 'tags',
+                      'tag_ids',
                       'id_string',
                       'keyword_string',
                       'parent_string' );
@@ -61,6 +62,11 @@ class eZTags
     {
         switch ( $name )
         {
+            case 'tags' :
+            {
+                return $this->tags();
+            } break;
+
             case 'tag_ids' :
             {
                 return $this->IDArray;
@@ -348,6 +354,19 @@ class eZTags
         }
 
         return false;
+    }
+
+    /**
+     * Returns tags within this instance
+     *
+     * @return array
+     */
+    function tags()
+    {
+    	if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
+    		return array();
+
+		return eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) );
     }
 
     /**
