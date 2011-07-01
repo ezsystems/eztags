@@ -204,6 +204,40 @@ class eZTagsType extends eZDataType
     }
 
     /**
+     * Extracts values from the attribute parameters and sets it in the class attribute.
+     * @param eZContentClassAttribute $classAttribute
+     * @param DOMNode $attributeNode
+     * @param DOMNode $attributeParametersNode
+     */
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
+    {
+        $subTreeLimit = (int) $attributeParametersNode->getAttribute( 'subtree-limit' );
+        $showDropDown = $attributeParametersNode->getAttribute( 'dropdown' ) === 'true';
+
+        $classAttribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
+        $classAttribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $showDropDown ? 1 : 0 );
+    }
+
+    /**
+     * Adds the necessary dom structure to the attribute parameters.
+     * @param eZContentClassAttribute $classAttribute
+     * @param DOMNode $attributeNode
+     * @param DOMNode $attributeParametersNode
+     */
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
+    {
+        if( $subTreeLimit = $classAttribute->attribute( self::SUBTREE_LIMIT_FIELD ) )
+        {
+            $attributeParametersNode->setAttribute( 'subtree-limit', $subTreeLimit );
+        }
+
+        if( $showDropDown = $classAttribute->attribute( self::SHOW_DROPDOWN_FIELD ) )
+        {
+            $attributeParametersNode->setAttribute( 'dropdown', 'true' );
+        }
+    }
+
+    /**
      * Returns the content
      *
      * @param eZContentObjectAttribute $attribute
