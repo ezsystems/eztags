@@ -226,12 +226,12 @@ class eZTagsType extends eZDataType
      */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        if( $subTreeLimit = $classAttribute->attribute( self::SUBTREE_LIMIT_FIELD ) )
+        if ( $subTreeLimit = $classAttribute->attribute( self::SUBTREE_LIMIT_FIELD ) )
         {
             $attributeParametersNode->setAttribute( 'subtree-limit', $subTreeLimit );
         }
 
-        if( $showDropDown = $classAttribute->attribute( self::SHOW_DROPDOWN_FIELD ) )
+        if ( $showDropDown = $classAttribute->attribute( self::SHOW_DROPDOWN_FIELD ) )
         {
             $attributeParametersNode->setAttribute( 'dropdown', 'true' );
         }
