@@ -619,7 +619,7 @@ class eZTagsObject extends eZPersistentObject
             return false;
 
         $tag = eZTagsObject::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->MainNodeID != 0 )
+        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->MainTagID != 0 )
             return false;
 
         if ( !is_array( $params ) )
@@ -727,7 +727,7 @@ class eZTagsObject extends eZPersistentObject
             return 0;
 
         $tag = eZTagsObject::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->MainNodeID != 0 )
+        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->MainTagID != 0 )
             return 0;
 
         if ( !is_array( $params ) )
