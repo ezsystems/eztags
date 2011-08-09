@@ -16,6 +16,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Maximum number of allowed tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(0 = unlimited)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlimited</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select subtree</source>
         <translation type="unfinished"></translation>
     </message>

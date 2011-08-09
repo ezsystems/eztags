@@ -17,6 +17,9 @@ class eZTagsType extends eZDataType
     const HIDE_ROOT_TAG_VARIABLE = '_eztags_hide_root_tag_';
     const HIDE_ROOT_TAG_FIELD = 'data_int3';
 
+    const MAX_TAGS_VARIABLE = '_eztags_max_tags_';
+    const MAX_TAGS_FIELD = 'data_int4';
+
     /**
      * Constructor
      *
@@ -91,6 +94,13 @@ class eZTagsType extends eZDataType
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
+
+                $maxTags = $classAttribute->attribute( self::MAX_TAGS_FIELD );
+                if ( count( $dataArray ) > $maxTags || count( $data2Array ) > $maxTags || count( $data3Array ) > $maxTags )
+                {
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
+                    return eZInputValidator::STATE_INVALID;
+                }
             }
         }
         else if ( $contentObjectAttribute->validateIsRequired() )
@@ -154,6 +164,12 @@ class eZTagsType extends eZDataType
      */
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
+        $maxTagsName = $base . self::MAX_TAGS_VARIABLE . $attribute->attribute( 'id' );
+        if ( !$http->hasPostVariable( $maxTagsName ) || !is_numeric( $http->postVariable( $maxTagsName ) ) )
+        {
+            return eZInputValidator::STATE_INVALID;
+        }        
+
         $subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
         if ( !$http->hasPostVariable( $subTreeLimitName ) || (int) $http->postVariable( $subTreeLimitName ) < 0 )
         {
@@ -187,6 +203,12 @@ class eZTagsType extends eZDataType
      */
     function fetchClassAttributeHTTPInput( $http, $base, $attribute )
     {
+        $maxTagsName = $base . self::MAX_TAGS_VARIABLE . $attribute->attribute( 'id' );
+        if ( !$http->hasPostVariable( $maxTagsName ) || !is_numeric( $http->postVariable( $maxTagsName ) ) )
+        {
+            return false;
+        }
+
         $subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
         if ( !$http->hasPostVariable( $subTreeLimitName ) || (int) $http->postVariable( $subTreeLimitName ) < 0 )
         {
@@ -206,9 +228,12 @@ class eZTagsType extends eZDataType
             $data3 = 1;
         }
 
+        $data4 = (int) $http->postVariable( $maxTagsName );
+
         $attribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $data );
         $attribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $data2 );
         $attribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, $data3 );
+        $attribute->setAttribute( self::MAX_TAGS_FIELD, $data4 < 0 ? 0 : $data4 );
 
         return true;
     }
@@ -230,9 +255,16 @@ class eZTagsType extends eZDataType
             $hideRootTag = true;
         }
 
+        $maxTags = 0;
+        if ( $attributeParametersNode->hasAttribute( 'max-tags' ) )
+        {
+            $maxTags = (int) $attributeParametersNode->getAttribute( 'max-tags' );
+        }
+
         $classAttribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
         $classAttribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $showDropDown ? 1 : 0 );
         $classAttribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, $hideRootTag ? 1 : 0 );
+        $classAttribute->setAttribute( self::MAX_TAGS_FIELD, $maxTags );
     }
 
     /**
@@ -256,6 +288,11 @@ class eZTagsType extends eZDataType
         if ( $hideRootTag = $classAttribute->attribute( self::HIDE_ROOT_TAG_FIELD ) )
         {
             $attributeParametersNode->setAttribute( 'hide_root_tag', 'true' );
+        }
+
+        if ( $maxTags = $classAttribute->attribute( self::MAX_TAGS_FIELD ) )
+        {
+            $attributeParametersNode->setAttribute( 'max-tags', $maxTags );
         }
     }
 

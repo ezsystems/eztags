@@ -16,6 +16,18 @@
         <translation>Prikaži padajući meni umjesto predloženih oznaka</translation>
     </message>
     <message>
+        <source>Maximum number of allowed tags</source>
+        <translation>Maksimalno dopuštenih oznaka</translation>
+    </message>
+    <message>
+        <source>(0 = unlimited)</source>
+        <translation>(0 = neograničeno)</translation>
+    </message>
+    <message>
+        <source>Unlimited</source>
+        <translation>Neograničeno</translation>
+    </message>
+    <message>
         <source>Select subtree</source>
         <translation>Odaberi podstablo</translation>
     </message>
