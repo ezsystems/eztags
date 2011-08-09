@@ -101,6 +101,24 @@ class eZTagsFunctionCollection
 
         return array( 'result' => $tagsCount );
     }
+
+    static public function fetchLatestTags ( $parentTagID = false, $limit = 0 )
+    {
+		$filterArray = array( 'main_tag_id' => 0 );
+
+		if ( $parentTagID !== false )
+			$filterArray['parent_id'] = (int) $parentTagID;
+
+        $result = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null,
+                                                       $filterArray,
+                                                       array( 'modified' => 'desc' ),
+                                                       array( 'offset' => 0, 'limit' => $limit ) );
+
+        if ( is_array( $result ) && !empty( $result ) )
+            return array( 'result' => $result );
+        else
+            return array( 'result' => false );
+    }
 }
 
 ?>

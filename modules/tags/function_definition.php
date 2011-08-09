@@ -128,4 +128,18 @@ $FunctionList['tree_count'] = array( 'name'            => 'tree_count',
                                                                         'required' => false,
                                                                         'default'  => false ) ) );
 
+$FunctionList['latest_tags'] = array( 'name'            => 'latest_tags',
+                                      'operation_types' => array( 'read' ),
+                                      'call_method'     => array( 'class'  => 'eZTagsFunctionCollection',
+                                                                  'method' => 'fetchLatestTags' ),
+                                      'parameter_type'  => 'standard',
+                                      'parameters'      => array( array( 'name'     => 'parent_tag_id',
+                                                                         'type'     => 'integer',
+                                                                         'required' => false,
+                                                                         'default'  => false ),
+                                                                  array( 'name'     => 'limit',
+                                                                         'type'     => 'integer',
+                                                                         'required' => false,
+                                                                         'default'  => 0 ) ) );
+
 ?>
