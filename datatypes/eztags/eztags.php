@@ -197,9 +197,27 @@ class eZTags
 
         //get tags to delete from object attribute
         $tagsToDelete = array();
+        $tempIDArray = array();
+
+        // if for some reason already existing tags are added with ID = 0 with fromString
+        // check to see if they really exist, so we don't delete them by mistake
+        foreach ( array_keys( $this->IDArray ) as $key )
+        {
+            if ( $this->IDArray[$key] == 0 )
+            {
+                $existing = eZTagsObject::fetchList( array( 'keyword' => array( 'like', trim( $this->KeywordArray[$key] ) ), 'parent_id' => $this->ParentArray[$key] ) );
+                if ( is_array( $existing ) && !empty( $existing ) )
+                    $tempIDArray[] = $existing[0]->ID;
+            }
+            else
+            {
+                $tempIDArray[] = $this->IDArray[$key];
+            }
+        }
+
         foreach ( $existingTagIDs as $tid )
         {
-            if ( !in_array( $tid, $this->IDArray ) )
+            if ( !in_array( $tid, $tempIDArray ) )
             {
                 $tagsToDelete[] = $tid;
             }
@@ -363,10 +381,10 @@ class eZTags
      */
     function tags()
     {
-    	if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
-    		return array();
+        if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
+            return array();
 
-		return eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) );
+        return eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) );
     }
 
     /**
