@@ -14,12 +14,14 @@
                 <th>{"ID"|i18n( "extension/eztags/tags/view" )}</th>
                 <th>{"Name"|i18n( "extension/eztags/tags/view" )}</th>
                 <th>{"Modified"|i18n( "extension/eztags/tags/view" )}</th>
+                <th>{"Class name"|i18n( "extension/eztags/tags/view" )}</th>
             </tr>
             {foreach $nodes as $node}
                 <tr>
                     <td>{$node.contentobject_id}</td>
                     <td><a href={$node.url_alias|ezurl}>{$node.object.name|wash}</a></td>
                     <td>{$node.object.modified|datetime( 'custom', '%d.%m.%Y %H:%i' )}</td>
+                    <td>{$node.class_name}</td>
                 </tr>
             {/foreach}
         </tbody>
