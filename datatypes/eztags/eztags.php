@@ -139,6 +139,15 @@ class eZTags
             return;
         }
 
+		$classAttribute = $attribute->contentClassAttribute();
+		$maxTags = (int) $classAttribute->attribute( eZTagsType::MAX_TAGS_FIELD );
+		if ( $maxTags > 0 && count( $this->IDArray ) > $maxTags )
+		{
+			$this->IDArray = array_slice( $this->IDArray, 0, $maxTags );
+			$this->KeywordArray = array_slice( $this->KeywordArray, 0, $maxTags );
+			$this->ParentArray = array_slice( $this->ParentArray, 0, $maxTags );
+		}
+
         $db = eZDB::instance();
         $words = $db->arrayQuery( "SELECT eztags.id, eztags.keyword, eztags.parent_id FROM eztags_attribute_link, eztags
                                     WHERE eztags_attribute_link.keyword_id = eztags.id AND
