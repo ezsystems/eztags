@@ -21,7 +21,7 @@
                     <td>{$node.contentobject_id}</td>
                     <td><a href={$node.url_alias|ezurl}>{$node.object.name|wash}</a></td>
                     <td>{$node.object.modified|datetime( 'custom', '%d.%m.%Y %H:%i' )}</td>
-                    <td>{$node.class_name}</td>
+                    <td>{$node.class_name|wash}</td>
                 </tr>
             {/foreach}
         </tbody>
