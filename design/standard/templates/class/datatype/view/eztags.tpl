@@ -11,6 +11,11 @@
     </div>
 
     <div class="element">
+        <label>{'Hide root subtree limit tag when editing object'|i18n( 'design/standard/class/datatype' )}:</label>
+        <p>{cond( $class_attribute.data_int3|eq( 0 ), 'No'|i18n( 'design/standard/class/datatype' ), 'Yes'|i18n( 'design/standard/class/datatype' ) )}</p>
+    </div>
+
+    <div class="element">
         <label>{'Show dropdown instead of autocomplete'|i18n( 'design/standard/class/datatype' )}:</label>
         <p>{cond( $class_attribute.data_int2|eq( 0 ), 'No'|i18n( 'design/standard/class/datatype' ), 'Yes'|i18n( 'design/standard/class/datatype' ) )}</p>
     </div>

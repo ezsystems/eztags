@@ -14,6 +14,9 @@ class eZTagsType extends eZDataType
     const SHOW_DROPDOWN_VARIABLE = '_eztags_show_dropdown_';
     const SHOW_DROPDOWN_FIELD = 'data_int2';
 
+    const HIDE_ROOT_TAG_VARIABLE = '_eztags_hide_root_tag_';
+    const HIDE_ROOT_TAG_FIELD = 'data_int3';
+
     /**
      * Constructor
      *
@@ -197,8 +200,15 @@ class eZTagsType extends eZDataType
             $data2 = 1;
         }
 
+        $data3 = 0;
+        if ( $http->hasPostVariable( $base . self::HIDE_ROOT_TAG_VARIABLE . $attribute->attribute( 'id' ) ) )
+        {
+            $data3 = 1;
+        }
+
         $attribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $data );
         $attribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $data2 );
+        $attribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, $data3 );
 
         return true;
     }
@@ -213,9 +223,16 @@ class eZTagsType extends eZDataType
     {
         $subTreeLimit = (int) $attributeParametersNode->getAttribute( 'subtree-limit' );
         $showDropDown = $attributeParametersNode->getAttribute( 'dropdown' ) === 'true';
+        $hideRootTag = false;
+        if ( $attributeParametersNode->hasAttribute( 'hide_root_tag' )
+             && $attributeParametersNode->getAttribute( 'hide_root_tag' ) === 'true' )
+        {
+            $hideRootTag = true;
+        }
 
         $classAttribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
         $classAttribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $showDropDown ? 1 : 0 );
+        $classAttribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, $hideRootTag ? 1 : 0 );
     }
 
     /**
@@ -234,6 +251,11 @@ class eZTagsType extends eZDataType
         if ( $showDropDown = $classAttribute->attribute( self::SHOW_DROPDOWN_FIELD ) )
         {
             $attributeParametersNode->setAttribute( 'dropdown', 'true' );
+        }
+
+        if ( $hideRootTag = $classAttribute->attribute( self::HIDE_ROOT_TAG_FIELD ) )
+        {
+            $attributeParametersNode->setAttribute( 'hide_root_tag', 'true' );
         }
     }
 

@@ -8,6 +8,10 @@
         <translation>Ograničenje po podstablu oznaka</translation>
     </message>
     <message>
+        <source>Hide root subtree limit tag when editing object</source>
+        <translation>Sakrij vršnu oznaku ograničenja po podstablu kod uređivanja objekata</translation>
+    </message>
+    <message>
         <source>Show dropdown instead of autocomplete</source>
         <translation>Prikaži padajući meni umjesto predloženih oznaka</translation>
     </message>

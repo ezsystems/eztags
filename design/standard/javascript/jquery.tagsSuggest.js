@@ -26,6 +26,7 @@
 				tids = $(this).find('.tagids'),
 				parentSelectorButton = $(this).find('input[type="button"]'),
 				subtree_limit = $(this).find('.eztags_subtree_limit').val(),
+				hide_root_tag = $(this).find('.eztags_hide_root_tag').val(),
 				parentSelector = $(this).siblings('.parent-selector-tree:eq(0)'),
 				results = $('<div />'),
 				currentSelection, pageX, pageY;
@@ -213,7 +214,7 @@
 				if (tag_names)
 				{
 					tags_suggested.parent('div.tags-list').removeClass('no-results').addClass('loading');
-					$.ez(settings.ezjscSuggest, {'tags_string': tag_names, 'subtree_limit': subtree_limit}, function(data)
+					$.ez(settings.ezjscSuggest, {'tags_string': tag_names, 'subtree_limit': subtree_limit, 'hide_root_tag': hide_root_tag}, function(data)
 						{
 							if (!data.content.tags.length)
 							{
@@ -238,7 +239,7 @@
 			function runAutocomplete()
 			{
 				if ( obj.val() || isFilter )
-					$.ez(settings.ezjscAutocomplete, {'search_string': obj.val(), 'subtree_limit': subtree_limit}, function(data)
+					$.ez(settings.ezjscAutocomplete, {'search_string': obj.val(), 'subtree_limit': subtree_limit, 'hide_root_tag': hide_root_tag}, function(data)
 					{
 						if (typeof data === 'string') data = JSON.parse(data);
 						buildAutocomplete(data.content.tags);

@@ -8,6 +8,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Hide root subtree limit tag when editing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Show dropdown instead of autocomplete</source>
         <translation type="unfinished"></translation>
     </message>

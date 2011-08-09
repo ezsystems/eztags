@@ -19,12 +19,12 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
         $searchString = $http->postVariable( 'search_string' );
         $subTreeLimit = $http->postVariable( 'subtree_limit' );
+        $hideRootTag = $http->postVariable( 'hide_root_tag' ) == '1' ? true : false;
 
         $params = array( 'keyword' => array( 'like', $searchString . '%' ) );
         if ( $subTreeLimit > 0 )
         {
-            $eztagsINI = eZINI::instance( 'eztags.ini' );
-            if ( $eztagsINI->variable( 'EditObject', 'SubTreeLimitShowRootTag' ) == 'disabled' )
+            if ( $hideRootTag )
             {
                 $params['id'] = array( '<>', $subTreeLimit );
             }
@@ -72,6 +72,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
             $tagsString = $http->postVariable( 'tags_string' );
             $tagsArray = explode( '|#', $tagsString );
             $subTreeLimit = $http->postVariable( 'subtree_limit' );
+            $hideRootTag = $http->postVariable( 'hide_root_tag' ) == '1' ? true : false;
 
             if ( !empty( $tagsArray ) && strlen( trim( $tagsArray[0] ) ) > 0 )
             {
@@ -125,12 +126,15 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
         {
             if ( !$subTreeLimit > 0 || ( $subTreeLimit > 0 && strpos( $tag->PathString, '/' . $subTreeLimit . '/' ) !== false ) )
             {
-                $returnArrayChild = array();
-                $returnArrayChild['tag_parent_id']   = $tag->ParentID;
-                $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->Keyword : '';
-                $returnArrayChild['tag_name']        = $tag->Keyword;
-                $returnArrayChild['tag_id']          = $tag->ID;
-                $returnArray['tags'][]               = $returnArrayChild;
+                if ( !$hideRootTag || ( $hideRootTag && $tag->ID != $subTreeLimit ) )
+                {
+                    $returnArrayChild = array();
+                    $returnArrayChild['tag_parent_id']   = $tag->ParentID;
+                    $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->Keyword : '';
+                    $returnArrayChild['tag_name']        = $tag->Keyword;
+                    $returnArrayChild['tag_id']          = $tag->ID;
+                    $returnArray['tags'][]               = $returnArrayChild;
+                }
             }
         }
 
