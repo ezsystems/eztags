@@ -248,6 +248,7 @@ class eZTagsType extends eZDataType
     {
         $subTreeLimit = (int) $attributeParametersNode->getAttribute( 'subtree-limit' );
         $showDropDown = $attributeParametersNode->getAttribute( 'dropdown' ) === 'true';
+
         $hideRootTag = false;
         if ( $attributeParametersNode->hasAttribute( 'hide-root-tag' )
              && $attributeParametersNode->getAttribute( 'hide-root-tag' ) === 'true' )
@@ -292,7 +293,7 @@ class eZTagsType extends eZDataType
 
         if ( $maxTags = $classAttribute->attribute( self::MAX_TAGS_FIELD ) )
         {
-            $attributeParametersNode->setAttribute( 'max-tags', $maxTags );
+            $attributeParametersNode->setAttribute( 'max-tags', (int) $maxTags );
         }
     }
 
