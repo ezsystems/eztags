@@ -95,7 +95,7 @@ class eZTagsType extends eZDataType
                     return eZInputValidator::STATE_INVALID;
                 }
 
-                $maxTags = $classAttribute->attribute( self::MAX_TAGS_FIELD );
+                $maxTags = (int) $classAttribute->attribute( self::MAX_TAGS_FIELD );
                 if ( count( $dataArray ) > $maxTags || count( $data2Array ) > $maxTags || count( $data3Array ) > $maxTags )
                 {
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
