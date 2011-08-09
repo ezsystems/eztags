@@ -104,10 +104,10 @@ class eZTagsFunctionCollection
 
     static public function fetchLatestTags ( $parentTagID = false, $limit = 0 )
     {
-		$filterArray = array( 'main_tag_id' => 0 );
+        $filterArray = array( 'main_tag_id' => 0 );
 
-		if ( $parentTagID !== false )
-			$filterArray['parent_id'] = (int) $parentTagID;
+        if ( $parentTagID !== false )
+            $filterArray['parent_id'] = (int) $parentTagID;
 
         $result = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null,
                                                        $filterArray,

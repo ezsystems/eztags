@@ -168,7 +168,7 @@ class eZTagsType extends eZDataType
         if ( !$http->hasPostVariable( $maxTagsName ) || !is_numeric( $http->postVariable( $maxTagsName ) ) )
         {
             return eZInputValidator::STATE_INVALID;
-        }        
+        }
 
         $subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
         if ( !$http->hasPostVariable( $subTreeLimitName ) || (int) $http->postVariable( $subTreeLimitName ) < 0 )
