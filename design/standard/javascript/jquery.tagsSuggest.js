@@ -19,6 +19,7 @@
 		return this.each(function()
 		{
 			var
+				base = $(this),
 				obj = $(this).find('.tagssuggestfield'),
 				isFilter = $(this).hasClass('tagsfilter'),
 				names = $(this).find('.tagnames'),
@@ -27,6 +28,7 @@
 				parentSelectorButton = $(this).find('input[type="button"]'),
 				subtree_limit = $(this).find('.eztags_subtree_limit').val(),
 				hide_root_tag = $(this).find('.eztags_hide_root_tag').val(),
+				max_tags = $(this).find('.eztags_max_tags').val(),
 				parentSelector = $(this).siblings('.parent-selector-tree:eq(0)'),
 				results = $('<div />'),
 				currentSelection, pageX, pageY;
@@ -54,6 +56,24 @@
 			runSuggest();
 			if ( isFilter ) runAutocomplete();
 
+			function showHideInputElements()
+			{
+				if ( max_tags > 0 ) {
+					if ( tags_listed.find('li').length >= max_tags ) {
+						base.find('.button-add-tag').hide();
+						base.find('.tags-suggested').hide();
+						base.find('.tags-suggested').prev('label').hide();
+						base.find('.tagssuggestfieldwrap').hide();
+					}
+					else {
+						base.find('.button-add-tag').show();
+						base.find('.tags-suggested').show();
+						base.find('.tags-suggested').prev('label').show();
+						base.find('.tagssuggestfieldwrap').show();
+					}
+				}
+			}
+
 			function addTagToList( item, list, callback, icon )
 			{
 				var tag = $('<li' + (!icon ? ' title="Add this tag"' : '') + '>' + item.tag_name + (icon ? '<a href="#" title="Remove tag">' + icon + '</a>' : '') + '</li>').data('tag', {'tag_parent_id': item.tag_parent_id, 'tag_name': item.tag_name, 'tag_id': item.tag_id});
@@ -61,12 +81,14 @@
 				else tag.click(function(e) {callback(tag); return false;});
 				list.append(tag);
 				list.parent('div.tags-list').removeClass('no-results');
+				showHideInputElements();
 			}
 
 			function removeTagFromList(tag)
 			{
 				$(tag).remove();
 				updateValues();
+				showHideInputElements();
 			}
 
 			function moveTag(tag)
@@ -75,6 +97,7 @@
 				addTagToList({'tag_parent_id': tag_data.tag_parent_id, 'tag_name': tag_data.tag_name, 'tag_id': tag_data.tag_id}, tags_listed, removeTagFromList, '&times;');
 				removeTagFromList(tag);
 				//updateValues();
+				showHideInputElements();
 			}
 
 			function updateValues()
