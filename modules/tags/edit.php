@@ -55,8 +55,17 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
     if ( empty( $error ) )
     {
+        $updateDepth = false;
+        $updatePathString = false;
+
         $db = eZDB::instance();
         $db->begin();
+
+        $oldParentDepth = $tag->Depth - 1;
+        $newParentDepth = ( $newParentTag instanceof eZTagsObject ) ? $newParentTag->Depth : 0;
+
+        if ( $oldParentDepth != $newParentDepth )
+            $updateDepth = true;
 
         if ( $tag->ParentID != $newParentID )
         {
@@ -72,6 +81,8 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
                 $synonym->ParentID = $newParentID;
                 $synonym->store();
             }
+
+            $updatePathString = true;
         }
 
         $tag->Keyword = $newKeyword;
@@ -80,8 +91,13 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
         if ( !$newParentTag instanceof eZTagsObject )
             $newParentTag = false;
-        $tag->updatePathString( $newParentTag );
-        $tag->updateDepth( $newParentTag );
+
+        if ( $updatePathString )
+            $tag->updatePathString( $newParentTag );
+
+        if ( $updateDepth )
+            $tag->updateDepth( $newParentTag );
+
         $tag->updateModified();
         $tag->registerSearchObjects();
 

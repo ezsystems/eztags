@@ -63,10 +63,16 @@ else
 
         if ( empty( $error ) )
         {
+            $updateDepth = false;
+            $updatePathString = false;
+
             $newParentTag = $mainTag->getParent();
 
             $db = eZDB::instance();
             $db->begin();
+
+            if ( $tag->Depth != $mainTag->Depth )
+                $updateDepth = true;
 
             if ( $tag->ParentID != $mainTag->ParentID )
             {
@@ -75,6 +81,8 @@ else
                 {
                     $oldParentTag->updateModified();
                 }
+
+                $updatePathString = true;
             }
 
             eZTagsObject::moveChildren( $tag, $mainTag );
@@ -93,8 +101,13 @@ else
 
             if ( !$newParentTag instanceof eZTagsObject )
                 $newParentTag = false;
-            $tag->updatePathString( $newParentTag );
-            $tag->updateDepth( $newParentTag );
+
+            if ( $updatePathString )
+                $tag->updatePathString( $newParentTag );
+
+            if ( $updateDepth )
+                $tag->updateDepth( $newParentTag );
+
             $tag->updateModified();
 
             $db->commit();
