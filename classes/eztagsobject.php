@@ -666,10 +666,14 @@ class eZTagsObject extends eZPersistentObject
             $fetchParams['depth'] = array( $sqlDepthOperator, $depth );
         }
 
-        $limits = array( 'offset' => $offset );
-
+        $limits = null;
         if ( $limit > 0 )
-            $limits['limit'] = $limit;
+        {
+            $limits = array(
+                'offset' => $offset,
+                'limit' => $limit,
+            );
+        }
 
         $sorts = array();
         if ( !empty( $sortBy ) )
