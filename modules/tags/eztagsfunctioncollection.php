@@ -102,7 +102,15 @@ class eZTagsFunctionCollection
         return array( 'result' => $tagsCount );
     }
 
-    static public function fetchLatestTags ( $parentTagID = false, $limit = 0 )
+    /**
+     * Fetches latest modified tags by specified parameters
+     *
+     * @static
+     * @param integer $parentTagID
+     * @param integer $limit
+     * @return array
+     */
+    static public function fetchLatestTags( $parentTagID = false, $limit = 0 )
     {
         $filterArray = array( 'main_tag_id' => 0 );
 
