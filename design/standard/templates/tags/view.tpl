@@ -82,6 +82,7 @@
                         </ul>
                     </div>
                 {/if}
+                {undef $nodes_related}
                 </div></div></div>
                 <div class="border-bl"><div class="border-br"><div class="border-bc"></div></div></div>
                 </div>
@@ -91,4 +92,4 @@
 </div>
 </div>
 
-{undef $limit}
+{undef $limit $nodes $nodes_count}
