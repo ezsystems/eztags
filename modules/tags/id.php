@@ -14,10 +14,15 @@ if ( !($tag instanceof eZTagsObject ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
+$viewParameters = array();
+if ( isset( $Params['Offset'] ) )
+    $viewParameters['offset'] = (int) $Params['Offset'];
+
 $tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'blocks', eZINI::instance( 'eztags.ini' )->variable( 'View', 'ViewBlocks' ) );
 $tpl->setVariable( 'tag', $tag );
+$tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'persistent_variable', false );
 $tpl->setVariable( 'show_reindex_message', false );
 

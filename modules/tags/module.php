@@ -21,13 +21,15 @@ $ViewList['id'] = array(
     'functions'               => array( 'id' ),
     'script'                  => 'id.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'TagID' ) );
+    'params'                  => array( 'TagID' ),
+    'unordered_params'        => array( 'offset' => 'Offset' ) );
 
 $ViewList['view'] = array(
     'functions'               => array( 'view' ),
     'script'                  => 'view.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'TagName' ) );
+    'params'                  => array( 'TagName' ),
+    'unordered_params'        => array( 'offset' => 'Offset' ) );
 
 $ViewList['add'] = array(
     'functions'               => array( 'add' ),
