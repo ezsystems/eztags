@@ -18,8 +18,9 @@
                                                              extended_attribute_filter,
                                                              hash( id, TagsAttributeFilter,
                                                                    params, hash( tag_id, $tag.id, include_synonyms, true() ) ),
-                                                             limit, 10,
-                                                             sort_by, array( published, false() ) ) )}
+                                                             offset, first_set( $view_parameters.offset, 0 ), limit, 10,
+                                                             main_node_only, true(),
+                                                             sort_by, array( modified, false() ) ) )}
 
             {if $nodes_latest|count}
                 <div class="block">

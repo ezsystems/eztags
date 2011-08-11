@@ -3,6 +3,7 @@
                                           hash( id, TagsAttributeFilter,
                                                 params, hash( tag_id, $tag.id, include_synonyms, false() ) ),
                                           limit, 10,
+                                          main_node_only, true(),
                                           sort_by, array( modified, false() ) ) )}
 
 <h2>{'Latest content'|i18n( 'extension/eztags/tags/view' )}</h2>
