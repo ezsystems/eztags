@@ -45,3 +45,5 @@
         </div>
     </div>
 </div>
+
+{include uri='design:eztags_children.tpl'}
