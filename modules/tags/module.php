@@ -15,7 +15,7 @@ $ViewList['dashboard'] = array(
     'script'                  => 'dashboard.php',
     'default_navigation_part' => 'eztagsnavigationpart',
     'params'                  => array(),
-    'unordered_params'        => array() );
+    'unordered_params'        => array( 'offset' => 'Offset' ) );
 
 $ViewList['id'] = array(
     'functions'               => array( 'id' ),
