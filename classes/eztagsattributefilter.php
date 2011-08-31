@@ -15,18 +15,29 @@ class eZTagsAttributeFilter
     {
         $returnArray = array( 'tables' => '', 'joins'  => '', 'columns' => '' );
 
-        if ( isset( $params['tag_id'] ) && (int) $params['tag_id'] > 0 )
+        if ( isset( $params['tag_id'] ) )
         {
-            $tagIDsArray = array( (int) $params['tag_id'] );
-
-            if ( !isset( $params['include_synonyms'] ) || ( isset( $params['include_synonyms'] ) && $params['include_synonyms'] == true ) )
+            if ( is_array( $params['tag_id'] ) )
             {
-                $tag = eZTagsObject::fetch( (int) $params['tag_id'] );
-                if ( $tag instanceof eZTagsObject )
+                $tagIDsArray = $params['tag_id'];
+            }
+            else if ( (int) $params['tag_id'] > 0 )
+            {
+                $tagIDsArray = array( (int) $params['tag_id'] );
+            }
+            else
+            {
+                return $returnArray;
+            }
+
+            if ( !isset( $params['include_synonyms'] ) || ( isset( $params['include_synonyms'] ) && (bool) $params['include_synonyms'] == true ) )
+            {
+                $result = eZTagsObject::fetchList( array( 'main_tag_id' => array( $tagIDsArray ) ), null, false );
+                if ( is_array( $result ) && !empty( $result ) )
                 {
-                    foreach ( $tag->getSynonyms() as $synonym )
+                    foreach ( $result as $r )
                     {
-                        $tagIDsArray[] = $synonym->ID;
+                        array_push( $tagIDsArray, (int) $r['id'] );
                     }
                 }
             }
