@@ -1,5 +1,38 @@
 eZ Tags extension changelog
 
+1.2
+==========================
+
+* Added support for class attribute serialization (thanks Heliopsis)
+
+* eztags datatype content now contains tags attribute to easily fetch all tags
+  added to object attribute
+
+* fromString method in datatype is now more robust, due to certain conditions
+  that could lead to deleting all existing tags from attribute when importing
+
+* Minor cosmetic changes in tags/id view in admin interface
+
+* tags/id view in admin interface now also contains latest tags table, just as
+  tags/dashboard
+
+* tags/id in admin interface now contains list of all subtags at the bottom of the
+  page
+
+* Transfered "hide root tag" option from INI setting to class attribute setting
+
+* eztags datatype can now be configured to set the max number of tags that can
+  be added to the attribute
+
+* Added paging support in tags/view view
+
+* Attribute filter now supports tag_id parameter as array of integers
+
+* Few internal optimisations when editing and displaying tags
+
+* Couple of small bugfixes (thanks Heliopsis)
+
+
 1.1 (13.06.2011)
 ==========================
 
