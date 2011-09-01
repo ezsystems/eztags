@@ -3,6 +3,8 @@ eZ Tags extension changelog
 1.2
 ==========================
 
+* Added script that can convert ezkeyword attributes to eztags attributes
+
 * Added support for class attribute serialization (thanks Heliopsis)
 
 * eztags datatype content now contains tags attribute to easily fetch all tags
