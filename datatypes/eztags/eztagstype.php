@@ -246,26 +246,30 @@ class eZTagsType extends eZDataType
      */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        $subTreeLimit = (int) $attributeParametersNode->getAttribute( 'subtree-limit' );
-        $showDropDown = $attributeParametersNode->getAttribute( 'dropdown' ) === 'true';
-
-        $hideRootTag = false;
-        if ( $attributeParametersNode->hasAttribute( 'hide-root-tag' )
-             && $attributeParametersNode->getAttribute( 'hide-root-tag' ) === 'true' )
-        {
-            $hideRootTag = true;
-        }
+        $subTreeLimit = 0;
+        $domNodes = $attributeParametersNode->getElementsByTagName( 'subtree-limit' );
+        if ( $domNodes->length > 0 )
+            $subTreeLimit = (int) $domNodes->item( 0 )->textContent;
 
         $maxTags = 0;
-        if ( $attributeParametersNode->hasAttribute( 'max-tags' ) )
-        {
-            $maxTags = (int) $attributeParametersNode->getAttribute( 'max-tags' );
-        }
+        $domNodes = $attributeParametersNode->getElementsByTagName( 'max-tags' );
+        if ( $domNodes->length > 0 )
+            $maxTags = (int) $domNodes->item( 0 )->textContent;
+
+        $showDropDown = 0;
+        $domNodes = $attributeParametersNode->getElementsByTagName( 'dropdown' );
+        if ( $domNodes->length > 0 && $domNodes->item( 0 )->textContent === 'true' )
+            $showDropDown = 1;
+
+        $hideRootTag = 0;
+        $domNodes = $attributeParametersNode->getElementsByTagName( 'hide-root-tag' );
+        if ( $domNodes->length > 0 && $domNodes->item( 0 )->textContent === 'true' )
+            $hideRootTag = 1;
 
         $classAttribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
-        $classAttribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $showDropDown ? 1 : 0 );
-        $classAttribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, $hideRootTag ? 1 : 0 );
         $classAttribute->setAttribute( self::MAX_TAGS_FIELD, $maxTags );
+        $classAttribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $showDropDown );
+        $classAttribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, $hideRootTag );
     }
 
     /**
@@ -276,25 +280,27 @@ class eZTagsType extends eZDataType
      */
     function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
-        if ( $subTreeLimit = $classAttribute->attribute( self::SUBTREE_LIMIT_FIELD ) )
-        {
-            $attributeParametersNode->setAttribute( 'subtree-limit', $subTreeLimit );
-        }
+        $dom = $attributeParametersNode->ownerDocument;
 
-        if ( $showDropDown = $classAttribute->attribute( self::SHOW_DROPDOWN_FIELD ) )
-        {
-            $attributeParametersNode->setAttribute( 'dropdown', 'true' );
-        }
+        $subTreeLimit = (string) $classAttribute->attribute( self::SUBTREE_LIMIT_FIELD );
+        $domNode = $dom->createElement( 'subtree-limit' );
+        $domNode->appendChild( $dom->createTextNode( $subTreeLimit ) );
+        $attributeParametersNode->appendChild( $domNode );
 
-        if ( $hideRootTag = $classAttribute->attribute( self::HIDE_ROOT_TAG_FIELD ) )
-        {
-            $attributeParametersNode->setAttribute( 'hide-root-tag', 'true' );
-        }
+        $maxTags = (string) $classAttribute->attribute( self::MAX_TAGS_FIELD );
+        $domNode = $dom->createElement( 'max-tags' );
+        $domNode->appendChild( $dom->createTextNode( $maxTags ) );
+        $attributeParametersNode->appendChild( $domNode );
 
-        if ( $maxTags = $classAttribute->attribute( self::MAX_TAGS_FIELD ) )
-        {
-            $attributeParametersNode->setAttribute( 'max-tags', (int) $maxTags );
-        }
+        $showDropDown = ( (int) $classAttribute->attribute( self::SHOW_DROPDOWN_FIELD ) ) > 0 ? 'true' : 'false';
+        $domNode = $dom->createElement( 'dropdown' );
+        $domNode->appendChild( $dom->createTextNode( $showDropDown ) );
+        $attributeParametersNode->appendChild( $domNode );
+
+        $hideRootTag = ( (int) $classAttribute->attribute( self::HIDE_ROOT_TAG_FIELD ) ) > 0 ? 'true' : 'false';
+        $domNode = $dom->createElement( 'hide-root-tag' );
+        $domNode->appendChild( $dom->createTextNode( $hideRootTag ) );
+        $attributeParametersNode->appendChild( $domNode );
     }
 
     /**
