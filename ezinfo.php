@@ -3,7 +3,7 @@
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Tags
 // SOFTWARE RELEASE: 1.1
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
+// COPYRIGHT NOTICE: Copyright (C) 2010-2011 Netgen d.o.o., 1999-2011 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -28,7 +28,7 @@ class eztagsInfo
     {
         return array( 'Name'      => '<a href="http://projects.ez.no/eztags">eZ Tags</a> extension',
                       'Version'   => '1.1',
-                      'Copyright' => 'Copyright (C) 2011 Netgen d.o.o., 1999-2011 eZ Systems AS',
+                      'Copyright' => 'Copyright (C) 2010-2011 Netgen d.o.o., 1999-2011 eZ Systems AS',
                       'License'   => 'GNU General Public License v2.0' );
     }
 }
