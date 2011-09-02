@@ -7,6 +7,26 @@ and after 1.0beta tag (7e918fd), you MUST run SQL commands marked with "Versioni
 (see step 3 below for SQL script where commands are located)
 
 
+Upgrade from 1.1 to 1.2
+====================================
+
+ 1. Unpack/unzip
+
+    Unpack the downloaded package into the 'extension' directory of your eZ Publish installation
+
+ 2. Regenerate autoload array
+
+    Run the following from your eZ Publish root folder
+
+    php bin/php/ezpgenerateautoloads.php --extension
+
+    Or go to Setup -> Extensions and click the "Regenerate autoload arrays" button
+
+ 3. Clear caches
+
+    Clear all caches (from admin 'Setup' tab or from command line).
+
+
 Upgrade from 1.0 to 1.1
 ====================================
 
