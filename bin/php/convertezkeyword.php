@@ -6,7 +6,7 @@ require 'autoload.php';
 $cli = eZCLI::instance();
 
 $script = eZScript::instance( array( 'description'    => ( "Converts ezkeyword datatype content to eztags datatype content.\n" .
-                                                           "Since the normal operation of this script would require two publish operations\n" .
+                                                           "Since the script would require as many publish operations as there are translations\n" .
                                                            "per each object, the script will not republish the objects, but rather update\n" .
                                                            "the current version of currently published objects. Because of that, you will\n" .
                                                            "need to take care of clearing relevant caches, reindexing and so on.\n" .
@@ -85,7 +85,7 @@ $objectCount = eZPersistentObject::count( eZContentObject::definition(), array(
                                               'status' => eZContentObject::STATUS_PUBLISHED
                                           ) );
 
-while( $offset < $objectCount )
+while ( $offset < $objectCount )
 {
     $objects = eZContentObject::fetchFilteredList( array(
                                                        'contentclass_id' => $sourceClassAttribute->attribute( 'contentclass_id' ),
@@ -129,7 +129,7 @@ while( $offset < $objectCount )
             unset( $objectAttributes );
 
             // then all of the rest
-            foreach( $languageDataMap as $languageCode => $objectAttributes )
+            foreach ( $languageDataMap as $languageCode => $objectAttributes )
             {
                 if ( $languageCode != $initialLanguageCode && isset( $objectAttributes[$sourceClassAttributeIdentifier] ) && isset( $objectAttributes[$destClassAttributeIdentifier] ) )
                 {
