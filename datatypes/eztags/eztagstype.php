@@ -165,7 +165,7 @@ class eZTagsType extends eZDataType
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
         $maxTagsName = $base . self::MAX_TAGS_VARIABLE . $attribute->attribute( 'id' );
-        if ( !$http->hasPostVariable( $maxTagsName ) || !is_numeric( $http->postVariable( $maxTagsName ) ) )
+        if ( !$http->hasPostVariable( $maxTagsName ) || ( !is_numeric( $http->postVariable( $maxTagsName ) ) && trim( $http->postVariable( $maxTagsName ) ) != '' ) )
         {
             return eZInputValidator::STATE_INVALID;
         }
@@ -204,7 +204,7 @@ class eZTagsType extends eZDataType
     function fetchClassAttributeHTTPInput( $http, $base, $attribute )
     {
         $maxTagsName = $base . self::MAX_TAGS_VARIABLE . $attribute->attribute( 'id' );
-        if ( !$http->hasPostVariable( $maxTagsName ) || !is_numeric( $http->postVariable( $maxTagsName ) ) )
+        if ( !$http->hasPostVariable( $maxTagsName ) || ( !is_numeric( $http->postVariable( $maxTagsName ) ) && trim( $http->postVariable( $maxTagsName ) ) != '' ) )
         {
             return false;
         }
@@ -228,7 +228,7 @@ class eZTagsType extends eZDataType
             $data3 = 1;
         }
 
-        $data4 = (int) $http->postVariable( $maxTagsName );
+        $data4 = (int) trim( $http->postVariable( $maxTagsName ) );
 
         $attribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $data );
         $attribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $data2 );
