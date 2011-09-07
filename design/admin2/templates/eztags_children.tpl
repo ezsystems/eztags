@@ -1,4 +1,4 @@
-{def $item_type = ezpreference( 'admin_list_limit' )}
+{def $item_type = ezpreference( 'admin_eztags_list_limit' )}
 {def $number_of_items = min( $item_type, 3)|choose( 10, 10, 25, 50 )}
 
 {def $children = fetch( tags, list, hash( parent_tag_id, first_set( $tag.id, 0 ),
@@ -25,21 +25,21 @@
                     <p class="table-preferences">
                         {switch match=$number_of_items}
                         {case match=25}
-                        <a href={'/user/preferences/set/admin_list_limit/1'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '10' ) )}">10</a>
+                        <a href={'/user/preferences/set/admin_eztags_list_limit/1'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '10' ) )}">10</a>
                         <span class="current">25</span>
-                        <a href={'/user/preferences/set/admin_list_limit/3'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '50' ) )}">50</a>
+                        <a href={'/user/preferences/set/admin_eztags_list_limit/3'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '50' ) )}">50</a>
                         {/case}
 
                         {case match=50}
-                        <a href={'/user/preferences/set/admin_list_limit/1'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '10' ) )}">10</a>
-                        <a href={'/user/preferences/set/admin_list_limit/2'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '25' ) )}">25</a>
+                        <a href={'/user/preferences/set/admin_eztags_list_limit/1'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '10' ) )}">10</a>
+                        <a href={'/user/preferences/set/admin_eztags_list_limit/2'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '25' ) )}">25</a>
                         <span class="current">50</span>
                         {/case}
 
                         {case}
                         <span class="current">10</span>
-                        <a href={'/user/preferences/set/admin_list_limit/2'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '25' ) )}">25</a>
-                        <a href={'/user/preferences/set/admin_list_limit/3'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '50' ) )}">50</a>
+                        <a href={'/user/preferences/set/admin_eztags_list_limit/2'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '25' ) )}">25</a>
+                        <a href={'/user/preferences/set/admin_eztags_list_limit/3'|ezurl} title="{'Show %1 tags per page.'|i18n( 'extension/eztags/tags/dashboard',, array( '50' ) )}">50</a>
                         {/case}
                         {/switch}
                     </p>
