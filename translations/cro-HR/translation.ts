@@ -104,6 +104,22 @@
         <source>No parent</source>
         <translation>Nema nadređene oznake</translation>
     </message>
+    <message>
+        <source>Up one level.</source>
+        <translation>Jedan nivo iznad.</translation>
+    </message>
+    <message>
+        <source>Children tags (%children_count)</source>
+        <translation>Podređene oznake (%children_count)</translation>
+    </message>
+    <message>
+        <source>Show %1 tags per page.</source>
+        <translation>Prikaži %1 oznaka po stranici.</translation>
+    </message>
+    <message>
+        <source>The current tag does not contain any children.</source>
+        <translation>Trenutna oznaka ne sadrži podređene oznake.</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/edit</name>

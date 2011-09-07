@@ -104,6 +104,22 @@
         <source>No parent</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Up one level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Children tags (%children_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show %1 tags per page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The current tag does not contain any children.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/edit</name>
