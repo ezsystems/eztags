@@ -1,7 +1,6 @@
 License: See, LICENSE
 Changelog: See, doc/CHANGELOG
 Installation: See, doc/INSTALL
-Example: See, doc/EXAMPLE
 
 eZ Tags is an extension for eZ Publish, providing more functionality for tagging
 content objects than ezkeyword datatype included in eZ Publish kernel.

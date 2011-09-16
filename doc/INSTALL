@@ -45,8 +45,6 @@ Bugfix commit is located at: https://github.com/ezsystems/ezie/commit/6f29d071b8
    [ExtensionSettings]
    ActiveExtensions[]=eztags
 
-   Be sure to place the eztags entry before ezwebin entry in active extension list if you wish to have a working example that is provided
-
 4. Regenerate autoload array
 
    Run the following from your eZ Publish root folder
