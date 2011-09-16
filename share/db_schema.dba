@@ -53,6 +53,20 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'main_language_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'language_mask' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' =>
     array (
@@ -166,6 +180,53 @@ $schema = array (
         array (
           0 => 'objectattribute_id',
           1 => 'objectattribute_version',
+        ),
+      ),
+    ),
+  ),
+  'eztags_keyword' =>
+  array (
+    'name' => 'eztags_keyword',
+    'fields' =>
+    array (
+      'keyword_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'language_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'keyword' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'locale' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' =>
+    array (
+      'PRIMARY' =>
+      array (
+        'type' => 'primary',
+        'fields' =>
+        array (
+          0 => 'keyword_id',
+          1 => 'language_id',
         ),
       ),
     ),
