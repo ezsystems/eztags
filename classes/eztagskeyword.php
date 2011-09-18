@@ -58,6 +58,36 @@ class eZTagsKeyword extends eZPersistentObject
     {
         return eZPersistentObject::fetchObject( self::definition(), null, array( 'keyword_id' => $tagID, 'language_id' => $languageID ) );
     }
+
+    /**
+     * Returns eZTagsKeyword object for given tag ID and language locale
+     *
+     * @static
+     * @param integer $tagID
+     * @param string $locale
+     * @return eZTagsKeyword
+     */
+    static function fetchByLocale( $tagID, $locale )
+    {
+        return eZPersistentObject::fetchObject( self::definition(), null, array( 'keyword_id' => $tagID, 'locale' => $locale ) );
+    }
+
+    /**
+     * Returns eZTagsKeyword list for given tag ID
+     *
+     * @static
+     * @param integer $tagID
+     * @return array
+     */
+    static function fetchByTagID( $tagID )
+    {
+        $tagKeywordList = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'keyword_id' => $tagID ) );
+
+        if ( is_array( $tagKeywordList ) )
+            return $tagKeywordList;
+
+        return array();
+    }
 }
 
 ?>
