@@ -3,6 +3,11 @@
 $http = eZHTTPTool::instance();
 
 $tagID = (int) $Params['TagID'];
+$locale = trim( (string) $Params['Locale'] );
+
+if ( strlen( $locale ) == 0 )
+    $locale = $http->hasPostVariable( 'Locale' ) ? trim( $http->postVariable( 'Locale' ) ) : '';
+
 $warning = '';
 $error = '';
 
@@ -25,6 +30,49 @@ if ( $tag->MainTagID != 0 )
 if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
     return $Module->redirectToView( 'id', array( $tagID ) );
+}
+
+$language = eZContentLanguage::fetchByLocale( $locale );
+if ( !$language instanceof eZContentLanguage )
+{
+    if ( strlen( $locale ) > 0 )
+        $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected locale does not exist in the system. Please select a valid translation to edit/add.' );
+
+    $tpl = eZTemplate::factory();
+    
+    $tpl->setVariable( 'tag', $tag );
+    $tpl->setVariable( 'warning', $warning );
+    $tpl->setVariable( 'error', $error );
+    
+    $languages = eZContentLanguage::fetchList();
+    $tpl->setVariable( 'languages', $languages );
+    
+    $Result = array();
+    $Result['content']    = $tpl->fetch( 'design:tags/edit_languages.tpl' );
+    $Result['ui_context'] = 'edit';
+    $Result['path']       = array();
+    
+    $tempTag = $tag;
+    while ( $tempTag->hasParent() )
+    {
+        $tempTag = $tempTag->getParent();
+        $Result['path'][] = array( 'tag_id' => $tempTag->ID,
+                                   'text'   => $tempTag->Keyword,
+                                   'url'    => false );
+    }
+    
+    $Result['path'] = array_reverse( $Result['path'] );
+    $Result['path'][] = array( 'tag_id' => $tag->ID,
+                               'text'   => $tag->Keyword,
+                               'url'    => false );
+    
+    $contentInfoArray = array();
+    $contentInfoArray['persistent_variable'] = false;
+    if ( $tpl->variable( 'persistent_variable' ) !== false )
+        $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
+    
+    $Result['content_info'] = $contentInfoArray;
+    return;
 }
 
 if ( $tag->isInsideSubTreeLimit() )

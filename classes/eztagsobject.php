@@ -69,7 +69,8 @@ class eZTagsObject extends eZPersistentObject
                                                       'synonyms'                  => 'getSynonyms',
                                                       'synonyms_count'            => 'getSynonymsCount',
                                                       'icon'                      => 'getIcon',
-                                                      'url'                       => 'getUrl' ),
+                                                      'url'                       => 'getUrl',
+                                                      'available_translations'    => 'getAvailableTranslations' ),
                       'keys'                => array( 'id' ),
                       'increment_key'       => 'id',
                       'class_name'          => 'eZTagsObject',
@@ -789,6 +790,11 @@ class eZTagsObject extends eZPersistentObject
             return $count;
 
         return 0;
+    }
+
+    function getAvailableTranslations()
+    {
+        return eZContentLanguage::languagesByMask( $this->LanguageMask );
     }
 }
 

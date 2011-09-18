@@ -47,7 +47,7 @@ $ViewList['edit'] = array(
     'functions'               => array( 'edit' ),
     'script'                  => 'edit.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'TagID' ) );
+    'params'                  => array( 'TagID', 'Locale' ) );
 
 $ViewList['editsynonym'] = array(
     'functions'               => array( 'editsynonym' ),
