@@ -70,7 +70,8 @@ class eZTagsObject extends eZPersistentObject
                                                       'synonyms_count'            => 'getSynonymsCount',
                                                       'icon'                      => 'getIcon',
                                                       'url'                       => 'getUrl',
-                                                      'available_translations'    => 'getAvailableTranslations' ),
+                                                      'available_translations'    => 'getAvailableTranslations',
+                                                      'main_translation'          => 'getMainTranslation' ),
                       'keys'                => array( 'id' ),
                       'increment_key'       => 'id',
                       'class_name'          => 'eZTagsObject',
@@ -795,6 +796,54 @@ class eZTagsObject extends eZPersistentObject
     function getAvailableTranslations()
     {
         return eZContentLanguage::languagesByMask( $this->LanguageMask );
+    }
+
+    function getMainTranslation()
+    {
+        return eZTagsKeyword::fetch( $this->ID, $this->MainLanguageID );
+    }
+
+    function translationByLanguageID( $languageID )
+    {
+        return eZTagsKeyword::fetch( $this->ID, (int) $languageID );
+    }
+
+    function updateMainTranslation( $languageID, $forceStore = false )
+    {
+        $trans = eZTagsKeyword::fetch( $this->ID, (int) $languageID );
+        if ( $trans instanceof eZTagsKeyword )
+        {
+            $this->Keyword = $trans->Keyword;
+            $this->MainLanguageID = $trans->LanguageID;
+
+            if ( $forceStore )
+                $this->store();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    function updateLanguageMask( $mask = false, $forceStore = false )
+    {
+        if ( $mask == false )
+        {
+            $translationList = eZTagsKeyword::fetchByTagID( $this->ID );
+
+            $locales = array();
+            foreach ( $translationList as $translation )
+            {
+                $locales[] = $translation->Locale;
+            }
+
+            $mask = eZContentLanguage::maskByLocale( $locales, true );
+        }
+
+        $this->LanguageMask = $mask;
+
+        if ( $forceStore )
+            $this->store();
     }
 }
 

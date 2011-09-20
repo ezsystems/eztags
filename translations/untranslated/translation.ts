@@ -259,6 +259,10 @@
         <source>number of objects related to synonyms</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Set as main translation</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>

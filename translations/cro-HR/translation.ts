@@ -259,6 +259,10 @@
         <source>number of objects related to synonyms</source>
         <translation>broj objekata povezanih sa sinonimima</translation>
     </message>
+    <message>
+        <source>Set as main translation</source>
+        <translation>Postavi kao glavni prijevod</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>

@@ -39,19 +39,19 @@ if ( !$language instanceof eZContentLanguage )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected locale does not exist in the system. Please select a valid translation to edit/add.' );
 
     $tpl = eZTemplate::factory();
-    
+
     $tpl->setVariable( 'tag', $tag );
     $tpl->setVariable( 'warning', $warning );
     $tpl->setVariable( 'error', $error );
-    
+
     $languages = eZContentLanguage::fetchList();
     $tpl->setVariable( 'languages', $languages );
-    
+
     $Result = array();
     $Result['content']    = $tpl->fetch( 'design:tags/edit_languages.tpl' );
     $Result['ui_context'] = 'edit';
     $Result['path']       = array();
-    
+
     $tempTag = $tag;
     while ( $tempTag->hasParent() )
     {
@@ -60,17 +60,17 @@ if ( !$language instanceof eZContentLanguage )
                                    'text'   => $tempTag->Keyword,
                                    'url'    => false );
     }
-    
+
     $Result['path'] = array_reverse( $Result['path'] );
     $Result['path'][] = array( 'tag_id' => $tag->ID,
                                'text'   => $tag->Keyword,
                                'url'    => false );
-    
+
     $contentInfoArray = array();
     $contentInfoArray['persistent_variable'] = false;
     if ( $tpl->variable( 'persistent_variable' ) !== false )
         $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-    
+
     $Result['content_info'] = $contentInfoArray;
     return;
 }
@@ -95,11 +95,13 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
     $newParentTag = eZTagsObject::fetch( (int) $http->postVariable( 'TagEditParentID' ) );
     $newParentID = ( $newParentTag instanceof eZTagsObject ) ? $newParentTag->ID : 0;
 
+    // TODO: Multilanguage FIX
     $newKeyword = trim( $http->postVariable( 'TagEditKeyword' ) );
     if ( empty( $error ) && eZTagsObject::exists( $tag->ID, $newKeyword, $newParentID ) )
     {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
     }
+    // END TODO
 
     if ( empty( $error ) )
     {
@@ -133,7 +135,30 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
             $updatePathString = true;
         }
 
-        $tag->Keyword = $newKeyword;
+        $tagTranslation = $tag->translationByLanguageID( $language->ID );
+        if ( $tagTranslation instanceof eZTagKeyword )
+        {
+            $tagTranslation->Keyword = $newKeyword;
+            $tagTranslation->store();
+        }
+        else
+        {
+            $tagTranslation = new eZTagsKeyword( array(
+                'keyword_id'  => $tag->ID,
+                'keyword'     => $newKeyword,
+                'language_id' => $language->ID,
+                'locale'      => $language->Locale
+            ) );
+
+            $tagTranslation->store();
+            $tag->updateLanguageMask();
+        }
+
+        if ( $http->hasPostVariable( 'SetAsMainTranslation' ) )
+            $tag->updateMainTranslation( $language->ID );
+        else if ( $language->ID == $tag->MainLanguageID )
+            $tag->Keyword = $newKeyword;
+
         $tag->ParentID = $newParentID;
         $tag->store();
 
@@ -159,9 +184,17 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
     }
 }
 
+$tagTranslation = $tag->translationByLanguageID( $language->ID );
+if ( $tagTranslation instanceof eZTagsKeyword )
+    $tag->Keyword = $tagTranslation->Keyword;
+else
+    $tag->Keyword = '';
+
 $tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'tag', $tag );
+$tpl->setVariable( 'locale', $locale );
+$tpl->setVariable( 'language', $language );
 $tpl->setVariable( 'warning', $warning );
 $tpl->setVariable( 'error', $error );
 
