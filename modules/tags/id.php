@@ -40,14 +40,14 @@ $tempTag = $tag;
 while ( $tempTag->hasParent() )
 {
     $tempTag = $tempTag->getParent();
-    $Result['path'][] = array( 'tag_id' => $tempTag->ID,
-                               'text'   => $tempTag->Keyword,
-                               'url'    => 'tags/id/' . $tempTag->ID );
+    $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
+                               'text'   => $tempTag->attribute( 'keyword' ),
+                               'url'    => 'tags/id/' . $tempTag->attribute( 'id' ) );
 }
 
 $Result['path'] = array_reverse( $Result['path'] );
-$Result['path'][] = array( 'tag_id' => $tag->ID,
-                           'text'   => $tag->Keyword,
+$Result['path'][] = array( 'tag_id' => $tag->attribute( 'id' ),
+                           'text'   => $tag->attribute( 'keyword' ),
                            'url'    => false );
 
 $contentInfoArray = array();

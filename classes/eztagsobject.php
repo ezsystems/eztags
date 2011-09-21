@@ -76,12 +76,14 @@ class eZTagsObject extends eZPersistentObject
      */
     function updatePathString( $parentTag )
     {
-        $this->PathString = ( ( $parentTag instanceof eZTagsObject ) ? $parentTag->PathString : '/' ) . $this->ID . '/';
+        $pathString = ( ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/' ) . $this->attribute( 'id' ) . '/';
+        $this->setAttribute( 'path_string', $pathString );
         $this->store();
 
         foreach ( $this->getSynonyms() as $s )
         {
-            $s->PathString = ( ( $parentTag instanceof eZTagsObject ) ? $parentTag->PathString : '/' ) . $s->ID . '/';
+            $pathString = ( ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/' ) . $s->attribute( 'id' ) . '/';
+            $s->setAttribute( 'path_string', $pathString );
             $s->store();
         }
 
@@ -98,14 +100,14 @@ class eZTagsObject extends eZPersistentObject
      */
     function updateDepth( $parentTag )
     {
-        $depth = ( $parentTag instanceof eZTagsObject ) ? $parentTag->Depth + 1 : 1;
+        $depth = ( $parentTag instanceof eZTagsObject ) ? (int) $parentTag->attribute( 'depth' ) + 1 : 1;
 
-        $this->Depth = $depth;
+        $this->setAttribute( 'depth', $depth );
         $this->store();
 
         foreach ( $this->getSynonyms() as $s )
         {
-            $s->Depth = $depth;
+            $s->setAttribute( 'depth', $depth );
             $s->store();
         }
 
@@ -122,7 +124,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function hasParent()
     {
-        $count = eZPersistentObject::count( self::definition(), array( 'id' => $this->ParentID ) );
+        $count = eZPersistentObject::count( self::definition(), array( 'id' => $this->attribute( 'parent_id' ) ) );
 
         if ( $count > 0 )
         {
@@ -139,7 +141,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function getParent()
     {
-        return self::fetch( $this->ParentID );
+        return self::fetch( $this->attribute( 'parent_id' ) );
     }
 
     /**
@@ -149,7 +151,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function getChildren()
     {
-        return self::fetchByParentID( $this->ID );
+        return self::fetchByParentID( $this->attribute( 'id' ) );
     }
 
     /**
@@ -159,7 +161,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function getChildrenCount()
     {
-        return self::childrenCountByParentID( $this->ID );
+        return self::childrenCountByParentID( $this->attribute( 'id' ) );
     }
 
     /**
@@ -171,7 +173,7 @@ class eZTagsObject extends eZPersistentObject
     {
         // Not an easy task to fetch published objects with API and take care of current_version, status
         // and attribute version, so just use SQL to fetch all related object ids in one go
-        $tagID = $this->ID;
+        $tagID = (int) $this->attribute( 'id' );
 
         $db = eZDB::instance();
         $result = $db->arrayQuery( "SELECT DISTINCT(o.id) AS object_id FROM eztags_attribute_link l
@@ -201,11 +203,11 @@ class eZTagsObject extends eZPersistentObject
      */
     function getSubTreeLimitations()
     {
-        if ( $this->MainTagID == 0 )
+        if ( $this->attribute( 'main_tag_id' ) == 0 )
         {
             return eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(), null,
                                                         array( 'data_type_string'              => 'eztags',
-                                                               eZTagsType::SUBTREE_LIMIT_FIELD => $this->ID,
+                                                               eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
                                                                'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
         }
         else
@@ -221,11 +223,11 @@ class eZTagsObject extends eZPersistentObject
      */
     function getSubTreeLimitationsCount()
     {
-        if ( $this->MainTagID == 0 )
+        if ( $this->attribute( 'main_tag_id' ) == 0 )
         {
             return eZPersistentObject::count( eZContentClassAttribute::definition(),
                                               array( 'data_type_string'              => 'eztags',
-                                                     eZTagsType::SUBTREE_LIMIT_FIELD => $this->ID,
+                                                     eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
                                                      'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
         }
         else
@@ -261,7 +263,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function getMainTag()
     {
-        return self::fetch( $this->MainTagID );
+        return self::fetch( $this->attribute( 'main_tag_id' ) );
     }
 
     /**
@@ -271,7 +273,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function getSynonyms()
     {
-        return self::fetchSynonyms( $this->ID );
+        return self::fetchSynonyms( $this->attribute( 'id' ) );
     }
 
     /**
@@ -281,7 +283,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function getSynonymsCount()
     {
-        return self::synonymsCount( $this->ID );
+        return self::synonymsCount( $this->attribute( 'id' ) );
     }
 
     /**
@@ -291,7 +293,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function getTagAttributeLinks()
     {
-        return eZTagsAttributeLinkObject::fetchByTagID( $this->ID );
+        return eZTagsAttributeLinkObject::fetchByTagID( $this->attribute( 'id' ) );
     }
 
     /**
@@ -305,7 +307,7 @@ class eZTagsObject extends eZPersistentObject
         $iconMap = $ini->variable( 'Icons', 'IconMap' );
         $defaultIcon = $ini->variable( 'Icons', 'Default' );
 
-        if ( $this->MainTagID > 0 )
+        if ( $this->attribute( 'main_tag_id' ) > 0 )
         {
             $tag = $this->getMainTag();
         }
@@ -314,17 +316,17 @@ class eZTagsObject extends eZPersistentObject
             $tag = $this;
         }
 
-        if ( array_key_exists( $tag->ID, $iconMap ) && !empty( $iconMap[$tag->ID] ) )
+        if ( array_key_exists( $tag->attribute( 'id' ), $iconMap ) && !empty( $iconMap[$tag->attribute( 'id' )] ) )
         {
-            return $iconMap[$tag->ID];
+            return $iconMap[$tag->attribute( 'id' )];
         }
 
-        while ( $tag->ParentID > 0 )
+        while ( $tag->attribute( 'parent_id' ) > 0 )
         {
             $tag = $tag->getParent();
-            if ( array_key_exists( $tag->ID, $iconMap ) && !empty( $iconMap[$tag->ID] ) )
+            if ( array_key_exists( $tag->attribute( 'id' ), $iconMap ) && !empty( $iconMap[$tag->attribute( 'id' )] ) )
             {
-                return $iconMap[$tag->ID];
+                return $iconMap[$tag->attribute( 'id' )];
             }
         }
 
@@ -338,13 +340,13 @@ class eZTagsObject extends eZPersistentObject
      */
     function getUrl()
     {
-        $url = urlencode( $this->Keyword );
+        $url = urlencode( $this->attribute( 'keyword' ) );
         $tag = $this;
 
-        while ( $tag->ParentID > 0 )
+        while ( $tag->attribute( 'parent_id' ) > 0 )
         {
             $tag = $tag->getParent();
-            $url = urlencode( $tag->Keyword ) . '/' . $url;
+            $url = urlencode( $tag->attribute( 'keyword' ) ) . '/' . $url;
         }
 
         return $url;
@@ -357,11 +359,11 @@ class eZTagsObject extends eZPersistentObject
      */
     function updateModified()
     {
-        $pathArray = explode( '/', trim( $this->PathString, '/' ) );
+        $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
 
-        if ( $this->MainTagID > 0 )
+        if ( $this->attribute( 'main_tag_id' ) > 0 )
         {
-            array_push( $pathArray, $this->MainTagID );
+            array_push( $pathArray, $this->attribute( 'main_tag_id' ) );
         }
 
         if ( !empty( $pathArray ) )
@@ -386,7 +388,7 @@ class eZTagsObject extends eZPersistentObject
             $relatedObjects = $this->getRelatedObjects();
             foreach ( $relatedObjects as $relatedObject )
             {
-                eZContentOperationCollection::registerSearchObject( $relatedObject->ID, $relatedObject->CurrentVersion );
+                eZContentOperationCollection::registerSearchObject( $relatedObject->attribute( 'id' ), $relatedObject->attribute( 'current_version' ) );
             }
         }
         else
@@ -427,7 +429,7 @@ class eZTagsObject extends eZPersistentObject
         $tagsArray = array();
         foreach ( $tagsList as $tag )
         {
-            $tagsArray[] = array( 'name' => $tag->Keyword, 'id' => $tag->ID );
+            $tagsArray[] = array( 'name' => $tag->attribute( 'keyword' ), 'id' => $tag->attribute( 'id' ) );
         }
 
         return $tagsArray;
@@ -550,7 +552,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function recursiveTagDelete( $rootTag )
     {
-        $children = self::fetchByParentID( $rootTag->ID );
+        $children = self::fetchByParentID( $rootTag->attribute( 'id' ) );
 
         foreach ( $children as $child )
         {
@@ -593,11 +595,11 @@ class eZTagsObject extends eZPersistentObject
             $childSynonyms = $child->getSynonyms();
             foreach ( $childSynonyms as $childSynonym )
             {
-                $childSynonym->ParentID = $targetTag->ID;
+                $childSynonym->setAttribute( 'parent_id', $targetTag->attribute( 'id' ) );
                 $childSynonym->store();
             }
 
-            $child->ParentID = $targetTag->ID;
+            $child->setAttribute( 'parent_id', $targetTag->attribute( 'id' ) );
             $child->Modified = $currentTime;
             $child->store();
             $child->updatePathString( $targetTag );
@@ -619,7 +621,7 @@ class eZTagsObject extends eZPersistentObject
             return false;
 
         $tag = eZTagsObject::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->MainTagID != 0 )
+        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->attribute( 'main_tag_id' ) != 0 )
             return false;
 
         if ( !is_array( $params ) )
@@ -647,7 +649,7 @@ class eZTagsObject extends eZPersistentObject
         {
             $tagDepth = 0;
             if ( $tag instanceof eZTagsObject )
-                $tagDepth = (int) $tag->Depth;
+                $tagDepth = (int) $tag->attribute( 'depth' );
 
             $depth = (int) $depth + $tagDepth;
 
@@ -731,7 +733,7 @@ class eZTagsObject extends eZPersistentObject
             return 0;
 
         $tag = eZTagsObject::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->MainTagID != 0 )
+        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->attribute( 'main_tag_id' ) != 0 )
             return 0;
 
         if ( !is_array( $params ) )
@@ -756,7 +758,7 @@ class eZTagsObject extends eZPersistentObject
         {
             $tagDepth = 0;
             if ( $tag instanceof eZTagsObject )
-                $tagDepth = (int) $tag->Depth;
+                $tagDepth = (int) $tag->attribute( 'depth' );
 
             $depth = (int) $depth + $tagDepth;
 

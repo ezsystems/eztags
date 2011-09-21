@@ -185,7 +185,7 @@ class eZTagsType extends eZDataType
             return eZInputValidator::STATE_INVALID;
         }
 
-        if ( $subTreeLimit > 0 && $tag->MainTagID > 0 )
+        if ( $subTreeLimit > 0 && $tag->attribute( 'main_tag_id' ) > 0 )
         {
             return eZInputValidator::STATE_INVALID;
         }

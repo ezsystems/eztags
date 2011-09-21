@@ -101,12 +101,12 @@ class eZTagsTemplateFunctions
 
         while ( $tag->hasParent() )
         {
-            $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->Keyword . ' (+' . $synonymsCount . ')' : $tag->Keyword;
+            $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
             $tag = $tag->getParent();
             $synonymsCount = $tag->getSynonymsCount();
         }
 
-        $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->Keyword . ' (+' . $synonymsCount . ')' : $tag->Keyword;
+        $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
 
         return implode( ' / ', array_reverse( $keywordsArray ) );
     }

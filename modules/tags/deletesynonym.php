@@ -15,7 +15,7 @@ if ( !( $tag instanceof eZTagsObject ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
-if ( $tag->MainTagID == 0 )
+if ( $tag->attribute( 'main_tag_id' ) == 0 )
 {
     return $Module->redirectToView( 'delete', array( $tagID ) );
 }
@@ -36,7 +36,7 @@ if ( $http->hasPostVariable( 'YesButton' ) )
         $parentTag->updateModified();
     }
 
-    $mainTagID = $tag->MainTagID;
+    $mainTagID = $tag->attribute( 'main_tag_id' );
 
     $tag->registerSearchObjects();
     if ( $http->hasPostVariable( 'TransferObjectsToMainTag' ) )
@@ -44,14 +44,14 @@ if ( $http->hasPostVariable( 'YesButton' ) )
         foreach ( $tag->getTagAttributeLinks() as $tagAttributeLink )
         {
             $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(
-                        $tagAttributeLink->ObjectAttributeID,
-                        $tagAttributeLink->ObjectAttributeVersion,
-                        $tagAttributeLink->ObjectID,
+                        $tagAttributeLink->attribute( 'objectattribute_id' ),
+                        $tagAttributeLink->attribute( 'objectattribute_version' ),
+                        $tagAttributeLink->attribute( 'object_id' ),
                         $mainTagID );
 
             if ( !( $link instanceof eZTagsAttributeLinkObject ) )
             {
-                $tagAttributeLink->KeywordID = $mainTagID;
+                $tagAttributeLink->setAttribute( 'keyword_id', $mainTagID );
                 $tagAttributeLink->store();
             }
             else

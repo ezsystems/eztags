@@ -41,10 +41,10 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
         foreach ( $tags as $tag )
         {
             $returnArrayChild = array();
-            $returnArrayChild['tag_parent_id']   = $tag->ParentID;
-            $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->Keyword : '';
-            $returnArrayChild['tag_name']        = $tag->Keyword;
-            $returnArrayChild['tag_id']          = $tag->ID;
+            $returnArrayChild['tag_parent_id']   = (int) $tag->attribute( 'parent_id' );
+            $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->attribute( 'keyword' ) : '';
+            $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
+            $returnArrayChild['tag_id']          = (int) $tag->attribute( 'id' );
             $returnArray['tags'][]               = $returnArrayChild;
         }
 
@@ -124,15 +124,15 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
         foreach ( $tags as $tag )
         {
-            if ( !$subTreeLimit > 0 || ( $subTreeLimit > 0 && strpos( $tag->PathString, '/' . $subTreeLimit . '/' ) !== false ) )
+            if ( !$subTreeLimit > 0 || ( $subTreeLimit > 0 && strpos( $tag->attribute( 'path_string' ), '/' . $subTreeLimit . '/' ) !== false ) )
             {
-                if ( !$hideRootTag || ( $hideRootTag && $tag->ID != $subTreeLimit ) )
+                if ( !$hideRootTag || ( $hideRootTag && $tag->attribute( 'id' ) != $subTreeLimit ) )
                 {
                     $returnArrayChild = array();
-                    $returnArrayChild['tag_parent_id']   = $tag->ParentID;
-                    $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->Keyword : '';
-                    $returnArrayChild['tag_name']        = $tag->Keyword;
-                    $returnArrayChild['tag_id']          = $tag->ID;
+                    $returnArrayChild['tag_parent_id']   = (int) $tag->attribute( 'parent_id' );
+                    $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->attribute( 'keyword' ) : '';
+                    $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
+                    $returnArrayChild['tag_id']          = (int) $tag->attribute( 'id' );
                     $returnArray['tags'][]               = $returnArrayChild;
                 }
             }
