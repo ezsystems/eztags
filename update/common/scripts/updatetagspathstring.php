@@ -26,7 +26,7 @@ while ( $firstLevelTags = eZPersistentObject::fetchObjectList( eZTagsObject::def
 {
     foreach ( $firstLevelTags as $tag )
     {
-        $tagID = $tag->ID;
+        $tagID = $tag->attribute( 'id' );
 
         $db->begin();
 

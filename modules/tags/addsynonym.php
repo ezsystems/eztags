@@ -16,9 +16,9 @@ if ( !( $mainTag instanceof eZTagsObject ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
-if ( $mainTag->MainTagID != 0 )
+if ( $mainTag->attribute( 'main_tag_id' ) != 0 )
 {
-    return $Module->redirectToView( 'addsynonym', array( $mainTag->MainTagID ) );
+    return $Module->redirectToView( 'addsynonym', array( $mainTag->attribute( 'main_tag_id' ) ) );
 }
 
 if ( $http->hasPostVariable( 'DiscardButton' ) )
@@ -34,32 +34,32 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
     }
 
     $newKeyword = trim( $http->postVariable( 'TagEditKeyword' ) );
-    if ( empty( $error ) && eZTagsObject::exists( 0, $newKeyword, $mainTag->ParentID ) )
+    if ( empty( $error ) && eZTagsObject::exists( 0, $newKeyword, $mainTag->attribute( 'parent_id' ) ) )
     {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
     }
 
     if ( empty( $error ) )
     {
-        $parentTag = eZTagsObject::fetch( $mainTag->ParentID );
+        $parentTag = eZTagsObject::fetch( $mainTag->attribute( 'parent_id' ) );
 
         $db = eZDB::instance();
         $db->begin();
 
-        $tag = new eZTagsObject( array( 'parent_id'   => $mainTag->ParentID,
+        $tag = new eZTagsObject( array( 'parent_id'   => $mainTag->attribute( 'parent_id' ),
                                         'main_tag_id' => $mainTagID,
                                         'keyword'     => $newKeyword,
-                                        'depth'       => $mainTag->Depth,
-                                        'path_string' => ( $parentTag instanceof eZTagsObject ) ? $parentTag->PathString : '/' ) );
+                                        'depth'       => $mainTag->attribute( 'depth' ),
+                                        'path_string' => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/' ) );
 
         $tag->store();
-        $tag->PathString = $tag->PathString . $tag->ID . '/';
+        $tag->setAttribute( 'path_string', $tag->attribute( 'path_string' ) . $tag->attribute( 'id' ) . '/' );
         $tag->store();
         $tag->updateModified();
 
         $db->commit();
 
-        return $Module->redirectToView( 'id', array( $tag->ID ) );
+        return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
     }
 }
 
@@ -77,14 +77,14 @@ $Result['path']       = array();
 $tempTag = $mainTag;
 while ( $tempTag->hasParent() )
 {
-    $Result['path'][] = array( 'tag_id' => $tempTag->ID,
-                               'text'   => $tempTag->Keyword,
+    $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
+                               'text'   => $tempTag->attribute( 'keyword' ),
                                'url'    => false );
     $tempTag = $tempTag->getParent();
 }
 
-$Result['path'][] = array( 'tag_id' => $tempTag->ID,
-                           'text'   => $tempTag->Keyword,
+$Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
+                           'text'   => $tempTag->attribute( 'keyword' ),
                            'url'    => false );
 
 $Result['path'] = array_reverse( $Result['path'] );

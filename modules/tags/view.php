@@ -14,7 +14,7 @@ for ( $i = 0; $i < count( $keywordArray ) - 1; $i++ )
     $tags = eZTagsObject::fetchList( array( 'parent_id' => $parentID, 'main_tag_id' => 0, 'keyword' => urldecode( trim( $keywordArray[$i] ) ) ) );
     if ( is_array( $tags ) && !empty( $tags ) )
     {
-        $parentID = $tags[0]->ID;
+        $parentID = $tags[0]->attribute( 'id' );
     }
     else
     {
@@ -54,14 +54,14 @@ $tempTag = $tags[0];
 while ( $tempTag->hasParent() )
 {
     $tempTag = $tempTag->getParent();
-    $Result['path'][] = array( 'tag_id' => $tempTag->ID,
-                               'text'   => $tempTag->Keyword,
+    $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
+                               'text'   => $tempTag->attribute( 'keyword' ),
                                'url'    => 'tags/view/' . $tempTag->getUrl() );
 }
 
 $Result['path'] = array_reverse( $Result['path'] );
-$Result['path'][] = array( 'tag_id' => $tags[0]->ID,
-                           'text'   => $tags[0]->Keyword,
+$Result['path'][] = array( 'tag_id' => $tags[0]->attribute( 'id' ),
+                           'text'   => $tags[0]->attribute( 'keyword' ),
                            'url'    => false );
 
 $contentInfoArray = array();
