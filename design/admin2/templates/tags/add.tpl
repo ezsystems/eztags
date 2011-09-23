@@ -4,6 +4,7 @@
 <div class="context-block tags-add">
     <div class="box-header">
         <h1 class="context-title">{"New tag"|i18n( 'extension/eztags/tags/edit' )}</h1>
+        <p><img src="{$locale|flag_icon}" title="{$language.name|wash}" /> {$language.name|wash}</p>
         <div class="header-mainline"></div>
     </div>
 
@@ -24,6 +25,7 @@
             <div class="block tag-edit-keyword">
                 <label>{'Tag name'|i18n( 'extension/eztags/tags/edit' )}</label>
                 <input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{cond( ezhttp_hasvariable( 'TagEditKeyword', 'post' ), ezhttp( 'TagEditKeyword', 'post' ), '' )|trim|wash}" />
+                <input type="hidden" name="Locale" value="{$locale|wash}" />
             </div>
 
             <div class="block tag-edit-parent">
@@ -61,3 +63,5 @@ function confirmDiscard( question )
 -->
 </script>
 {/literal}
+
+{undef $parent_tag_id}

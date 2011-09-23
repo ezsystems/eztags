@@ -35,7 +35,7 @@ $ViewList['add'] = array(
     'functions'               => array( 'add' ),
     'script'                  => 'add.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'ParentTagID' ) );
+    'params'                  => array( 'ParentTagID', 'Locale' ) );
 
 $ViewList['addsynonym'] = array(
     'functions'               => array( 'addsynonym' ),
