@@ -95,6 +95,11 @@ else
                     }
                 }
 
+                foreach ( $synonym->getTranslations() as $translation )
+                {
+                    $translation->remove();
+                }
+
                 $synonym->remove();
             }
 
@@ -116,6 +121,11 @@ else
                 {
                     $tagAttributeLink->remove();
                 }
+            }
+
+            foreach ( $tag->getTranslations() as $translation )
+            {
+                $translation->remove();
             }
 
             $tag->remove();
