@@ -68,6 +68,11 @@ if ( $http->hasPostVariable( 'YesButton' ) )
         }
     }
 
+    foreach ( $tag->getTranslations() as $translation )
+    {
+        $translation->remove();
+    }
+
     $tag->remove();
 
     $db->commit();
