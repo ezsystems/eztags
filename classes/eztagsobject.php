@@ -814,6 +814,22 @@ class eZTagsObject extends eZPersistentObject
         return $languages['language_list'];
     }
 
+    function languageNameArray()
+    {
+        $languageNameArray = array();
+        $translations = eZTagsKeyword::fetchByTagID( $this->attribute( 'id' ) );
+
+        foreach ( $translations as $translation )
+        {
+            $languageName = $translation->languageName();
+
+            if ( is_array( $languageName ) )
+                $languageNameArray[$languageName['locale']] = $languageName['name'];
+        }
+
+        return $languageNameArray;
+    }
+
     function getMainTranslation()
     {
         return eZTagsKeyword::fetch( $this->attribute( 'id' ), $this->attribute( 'main_language_id' ) );
@@ -857,11 +873,11 @@ class eZTagsObject extends eZPersistentObject
             $this->store();
     }
 
-	function isAlwaysAvailable()
-	{
-		$zerothBit = (int) $this->attribute( 'language_mask' ) & 1;
-		return $zerothBit > 0 ? true : false;
-	}
+    function isAlwaysAvailable()
+    {
+        $zerothBit = (int) $this->attribute( 'language_mask' ) & 1;
+        return $zerothBit > 0 ? true : false;
+    }
 
     function updateLanguageMask( $mask = false, $forceStore = false )
     {

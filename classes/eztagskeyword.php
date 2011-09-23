@@ -88,6 +88,16 @@ class eZTagsKeyword extends eZPersistentObject
 
         return array();
     }
+
+    function languageName()
+    {
+        $language = eZContentLanguage::fetch( $this->attribute( 'language_id' ) );
+
+        if ( $language instanceof eZContentLanguage )
+            return array( 'locale' => $language->attribute( 'locale' ), 'name' => $language->attribute( 'name' ) );
+
+        return false;
+    }
 }
 
 ?>

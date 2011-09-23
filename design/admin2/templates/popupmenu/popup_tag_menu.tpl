@@ -13,7 +13,11 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
     menuArray['TagMenu']['elements']['add-child-tag'] = {ldelim} 'url': {"/tags/add/%tagID%"|ezurl} {rdelim};
 {/if}
 {if $tags_edit_access}
-    menuArray['TagMenu']['elements']['edit-tag'] = {ldelim} 'url': {"/tags/edit/%tagID%"|ezurl} {rdelim};
+    menuArray['TagEditSubmenu'] = {ldelim} 'depth': 1 {rdelim};
+    menuArray['TagEditSubmenu']['elements'] = {ldelim}{rdelim};
+    menuArray['TagEditSubmenu']['elements']['edit-tag-languages'] = {ldelim} 'variable': '%languages%' {rdelim};
+    menuArray['TagEditSubmenu']['elements']['edit-tag-languages']['content'] = '<a href={"/tags/edit/%tagID%/%locale%"|ezurl} onmouseover="ezpopmenu_mouseOver( \'TagEditSubmenu\' )">%name%<\/a>';
+    menuArray['TagEditSubmenu']['elements']['edit-tag-languages-new'] = {ldelim} 'url': {"/tags/edit/%tagID%"|ezurl} {rdelim};
 {/if}
 {if $tags_delete_access}
     menuArray['TagMenu']['elements']['delete-tag'] = {ldelim} 'url': {"/tags/delete/%tagID%"|ezurl} {rdelim};
@@ -43,7 +47,7 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
         <a id="add-child-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add child tag"|i18n( "extension/eztags/tags/edit" )}</a>
     {/if}
     {if $tags_edit_access}
-        <a id="edit-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Edit tag"|i18n( "extension/eztags/tags/edit" )}</a>
+        <a id="edit-tag" href="#" class="more" onmouseover="ezpopmenu_showSubLevel( event, 'TagEditSubmenu', 'edit-tag' ); return false;">{"Edit tag"|i18n( "extension/eztags/tags/edit" )}</a>
     {/if}
     {if $tags_delete_access}
         <a id="delete-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Delete tag"|i18n( "extension/eztags/tags/edit" )}</a>
@@ -59,6 +63,14 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
         <a id="make-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Convert to synonym"|i18n( "extension/eztags/tags/edit" )}</a>
     {/if}
 </div>
+
+{if $tags_edit_access}
+    <div class="popupmenu" id="TagEditSubmenu">
+        <div id="edit-tag-languages"></div>
+        <hr />
+        <a id="edit-tag-languages-new" href="#" onmouseover="ezpopmenu_mouseOver( 'TagEditSubmenu' )">{'New translation'|i18n( 'extension/eztags/tags/edit' )}</a>
+    </div>
+{/if}
 
 {if $tags_add_access}
     <div class="popupmenu" id="TagMenuSimple">

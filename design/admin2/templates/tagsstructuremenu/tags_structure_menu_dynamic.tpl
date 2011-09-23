@@ -107,10 +107,18 @@ function TagsStructureMenu( path, persistent )
 
         if ( this.context != 'browse' && item.id >= 0 )
         {
+            var languagesString = [];
+            for (var locale in item.language_name_array)
+                languagesString.push('{locale:"' + locale + '", name:"' + item.language_name_array[locale] + '"}');
+
+            languagesString = '[' + languagesString.join(',') + ']';
+
             html += '<a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, '
                 + ((rootTag) ? '\'TagMenuSimple\'' : '\'TagMenu\'')
                 + ', {\'%tagID%\':'
                 + item.id
+                + ', \'%languages%\':'
+                + languagesString.replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
                 + ' }, \''
                 + String(item.keyword).replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
                 + '\', '

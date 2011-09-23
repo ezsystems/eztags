@@ -126,6 +126,11 @@ else
         $childResponse['has_children']              = ( eZTagsObject::childrenCountByParentID( $child->attribute( 'id' ) ) ) ? 1 : 0;
         $childResponse['synonyms_count']            = eZTagsObject::synonymsCount( $child->attribute( 'id' ) );
         $childResponse['subtree_limitations_count'] = $child->getSubTreeLimitationsCount();
+
+        $childResponse['language_name_array']       = array();
+        if ( $child instanceof eZTagsObject )
+            $childResponse['language_name_array']   = $child->languageNameArray();
+
         $childResponse['keyword']                   = $child->attribute( 'keyword' );
         $childResponse['url']                       = 'tags/id/' . $child->attribute( 'id' );
         $childResponse['icon']                      = lookupIcon( $eztagsINI, $child );
@@ -136,8 +141,10 @@ else
     }
     $httpCharset = eZTextCodec::httpCharset();
 
-    $jsonText = arrayToJSON( $response );
+    //$jsonText = arrayToJSON( $response );
+    $jsonText = json_encode( $response );
 
+/*
     $codec = eZTextCodec::instance( $httpCharset, 'unicode' );
     $jsonTextArray = $codec->convertString( $jsonText );
     $jsonText = '';
@@ -152,6 +159,7 @@ else
             $jsonText .= '\u' . str_pad( dechex( $character ), 4, '0000', STR_PAD_LEFT );
         }
     }
+*/
 
     header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
     header( 'Cache-Control: cache, max-age=' . MAX_AGE . ', post-check=' . MAX_AGE . ', pre-check=' . MAX_AGE );
