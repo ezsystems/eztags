@@ -36,7 +36,7 @@ $language = eZContentLanguage::fetchByLocale( $locale );
 if ( !$language instanceof eZContentLanguage )
 {
     if ( strlen( $locale ) > 0 )
-        $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected locale does not exist in the system. Please select a valid translation to edit/add.' );
+        $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected locale does not exist in the system. Please select a valid translation.' );
 
     $tpl = eZTemplate::factory();
 

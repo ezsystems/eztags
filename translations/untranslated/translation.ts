@@ -47,6 +47,10 @@
 <context>
     <name>extension/eztags/errors</name>
     <message>
+        <source>Selected locale does not exist in the system. Please select a valid translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
         <translation type="unfinished"></translation>
     </message>
