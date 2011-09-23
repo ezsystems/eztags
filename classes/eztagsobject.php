@@ -576,12 +576,22 @@ class eZTagsObject extends eZPersistentObject
             $tagAttributeLink->remove();
         }
 
+        foreach ( $rootTag->getTranslations() as $translation )
+        {
+            $translation->remove();
+        }
+
         $synonyms = $rootTag->getSynonyms();
         foreach ( $synonyms as $synonym )
         {
             foreach ( $synonym->getTagAttributeLinks() as $tagAttributeLink )
             {
                 $tagAttributeLink->remove();
+            }
+
+            foreach ( $synonym->getTranslations() as $translation )
+            {
+                $translation->remove();
             }
 
             $synonym->remove();
