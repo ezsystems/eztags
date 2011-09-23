@@ -267,6 +267,22 @@
         <source>Set as main translation</source>
         <translation>Postavi kao glavni prijevod</translation>
     </message>
+    <message>
+        <source>Add translation</source>
+        <translation>Dodavanje prijevoda</translation>
+    </message>
+    <message>
+        <source>Select the translation you want to add</source>
+        <translation>Odaberite prijevod koji želite dodati</translation>
+    </message>
+    <message>
+        <source>Edit translation</source>
+        <translation>Uređivanje prijevoda</translation>
+    </message>
+    <message>
+        <source>Select the translation you want to edit</source>
+        <translation>Odaberite prijevod koji želite urediti</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>

@@ -267,6 +267,22 @@
         <source>Set as main translation</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the translation you want to add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the translation you want to edit</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>
