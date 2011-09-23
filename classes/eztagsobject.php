@@ -70,7 +70,7 @@ class eZTagsObject extends eZPersistentObject
                                                       'synonyms_count'            => 'getSynonymsCount',
                                                       'icon'                      => 'getIcon',
                                                       'url'                       => 'getUrl',
-                                                      'available_translations'    => 'getAvailableTranslations',
+                                                      'available_languages'       => 'getAvailableLanguages',
                                                       'main_translation'          => 'getMainTranslation',
                                                       'translations'              => 'getTranslations' ),
                       'keys'                => array( 'id' ),
@@ -806,9 +806,11 @@ class eZTagsObject extends eZPersistentObject
         return 0;
     }
 
-    function getAvailableTranslations()
+    function getAvailableLanguages()
     {
-        return eZContentLanguage::languagesByMask( $this->attribute( 'language_mask' ) );
+        $languages = eZContentLanguage::decodeLanguageMask( $this->attribute( 'language_mask' ), true );
+
+        return $languages['language_list'];
     }
 
     function getMainTranslation()

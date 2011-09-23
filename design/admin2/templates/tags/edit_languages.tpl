@@ -1,5 +1,3 @@
-{def $available_tag_translations = $tag.available_translations}
-
 <div class="context-block tags-edit">
     <div class="box-header">
         <h1 class="context-title">{"Edit tag"|i18n( 'extension/eztags/tags/edit' )}: {$tag.keyword|wash} [{$tag.id}]</h1>
@@ -27,7 +25,7 @@
                     <div class="indent">
                         {def $is_main_translation = false()}
                         {foreach $languages as $language}
-                            {if is_set( $available_tag_translations[$language.locale] )}
+                            {if $tag.available_languages|contains( $language.locale )}
                                 {set $is_main_translation = cond($tag.main_language_id|eq($language.id), true(), false())}
                                 <label><input name="Locale" type="radio" value="{$language.locale}"{if $is_main_translation} checked="checked"{/if}> {$language.name}{if $is_main_translation} ({'Main translation'|i18n('extension/eztags/tags/edit')}){/if}</label>
                             {else}
@@ -36,6 +34,7 @@
                                 {/append-block}
                             {/if}
                         {/foreach}
+                        {undef $is_main_translation}
                     </div>
                 </fieldset>
             </div>
@@ -57,5 +56,3 @@
         </form>
     </div>
 </div>
-
-{undef}
