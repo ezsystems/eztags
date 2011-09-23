@@ -808,12 +808,12 @@ class eZTagsObject extends eZPersistentObject
 
     function getAvailableTranslations()
     {
-        return eZContentLanguage::languagesByMask( $this->LanguageMask );
+        return eZContentLanguage::languagesByMask( $this->attribute( 'language_mask' ) );
     }
 
     function getMainTranslation()
     {
-        return eZTagsKeyword::fetch( $this->ID, $this->MainLanguageID );
+        return eZTagsKeyword::fetch( $this->attribute( 'id' ), $this->attribute( 'main_language_id' ) );
     }
 
     function getTranslations()
@@ -823,16 +823,16 @@ class eZTagsObject extends eZPersistentObject
 
     function translationByLanguageID( $languageID )
     {
-        return eZTagsKeyword::fetch( $this->ID, (int) $languageID );
+        return eZTagsKeyword::fetch( $this->attribute( 'id' ), (int) $languageID );
     }
 
     function updateMainTranslation( $languageID, $forceStore = false )
     {
-        $trans = eZTagsKeyword::fetch( $this->ID, (int) $languageID );
+        $trans = eZTagsKeyword::fetch( $this->attribute( 'id' ), (int) $languageID );
         if ( $trans instanceof eZTagsKeyword )
         {
-            $this->Keyword = $trans->Keyword;
-            $this->MainLanguageID = $trans->LanguageID;
+            $this->setAttribute( 'keyword', $trans->attribute( 'keyword' ) );
+            $this->setAttribute( 'main_language_id', $trans->attribute( 'language_id' ) );
 
             if ( $forceStore )
                 $this->store();
@@ -847,7 +847,7 @@ class eZTagsObject extends eZPersistentObject
     {
         if ( $mask == false )
         {
-            $translationList = eZTagsKeyword::fetchByTagID( $this->ID );
+            $translationList = eZTagsKeyword::fetchByTagID( $this->attribute( 'id' ) );
 
             $locales = array();
             foreach ( $translationList as $translation )
@@ -858,7 +858,7 @@ class eZTagsObject extends eZPersistentObject
             $mask = eZContentLanguage::maskByLocale( $locales, true );
         }
 
-        $this->LanguageMask = $mask;
+        $this->setAttribute( 'language_mask', $mask );
 
         if ( $forceStore )
             $this->store();
