@@ -283,6 +283,10 @@
         <source>Select the translation you want to edit</source>
         <translation>Odaberite prijevod koji želite urediti</translation>
     </message>
+    <message>
+        <source>Tag is available in main translation when no translation found in siteaccess locale</source>
+        <translation>Oznaka je dostupna na glavnom prijevodu ako ne postoji prijevod za siteaccess lokalitet</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>

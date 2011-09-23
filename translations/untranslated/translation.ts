@@ -283,6 +283,10 @@
         <source>Select the translation you want to edit</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Tag is available in main translation when no translation found in siteaccess locale</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>

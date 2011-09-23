@@ -137,7 +137,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
         $db->begin();
 
         $languageID = $language->attribute( 'id' );
-        $languageMask = eZContentLanguage::maskByLocale( array( $locale ), true );
+        $languageMask = eZContentLanguage::maskByLocale( array( $locale ), $http->hasPostVariable( 'AlwaysAvailable' ) );
 
         $tag = new eZTagsObject( array( 'parent_id'        => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'id' ) : 0,
                                         'main_tag_id'      => 0,
@@ -155,7 +155,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
         $translation = new eZTagsKeyword( array( 'keyword_id'  => $tag->attribute( 'id' ),
                                                  'language_id' => $languageID,
                                                  'keyword'     => $newKeyword,
-                                                 'locale'      => $locale ) );//var_dump($tag);die();
+                                                 'locale'      => $locale ) );
         $translation->store();
 
         /* Extended Hook */

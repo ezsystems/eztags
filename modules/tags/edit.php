@@ -138,7 +138,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $tagTranslation = $tag->translationByLanguageID( $language->attribute( 'id' ) );
         if ( $tagTranslation instanceof eZTagKeyword )
         {
-        	$tagTranslation->setAttribute( 'keyword', $newKeyword );
+            $tagTranslation->setAttribute( 'keyword', $newKeyword );
             $tagTranslation->store();
         }
         else
@@ -153,6 +153,8 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
             $tagTranslation->store();
             $tag->updateLanguageMask();
         }
+
+        $tag->setAlwaysAvailable( $http->hasPostVariable( 'AlwaysAvailable' ) );
 
         if ( $http->hasPostVariable( 'SetAsMainTranslation' ) )
             $tag->updateMainTranslation( $language->attribute( 'id' ) );

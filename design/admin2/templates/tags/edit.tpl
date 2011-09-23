@@ -31,6 +31,7 @@
                 {if $is_main_translation|not}
                     <label><input type="checkbox" name="SetAsMainTranslation" /> {'Set as main translation'|i18n( 'extension/eztags/tags/edit' )}</label>
                 {/if}
+                <label><input type="checkbox" name="AlwaysAvailable" {if $tag.always_available}checked="checked"{/if} /> {'Tag is available in main translation when no translation found in siteaccess locale'|i18n( 'extension/eztags/tags/edit' )}</label>
             </div>
 
             <div class="block tag-edit-parent">
