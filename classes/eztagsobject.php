@@ -507,7 +507,10 @@ class eZTagsObject extends eZPersistentObject
         $cond = $customCond = null;
         
         if ( strpos( $keyword, '*' ) !== false )
+        {
+            $db = eZDB::instance();
             $customCond = self::generateCustomCondition( $db->escapeString( $keyword ) );
+        }
         else
             $cond = array( 'keyword' => $keyword );
         
