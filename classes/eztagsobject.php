@@ -507,10 +507,7 @@ class eZTagsObject extends eZPersistentObject
         $cond = $customCond = null;
         
         if ( strpos( $keyword, '*' ) !== false )
-        {
-            $db = eZDB::instance();
             $customCond = self::generateCustomCondition( $keyword );
-        }
         else
             $cond = array( 'keyword' => $keyword );
         
@@ -544,6 +541,7 @@ class eZTagsObject extends eZPersistentObject
                                         '%',
                                         '*',
                                         '\\\\' ), $keyword );
+        $db = eZDB::instance();
         $keyword = $db->escapeString( $keyword );
         return " WHERE eztags.keyword LIKE '$keyword'";
     }
