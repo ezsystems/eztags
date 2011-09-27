@@ -505,12 +505,12 @@ class eZTagsObject extends eZPersistentObject
     static function fetchByKeyword( $keyword )
     {
         $cond = $customCond = null;
-        
+
         if ( strpos( $keyword, '*' ) !== false )
             $customCond = self::generateCustomCondition( $keyword );
         else
             $cond = array( 'keyword' => $keyword );
-        
+
         return eZPersistentObject::fetchObjectList( self::definition(),
                                                     null,
                                                     $cond,
@@ -522,14 +522,14 @@ class eZTagsObject extends eZPersistentObject
                                                     null,
                                                     $customCond );
     }
-    
+
     /**
      * Returns a custom conditional string for wildcard searching (copied from
      * eZContentObjectTreeNode).
-     * 
+     *
      * @static
      * @param string $keyword
-     * @return string 
+     * @return string
      */
     static private function generateCustomCondition( $keyword )
     {
