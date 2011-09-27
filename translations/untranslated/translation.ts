@@ -284,6 +284,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Main translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Tag is available in main translation when no translation found in siteaccess locale</source>
         <translation type="unfinished"></translation>
     </message>
