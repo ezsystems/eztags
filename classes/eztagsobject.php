@@ -504,7 +504,46 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByKeyword( $keyword )
     {
-        return eZPersistentObject::fetchObjectList( self::definition(), null, array( 'keyword' => $keyword ) );
+        $cond = $customCond = null;
+        
+        if ( strpos( $keyword, '*' ) !== false )
+            $customCond = self::generateCustomCondition( $keyword );
+        else
+            $cond = array( 'keyword' => $keyword );
+        
+        return eZPersistentObject::fetchObjectList( self::definition(),
+                                                    null,
+                                                    $cond,
+                                                    null,
+                                                    null,
+                                                    true,
+                                                    false,
+                                                    null,
+                                                    null,
+                                                    $customCond );
+    }
+    
+    /**
+     * Returns a custom conditional string for wildcard searching (copied from
+     * eZContentObjectTreeNode).
+     * 
+     * @static
+     * @param string $keyword
+     * @return string 
+     */
+    static private function generateCustomCondition( $keyword )
+    {
+        $keyword = preg_replace( array( '#%#m',
+                                        '#(?<!\\\\)\\*#m',
+                                        '#(?<!\\\\)\\\\\\*#m',
+                                        '#\\\\\\\\#m' ),
+                                 array( '\\%',
+                                        '%',
+                                        '*',
+                                        '\\\\' ), $keyword );
+        $db = eZDB::instance();
+        $keyword = $db->escapeString( $keyword );
+        return " WHERE eztags.keyword LIKE '$keyword'";
     }
 
     /**
