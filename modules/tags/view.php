@@ -34,7 +34,6 @@ if ( isset( $Params['Offset'] ) )
 
 $tpl = eZTemplate::factory();
 
-$tpl->setVariable( 'blocks', eZINI::instance( 'eztags.ini' )->variable( 'View', 'ViewBlocks' ) );
 $tpl->setVariable( 'tag', $tags[0] );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'persistent_variable', false );

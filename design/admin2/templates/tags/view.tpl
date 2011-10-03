@@ -11,38 +11,27 @@
         <div class="header-mainline"></div>
     </div>
 
-    {if $show_reindex_message}
-        <div class="message-warning">
-            <h2>{'Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.'|i18n( 'extension/eztags/warnings' )}</h2>
-        </div>
-    {/if}
-
     <div class="box-content">
+        <div class="context-information">
+            <p class="left modified">{'Last modified'|i18n( 'design/admin/node/view/full' )}: {$tag.modified|l10n(shortdatetime)} ({'Tag ID'|i18n( 'design/admin/node/view/full' )}: {$tag.id})</p>
+            <div class="break"></div>
+        </div>
+
+        {if $show_reindex_message}
+            <div class="message-warning">
+                <h2>{'Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.'|i18n( 'extension/eztags/warnings' )}</h2>
+            </div>
+        {/if}
+
+        <div id="window-controls" class="tab-block">
+            {include uri='design:tags/window_controls.tpl'}
+        </div>
+
         {if $tag.main_tag_id|eq( 0 )}
             {include uri='design:parts/tags_view_control_bar.tpl' tag=$tag}
         {else}
             {include uri='design:parts/synonyms_view_control_bar.tpl' tag=$tag}
         {/if}
-
-        <div class="block">
-            {def $right_blocks = array()}
-
-            <div class="left">
-                {foreach $blocks as $block sequence array( 'left', 'right' ) as $position}
-                    {if $position|eq( 'left' )}
-                        {include uri=concat( 'design:tags/view/', $block, '.tpl' ) tag=$tag}
-                    {else}
-                        {append-block variable=$right_blocks}
-                            {include uri=concat( 'design:tags/view/', $block, '.tpl' ) tag=$tag}
-                        {/append-block}
-                    {/if}
-                {/foreach}
-            </div>
-            <div class="right">
-                {$right_blocks|implode( '' )}
-            </div>
-            <div class="float-break"></div>
-        </div>
     </div>
 </div>
 

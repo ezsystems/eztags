@@ -18,9 +18,11 @@ $viewParameters = array();
 if ( isset( $Params['Offset'] ) )
     $viewParameters['offset'] = (int) $Params['Offset'];
 
+if ( isset( $Params['Tab'] ) )
+    $viewParameters['tab'] = trim( $Params['Tab'] );
+
 $tpl = eZTemplate::factory();
 
-$tpl->setVariable( 'blocks', eZINI::instance( 'eztags.ini' )->variable( 'View', 'ViewBlocks' ) );
 $tpl->setVariable( 'tag', $tag );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'persistent_variable', false );

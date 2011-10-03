@@ -15,14 +15,14 @@ $ViewList['dashboard'] = array(
     'script'                  => 'dashboard.php',
     'default_navigation_part' => 'eztagsnavigationpart',
     'params'                  => array(),
-    'unordered_params'        => array( 'offset' => 'Offset' ) );
+    'unordered_params'        => array( 'offset' => 'Offset', 'tab' => 'Tab' ) );
 
 $ViewList['id'] = array(
     'functions'               => array( 'id' ),
     'script'                  => 'id.php',
     'default_navigation_part' => 'eztagsnavigationpart',
     'params'                  => array( 'TagID' ),
-    'unordered_params'        => array( 'offset' => 'Offset' ) );
+    'unordered_params'        => array( 'offset' => 'Offset', 'tab' => 'Tab' ) );
 
 $ViewList['view'] = array(
     'functions'               => array( 'view' ),
