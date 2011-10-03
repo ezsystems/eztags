@@ -1,6 +1,7 @@
 {if $tag_exists}
     <div id="node-tab-tags-general-content" class="tab-content{if $tab_index|ne('general')} hide{else} selected{/if}">
         {include uri='design:tags/tabs/latest_content.tpl'}
+        {include uri='design:tags/tabs/translations.tpl'}
     <div class="break"></div>
     </div>
 {/if}

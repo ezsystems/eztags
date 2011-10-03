@@ -39,7 +39,7 @@ class eZTagsKeyword extends eZPersistentObject
                                                                               'datatype' => 'string',
                                                                               'default'  => '',
                                                                               'required' => true ) ),
-                      'function_attributes' => array(),
+                      'function_attributes' => array( 'language_name' => 'languageName' ),
                       'keys'                => array( 'keyword_id', 'language_id' ),
                       'class_name'          => 'eZTagsKeyword',
                       'sort'                => array( 'keyword_id' => 'asc', 'language_id' => 'asc' ),
