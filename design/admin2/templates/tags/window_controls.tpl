@@ -15,7 +15,7 @@
 {/if}
 
 {if $valid_tabs|contains( $tab_index )|not()}
-    {set $tab_index = 'general'}
+    {set $tab_index = cond( $tag_exists, 'general', 'latest' )}
 {elseif is_set( $view_parameters.tab )}
     {set $read_open_tab_by_cookie = false()}
 {/if}
