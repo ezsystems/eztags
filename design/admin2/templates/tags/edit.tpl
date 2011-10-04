@@ -7,6 +7,7 @@
     <div class="box-header">
         <h1 class="context-title">{"Edit tag"|i18n( 'extension/eztags/tags/edit' )}: {$tag.keyword|wash} [{$tag.id}]</h1>
         <p><img src="{$locale|flag_icon}" title="{$language.name|wash}" /> {$language.name|wash}</p>
+        <p>{if $is_main_translation|not}{'Main translation'|i18n( 'extension/eztags/tags/edit' )}: {$tag.main_translation.keyword|wash}{/if}</p>
         <div class="header-mainline"></div>
     </div>
 
