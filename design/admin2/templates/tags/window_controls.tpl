@@ -2,8 +2,8 @@
 
 {if $tag_exists}
     {def $tag_url                 = concat( 'tags/id/', $tag.id )
-         $tab_index               = first_set( $view_parameters.tab, 'general' )
-         $valid_tabs              = array( 'general', 'latest', 'translations', 'synonyms', 'limits', 'search' )
+         $tab_index               = first_set( $view_parameters.tab, 'content' )
+         $valid_tabs              = array( 'content', 'latest', 'translations', 'synonyms', 'limits', 'search' )
          $read_open_tab_by_cookie = true()
     }
 {else}
@@ -15,15 +15,15 @@
 {/if}
 
 {if $valid_tabs|contains( $tab_index )|not()}
-    {set $tab_index = cond( $tag_exists, 'general', 'latest' )}
+    {set $tab_index = cond( $tag_exists, 'content', 'latest' )}
 {elseif is_set( $view_parameters.tab )}
     {set $read_open_tab_by_cookie = false()}
 {/if}
 
 <ul class="tabs{if $read_open_tab_by_cookie} tabs-by-cookie{/if}">
     {if $tag_exists}
-        <li id="node-tab-tags-general" class="first{if $tab_index|eq('general')} selected{/if}">
-            <a href={concat( $tag_url, '/(tab)/general' )|ezurl}>{'General'|i18n( 'extension/eztags/tags/view' )}</a>
+        <li id="node-tab-tags-content" class="first{if $tab_index|eq('content')} selected{/if}">
+            <a href={concat( $tag_url, '/(tab)/content' )|ezurl}>{'Latest content'|i18n( 'extension/eztags/tags/view' )}</a>
         </li>
     {/if}
 
