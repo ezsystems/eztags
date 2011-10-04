@@ -8,6 +8,7 @@
             <tr>
                 <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'extension/eztags/tags/view' )}" onclick="ezjs_toggleCheckboxes( document.translationsform, 'LanguageID[]' ); return false;"/></th>
                 <th>{'Language'|i18n( 'extension/eztags/tags/view' )}</th>
+                <th>{'Translation'|i18n( 'extension/eztags/tags/view' )}</th>
                 <th>{'Locale'|i18n( 'extension/eztags/tags/view' )}</th>
                 <th class="tight">{'Main'|i18n( 'extension/eztags/tags/view' )}</th>
                 <th class="tight">&nbsp;</th>
@@ -23,6 +24,7 @@
                             <a href={concat( '/tags/id/', $tag.id, '/', $translation.locale )|ezurl}>{$translation.language_name.name|wash}</a>
                         {/if}
                     </td>
+                    <td>{$translation.keyword|wash}</td>
                     <td>{$translation.locale|wash}</td>
                     <td><input type="radio" {if $translation.language_id|eq( $tag.main_language_id )} checked="checked" class="main-translation-radio main-translation-radio-initial"{else} class="main-translation-radio"{/if} name="MainLanguageID" value="{$translation.language_id}" /></td>
                     <td><a href={concat( '/tags/edit/', $tag.id, '/', $translation.locale )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit in <%language_name>.'|i18n( 'extension/eztags/tags/view', , hash( '%language_name', $translation.language_name.name ) )|wash}" /></a></td>
