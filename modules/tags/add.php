@@ -73,6 +73,10 @@ if ( !$language instanceof eZContentLanguage )
     if ( strlen( $locale ) > 0 )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected locale does not exist in the system. Please select a valid translation.' );
 
+    $languageList = eZContentLanguage::fetchList();
+    if ( is_array( $languageList ) && count( $languageList ) == 1 )
+        return $Module->redirectToView( 'add', array( $parentTagID, $languageList[0]->attribute( 'locale' ) ) );
+
     $tpl = eZTemplate::factory();
 
     $tpl->setVariable( 'parent_id', $parentTagID );
