@@ -33,11 +33,11 @@
 
     {if and( $tag_exists, $tag.main_tag_id|eq( 0 ) )}
         <li id="node-tab-tags-synonyms" class="middle{if $tab_index|eq('synonyms')} selected{/if}">
-            <a href={concat( $tag_url, '/(tab)/synonyms' )|ezurl}>{'Synonyms'|i18n( 'extension/eztags/tags/view' )}</a>
+            <a href={concat( $tag_url, '/(tab)/synonyms' )|ezurl}>{'Synonyms'|i18n( 'extension/eztags/tags/view' )} ({$tag.synonyms_count})</a>
         </li>
 
         <li id="node-tab-tags-limits" class="middle{if $tab_index|eq('limits')} selected{/if}">
-            <a href={concat( $tag_url, '/(tab)/limits' )|ezurl}>{'Subtree limitations'|i18n( 'extension/eztags/tags/view' )}</a>
+            <a href={concat( $tag_url, '/(tab)/limits' )|ezurl}>{'Subtree limitations'|i18n( 'extension/eztags/tags/view' )} ({$tag.subtree_limitations_count})</a>
         </li>
     {/if}
 
