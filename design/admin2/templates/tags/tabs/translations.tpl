@@ -1,5 +1,3 @@
-<h2>{'Tag translations'|i18n( 'extension/eztags/tags/view' )}</h2>
-
 <form name="translationsform" method="post" action={'tags/translation'|ezurl}>
     <input type="hidden" name="TagID" value="{$tag.id}" />
 

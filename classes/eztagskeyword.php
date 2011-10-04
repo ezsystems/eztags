@@ -89,6 +89,11 @@ class eZTagsKeyword extends eZPersistentObject
         return array();
     }
 
+    static function fetchCountByTagID( $tagID )
+    {
+        return eZPersistentObject::count( self::definition(), array( 'keyword_id' => (int) $tagID ) );
+    }
+
     function languageName()
     {
         $language = eZContentLanguage::fetch( $this->attribute( 'language_id' ) );

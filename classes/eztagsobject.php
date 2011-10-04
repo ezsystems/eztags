@@ -73,6 +73,7 @@ class eZTagsObject extends eZPersistentObject
                                                       'available_languages'       => 'getAvailableLanguages',
                                                       'main_translation'          => 'getMainTranslation',
                                                       'translations'              => 'getTranslations',
+                                                      'translations_count'        => 'getTranslationsCount',
                                                       'always_available'          => 'isAlwaysAvailable' ),
                       'keys'                => array( 'id' ),
                       'increment_key'       => 'id',
@@ -838,6 +839,11 @@ class eZTagsObject extends eZPersistentObject
     function getTranslations()
     {
         return eZTagsKeyword::fetchByTagID( $this->attribute( 'id' ) );
+    }
+
+    function getTranslationsCount()
+    {
+        return eZTagsKeyword::fetchCountByTagID( $this->attribute( 'id' ) );
     }
 
     function translationByLanguageID( $languageID )

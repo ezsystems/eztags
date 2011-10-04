@@ -12,6 +12,11 @@
 </div>
 
 {if and( $tag_exists, $tag.main_tag_id|eq( 0 ) )}
+    <div id="node-tab-tags-translations-content" class="tab-content{if $tab_index|ne('translations')} hide{else} selected{/if}">
+        {include uri='design:tags/tabs/translations.tpl'}
+    <div class="break"></div>
+    </div>
+
     <div id="node-tab-tags-synonyms-content" class="tab-content{if $tab_index|ne('synonyms')} hide{else} selected{/if}">
         {include uri='design:tags/tabs/synonyms.tpl'}
     <div class="break"></div>
