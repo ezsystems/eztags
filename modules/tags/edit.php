@@ -6,7 +6,7 @@ $tagID = (int) $Params['TagID'];
 $locale = trim( (string) $Params['Locale'] );
 
 if ( strlen( $locale ) == 0 )
-    $locale = $http->hasPostVariable( 'Locale' ) ? trim( $http->postVariable( 'Locale' ) ) : '';
+    $locale = $http->hasPostVariable( 'Locale' ) && strlen( trim( $http->postVariable( 'Locale' ) ) ) > 0 ? trim( $http->postVariable( 'Locale' ) ) : false;
 
 $warning = '';
 $error = '';
@@ -17,7 +17,7 @@ if ( $tagID <= 0 )
 }
 
 $tag = eZTagsObject::fetch( $tagID );
-if ( !( $tag instanceof eZTagsObject ) )
+if ( !$tag instanceof eZTagsObject )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
@@ -35,7 +35,7 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
 $language = eZContentLanguage::fetchByLocale( $locale );
 if ( !$language instanceof eZContentLanguage )
 {
-    if ( strlen( $locale ) > 0 )
+    if ( $locale !== false )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected locale does not exist in the system. Please select a valid translation.' );
 
     $languageList = eZContentLanguage::fetchList();
@@ -162,8 +162,6 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
         if ( $http->hasPostVariable( 'SetAsMainTranslation' ) )
             $tag->updateMainTranslation( $language->attribute( 'id' ) );
-        else if ( $language->attribute( 'id' ) == $tag->attribute( 'main_language_id' ) )
-            $tag->setAttribute( 'keyword', $newKeyword );
 
         $tag->setAttribute( 'parent_id', $newParentID );
         $tag->store();
@@ -189,12 +187,6 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         return $Module->redirectToView( 'id', array( $tagID ) );
     }
 }
-
-$tagTranslation = $tag->translationByLanguageID( $language->attribute( 'id' ) );
-if ( $tagTranslation instanceof eZTagsKeyword )
-    $tag->setAttribute( 'keyword', $tagTranslation->attribute( 'keyword' ) );
-else
-    $tag->setAttribute( 'keyword', '' );
 
 $tpl = eZTemplate::factory();
 
