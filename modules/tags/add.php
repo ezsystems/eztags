@@ -9,7 +9,7 @@ if ( $http->hasPostVariable( 'TagEditParentID' ) )
     $parentTagID = (int) $http->postVariable( 'TagEditParentID' );
 
 if ( strlen( $locale ) == 0 )
-    $locale = $http->hasPostVariable( 'Locale' ) ? trim( $http->postVariable( 'Locale' ) ) : '';
+    $locale = $http->hasPostVariable( 'Locale' ) && strlen( trim( $http->postVariable( 'Locale' ) ) ) > 0 ? trim( $http->postVariable( 'Locale' ) ) : false;
 
 $error = '';
 $parentTag = false;
@@ -23,7 +23,7 @@ if ( $parentTagID > 0 )
 {
     $parentTag = eZTagsObject::fetch( $parentTagID );
 
-    if ( !( $parentTag instanceof eZTagsObject ) )
+    if ( !$parentTag instanceof eZTagsObject )
     {
         return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
     }
@@ -70,7 +70,7 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
 $language = eZContentLanguage::fetchByLocale( $locale );
 if ( !$language instanceof eZContentLanguage )
 {
-    if ( strlen( $locale ) > 0 )
+    if ( $locale !== false )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected locale does not exist in the system. Please select a valid translation.' );
 
     $languageList = eZContentLanguage::fetchList();
