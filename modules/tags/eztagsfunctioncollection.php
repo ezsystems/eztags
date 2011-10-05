@@ -112,10 +112,11 @@ class eZTagsFunctionCollection
      */
     static public function fetchLatestTags( $parentTagID = false, $limit = 0 )
     {
+        $parentTagID = (int) $parentTagID;
         $filterArray = array( 'main_tag_id' => 0 );
 
-        if ( $parentTagID !== false )
-            $filterArray['parent_id'] = (int) $parentTagID;
+        if ( $parentTagID > 0 )
+            $filterArray['path_string'] = array( 'like', '%/' . (string) $parentTagID . '/%' );
 
         $result = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null,
                                                        $filterArray,
