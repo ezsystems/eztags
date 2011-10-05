@@ -21,7 +21,7 @@ $ViewList['id'] = array(
     'functions'               => array( 'id' ),
     'script'                  => 'id.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'TagID' ),
+    'params'                  => array( 'TagID', 'Locale' ),
     'unordered_params'        => array( 'offset' => 'Offset', 'tab' => 'Tab' ) );
 
 $ViewList['view'] = array(

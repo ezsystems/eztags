@@ -1,6 +1,7 @@
 <?php
 
 $tagID = (int) $Params['TagID'];
+$locale = strlen( trim( $Params['Locale'] ) ) > 0 ? trim( $Params['Locale'] ) : false;
 $http = eZHTTPTool::instance();
 
 if ( $tagID <= 0 )
@@ -9,7 +10,7 @@ if ( $tagID <= 0 )
 }
 
 $tag = eZTagsObject::fetch( $tagID );
-if ( !($tag instanceof eZTagsObject ) )
+if ( !$tag instanceof eZTagsObject )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
