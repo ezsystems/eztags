@@ -4,26 +4,15 @@ $http = eZHTTPTool::instance();
 
 $tagID = (int) $Params['TagID'];
 
-if ( $tagID <= 0 )
-{
+$tag = eZTagsObject::fetchWithMainTranslation( $tagID );
+if ( !$tag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
-
-$tag = eZTagsObject::fetch( $tagID );
-if ( !( $tag instanceof eZTagsObject ) )
-{
-    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
 if ( $tag->attribute( 'main_tag_id' ) == 0 )
-{
-    return $Module->redirectToView( 'delete', array( $tagID ) );
-}
+    return $Module->redirectToView( 'delete', array( $tag->attribute( 'id' ) ) );
 
 if ( $http->hasPostVariable( 'NoButton' ) )
-{
-    return $Module->redirectToView( 'id', array( $tagID ) );
-}
+    return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
 
 if ( $http->hasPostVariable( 'YesButton' ) )
 {
@@ -32,22 +21,18 @@ if ( $http->hasPostVariable( 'YesButton' ) )
 
     $parentTag = $tag->getParent();
     if ( $parentTag instanceof eZTagsObject )
-    {
         $parentTag->updateModified();
-    }
-
-    $mainTagID = $tag->attribute( 'main_tag_id' );
 
     $tag->registerSearchObjects();
 
     if ( $http->hasPostVariable( 'TransferObjectsToMainTag' ) )
-        $tag->transferObjectsToAnotherTag( $mainTagID );
+        $tag->transferObjectsToAnotherTag( $tag->attribute( 'main_tag_id' ) );
 
     $tag->remove();
 
     $db->commit();
 
-    return $Module->redirectToView( 'id', array( $mainTagID ) );
+    return $Module->redirectToView( 'id', array( $tag->attribute( 'main_tag_id' ) ) );
 }
 
 $tpl = eZTemplate::factory();

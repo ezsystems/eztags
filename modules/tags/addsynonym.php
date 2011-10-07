@@ -5,49 +5,34 @@ $http = eZHTTPTool::instance();
 $mainTagID = (int) $Params['MainTagID'];
 $error = '';
 
-if ( $mainTagID <= 0 )
-{
+$mainTag = eZTagsObject::fetchWithMainTranslation( $mainTagID );
+if ( !$mainTag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
-
-$mainTag = eZTagsObject::fetch( $mainTagID );
-if ( !( $mainTag instanceof eZTagsObject ) )
-{
-    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
 if ( $mainTag->attribute( 'main_tag_id' ) != 0 )
-{
     return $Module->redirectToView( 'addsynonym', array( $mainTag->attribute( 'main_tag_id' ) ) );
-}
 
 if ( $http->hasPostVariable( 'DiscardButton' ) )
-{
-    return $Module->redirectToView( 'id', array( $mainTagID ) );
-}
+    return $Module->redirectToView( 'id', array( $mainTag->attribute( 'id' ) ) );
 
 if ( $http->hasPostVariable( 'SaveButton' ) )
 {
-    if ( !( $http->hasPostVariable( 'TagEditKeyword' ) && strlen ( trim( $http->postVariable( 'TagEditKeyword' ) ) ) > 0 ) )
-    {
+    $newKeyword = $http->hasPostVariable( 'TagEditKeyword' ) ? trim( $http->postVariable( 'TagEditKeyword' ) ) : '';
+    if ( empty( $newKeyword ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
-    }
 
-    $newKeyword = trim( $http->postVariable( 'TagEditKeyword' ) );
     if ( empty( $error ) && eZTagsObject::exists( 0, $newKeyword, $mainTag->attribute( 'parent_id' ) ) )
-    {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
-    }
 
     if ( empty( $error ) )
     {
-        $parentTag = eZTagsObject::fetch( $mainTag->attribute( 'parent_id' ) );
+        $parentTag = $mainTag->getParent();
 
         $db = eZDB::instance();
         $db->begin();
 
         $tag = new eZTagsObject( array( 'parent_id'   => $mainTag->attribute( 'parent_id' ),
-                                        'main_tag_id' => $mainTagID,
+                                        'main_tag_id' => $mainTag->attribute( 'id' ),
                                         'keyword'     => $newKeyword,
                                         'depth'       => $mainTag->attribute( 'depth' ),
                                         'path_string' => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/' ) );

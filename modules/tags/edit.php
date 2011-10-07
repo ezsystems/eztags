@@ -76,19 +76,18 @@ if ( $tag->isInsideSubTreeLimit() )
 
 if ( $http->hasPostVariable( 'SaveButton' ) )
 {
-    if ( !( $http->hasPostVariable( 'TagEditKeyword' ) && strlen( trim( $http->postVariable( 'TagEditKeyword' ) ) ) > 0 ) )
+    $newKeyword = $http->hasPostVariable( 'TagEditKeyword' ) ? trim( $http->postVariable( 'TagEditKeyword' ) ) : '';
+    if ( empty( $newKeyword ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
 
-    if ( empty( $error ) && !( $http->hasPostVariable( 'TagEditParentID' ) && (int) $http->postVariable( 'TagEditParentID' ) >= 0 ) )
-        $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
+    if ( empty( $error ) )
+    {
+        $newParentID = $http->hasPostVariable( 'TagEditParentID' ) ? (int) $http->postVariable( 'TagEditParentID' ) : 0;
+        $newParentTag = eZTagsObject::fetch( $newParentID );
+        if ( !$newParentTag instanceof eZTagsObject && $newParentID > 0 )
+            $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
+    }
 
-    $newParentID = (int) $http->postVariable( 'TagEditParentID' );
-    $newParentTag = eZTagsObject::fetch( $newParentID );
-
-    if ( empty( $error ) && !( $newParentTag instanceof eZTagsObject || $newParentID == 0 ) )
-        $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
-
-    $newKeyword = trim( $http->postVariable( 'TagEditKeyword' ) );
     // TODO: Multilanguage FIX
     if ( empty( $error ) && eZTagsObject::exists( $tag->attribute( 'id' ), $newKeyword, $newParentID ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );

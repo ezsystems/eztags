@@ -113,10 +113,10 @@ $error = '';
 
 if ( $http->hasPostVariable('SaveButton' ) )
 {
-    if ( !( $http->hasPostVariable( 'TagEditKeyword' ) && strlen( trim( $http->postVariable( 'TagEditKeyword' ) ) ) > 0 ) )
+    $newKeyword = $http->hasPostVariable( 'TagEditKeyword' ) ? trim( $http->postVariable( 'TagEditKeyword' ) ) : '';
+    if ( empty( $newKeyword ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
 
-    $newKeyword = trim( $http->postVariable( 'TagEditKeyword' ) );
     // TODO: Multilanguage FIX
     if ( empty( $error ) && eZTagsObject::exists( 0, $newKeyword, ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'id' ) : 0 ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
@@ -131,7 +131,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
 
         $tag = new eZTagsObject( array( 'parent_id'        => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'id' ) : 0,
                                         'main_tag_id'      => 0,
-                                        'depth'            => ( $parentTag instanceof eZTagsObject ) ? (int) $parentTag->attribute( 'depth' ) + 1 : 1,
+                                        'depth'            => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'depth' ) + 1 : 1,
                                         'path_string'      => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/',
                                         'main_language_id' => $language->attribute( 'id' ),
                                         'language_mask'    => $languageMask ), $locale );

@@ -5,39 +5,24 @@ $http = eZHTTPTool::instance();
 $tagID = (int) $Params['TagID'];
 $error = '';
 
-if ( $tagID <= 0 )
-{
+$tag = eZTagsObject::fetchWithMainTranslation( $tagID );
+if ( !$tag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
-
-$tag = eZTagsObject::fetch( $tagID );
-if ( !( $tag instanceof eZTagsObject ) )
-{
-    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
 if ( $tag->attribute( 'main_tag_id' ) == 0 )
-{
-    return $Module->redirectToView( 'edit', array( $tagID ) );
-}
+    return $Module->redirectToView( 'edit', array( $tag->attribute( 'id' ) ) );
 
 if ( $http->hasPostVariable( 'DiscardButton' ) )
-{
-    return $Module->redirectToView( 'id', array( $tagID ) );
-}
+    return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
 
 if ( $http->hasPostVariable( 'SaveButton' ) )
 {
-    if ( !( $http->hasPostVariable( 'TagEditKeyword' ) && strlen( trim( $http->postVariable( 'TagEditKeyword' ) ) ) > 0 ) )
-    {
+    $newKeyword = $http->hasPostVariable( 'TagEditKeyword' ) ? trim( $http->postVariable( 'TagEditKeyword' ) ) : '';
+    if ( empty( $newKeyword ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
-    }
 
-    $newKeyword = trim( $http->postVariable( 'TagEditKeyword' ) );
     if ( empty( $error ) && eZTagsObject::exists( $tag->attribute( 'id' ), $newKeyword, $tag->attribute( 'parent_id' ) ) )
-    {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
-    }
 
     if ( empty( $error ) )
     {
@@ -50,7 +35,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
         $db->commit();
 
-        return $Module->redirectToView( 'id', array( $tagID ) );
+        return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
     }
 }
 

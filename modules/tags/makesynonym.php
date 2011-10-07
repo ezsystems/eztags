@@ -28,15 +28,10 @@ if ( $tag->isInsideSubTreeLimit() )
 
 if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
 {
-    if ( !$http->hasPostVariable( 'MainTagID' ) || (int) $http->postVariable( 'MainTagID' ) <= 0 )
+    $mainTagID = $http->hasPostVariable( 'MainTagID' ) ? (int) $http->postVariable( 'MainTagID' ) : 0;
+    $mainTag = eZTagsObject::fetchWithMainTranslation( $mainTagID );
+    if ( !$mainTag instanceof eZTagsObject )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
-
-    if ( empty( $error ) )
-    {
-        $mainTag = eZTagsObject::fetchWithMainTranslation( (int) $http->postVariable( 'MainTagID' ) );
-        if ( !$mainTag instanceof eZTagsObject )
-            $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
-    }
 
     //TODO: MULTILANGUAGE FIX
     if ( empty( $error ) && eZTagsObject::exists( $tag->attribute( 'id' ), $tag->attribute( 'keyword' ), $mainTag->attribute( 'parent_id' ) ) )
@@ -92,7 +87,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
 
         $db->commit();
 
-        return $Module->redirectToView( 'id', array( $tagID ) );
+        return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
     }
 }
 

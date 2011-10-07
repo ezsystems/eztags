@@ -28,15 +28,10 @@ if ( $tag->isInsideSubTreeLimit() )
 
 if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
 {
-    if ( !$http->hasPostVariable( 'MainTagID' ) || (int) $http->postVariable( 'MainTagID' ) <= 0 )
+    $mainTagID = $http->hasPostVariable( 'MainTagID' ) ? (int) $http->postVariable( 'MainTagID' ) : 0;
+    $mainTag = eZTagsObject::fetchWithMainTranslation( $mainTagID );
+    if ( !$mainTag instanceof eZTagsObject )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
-
-    if ( empty( $error ) )
-    {
-        $mainTag = eZTagsObject::fetchWithMainTranslation( (int) $http->postVariable( 'MainTagID' ) );
-        if ( !$mainTag instanceof eZTagsObject )
-            $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
-    }
 
     if ( empty( $error ) )
     {

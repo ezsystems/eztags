@@ -4,27 +4,21 @@ $http = eZHTTPTool::instance();
 
 $tagsSearchResults = array();
 $tagsSearchCount = 0;
+
 $offset = ( isset( $Params['Offset'] ) && (int) $Params['Offset'] > 0 ) ? (int) $Params['Offset'] : 0;
 $limit = 15;
+
 $viewParameters = array( 'offset' => $offset );
 
 $tagsSearchText = '';
 if ( $http->hasVariable( 'TagsSearchText' ) )
-{
     $tagsSearchText = trim( urldecode( $http->variable( 'TagsSearchText' ) ) );
-}
 
 $tagsSearchSubTree = 0;
 if ( $http->hasVariable( 'TagsSearchSubTree' ) && (int) $http->variable( 'TagsSearchSubTree' ) > 0 )
-{
     $tagsSearchSubTree = (int) $http->variable( 'TagsSearchSubTree' );
-}
 
-$tagsIncludeSynonyms = false;
-if ( $http->hasVariable( 'TagsIncludeSynonyms' ) )
-{
-    $tagsIncludeSynonyms = true;
-}
+$tagsIncludeSynonyms = $http->hasVariable( 'TagsIncludeSynonyms' );
 
 if ( !empty( $tagsSearchText ) )
 {
@@ -36,13 +30,9 @@ if ( !empty( $tagsSearchText ) )
     if ( $tagsSearchSubTree > 0 )
     {
         if ( $tagsIncludeSynonyms )
-        {
             $customConds = ' AND ( path_string LIKE "%/' . $tagsSearchSubTree . '/%" OR main_tag_id = ' . $tagsSearchSubTree . ' ) ';
-        }
         else
-        {
             $params['path_string'] = array( 'like', '%/' . $tagsSearchSubTree . '/%' );
-        }
     }
     else if ( !$tagsIncludeSynonyms )
     {
