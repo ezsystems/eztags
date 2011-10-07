@@ -855,8 +855,8 @@ class eZTagsObject extends eZPersistentObject
 
         if ( is_string( $textPart ) )
         {
-            $moduleResultPath = array( 'text'   => $textPart,
-                                       'url'    => false );
+            $moduleResultPath[] = array( 'text'   => $textPart,
+                                         'url'    => false );
         }
 
         if ( $tag instanceof eZTagsObject )
