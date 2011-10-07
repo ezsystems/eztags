@@ -36,33 +36,9 @@ if ( $locale === false )
     $Result = array();
     $Result['content']    = $tpl->fetch( 'design:tags/addsynonym_languages.tpl' );
     $Result['ui_context'] = 'edit';
-    $Result['path']       = array();
+    $Result['path']       = eZTagsObject::generateModuleResultPath( $mainTag, false, false,
+                                                                    ezpI18n::tr( 'extension/eztags/tags/edit', 'New synonym tag' ) );
 
-    $tempTag = $mainTag;
-    while ( $tempTag->hasParent() )
-    {
-        $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                                   'text'   => $tempTag->attribute( 'keyword' ),
-                                   'url'    => false );
-        $tempTag = $tempTag->getParent();
-    }
-
-    $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                               'text'   => $tempTag->attribute( 'keyword' ),
-                               'url'    => false );
-
-    $Result['path'] = array_reverse( $Result['path'] );
-
-    $Result['path'][] = array( 'tag_id' => -1,
-                               'text'   => ezpI18n::tr( 'extension/eztags/tags/edit', 'New synonym tag' ),
-                               'url'    => false );
-
-    $contentInfoArray = array();
-    $contentInfoArray['persistent_variable'] = false;
-    if ( $tpl->variable( 'persistent_variable' ) !== false )
-        $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-
-    $Result['content_info'] = $contentInfoArray;
     return;
 }
 
@@ -126,32 +102,7 @@ $tpl->setVariable( 'ui_context', 'edit' );
 $Result = array();
 $Result['content']    = $tpl->fetch( 'design:tags/addsynonym.tpl' );
 $Result['ui_context'] = 'edit';
-$Result['path']       = array();
-
-$tempTag = $mainTag;
-while ( $tempTag->hasParent() )
-{
-    $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                               'text'   => $tempTag->attribute( 'keyword' ),
-                               'url'    => false );
-    $tempTag = $tempTag->getParent();
-}
-
-$Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                           'text'   => $tempTag->attribute( 'keyword' ),
-                           'url'    => false );
-
-$Result['path'] = array_reverse( $Result['path'] );
-
-$Result['path'][] = array( 'tag_id' => -1,
-                           'text'   => ezpI18n::tr( 'extension/eztags/tags/edit', 'New synonym tag' ),
-                           'url'    => false );
-
-$contentInfoArray = array();
-$contentInfoArray['persistent_variable'] = false;
-if ( $tpl->variable( 'persistent_variable' ) !== false )
-    $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-
-$Result['content_info'] = $contentInfoArray;
+$Result['path']       = eZTagsObject::generateModuleResultPath( $mainTag, false, false,
+                                                                ezpI18n::tr( 'extension/eztags/tags/edit', 'New synonym tag' ) );
 
 ?>

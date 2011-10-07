@@ -32,28 +32,8 @@ if ( $locale === false )
     $Result = array();
     $Result['content']    = $tpl->fetch( 'design:tags/editsynonym_languages.tpl' );
     $Result['ui_context'] = 'edit';
-    $Result['path']       = array();
+    $Result['path']       = eZTagsObject::generateModuleResultPath( $tag );
 
-    $tempTag = $tag;
-    while ( $tempTag->hasParent() )
-    {
-        $tempTag = $tempTag->getParent();
-        $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                                   'text'   => $tempTag->attribute( 'keyword' ),
-                                   'url'    => false );
-    }
-
-    $Result['path'] = array_reverse( $Result['path'] );
-    $Result['path'][] = array( 'tag_id' => $tag->attribute( 'id' ),
-                               'text'   => $tag->attribute( 'keyword' ),
-                               'url'    => false );
-
-    $contentInfoArray = array();
-    $contentInfoArray['persistent_variable'] = false;
-    if ( $tpl->variable( 'persistent_variable' ) !== false )
-        $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-
-    $Result['content_info'] = $contentInfoArray;
     return;
 }
 
@@ -126,27 +106,6 @@ $tpl->setVariable( 'error', $error );
 $Result = array();
 $Result['content']    = $tpl->fetch( 'design:tags/editsynonym.tpl' );
 $Result['ui_context'] = 'edit';
-$Result['path']       = array();
-
-$tempTag = $tag;
-while ( $tempTag->hasParent() )
-{
-    $tempTag = $tempTag->getParent();
-    $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                               'text'   => $tempTag->attribute( 'keyword' ),
-                               'url'    => false );
-}
-
-$Result['path'] = array_reverse( $Result['path'] );
-$Result['path'][] = array( 'tag_id' => $tag->attribute( 'id' ),
-                           'text'   => $tag->attribute( 'keyword' ),
-                           'url'    => false );
-
-$contentInfoArray = array();
-$contentInfoArray['persistent_variable'] = false;
-if ( $tpl->variable( 'persistent_variable' ) !== false )
-    $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-
-$Result['content_info'] = $contentInfoArray;
+$Result['path']       = eZTagsObject::generateModuleResultPath( $tag );
 
 ?>

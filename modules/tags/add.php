@@ -72,36 +72,9 @@ if ( $locale === false )
     $Result = array();
     $Result['content']    = $tpl->fetch( 'design:tags/add_languages.tpl' );
     $Result['ui_context'] = 'edit';
-    $Result['path']       = array();
+    $Result['path']       = eZTagsObject::generateModuleResultPath( $parentTag, false, false,
+                                                                    ezpI18n::tr( 'extension/eztags/tags/edit', 'New tag' ) );
 
-    if ( $parentTag instanceof eZTagsObject )
-    {
-        $tempTag = $parentTag;
-        while ( $tempTag->hasParent() )
-        {
-            $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                                       'text'   => $tempTag->attribute( 'keyword' ),
-                                       'url'    => false );
-            $tempTag = $tempTag->getParent();
-        }
-
-        $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                                   'text'   => $tempTag->attribute( 'keyword' ),
-                                   'url'    => false );
-
-        $Result['path'] = array_reverse( $Result['path'] );
-    }
-
-    $Result['path'][] = array( 'tag_id' => -1,
-                               'text'   => ezpI18n::tr( 'extension/eztags/tags/edit', 'New tag' ),
-                               'url'    => false );
-
-    $contentInfoArray = array();
-    $contentInfoArray['persistent_variable'] = false;
-    if ( $tpl->variable( 'persistent_variable' ) !== false )
-        $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-
-    $Result['content_info'] = $contentInfoArray;
     return;
 }
 
@@ -167,35 +140,7 @@ $tpl->setVariable( 'ui_context', 'edit' );
 $Result = array();
 $Result['content']    = $tpl->fetch( 'design:tags/add.tpl' );
 $Result['ui_context'] = 'edit';
-$Result['path']       = array();
-
-if ( $parentTag instanceof eZTagsObject )
-{
-    $tempTag = $parentTag;
-    while ( $tempTag->hasParent() )
-    {
-        $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                                   'text'   => $tempTag->attribute( 'keyword' ),
-                                   'url'    => false );
-        $tempTag = $tempTag->getParent();
-    }
-
-    $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                               'text'   => $tempTag->attribute( 'keyword' ),
-                               'url'    => false );
-
-    $Result['path'] = array_reverse( $Result['path'] );
-}
-
-$Result['path'][] = array( 'tag_id' => -1,
-                           'text'   => ezpI18n::tr( 'extension/eztags/tags/edit', 'New tag' ),
-                           'url'    => false );
-
-$contentInfoArray = array();
-$contentInfoArray['persistent_variable'] = false;
-if ( $tpl->variable( 'persistent_variable' ) !== false )
-    $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-
-$Result['content_info'] = $contentInfoArray;
+$Result['path']       = eZTagsObject::generateModuleResultPath( $parentTag, false, false,
+                                                                ezpI18n::tr( 'extension/eztags/tags/edit', 'New tag' ) );
 
 ?>

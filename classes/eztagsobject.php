@@ -845,6 +845,39 @@ class eZTagsObject extends eZPersistentObject
         return 0;
     }
 
+    static function generateModuleResultPath( $tag = false, $view = false, $attribute = false, $textPart = false )
+    {
+        $moduleResultPath = array();
+
+        $generateUrls = false;
+        if ( is_string( $view ) && is_string( $attribute ) )
+            $generateUrls = true;
+
+        if ( is_string( $textPart ) )
+        {
+            $moduleResultPath = array( 'text'   => $textPart,
+                                       'url'    => false );
+        }
+
+        if ( $tag instanceof eZTagsObject )
+        {
+            $moduleResultPath[] = array( 'tag_id' => $tag->attribute( 'id' ),
+                                         'text'   => $tag->attribute( 'keyword' ),
+                                         'url'    => false );
+
+            $tempTag = $tag;
+            while ( $tempTag->hasParent() )
+            {
+                $tempTag = $tempTag->getParent();
+                $moduleResultPath[] = array( 'tag_id' => $tempTag->attribute( 'id' ),
+                                             'text'   => $tempTag->attribute( 'keyword' ),
+                                             'url'    => $generateUrls ? 'tags/' . $view . '/' . $tempTag->attribute( $attribute ) : false );
+            }
+        }
+
+        return array_reverse( $moduleResultPath );
+    }
+
     function remove( $conditions = null, $extraConditions = null )
     {
         foreach ( $this->getTagAttributeLinks() as $tagAttributeLink )

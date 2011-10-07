@@ -28,7 +28,6 @@ $tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'tag', $tags[0] );
 $tpl->setVariable( 'view_parameters', $viewParameters );
-$tpl->setVariable( 'persistent_variable', false );
 $tpl->setVariable( 'show_reindex_message', false );
 
 if ( $http->hasSessionVariable( 'eZTagsShowReindexMessage' ) )
@@ -39,27 +38,6 @@ if ( $http->hasSessionVariable( 'eZTagsShowReindexMessage' ) )
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:tags/view.tpl' );
-$Result['path']    = array();
-
-$tempTag = $tags[0];
-while ( $tempTag->hasParent() )
-{
-    $tempTag = $tempTag->getParent();
-    $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                               'text'   => $tempTag->attribute( 'keyword' ),
-                               'url'    => 'tags/view/' . $tempTag->getUrl() );
-}
-
-$Result['path'] = array_reverse( $Result['path'] );
-$Result['path'][] = array( 'tag_id' => $tags[0]->attribute( 'id' ),
-                           'text'   => $tags[0]->attribute( 'keyword' ),
-                           'url'    => false );
-
-$contentInfoArray = array();
-$contentInfoArray['persistent_variable'] = false;
-if ( $tpl->variable( 'persistent_variable' ) !== false )
-    $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-
-$Result['content_info'] = $contentInfoArray;
+$Result['path']    = eZTagsObject::generateModuleResultPath( $tags[0], 'view', 'url' );
 
 ?>

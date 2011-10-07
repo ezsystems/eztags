@@ -42,15 +42,7 @@ $tpl->setVariable( 'tag', $tag );
 $Result = array();
 $Result['content']    = $tpl->fetch( 'design:tags/deletesynonym.tpl' );
 $Result['ui_context'] = 'edit';
-$Result['path']       = array( array( 'tag_id' => 0,
-                                      'text'   => ezpI18n::tr( 'extension/eztags/tags/edit', 'Delete synonym' ),
-                                      'url'    => false ) );
-
-$contentInfoArray = array();
-$contentInfoArray['persistent_variable'] = false;
-if ( $tpl->variable( 'persistent_variable' ) !== false )
-    $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-
-$Result['content_info'] = $contentInfoArray;
+$Result['path']       = eZTagsObject::generateModuleResultPath( false, false, false,
+                                                                ezpI18n::tr( 'extension/eztags/tags/edit', 'Delete synonym' ) );
 
 ?>
