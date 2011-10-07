@@ -25,7 +25,7 @@
                     <td>{$translation.keyword|wash}</td>
                     <td>{$translation.locale|wash}</td>
                     <td><input type="radio" {if $translation.language_id|eq( $tag.main_language_id )} checked="checked" class="main-translation-radio main-translation-radio-initial"{else} class="main-translation-radio"{/if} name="MainLanguageID" value="{$translation.language_id}" /></td>
-                    <td><a href={concat( '/tags/edit/', $tag.id, '/', $translation.locale )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit in <%language_name>.'|i18n( 'extension/eztags/tags/view', , hash( '%language_name', $translation.language_name.name ) )|wash}" /></a></td>
+                    <td><a href={concat( '/tags/', cond( $tag.main_tag_id|eq( 0 ), 'edit', 'editsynonym' ), '/', $tag.id, '/', $translation.locale )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit in <%language_name>.'|i18n( 'extension/eztags/tags/view', , hash( '%language_name', $translation.language_name.name ) )|wash}" /></a></td>
                 </tr>
             {/foreach}
         </tbody>

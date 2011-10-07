@@ -22,7 +22,7 @@ if ( $locale === false )
         return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
     if ( count( $languages ) == 1 )
-        return $Module->redirectToView( 'edit', array( $tagID, $languages[0]->attribute( 'locale' ) ) );
+        return $Module->redirectToView( 'edit', array( $tag->attribute( 'id' ), $languages[0]->attribute( 'locale' ) ) );
 
     $tpl = eZTemplate::factory();
 
@@ -166,14 +166,13 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
         $db->commit();
 
-        return $Module->redirectToView( 'id', array( $tagID ) );
+        return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
     }
 }
 
 $tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'tag', $tag );
-$tpl->setVariable( 'locale', $locale );
 $tpl->setVariable( 'language', $language );
 $tpl->setVariable( 'warning', $warning );
 $tpl->setVariable( 'error', $error );

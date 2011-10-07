@@ -134,7 +134,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
                                         'depth'            => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'depth' ) + 1 : 1,
                                         'path_string'      => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/',
                                         'main_language_id' => $language->attribute( 'id' ),
-                                        'language_mask'    => $languageMask ), $locale );
+                                        'language_mask'    => $languageMask ), $language->attribute( 'locale' ) );
         $tag->store();
 
         $translation = new eZTagsKeyword( array( 'keyword_id'  => $tag->attribute( 'id' ),
@@ -160,7 +160,6 @@ if ( $http->hasPostVariable('SaveButton' ) )
 $tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'parent_id', $parentTagID );
-$tpl->setVariable( 'locale', $language->attribute( 'locale' ) );
 $tpl->setVariable( 'language', $language );
 $tpl->setVariable( 'error', $error );
 $tpl->setVariable( 'ui_context', 'edit' );

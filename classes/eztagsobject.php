@@ -968,7 +968,7 @@ class eZTagsObject extends eZPersistentObject
 
     function getKeyword()
     {
-        if ( $this->attribute( 'id' ) == null || (int) $this->attribute( 'main_tag_id' ) > 0 )
+        if ( $this->attribute( 'id' ) == null )
             return $this->Keyword;
 
         $translation = $this->translationByLocale( $this->CurrentLanguage );

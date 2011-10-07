@@ -41,7 +41,7 @@ $ViewList['addsynonym'] = array(
     'functions'               => array( 'addsynonym' ),
     'script'                  => 'addsynonym.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'MainTagID' ) );
+    'params'                  => array( 'MainTagID', 'Locale' ) );
 
 $ViewList['edit'] = array(
     'functions'               => array( 'edit' ),
@@ -59,7 +59,7 @@ $ViewList['editsynonym'] = array(
     'functions'               => array( 'editsynonym' ),
     'script'                  => 'editsynonym.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'TagID' ) );
+    'params'                  => array( 'TagID', 'Locale' ) );
 
 $ViewList['delete'] = array(
     'functions'               => array( 'delete' ),

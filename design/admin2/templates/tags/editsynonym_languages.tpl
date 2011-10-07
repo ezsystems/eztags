@@ -1,11 +1,11 @@
 <div class="context-block tags-edit">
     <div class="box-header">
-        <h1 class="context-title">{"Edit tag"|i18n( 'extension/eztags/tags/edit' )}: {$tag.keyword|wash} [{$tag.id}]</h1>
+        <h1 class="context-title">{"Edit synonym"|i18n( 'extension/eztags/tags/edit' )}: {$tag.keyword|wash} [{$tag.id}]</h1>
         <div class="header-mainline"></div>
     </div>
 
     <div class="box-content">
-        <form method="post" action={concat( 'tags/edit/', $tag.id )|ezurl}>
+        <form method="post" action={concat( 'tags/editsynonym/', $tag.id )|ezurl}>
             <div class="block">
                 <fieldset>
                     <legend>{'Edit translation'|i18n('extension/eztags/tags/edit')}</legend>
@@ -36,7 +36,6 @@
                     </div>
                 </fieldset>
             </div>
-
             <div class="controlbar">
                 <div class="block">
                     <input class="defaultbutton" type="submit" name="EditButton" value="{'Edit'|i18n( 'extension/eztags/tags/edit' )}" />

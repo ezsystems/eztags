@@ -1,4 +1,4 @@
-{def $is_main_translation = $tag.main_translation.locale|eq( $locale )}
+{def $is_main_translation = $tag.main_translation.locale|eq( $language.locale )}
 
 {ezcss_require( array( 'jqmodal.css', 'contentstructure-tree.css' ) )}
 {ezscript_require( array( 'jqModal.js', 'eztagsselectparent.js' ) )}
@@ -6,7 +6,7 @@
 <div class="context-block tags-edit">
     <div class="box-header">
         <h1 class="context-title">{"Edit tag"|i18n( 'extension/eztags/tags/edit' )}: {$tag.keyword|wash} [{$tag.id}]</h1>
-        <p><img src="{$locale|flag_icon}" title="{$language.name|wash}" /> {$language.name|wash}</p>
+        <p><img src="{$language.locale|flag_icon}" title="{$language.name|wash}" /> {$language.name|wash}</p>
         <p>{if $is_main_translation|not}{'Main translation'|i18n( 'extension/eztags/tags/edit' )}: {$tag.main_translation.keyword|wash}{/if}</p>
         <div class="header-mainline"></div>
     </div>
@@ -28,7 +28,7 @@
             <div class="block tag-edit-keyword">
                 <label>{'Tag name'|i18n( 'extension/eztags/tags/edit' )}</label>
                 <input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{cond( ezhttp_hasvariable( 'TagEditKeyword', 'post' ), ezhttp( 'TagEditKeyword', 'post' ), $tag.keyword )|trim|wash}" />
-                <input type="hidden" name="Locale" value="{$locale|wash}" />
+                <input type="hidden" name="Locale" value="{$language.locale|wash}" />
                 {if $is_main_translation|not}
                     <label><input type="checkbox" name="SetAsMainTranslation" /> {'Set as main translation'|i18n( 'extension/eztags/tags/edit' )}</label>
                 {/if}

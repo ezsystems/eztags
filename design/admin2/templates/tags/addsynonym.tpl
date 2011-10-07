@@ -4,6 +4,7 @@
 <div class="context-block tags-add">
     <div class="box-header">
         <h1 class="context-title">{"New synonym tag"|i18n( 'extension/eztags/tags/edit' )} ({"Main tag ID"|i18n( 'extension/eztags/tags/edit' )}: {$main_tag.id}, {"Main tag name"|i18n( 'extension/eztags/tags/edit' )}: {$main_tag.keyword|wash})</h1>
+        <p><img src="{$language.locale|flag_icon}" title="{$language.name|wash}" /> {$language.name|wash}</p>
         <div class="header-mainline"></div>
     </div>
 
@@ -18,6 +19,8 @@
             <div class="block tag-edit-keyword">
                 <label>{'Synonym name'|i18n( 'extension/eztags/tags/edit' )}</label>
                 <input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{cond( ezhttp_hasvariable( 'TagEditKeyword', 'post' ), ezhttp( 'TagEditKeyword', 'post' ), '' )|trim|wash}" />
+                <label><input type="checkbox" name="AlwaysAvailable" checked="checked" /> {'Tag is available in main translation when no translation found in siteaccess locale'|i18n( 'extension/eztags/tags/edit' )}</label>
+                <input type="hidden" name="Locale" value="{$language.locale|wash}" />
             </div>
 
             <div class="controlbar">
