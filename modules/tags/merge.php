@@ -75,11 +75,6 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
                 }
             }
 
-            foreach ( $synonym->getTranslations() as $translation )
-            {
-                $translation->remove();
-            }
-
             $synonym->remove();
         }
 
@@ -101,11 +96,6 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
             {
                 $tagAttributeLink->remove();
             }
-        }
-
-        foreach ( $tag->getTranslations() as $translation )
-        {
-            $translation->remove();
         }
 
         $tag->remove();

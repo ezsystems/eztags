@@ -600,29 +600,10 @@ class eZTagsObject extends eZPersistentObject
         }
 
         $rootTag->registerSearchObjects();
-        foreach ( $rootTag->getTagAttributeLinks() as $tagAttributeLink )
-        {
-            $tagAttributeLink->remove();
-        }
-
-        foreach ( $rootTag->getTranslations() as $translation )
-        {
-            $translation->remove();
-        }
 
         $synonyms = $rootTag->getSynonyms();
         foreach ( $synonyms as $synonym )
         {
-            foreach ( $synonym->getTagAttributeLinks() as $tagAttributeLink )
-            {
-                $tagAttributeLink->remove();
-            }
-
-            foreach ( $synonym->getTranslations() as $translation )
-            {
-                $translation->remove();
-            }
-
             $synonym->remove();
         }
 
@@ -833,6 +814,21 @@ class eZTagsObject extends eZPersistentObject
             return $count;
 
         return 0;
+    }
+
+    function remove( $conditions = null, $extraConditions = null )
+    {
+        foreach ( $this->getTagAttributeLinks() as $tagAttributeLink )
+        {
+            $tagAttributeLink->remove();
+        }
+
+        foreach ( $this->getTranslations() as $translation )
+        {
+            $translation->remove();
+        }
+
+        parent::remove( $conditions, $extraConditions );
     }
 
     function getAvailableLanguages()

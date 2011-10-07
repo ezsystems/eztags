@@ -49,7 +49,7 @@ if ( $http->hasPostVariable( 'YesButton' ) )
                         $tagAttributeLink->attribute( 'object_id' ),
                         $mainTagID );
 
-            if ( !( $link instanceof eZTagsAttributeLinkObject ) )
+            if ( !$link instanceof eZTagsAttributeLinkObject )
             {
                 $tagAttributeLink->setAttribute( 'keyword_id', $mainTagID );
                 $tagAttributeLink->store();
@@ -59,18 +59,6 @@ if ( $http->hasPostVariable( 'YesButton' ) )
                 $tagAttributeLink->remove();
             }
         }
-    }
-    else
-    {
-        foreach ( $tag->getTagAttributeLinks() as $tagAttributeLink )
-        {
-            $tagAttributeLink->remove();
-        }
-    }
-
-    foreach ( $tag->getTranslations() as $translation )
-    {
-        $translation->remove();
     }
 
     $tag->remove();
