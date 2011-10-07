@@ -638,6 +638,35 @@ class eZTagsObject extends eZPersistentObject
         }
     }
 
+    function transferObjectsToAnotherTag( $destination )
+    {
+        if ( !$destination instanceof eZTagsObject )
+        {
+            $destination = eZTagsObject::fetchWithMainTranslation( (int) $destination );
+            if ( !$destination instanceof eZTagsObject )
+                return;
+        }
+
+        foreach ( $this->getTagAttributeLinks() as $tagAttributeLink )
+        {
+            $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(
+                        $tagAttributeLink->attribute( 'objectattribute_id' ),
+                        $tagAttributeLink->attribute( 'objectattribute_version' ),
+                        $tagAttributeLink->attribute( 'object_id' ),
+                        $destination->attribute( 'id' ) );
+
+            if ( !$link instanceof eZTagsAttributeLinkObject )
+            {
+                $tagAttributeLink->setAttribute( 'keyword_id', $destination->attribute( 'id' ) );
+                $tagAttributeLink->store();
+            }
+            else
+            {
+                $tagAttributeLink->remove();
+            }
+        }
+    }
+
     /**
      * Fetches subtree of tags by specified parameters
      *

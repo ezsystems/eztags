@@ -52,52 +52,15 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
 
         eZTagsObject::moveChildren( $tag, $mainTag );
 
-        $synonyms = $tag->getSynonyms();
-        foreach ( $synonyms as $synonym )
+        foreach ( $tag->getSynonyms() as $synonym )
         {
             $synonym->registerSearchObjects();
-            foreach ( $synonym->getTagAttributeLinks() as $tagAttributeLink )
-            {
-                $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(
-                            $tagAttributeLink->attribute( 'objectattribute_id' ),
-                            $tagAttributeLink->attribute( 'objectattribute_version' ),
-                            $tagAttributeLink->attribute( 'object_id' ),
-                            $mainTag->attribute( 'id' ) );
-
-                if ( !$link instanceof eZTagsAttributeLinkObject )
-                {
-                    $tagAttributeLink->setAttribute( 'keyword_id', $mainTag->attribute( 'id' ) );
-                    $tagAttributeLink->store();
-                }
-                else
-                {
-                    $tagAttributeLink->remove();
-                }
-            }
-
+            $synonym->transferObjectsToAnotherTag( $mainTag );
             $synonym->remove();
         }
 
         $tag->registerSearchObjects();
-        foreach ( $tag->getTagAttributeLinks() as $tagAttributeLink )
-        {
-            $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(
-                        $tagAttributeLink->attribute( 'objectattribute_id' ),
-                        $tagAttributeLink->attribute( 'objectattribute_version' ),
-                        $tagAttributeLink->attribute( 'object_id' ),
-                        $mainTag->attribute( 'id' ) );
-
-            if ( !$link instanceof eZTagsAttributeLinkObject )
-            {
-                $tagAttributeLink->setAttribute( 'keyword_id', $mainTag->attribute( 'id' ) );
-                $tagAttributeLink->store();
-            }
-            else
-            {
-                $tagAttributeLink->remove();
-            }
-        }
-
+        $tag->transferObjectsToAnotherTag( $mainTag );
         $tag->remove();
 
         $mainTag->updateModified();

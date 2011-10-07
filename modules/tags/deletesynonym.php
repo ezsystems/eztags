@@ -39,27 +39,9 @@ if ( $http->hasPostVariable( 'YesButton' ) )
     $mainTagID = $tag->attribute( 'main_tag_id' );
 
     $tag->registerSearchObjects();
-    if ( $http->hasPostVariable( 'TransferObjectsToMainTag' ) )
-    {
-        foreach ( $tag->getTagAttributeLinks() as $tagAttributeLink )
-        {
-            $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(
-                        $tagAttributeLink->attribute( 'objectattribute_id' ),
-                        $tagAttributeLink->attribute( 'objectattribute_version' ),
-                        $tagAttributeLink->attribute( 'object_id' ),
-                        $mainTagID );
 
-            if ( !$link instanceof eZTagsAttributeLinkObject )
-            {
-                $tagAttributeLink->setAttribute( 'keyword_id', $mainTagID );
-                $tagAttributeLink->store();
-            }
-            else
-            {
-                $tagAttributeLink->remove();
-            }
-        }
-    }
+    if ( $http->hasPostVariable( 'TransferObjectsToMainTag' ) )
+        $tag->transferObjectsToAnotherTag( $mainTagID );
 
     $tag->remove();
 
