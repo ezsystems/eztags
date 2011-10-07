@@ -11,8 +11,9 @@ class eZTagsObject extends eZPersistentObject
      * Constructor
      *
      */
-    function __construct( $row )
+    function __construct( $row, $locale = false )
     {
+        $this->CurrentLanguage = $locale;
         parent::__construct( $row );
     }
 
@@ -70,7 +71,10 @@ class eZTagsObject extends eZPersistentObject
                                                       'synonyms_count'            => 'getSynonymsCount',
                                                       'icon'                      => 'getIcon',
                                                       'url'                       => 'getUrl',
+                                                      'keyword'                   => 'getKeyword',
                                                       'available_languages'       => 'getAvailableLanguages',
+                                                      'current_language'          => 'getCurrentLanguage',
+                                                      'language_name_array'       => 'languageNameArray',
                                                       'main_translation'          => 'getMainTranslation',
                                                       'translations'              => 'getTranslations',
                                                       'translations_count'        => 'getTranslationsCount',
@@ -419,7 +423,29 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetch( $id )
     {
-        return eZPersistentObject::fetchObject( self::definition(), null, array( 'id' => $id ) );
+        $tag = eZPersistentObject::fetchObject( self::definition(), null, array( 'id' => $id ) );
+        if ( $tag instanceof eZTagsObject )
+            return $tag->fetchTranslated();
+
+        return false;
+    }
+
+    static function fetchByLocale( $id, $locale = false, $forceLoad = false )
+    {
+        $tag = eZPersistentObject::fetchObject( self::definition(), null, array( 'id' => $id ) );
+        if ( $tag instanceof eZTagsObject )
+            return $tag->fetchTranslated( false, $locale, $forceLoad );
+
+        return false;
+    }
+
+    static function fetchWithMainTranslation( $id )
+    {
+        $tag = eZPersistentObject::fetchObject( self::definition(), null, array( 'id' => $id ) );
+        if ( $tag instanceof eZTagsObject )
+            return $tag->fetchTranslated( true );
+
+        return false;
     }
 
     /**
@@ -433,17 +459,14 @@ class eZTagsObject extends eZPersistentObject
     static function fetchList( $params, $limits = null, $asObject = true, $sorts = null )
     {
         $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, $params, $sorts, $limits );
+        $tagsList = eZTagsObject::processTagsForTranslations( $tagsList );
 
         if ( $asObject )
-        {
             return $tagsList;
-        }
 
         $tagsArray = array();
         foreach ( $tagsList as $tag )
-        {
             $tagsArray[] = array( 'name' => $tag->attribute( 'keyword' ), 'id' => $tag->attribute( 'id' ) );
-        }
 
         return $tagsArray;
     }
@@ -469,7 +492,8 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByParentID( $parentID )
     {
-        return eZPersistentObject::fetchObjectList( self::definition(), null, array( 'parent_id' => $parentID, 'main_tag_id' => 0 ) );
+        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'parent_id' => $parentID, 'main_tag_id' => 0 ) );
+        return eZTagsObject::processTagsForTranslations( $tagsList );
     }
 
     /**
@@ -493,7 +517,8 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchSynonyms( $mainTagID )
     {
-        return eZPersistentObject::fetchObjectList( self::definition(), null, array( 'main_tag_id' => $mainTagID ) );
+        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'main_tag_id' => $mainTagID ) );
+        return eZTagsObject::processTagsForTranslations( $tagsList );
     }
 
     /**
@@ -517,7 +542,8 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByKeyword( $keyword )
     {
-        return eZPersistentObject::fetchObjectList( self::definition(), null, array( 'keyword' => $keyword ) );
+        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'keyword' => $keyword ) );
+        return eZTagsObject::processTagsForTranslations( $tagsList );
     }
 
     /**
@@ -529,9 +555,10 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByPathString( $pathString )
     {
-        return eZPersistentObject::fetchObjectList( self::definition(), null,
-                                                    array( 'path_string' => array( 'like', $pathString . '%' ),
-                                                           'main_tag_id' => 0 ) );
+        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null,
+                                                         array( 'path_string' => array( 'like', $pathString . '%' ),
+                                                                'main_tag_id' => 0 ) );
+        return eZTagsObject::processTagsForTranslations( $tagsList );
     }
 
     /**
@@ -811,24 +838,12 @@ class eZTagsObject extends eZPersistentObject
     function getAvailableLanguages()
     {
         $languages = eZContentLanguage::decodeLanguageMask( $this->attribute( 'language_mask' ), true );
-
         return $languages['language_list'];
     }
 
-    function languageNameArray()
+    function getCurrentLanguage()
     {
-        $languageNameArray = array();
-        $translations = eZTagsKeyword::fetchByTagID( $this->attribute( 'id' ) );
-
-        foreach ( $translations as $translation )
-        {
-            $languageName = $translation->languageName();
-
-            if ( is_array( $languageName ) )
-                $languageNameArray[$languageName['locale']] = $languageName['name'];
-        }
-
-        return $languageNameArray;
+        return $this->CurrentLanguage;
     }
 
     function getMainTranslation()
@@ -851,12 +866,32 @@ class eZTagsObject extends eZPersistentObject
         return eZTagsKeyword::fetch( $this->attribute( 'id' ), (int) $languageID );
     }
 
+    function translationByLocale( $locale )
+    {
+        return eZTagsKeyword::fetchByLocale( $this->attribute( 'id' ), $locale );
+    }
+
+    function languageNameArray()
+    {
+        $languageNameArray = array();
+        $translations = $this->getTranslations();
+
+        foreach ( $translations as $translation )
+        {
+            $languageName = $translation->languageName();
+
+            if ( is_array( $languageName ) )
+                $languageNameArray[$languageName['locale']] = $languageName['name'];
+        }
+
+        return $languageNameArray;
+    }
+
     function updateMainTranslation( $languageID, $forceStore = false )
     {
-        $trans = eZTagsKeyword::fetch( $this->attribute( 'id' ), (int) $languageID );
+        $trans = $this->translationByLanguageID( $languageID );
         if ( $trans instanceof eZTagsKeyword )
         {
-            $this->setAttribute( 'keyword', $trans->attribute( 'keyword' ) );
             $this->setAttribute( 'main_language_id', $trans->attribute( 'language_id' ) );
 
             if ( $forceStore )
@@ -889,7 +924,7 @@ class eZTagsObject extends eZPersistentObject
     {
         if ( $mask == false )
         {
-            $translationList = eZTagsKeyword::fetchByTagID( $this->attribute( 'id' ) );
+            $translationList = $this->getTranslations();
 
             $locales = array();
             foreach ( $translationList as $translation )
@@ -905,6 +940,85 @@ class eZTagsObject extends eZPersistentObject
         if ( $forceStore )
             $this->store();
     }
+
+    function getKeyword()
+    {
+        if ( $this->attribute( 'id' ) == null || (int) $this->attribute( 'main_tag_id' ) > 0 )
+            return $this->Keyword;
+
+        $translation = $this->translationByLocale( $this->CurrentLanguage );
+        if ( $translation instanceof eZTagsKeyword )
+            return $translation->attribute( 'keyword' );
+
+        return '';
+    }
+
+    private function fetchTranslated( $fetchMainTranslation = false, $locale = false, $forceLoad = false )
+    {
+        if ( $this->attribute( 'language_mask' ) > 0 )
+        {
+            $translation = false;
+
+            if ( $fetchMainTranslation )
+            {
+                $translation = $this->getMainTranslation();
+            }
+            else if ( $locale !== false )
+            {
+                $translation = $this->translationByLocale( $locale );
+                if ( !$translation instanceof eZTagsKeyword && $forceLoad )
+                {
+                    if ( eZContentLanguage::fetchByLocale( $locale ) instanceof eZContentLanguage )
+                    {
+                        $this->CurrentLanguage = $locale;
+                        return $this;
+                    }
+
+                    return false;
+                }
+            }
+            else
+            {
+                $language = eZContentLanguage::topPriorityLanguageByMask( $this->attribute( 'language_mask' ) );
+                if ( $language instanceof eZContentLanguage )
+                    $translation = $this->translationByLocale( $language->attribute( 'locale' ) );
+
+                if ( !$translation instanceof eZTagsKeyword &&
+                     ( $this->isAlwaysAvailable() || eZINI::instance()->variable( 'RegionalSettings', 'ShowUntranslatedObjects' ) == 'enabled' ) )
+                    $translation = $this->getMainTranslation();
+            }
+
+            if ( $translation instanceof eZTagsKeyword )
+            {
+                $this->CurrentLanguage = $translation->attribute( 'locale' );
+                return $this;
+            }
+        }
+
+        return false;
+    }
+
+    private static function processTagsForTranslations( $tags, $fetchMainTranslation = false, $locale = false )
+    {
+        if ( !is_array( $tags ) )
+            return array();
+
+        $returnArray = array();
+
+        foreach ( $tags as $tag )
+        {
+            if ( $tag instanceof eZTagsObject )
+            {
+                $translatedTag = $tag->fetchTranslated( $fetchMainTranslation, $locale );
+                if ( $translatedTag instanceof eZTagsObject )
+                    $returnArray[] = $translatedTag;
+            }
+        }
+
+        return $returnArray;
+    }
+
+    private $CurrentLanguage = false;
 }
 
 ?>

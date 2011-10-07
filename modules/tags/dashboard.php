@@ -5,6 +5,7 @@ $http = eZHTTPTool::instance();
 $viewParameters = array();
 if ( isset( $Params['Offset'] ) )
     $viewParameters['offset'] = (int) $Params['Offset'];
+
 if ( isset( $Params['Tab'] ) )
     $viewParameters['tab'] = trim( $Params['Tab'] );
 

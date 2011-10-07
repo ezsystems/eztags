@@ -1,19 +1,14 @@
 <?php
 
 $tagID = (int) $Params['TagID'];
-$locale = strlen( trim( $Params['Locale'] ) ) > 0 ? trim( $Params['Locale'] ) : false;
+$locale = (string) $Params['Locale'];
+$locale = !empty( $locale ) ? $locale : false;
+
 $http = eZHTTPTool::instance();
 
-if ( $tagID <= 0 )
-{
-    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
-
-$tag = eZTagsObject::fetch( $tagID );
+$tag = eZTagsObject::fetchByLocale( $tagID, $locale );
 if ( !$tag instanceof eZTagsObject )
-{
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
 $viewParameters = array();
 if ( isset( $Params['Offset'] ) )

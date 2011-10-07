@@ -1,19 +1,14 @@
 <?php
 
-$db = eZDB::instance();
 $http = eZHTTPTool::instance();
 
 $tagID = $http->hasPostVariable( 'TagID' ) ? (int) $http->postVariable( 'TagID' ) : 0;
-if ( $tagID <= 0 )
-{
-    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
-$tag = eZTagsObject::fetch( $tagID );
+$tag = eZTagsObject::fetchWithMainTranslation( $tagID );
 if ( !$tag instanceof eZTagsObject )
-{
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
+
+$db = eZDB::instance();
 
 if ( $http->hasPostVariable( 'RemoveTranslationButton' ) )
 {
@@ -24,9 +19,7 @@ if ( $http->hasPostVariable( 'RemoveTranslationButton' ) )
         {
             $translation = $tag->translationByLanguageID( (int) $languageID );
             if ( $translation instanceof eZTagsKeyword && $translation->attribute( 'language_id' ) != $tag->attribute( 'main_language_id' ) )
-            {
                 $translation->remove();
-            }
         }
         $db->commit();
     }

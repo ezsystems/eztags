@@ -3,44 +3,33 @@
 $http = eZHTTPTool::instance();
 
 $parentTagID = (int) $Params['ParentTagID'];
-$locale = trim( (string) $Params['Locale'] );
+$locale = (string) $Params['Locale'];
 
 if ( $http->hasPostVariable( 'TagEditParentID' ) )
     $parentTagID = (int) $http->postVariable( 'TagEditParentID' );
 
-if ( strlen( $locale ) == 0 )
-    $locale = $http->hasPostVariable( 'Locale' ) && strlen( trim( $http->postVariable( 'Locale' ) ) ) > 0 ? trim( $http->postVariable( 'Locale' ) ) : false;
-
-$error = '';
-$parentTag = false;
+if ( empty( $locale ) )
+    $locale = $http->hasPostVariable( 'Locale' ) ? $http->postVariable( 'Locale' ) : false;
 
 if ( $parentTagID < 0 )
-{
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
+$parentTag = false;
 if ( $parentTagID > 0 )
 {
-    $parentTag = eZTagsObject::fetch( $parentTagID );
-
+    $parentTag = eZTagsObject::fetchWithMainTranslation( $parentTagID );
     if ( !$parentTag instanceof eZTagsObject )
-    {
         return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-    }
 
     if ( $parentTag->attribute( 'main_tag_id' ) != 0 )
-    {
         return $Module->redirectToView( 'add', array( $parentTag->attribute( 'main_tag_id' ) ) );
-    }
 }
 
 $userLimitations = eZTagsTemplateFunctions::getSimplifiedUserAccess( 'tags', 'add' );
 $hasAccess = false;
 
 if ( !isset( $userLimitations['simplifiedLimitations']['Tag'] ) )
-{
     $hasAccess = true;
-}
 else
 {
     $parentTagPathString = ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/';
@@ -55,36 +44,22 @@ else
 }
 
 if ( !$hasAccess )
-{
     return $Module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
-}
 
-if ( $http->hasPostVariable( 'DiscardButton' ) )
+if ( $locale === false )
 {
-    if ( $parentTag instanceof eZTagsObject )
-        return $Module->redirectToView( 'id', array( $parentTagID ) );
-    else
-        return $Module->redirectToView( 'dashboard', array() );
-}
+    $languages = eZContentLanguage::fetchList();
+    if ( !is_array( $languages ) || empty( $languages ) )
+        return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
-$language = eZContentLanguage::fetchByLocale( $locale );
-if ( !$language instanceof eZContentLanguage )
-{
-    if ( $locale !== false )
-        $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected locale does not exist in the system. Please select a valid translation.' );
-
-    $languageList = eZContentLanguage::fetchList();
-    if ( is_array( $languageList ) && count( $languageList ) == 1 )
-        return $Module->redirectToView( 'add', array( $parentTagID, $languageList[0]->attribute( 'locale' ) ) );
+    if ( count( $languages ) == 1 )
+        return $Module->redirectToView( 'add', array( $parentTagID, $languages[0]->attribute( 'locale' ) ) );
 
     $tpl = eZTemplate::factory();
 
-    $tpl->setVariable( 'parent_id', $parentTagID );
-    $tpl->setVariable( 'error', $error );
-    $tpl->setVariable( 'ui_context', 'edit' );
-
-    $languages = eZContentLanguage::fetchList();
     $tpl->setVariable( 'languages', $languages );
+    $tpl->setVariable( 'parent_id', $parentTagID );
+    $tpl->setVariable( 'ui_context', 'edit' );
 
     $Result = array();
     $Result['content']    = $tpl->fetch( 'design:tags/add_languages.tpl' );
@@ -122,45 +97,55 @@ if ( !$language instanceof eZContentLanguage )
     return;
 }
 
+$language = eZContentLanguage::fetchByLocale( $locale );
+if ( !$language instanceof eZContentLanguage )
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+
+if ( $http->hasPostVariable( 'DiscardButton' ) )
+{
+    if ( $parentTag instanceof eZTagsObject )
+        return $Module->redirectToView( 'id', array( $parentTag->attribute( 'id' ) ) );
+    else
+        return $Module->redirectToView( 'dashboard', array() );
+}
+
+$error = '';
+
 if ( $http->hasPostVariable('SaveButton' ) )
 {
     if ( !( $http->hasPostVariable( 'TagEditKeyword' ) && strlen( trim( $http->postVariable( 'TagEditKeyword' ) ) ) > 0 ) )
-    {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
-    }
 
     $newKeyword = trim( $http->postVariable( 'TagEditKeyword' ) );
+    // TODO: Multilanguage FIX
     if ( empty( $error ) && eZTagsObject::exists( 0, $newKeyword, ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'id' ) : 0 ) )
-    {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
-    }
+    // END TODO
 
     if ( empty( $error ) )
     {
         $db = eZDB::instance();
         $db->begin();
 
-        $languageID = $language->attribute( 'id' );
-        $languageMask = eZContentLanguage::maskByLocale( array( $locale ), $http->hasPostVariable( 'AlwaysAvailable' ) );
+        $languageMask = eZContentLanguage::maskByLocale( array( $language->attribute( 'locale' ) ), $http->hasPostVariable( 'AlwaysAvailable' ) );
 
         $tag = new eZTagsObject( array( 'parent_id'        => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'id' ) : 0,
                                         'main_tag_id'      => 0,
-                                        'keyword'          => $newKeyword,
                                         'depth'            => ( $parentTag instanceof eZTagsObject ) ? (int) $parentTag->attribute( 'depth' ) + 1 : 1,
                                         'path_string'      => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/',
-                                        'main_language_id' => $languageID,
-                                        'language_mask'    => $languageMask ) );
-
+                                        'main_language_id' => $language->attribute( 'id' ),
+                                        'language_mask'    => $languageMask ), $locale );
         $tag->store();
+
+        $translation = new eZTagsKeyword( array( 'keyword_id'  => $tag->attribute( 'id' ),
+                                                 'language_id' => $language->attribute( 'id' ),
+                                                 'keyword'     => $newKeyword,
+                                                 'locale'      => $language->attribute( 'locale' ) ) );
+        $translation->store();
+
         $tag->setAttribute( 'path_string', $tag->attribute( 'path_string' ) . $tag->attribute( 'id' ) . '/' );
         $tag->store();
         $tag->updateModified();
-
-        $translation = new eZTagsKeyword( array( 'keyword_id'  => $tag->attribute( 'id' ),
-                                                 'language_id' => $languageID,
-                                                 'keyword'     => $newKeyword,
-                                                 'locale'      => $locale ) );
-        $translation->store();
 
         /* Extended Hook */
         if ( class_exists( 'ezpEvent', false ) )
@@ -175,7 +160,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
 $tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'parent_id', $parentTagID );
-$tpl->setVariable( 'locale', $locale );
+$tpl->setVariable( 'locale', $language->attribute( 'locale' ) );
 $tpl->setVariable( 'language', $language );
 $tpl->setVariable( 'error', $error );
 $tpl->setVariable( 'ui_context', 'edit' );

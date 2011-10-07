@@ -7,104 +7,56 @@ $mergeAllowed = true;
 $warning = '';
 $error = '';
 
-if ( $tagID <= 0 )
-{
+$tag = eZTagsObject::fetchWithMainTranslation( $tagID );
+if ( !$tag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
-
-$tag = eZTagsObject::fetch( $tagID );
-if ( !( $tag instanceof eZTagsObject ) )
-{
-    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
 if ( $tag->attribute( 'main_tag_id' ) != 0 )
-{
     return $Module->redirectToView( 'merge', array( $tag->attribute( 'main_tag_id' ) ) );
-}
+
+if ( $http->hasPostVariable( 'DiscardButton' ) )
+    return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
 
 if ( $tag->getSubTreeLimitationsCount() > 0 )
 {
     $mergeAllowed = false;
     $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.' );
 }
-else
+
+if ( $tag->isInsideSubTreeLimit() )
+    $warning = ezpI18n::tr( 'extension/eztags/warnings', 'TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.' );
+
+if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
 {
-    if ( $http->hasPostVariable( 'DiscardButton' ) )
-    {
-        return $Module->redirectToView( 'id', array( $tagID ) );
-    }
+    if ( !$http->hasPostVariable( 'MainTagID' ) || (int) $http->postVariable( 'MainTagID' ) <= 0 )
+        $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
 
-    if ( $tag->isInsideSubTreeLimit() )
+    if ( empty( $error ) )
     {
-        $warning = ezpI18n::tr( 'extension/eztags/warnings', 'TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.' );
-    }
-
-    if ( $http->hasPostVariable( 'SaveButton' ) )
-    {
-        if ( !( $http->hasPostVariable( 'MainTagID' ) && (int) $http->postVariable( 'MainTagID' ) > 0 ) )
-        {
+        $mainTag = eZTagsObject::fetchWithMainTranslation( (int) $http->postVariable( 'MainTagID' ) );
+        if ( !$mainTag instanceof eZTagsObject )
             $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
+    }
+
+    if ( empty( $error ) )
+    {
+        $db = eZDB::instance();
+        $db->begin();
+
+        if ( $tag->attribute( 'parent_id' ) != $mainTag->attribute( 'parent_id' ) )
+        {
+            $oldParentTag = $tag->getParent();
+            if ( $oldParentTag instanceof eZTagsObject )
+                $oldParentTag->updateModified();
         }
 
-        if ( empty( $error ) )
+        eZTagsObject::moveChildren( $tag, $mainTag );
+
+        $synonyms = $tag->getSynonyms();
+        foreach ( $synonyms as $synonym )
         {
-            $mainTag = eZTagsObject::fetch( (int) $http->postVariable( 'MainTagID' ) );
-            if ( !( $mainTag instanceof eZTagsObject ) )
-            {
-                $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
-            }
-        }
-
-        if ( empty( $error ) )
-        {
-            $db = eZDB::instance();
-            $db->begin();
-
-            if ( $tag->attribute( 'parent_id' ) != $mainTag->attribute( 'parent_id' ) )
-            {
-                $oldParentTag = $tag->getParent();
-                if ( $oldParentTag instanceof eZTagsObject )
-                {
-                    $oldParentTag->updateModified();
-                }
-            }
-
-            eZTagsObject::moveChildren( $tag, $mainTag );
-
-            $synonyms = $tag->getSynonyms();
-            foreach ( $synonyms as $synonym )
-            {
-                $synonym->registerSearchObjects();
-                foreach ( $synonym->getTagAttributeLinks() as $tagAttributeLink )
-                {
-                    $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(
-                                $tagAttributeLink->attribute( 'objectattribute_id' ),
-                                $tagAttributeLink->attribute( 'objectattribute_version' ),
-                                $tagAttributeLink->attribute( 'object_id' ),
-                                $mainTag->attribute( 'id' ) );
-
-                    if ( !( $link instanceof eZTagsAttributeLinkObject ) )
-                    {
-                        $tagAttributeLink->setAttribute( 'keyword_id', $mainTag->attribute( 'id' ) );
-                        $tagAttributeLink->store();
-                    }
-                    else
-                    {
-                        $tagAttributeLink->remove();
-                    }
-                }
-
-                foreach ( $synonym->getTranslations() as $translation )
-                {
-                    $translation->remove();
-                }
-
-                $synonym->remove();
-            }
-
-            $tag->registerSearchObjects();
-            foreach ( $tag->getTagAttributeLinks() as $tagAttributeLink )
+            $synonym->registerSearchObjects();
+            foreach ( $synonym->getTagAttributeLinks() as $tagAttributeLink )
             {
                 $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(
                             $tagAttributeLink->attribute( 'objectattribute_id' ),
@@ -112,7 +64,7 @@ else
                             $tagAttributeLink->attribute( 'object_id' ),
                             $mainTag->attribute( 'id' ) );
 
-                if ( !( $link instanceof eZTagsAttributeLinkObject ) )
+                if ( !$link instanceof eZTagsAttributeLinkObject )
                 {
                     $tagAttributeLink->setAttribute( 'keyword_id', $mainTag->attribute( 'id' ) );
                     $tagAttributeLink->store();
@@ -123,23 +75,50 @@ else
                 }
             }
 
-            foreach ( $tag->getTranslations() as $translation )
+            foreach ( $synonym->getTranslations() as $translation )
             {
                 $translation->remove();
             }
 
-            $tag->remove();
-
-            $mainTag->updateModified();
-
-            /* Extended Hook */
-            if ( class_exists( 'ezpEvent', false ) )
-                $tag = ezpEvent::getInstance()->filter( 'tag/merge', array( 'tag' => $tag, 'mainTag' => $mainTag ) );
-
-            $db->commit();
-
-            return $Module->redirectToView( 'id', array( $mainTag->attribute( 'id' ) ) );
+            $synonym->remove();
         }
+
+        $tag->registerSearchObjects();
+        foreach ( $tag->getTagAttributeLinks() as $tagAttributeLink )
+        {
+            $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(
+                        $tagAttributeLink->attribute( 'objectattribute_id' ),
+                        $tagAttributeLink->attribute( 'objectattribute_version' ),
+                        $tagAttributeLink->attribute( 'object_id' ),
+                        $mainTag->attribute( 'id' ) );
+
+            if ( !$link instanceof eZTagsAttributeLinkObject )
+            {
+                $tagAttributeLink->setAttribute( 'keyword_id', $mainTag->attribute( 'id' ) );
+                $tagAttributeLink->store();
+            }
+            else
+            {
+                $tagAttributeLink->remove();
+            }
+        }
+
+        foreach ( $tag->getTranslations() as $translation )
+        {
+            $translation->remove();
+        }
+
+        $tag->remove();
+
+        $mainTag->updateModified();
+
+        /* Extended Hook */
+        if ( class_exists( 'ezpEvent', false ) )
+            $tag = ezpEvent::getInstance()->filter( 'tag/merge', array( 'tag' => $tag, 'mainTag' => $mainTag ) );
+
+        $db->commit();
+
+        return $Module->redirectToView( 'id', array( $mainTag->attribute( 'id' ) ) );
     }
 }
 

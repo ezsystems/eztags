@@ -6,62 +6,43 @@ $tagID = (int) $Params['TagID'];
 $deleteAllowed = true;
 $error = '';
 
-if ( $tagID <= 0 )
-{
+$tag = eZTagsObject::fetchWithMainTranslation( $tagID );
+if ( !$tag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
-
-$tag = eZTagsObject::fetch( $tagID );
-if ( !( $tag instanceof eZTagsObject ) )
-{
-    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
 if ( $tag->attribute( 'main_tag_id' ) != 0 )
-{
     return $Module->redirectToView( 'delete', array( $tag->attribute( 'main_tag_id' ) ) );
-}
+
+if ( $http->hasPostVariable( 'NoButton' ) )
+    return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
 
 if ( $tag->getSubTreeLimitationsCount() > 0 )
 {
     $deleteAllowed = false;
     $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.' );
 }
-else
+
+if ( $http->hasPostVariable( 'YesButton' ) && $deleteAllowed )
 {
-    if ( $http->hasPostVariable( 'NoButton' ) )
-    {
-        return $Module->redirectToView( 'id', array( $tagID ) );
-    }
+    $db = eZDB::instance();
+    $db->begin();
 
-    if ( $http->hasPostVariable( 'YesButton' ) )
-    {
-        $db = eZDB::instance();
-        $db->begin();
+    $parentTag = $tag->getParent();
+    if ( $parentTag instanceof eZTagsObject )
+        $parentTag->updateModified();
 
-        $parentTag = $tag->getParent();
-        if ( $parentTag instanceof eZTagsObject )
-        {
-            $parentTag->updateModified();
-        }
+    eZTagsObject::recursiveTagDelete( $tag );
 
-        eZTagsObject::recursiveTagDelete( $tag );
+    /* Extended Hook */
+    if ( class_exists( 'ezpEvent', false ) )
+        $tag = ezpEvent::getInstance()->filter( 'tag/delete', $tag );
 
-        /* Extended Hook */
-        if ( class_exists( 'ezpEvent', false ) )
-            $tag = ezpEvent::getInstance()->filter( 'tag/delete', $tag );
+    $db->commit();
 
-        $db->commit();
-
-        if ( $parentTag instanceof eZTagsObject )
-        {
-            return $Module->redirectToView( 'id', array( $parentTag->attribute( 'id' ) ) );
-        }
-        else
-        {
-            return $Module->redirectToView( 'dashboard', array() );
-        }
-    }
+    if ( $parentTag instanceof eZTagsObject )
+        return $Module->redirectToView( 'id', array( $parentTag->attribute( 'id' ) ) );
+    else
+        return $Module->redirectToView( 'dashboard', array() );
 }
 
 $tpl = eZTemplate::factory();

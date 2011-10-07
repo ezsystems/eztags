@@ -3,52 +3,27 @@
 $http = eZHTTPTool::instance();
 
 $tagID = (int) $Params['TagID'];
-$locale = trim( (string) $Params['Locale'] );
+$locale = (string) $Params['Locale'];
 
-if ( strlen( $locale ) == 0 )
-    $locale = $http->hasPostVariable( 'Locale' ) && strlen( trim( $http->postVariable( 'Locale' ) ) ) > 0 ? trim( $http->postVariable( 'Locale' ) ) : false;
+if ( empty( $locale ) )
+    $locale = $http->hasPostVariable( 'Locale' ) ? $http->postVariable( 'Locale' ) : false;
 
-$warning = '';
-$error = '';
-
-if ( $tagID <= 0 )
+if ( $locale === false )
 {
-    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
+    $tag = eZTagsObject::fetchWithMainTranslation( $tagID );
+    if ( !$tag instanceof eZTagsObject )
+        return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
-$tag = eZTagsObject::fetch( $tagID );
-if ( !$tag instanceof eZTagsObject )
-{
-    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
+    $languages = eZContentLanguage::fetchList();
+    if ( !is_array( $languages ) || empty( $languages ) )
+        return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
-if ( $tag->attribute( 'main_tag_id' ) != 0 )
-{
-    return $Module->redirectToView( 'edit', array( $tag->attribute( 'main_tag_id' ) ) );
-}
-
-if ( $http->hasPostVariable( 'DiscardButton' ) )
-{
-    return $Module->redirectToView( 'id', array( $tagID ) );
-}
-
-$language = eZContentLanguage::fetchByLocale( $locale );
-if ( !$language instanceof eZContentLanguage )
-{
-    if ( $locale !== false )
-        $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected locale does not exist in the system. Please select a valid translation.' );
-
-    $languageList = eZContentLanguage::fetchList();
-    if ( is_array( $languageList ) && count( $languageList ) == 1 )
-        return $Module->redirectToView( 'edit', array( $parentTagID, $languageList[0]->attribute( 'locale' ) ) );
+    if ( count( $languages ) == 1 )
+        return $Module->redirectToView( 'edit', array( $tagID, $languages[0]->attribute( 'locale' ) ) );
 
     $tpl = eZTemplate::factory();
 
     $tpl->setVariable( 'tag', $tag );
-    $tpl->setVariable( 'warning', $warning );
-    $tpl->setVariable( 'error', $error );
-
-    $languages = eZContentLanguage::fetchList();
     $tpl->setVariable( 'languages', $languages );
 
     $Result = array();
@@ -79,32 +54,44 @@ if ( !$language instanceof eZContentLanguage )
     return;
 }
 
+$language = eZContentLanguage::fetchByLocale( $locale );
+if ( !$language instanceof eZContentLanguage )
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+
+$tag = eZTagsObject::fetchByLocale( $tagID, $language->attribute( 'locale' ), true );
+if ( !$tag instanceof eZTagsObject )
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+
+if ( $tag->attribute( 'main_tag_id' ) != 0 )
+    return $Module->redirectToView( 'edit', array( $tag->attribute( 'main_tag_id' ) ) );
+
+if ( $http->hasPostVariable( 'DiscardButton' ) )
+    return $Module->redirectToView( 'id', array( $tagID ) );
+
+$warning = '';
+$error = '';
+
 if ( $tag->isInsideSubTreeLimit() )
-{
     $warning = ezpI18n::tr( 'extension/eztags/warnings', 'TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.' );
-}
 
 if ( $http->hasPostVariable( 'SaveButton' ) )
 {
     if ( !( $http->hasPostVariable( 'TagEditKeyword' ) && strlen( trim( $http->postVariable( 'TagEditKeyword' ) ) ) > 0 ) )
-    {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
-    }
 
     if ( empty( $error ) && !( $http->hasPostVariable( 'TagEditParentID' ) && (int) $http->postVariable( 'TagEditParentID' ) >= 0 ) )
-    {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
-    }
 
-    $newParentTag = eZTagsObject::fetch( (int) $http->postVariable( 'TagEditParentID' ) );
-    $newParentID = ( $newParentTag instanceof eZTagsObject ) ? $newParentTag->attribute( 'id' ) : 0;
+    $newParentID = (int) $http->postVariable( 'TagEditParentID' );
+    $newParentTag = eZTagsObject::fetch( $newParentID );
 
-    // TODO: Multilanguage FIX
+    if ( empty( $error ) && !( $newParentTag instanceof eZTagsObject || $newParentID == 0 ) )
+        $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
+
     $newKeyword = trim( $http->postVariable( 'TagEditKeyword' ) );
+    // TODO: Multilanguage FIX
     if ( empty( $error ) && eZTagsObject::exists( $tag->attribute( 'id' ), $newKeyword, $newParentID ) )
-    {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
-    }
     // END TODO
 
     if ( empty( $error ) )
@@ -125,9 +112,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         {
             $oldParentTag = $tag->getParent();
             if ( $oldParentTag instanceof eZTagsObject )
-            {
                 $oldParentTag->updateModified();
-            }
 
             $synonyms = $tag->getSynonyms();
             foreach ( $synonyms as $synonym )
@@ -139,7 +124,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
             $updatePathString = true;
         }
 
-        $tagTranslation = $tag->translationByLanguageID( $language->attribute( 'id' ) );
+        $tagTranslation = $tag->translationByLocale( $language->attribute( 'locale' ) );
         if ( $tagTranslation instanceof eZTagKeyword )
         {
             $tagTranslation->setAttribute( 'keyword', $newKeyword );
@@ -147,12 +132,10 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         }
         else
         {
-            $tagTranslation = new eZTagsKeyword( array(
-                'keyword_id'  => $tag->attribute( 'id' ),
-                'keyword'     => $newKeyword,
-                'language_id' => $language->attribute( 'id' ),
-                'locale'      => $language->attribute( 'locale' )
-            ) );
+            $tagTranslation = new eZTagsKeyword( array( 'keyword_id'  => $tag->attribute( 'id' ),
+                                                        'keyword'     => $newKeyword,
+                                                        'language_id' => $language->attribute( 'id' ),
+                                                        'locale'      => $language->attribute( 'locale' ) ) );
 
             $tagTranslation->store();
             $tag->updateLanguageMask();

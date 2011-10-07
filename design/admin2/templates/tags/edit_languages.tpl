@@ -4,18 +4,6 @@
         <div class="header-mainline"></div>
     </div>
 
-    {if $error|count}
-        <div class="message-error">
-            <h2>{$error|wash}</h2>
-        </div>
-    {/if}
-
-    {if $warning|count}
-        <div class="message-warning">
-            <h2>{$warning|wash}</h2>
-        </div>
-    {/if}
-
     <div class="box-content">
         <form method="post" action={concat( 'tags/edit/', $tag.id )|ezurl}>
             <div class="block">
@@ -24,17 +12,18 @@
                     <p>{'Select the translation you want to edit'|i18n('extension/eztags/tags/edit')}:</p>
                     <div class="indent">
                         {def $is_main_translation = false()}
+                        {def $available_languages = $tag.available_languages}
                         {foreach $languages as $language}
-                            {if $tag.available_languages|contains( $language.locale )}
+                            {if $available_languages|contains( $language.locale )}
                                 {set $is_main_translation = cond($tag.main_language_id|eq($language.id), true(), false())}
-                                <label><input name="Locale" type="radio" value="{$language.locale}"{if $is_main_translation} checked="checked"{/if}> {$language.name}{if $is_main_translation} ({'Main translation'|i18n('extension/eztags/tags/edit')}){/if}</label>
+                                <label><input name="Locale" type="radio" value="{$language.locale|wash}"{if $is_main_translation} checked="checked"{/if}> {$language.name|wash}{if $is_main_translation} ({'Main translation'|i18n('extension/eztags/tags/edit')}){/if}</label>
                             {else}
                                 {append-block variable=$new_translations}
-                                    <label><input name="Locale" type="radio" value="{$language.locale}"> {$language.name}</label>
+                                    <label><input name="Locale" type="radio" value="{$language.locale|wash}"> {$language.name|wash}</label>
                                 {/append-block}
                             {/if}
                         {/foreach}
-                        {undef $is_main_translation}
+                        {undef $is_main_translation $available_languages}
                     </div>
                 </fieldset>
             </div>

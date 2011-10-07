@@ -4,27 +4,15 @@
         <div class="header-mainline"></div>
     </div>
 
-    {if $error|count}
-        <div class="message-error">
-            <h2>{$error|wash}</h2>
-        </div>
-    {/if}
-
     <div class="box-content">
-        {if ezhttp_hasvariable( 'TagEditParentID', 'post' )}
-            {def $parent_tag_id = ezhttp( 'TagEditParentID', 'post' )}
-        {else}
-            {def $parent_tag_id = $parent_id}
-        {/if}
-
-        <form method="post" action={concat( 'tags/add/', $parent_tag_id )|ezurl}>
+        <form method="post" action={concat( 'tags/add/', cond( ezhttp_hasvariable( 'TagEditParentID', 'post' ), ezhttp( 'TagEditParentID', 'post' ), $parent_id ) )|ezurl}>
             <div class="block">
                 <fieldset>
                     <legend>{'Add translation'|i18n('extension/eztags/tags/edit')}</legend>
                     <p>{'Select the translation you want to add'|i18n('extension/eztags/tags/edit')}:</p>
                     <div class="indent">
                         {foreach $languages as $language}
-                            <label><input name="Locale" type="radio" value="{$language.locale}"> {$language.name}</label>
+                            <label><input name="Locale" type="radio" value="{$language.locale|wash}"> {$language.name|wash}</label>
                         {/foreach}
                    </div>
                 </fieldset>
