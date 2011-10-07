@@ -5,6 +5,9 @@ $http = eZHTTPTool::instance();
 $tagID = (int) $Params['TagID'];
 $locale = (string) $Params['Locale'];
 
+if ( $http->hasPostVariable( 'DiscardButton' ) )
+    return $Module->redirectToView( 'id', array( $tagID ) );
+
 if ( empty( $locale ) )
     $locale = $http->hasPostVariable( 'Locale' ) ? $http->postVariable( 'Locale' ) : false;
 
@@ -64,9 +67,6 @@ if ( !$tag instanceof eZTagsObject )
 
 if ( $tag->attribute( 'main_tag_id' ) != 0 )
     return $Module->redirectToView( 'edit', array( $tag->attribute( 'main_tag_id' ) ) );
-
-if ( $http->hasPostVariable( 'DiscardButton' ) )
-    return $Module->redirectToView( 'id', array( $tagID ) );
 
 $warning = '';
 $error = '';

@@ -25,6 +25,14 @@ if ( $parentTagID > 0 )
         return $Module->redirectToView( 'add', array( $parentTag->attribute( 'main_tag_id' ) ) );
 }
 
+if ( $http->hasPostVariable( 'DiscardButton' ) )
+{
+    if ( $parentTag instanceof eZTagsObject )
+        return $Module->redirectToView( 'id', array( $parentTag->attribute( 'id' ) ) );
+    else
+        return $Module->redirectToView( 'dashboard', array() );
+}
+
 $userLimitations = eZTagsTemplateFunctions::getSimplifiedUserAccess( 'tags', 'add' );
 $hasAccess = false;
 
@@ -100,14 +108,6 @@ if ( $locale === false )
 $language = eZContentLanguage::fetchByLocale( $locale );
 if ( !$language instanceof eZContentLanguage )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-
-if ( $http->hasPostVariable( 'DiscardButton' ) )
-{
-    if ( $parentTag instanceof eZTagsObject )
-        return $Module->redirectToView( 'id', array( $parentTag->attribute( 'id' ) ) );
-    else
-        return $Module->redirectToView( 'dashboard', array() );
-}
 
 $error = '';
 

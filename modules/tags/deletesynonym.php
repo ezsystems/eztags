@@ -8,11 +8,11 @@ $tag = eZTagsObject::fetchWithMainTranslation( $tagID );
 if ( !$tag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
-if ( $tag->attribute( 'main_tag_id' ) == 0 )
-    return $Module->redirectToView( 'delete', array( $tag->attribute( 'id' ) ) );
-
 if ( $http->hasPostVariable( 'NoButton' ) )
     return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
+
+if ( $tag->attribute( 'main_tag_id' ) == 0 )
+    return $Module->redirectToView( 'delete', array( $tag->attribute( 'id' ) ) );
 
 if ( $http->hasPostVariable( 'YesButton' ) )
 {

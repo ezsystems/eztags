@@ -9,11 +9,11 @@ $mainTag = eZTagsObject::fetchWithMainTranslation( $mainTagID );
 if ( !$mainTag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
-if ( $mainTag->attribute( 'main_tag_id' ) != 0 )
-    return $Module->redirectToView( 'addsynonym', array( $mainTag->attribute( 'main_tag_id' ) ) );
-
 if ( $http->hasPostVariable( 'DiscardButton' ) )
     return $Module->redirectToView( 'id', array( $mainTag->attribute( 'id' ) ) );
+
+if ( $mainTag->attribute( 'main_tag_id' ) != 0 )
+    return $Module->redirectToView( 'addsynonym', array( $mainTag->attribute( 'main_tag_id' ) ) );
 
 if ( $http->hasPostVariable( 'SaveButton' ) )
 {
