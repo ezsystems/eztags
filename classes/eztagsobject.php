@@ -93,13 +93,13 @@ class eZTagsObject extends eZPersistentObject
      */
     function updatePathString( $parentTag )
     {
-        $pathString = ( ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/' ) . $this->attribute( 'id' ) . '/';
+        $pathString = ( $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/' ) . $this->attribute( 'id' ) . '/';
         $this->setAttribute( 'path_string', $pathString );
         $this->store();
 
         foreach ( $this->getSynonyms() as $s )
         {
-            $pathString = ( ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/' ) . $s->attribute( 'id' ) . '/';
+            $pathString = ( $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/' ) . $s->attribute( 'id' ) . '/';
             $s->setAttribute( 'path_string', $pathString );
             $s->store();
         }
@@ -117,7 +117,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function updateDepth( $parentTag )
     {
-        $depth = ( $parentTag instanceof eZTagsObject ) ? (int) $parentTag->attribute( 'depth' ) + 1 : 1;
+        $depth = $parentTag instanceof eZTagsObject ? (int) $parentTag->attribute( 'depth' ) + 1 : 1;
 
         $this->setAttribute( 'depth', $depth );
         $this->store();
@@ -141,14 +141,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function hasParent()
     {
-        $count = eZPersistentObject::count( self::definition(), array( 'id' => $this->attribute( 'parent_id' ) ) );
-
-        if ( $count > 0 )
-        {
-            return true;
-        }
-
-        return false;
+		return $this->getParent() instanceof eZTagsObject;
     }
 
     /**
@@ -227,10 +220,8 @@ class eZTagsObject extends eZPersistentObject
                                                                eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
                                                                'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
         }
-        else
-        {
-            return array();
-        }
+
+        return array();
     }
 
     /**
@@ -247,10 +238,8 @@ class eZTagsObject extends eZPersistentObject
                                                      eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
                                                      'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
         }
-        else
-        {
-            return 0;
-        }
+
+        return 0;
     }
 
     /**
@@ -325,26 +314,18 @@ class eZTagsObject extends eZPersistentObject
         $defaultIcon = $ini->variable( 'Icons', 'Default' );
 
         if ( $this->attribute( 'main_tag_id' ) > 0 )
-        {
             $tag = $this->getMainTag();
-        }
         else
-        {
             $tag = $this;
-        }
 
         if ( array_key_exists( $tag->attribute( 'id' ), $iconMap ) && !empty( $iconMap[$tag->attribute( 'id' )] ) )
-        {
             return $iconMap[$tag->attribute( 'id' )];
-        }
 
         while ( $tag->attribute( 'parent_id' ) > 0 )
         {
             $tag = $tag->getParent();
             if ( array_key_exists( $tag->attribute( 'id' ), $iconMap ) && !empty( $iconMap[$tag->attribute( 'id' )] ) )
-            {
                 return $iconMap[$tag->attribute( 'id' )];
-            }
         }
 
         return $defaultIcon;
@@ -379,9 +360,7 @@ class eZTagsObject extends eZPersistentObject
         $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
 
         if ( $this->attribute( 'main_tag_id' ) > 0 )
-        {
             array_push( $pathArray, $this->attribute( 'main_tag_id' ) );
-        }
 
         if ( !empty( $pathArray ) )
         {
@@ -407,11 +386,11 @@ class eZTagsObject extends eZPersistentObject
             {
                 eZContentOperationCollection::registerSearchObject( $relatedObject->attribute( 'id' ), $relatedObject->attribute( 'current_version' ) );
             }
+
+			return;
         }
-        else
-        {
-            eZHTTPTool::instance()->setSessionVariable( 'eZTagsShowReindexMessage', 1 );
-        }
+
+        eZHTTPTool::instance()->setSessionVariable( 'eZTagsShowReindexMessage', 1 );
     }
 
     /**
@@ -561,66 +540,30 @@ class eZTagsObject extends eZPersistentObject
         return eZTagsObject::processTagsForTranslations( $tagsList );
     }
 
-    /**
-     * Returns if tag with provided keyword and parent ID already exists, not counting tag with provided tag ID
-     *
-     * @static
-     * @param string $keyword
-     * @param integer $parentID
-     * @return bool
-     */
-    static function exists( $tagID, $keyword, $parentID )
+    function recursivelyDeleteTag()
     {
-        $params = array( 'keyword' => array( 'like', trim( $keyword ) ), 'parent_id' => $parentID );
-
-        if ( $tagID > 0 )
+        foreach ( $this->getChildren() as $child )
         {
-            $params['id'] = array( '!=', $tagID );
+        	$child->recursivelyDeleteTag();
         }
 
-        $count = self::fetchListCount( $params );
-        if ( $count > 0 )
-            return true;
-        return false;
-    }
+        $this->registerSearchObjects();
 
-    /**
-     * Recursively deletes all children tags of the given tag, including the given tag itself
-     *
-     * @static
-     * @param eZTagsObject $rootTag
-     */
-    static function recursiveTagDelete( $rootTag )
-    {
-        $children = self::fetchByParentID( $rootTag->attribute( 'id' ) );
-
-        foreach ( $children as $child )
-        {
-            self::recursiveTagDelete( $child );
-        }
-
-        $rootTag->registerSearchObjects();
-
-        $synonyms = $rootTag->getSynonyms();
-        foreach ( $synonyms as $synonym )
+        foreach ( $this->getSynonyms() as $synonym )
         {
             $synonym->remove();
         }
 
-        $rootTag->remove();
+        $this->remove();
     }
 
-    /**
-     * Moves all children tags of the provided tag to the new location
-     *
-     * @static
-     * @param eZTagsObject $tag
-     * @param eZTagsObject $targetTag
-     */
-    static function moveChildren( $tag, $targetTag )
+    function moveChildrenBelowAnotherTag( $targetTag )
     {
+		if ( !$targetTag instanceof eZTagsObject )
+			return;
+
         $currentTime = time();
-        $children = $tag->getChildren();
+        $children = $this->getChildren();
         foreach ( $children as $child )
         {
             $childSynonyms = $child->getSynonyms();
@@ -665,6 +608,44 @@ class eZTagsObject extends eZPersistentObject
                 $tagAttributeLink->remove();
             }
         }
+    }
+
+    function remove( $conditions = null, $extraConditions = null )
+    {
+        foreach ( $this->getTagAttributeLinks() as $tagAttributeLink )
+        {
+            $tagAttributeLink->remove();
+        }
+
+        foreach ( $this->getTranslations() as $translation )
+        {
+            $translation->remove();
+        }
+
+        parent::remove( $conditions, $extraConditions );
+    }
+
+    /**
+     * Returns if tag with provided keyword and parent ID already exists, not counting tag with provided tag ID
+     *
+     * @static
+     * @param string $keyword
+     * @param integer $parentID
+     * @return bool
+     */
+    static function exists( $tagID, $keyword, $parentID )
+    {
+        $params = array( 'keyword' => array( 'like', trim( $keyword ) ), 'parent_id' => $parentID );
+
+        if ( $tagID > 0 )
+        {
+            $params['id'] = array( '!=', $tagID );
+        }
+
+        $count = self::fetchListCount( $params );
+        if ( $count > 0 )
+            return true;
+        return false;
     }
 
     /**
@@ -878,32 +859,6 @@ class eZTagsObject extends eZPersistentObject
         return array_reverse( $moduleResultPath );
     }
 
-    function remove( $conditions = null, $extraConditions = null )
-    {
-        foreach ( $this->getTagAttributeLinks() as $tagAttributeLink )
-        {
-            $tagAttributeLink->remove();
-        }
-
-        foreach ( $this->getTranslations() as $translation )
-        {
-            $translation->remove();
-        }
-
-        parent::remove( $conditions, $extraConditions );
-    }
-
-    function getAvailableLanguages()
-    {
-        $languages = eZContentLanguage::decodeLanguageMask( $this->attribute( 'language_mask' ), true );
-        return $languages['language_list'];
-    }
-
-    function getCurrentLanguage()
-    {
-        return $this->CurrentLanguage;
-    }
-
     function getMainTranslation()
     {
         return eZTagsKeyword::fetch( $this->attribute( 'id' ), $this->attribute( 'main_language_id' ) );
@@ -929,6 +884,18 @@ class eZTagsObject extends eZPersistentObject
         return eZTagsKeyword::fetchByLocale( $this->attribute( 'id' ), $locale );
     }
 
+    function getKeyword()
+    {
+        if ( $this->attribute( 'id' ) == null )
+            return $this->Keyword;
+
+        $translation = $this->translationByLocale( $this->CurrentLanguage );
+        if ( $translation instanceof eZTagsKeyword )
+            return $translation->attribute( 'keyword' );
+
+        return '';
+    }
+
     function languageNameArray()
     {
         $languageNameArray = array();
@@ -945,6 +912,17 @@ class eZTagsObject extends eZPersistentObject
         return $languageNameArray;
     }
 
+    function getCurrentLanguage()
+    {
+        return $this->CurrentLanguage;
+    }
+
+    function getAvailableLanguages()
+    {
+        $languages = eZContentLanguage::decodeLanguageMask( $this->attribute( 'language_mask' ), true );
+        return $languages['language_list'];
+    }
+
     function updateMainTranslation( $languageID, $forceStore = false )
     {
         $trans = $this->translationByLanguageID( $languageID );
@@ -959,23 +937,6 @@ class eZTagsObject extends eZPersistentObject
         }
 
         return false;
-    }
-
-    function setAlwaysAvailable( $alwaysAvailable, $forceStore = false )
-    {
-        $languageMask = (int) $this->attribute( 'language_mask' ) & ~1;
-        $zerothBit = $alwaysAvailable ? 1 : 0;
-
-        $this->setAttribute( 'language_mask', $languageMask | $zerothBit );
-
-        if ( $forceStore )
-            $this->store();
-    }
-
-    function isAlwaysAvailable()
-    {
-        $zerothBit = (int) $this->attribute( 'language_mask' ) & 1;
-        return $zerothBit > 0 ? true : false;
     }
 
     function updateLanguageMask( $mask = false, $forceStore = false )
@@ -999,16 +960,21 @@ class eZTagsObject extends eZPersistentObject
             $this->store();
     }
 
-    function getKeyword()
+    function isAlwaysAvailable()
     {
-        if ( $this->attribute( 'id' ) == null )
-            return $this->Keyword;
+        $zerothBit = (int) $this->attribute( 'language_mask' ) & 1;
+        return $zerothBit > 0 ? true : false;
+    }
 
-        $translation = $this->translationByLocale( $this->CurrentLanguage );
-        if ( $translation instanceof eZTagsKeyword )
-            return $translation->attribute( 'keyword' );
+    function setAlwaysAvailable( $alwaysAvailable, $forceStore = false )
+    {
+        $languageMask = (int) $this->attribute( 'language_mask' ) & ~1;
+        $zerothBit = $alwaysAvailable ? 1 : 0;
 
-        return '';
+        $this->setAttribute( 'language_mask', $languageMask | $zerothBit );
+
+        if ( $forceStore )
+            $this->store();
     }
 
     private function fetchTranslated( $fetchMainTranslation = false, $locale = false, $forceLoad = false )
@@ -1074,6 +1040,39 @@ class eZTagsObject extends eZPersistentObject
         }
 
         return $returnArray;
+    }
+
+    /**
+     * Recursively deletes all children tags of the given tag, including the given tag itself
+     * Deprecated: see $this->recursivelyDeleteTag()
+     *
+     * @static
+     * @deprecated
+     * @param eZTagsObject $rootTag
+     */
+    static function recursiveTagDelete( $rootTag )
+    {
+    	if ( !$rootTag instanceof eZTagsObject )
+    		return;
+
+		$rootTag->recursivelyDeleteTag();
+    }
+
+    /**
+     * Moves all children tags of the provided tag to the new location
+     * Deprecated: see $this->moveChildrenBelowAnotherTag()
+     *
+     * @static
+     * @deprecated
+     * @param eZTagsObject $tag
+     * @param eZTagsObject $targetTag
+     */
+    static function moveChildren( $tag, $targetTag )
+    {
+		if ( !$tag instanceof eZTagsObject )
+			return;
+
+		$tag->moveChildrenBelowAnotherTag( $targetTag );
     }
 
     private $CurrentLanguage = false;

@@ -22,7 +22,7 @@ $db = eZDB::instance();
 
 $script->setIterationData( '.', '~' );
 
-while ( $firstLevelTags = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array( 'parent_id' => 0, 'main_tag_id' => 0 ), null, array( 'offset' => $offset, 'limit' => $limit ) ) )
+while ( $firstLevelTags = eZTagsObject::fetchList( array( 'parent_id' => 0, 'main_tag_id' => 0 ), array( 'offset' => $offset, 'limit' => $limit ) ) )
 {
     foreach ( $firstLevelTags as $tag )
     {

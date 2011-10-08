@@ -17,7 +17,7 @@ class eZTagsFunctionCollection
     {
         $result = eZTagsObject::fetch( $tag_id );
 
-        if( $result instanceof eZTagsObject )
+        if ( $result instanceof eZTagsObject )
             return array( 'result' => $result );
         else
             return array( 'result' => false );
@@ -34,7 +34,7 @@ class eZTagsFunctionCollection
     {
         $result = eZTagsObject::fetchByKeyword( $keyword );
 
-        if( is_array( $result ) && !empty( $result ) )
+        if ( is_array( $result ) && !empty( $result ) )
             return array( 'result' => $result );
         else
             return array( 'result' => false );
@@ -119,12 +119,12 @@ class eZTagsFunctionCollection
         $filterArray['id'] = array( '!=', $parentTagID );
 
         if ( $parentTagID > 0 )
-            $filterArray['path_string'] = array( 'like', '%/' . (string) $parentTagID . '/%' );
+            $filterArray['path_string'] = array( 'like', '%/' . $parentTagID . '/%' );
 
-        $result = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null,
-                                                       $filterArray,
-                                                       array( 'modified' => 'desc' ),
-                                                       array( 'offset' => 0, 'limit' => $limit ) );
+        $result = eZTagsObject::fetchList( $filterArray,
+                                           array( 'offset' => 0, 'limit' => $limit ),
+                                           true,
+                                           array( 'modified' => 'desc' ) );
 
         if ( is_array( $result ) && !empty( $result ) )
             return array( 'result' => $result );

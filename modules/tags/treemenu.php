@@ -114,7 +114,7 @@ else
     $response = array();
     $response['error_code']     = 0;
     $response['id']             = $tagID;
-    $response['parent_id']      = ( $tag instanceof eZTagsObject ) ? (int) $tag->attribute( 'parent_id' ) : -1;
+    $response['parent_id']      = $tag instanceof eZTagsObject ? (int) $tag->attribute( 'parent_id' ) : -1;
     $response['children_count'] = count( $children );
     $response['children']       = array();
 
@@ -123,8 +123,8 @@ else
         $childResponse = array();
         $childResponse['id']                        = (int) $child->attribute( 'id' );
         $childResponse['parent_id']                 = (int) $child->attribute( 'parent_id' );
-        $childResponse['has_children']              = ( eZTagsObject::childrenCountByParentID( $child->attribute( 'id' ) ) ) ? 1 : 0;
-        $childResponse['synonyms_count']            = eZTagsObject::synonymsCount( $child->attribute( 'id' ) );
+        $childResponse['has_children']              = $child->getChildrenCount() > 0 ? 1 : 0;
+        $childResponse['synonyms_count']            = $child->getSynonymsCount();
         $childResponse['subtree_limitations_count'] = $child->getSubTreeLimitationsCount();
 
         $childResponse['language_name_array']       = array();

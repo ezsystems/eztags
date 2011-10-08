@@ -40,7 +40,7 @@ if ( !isset( $userLimitations['simplifiedLimitations']['Tag'] ) )
     $hasAccess = true;
 else
 {
-    $parentTagPathString = ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/';
+    $parentTagPathString = $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/';
     foreach ( $userLimitations['simplifiedLimitations']['Tag'] as $key => $value )
     {
         if ( strpos( $parentTagPathString, '/' . $value . '/' ) !== false )
@@ -91,7 +91,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
 
     // TODO: Multilanguage FIX
-    if ( empty( $error ) && eZTagsObject::exists( 0, $newKeyword, ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'id' ) : 0 ) )
+    if ( empty( $error ) && eZTagsObject::exists( 0, $newKeyword, $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'id' ) : 0 ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
     // END TODO
 
@@ -102,10 +102,10 @@ if ( $http->hasPostVariable('SaveButton' ) )
 
         $languageMask = eZContentLanguage::maskByLocale( array( $language->attribute( 'locale' ) ), $http->hasPostVariable( 'AlwaysAvailable' ) );
 
-        $tag = new eZTagsObject( array( 'parent_id'        => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'id' ) : 0,
+        $tag = new eZTagsObject( array( 'parent_id'        => $parentTagID,
                                         'main_tag_id'      => 0,
-                                        'depth'            => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'depth' ) + 1 : 1,
-                                        'path_string'      => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/',
+                                        'depth'            => $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'depth' ) + 1 : 1,
+                                        'path_string'      => $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/',
                                         'main_language_id' => $language->attribute( 'id' ),
                                         'language_mask'    => $languageMask ), $language->attribute( 'locale' ) );
         $tag->store();

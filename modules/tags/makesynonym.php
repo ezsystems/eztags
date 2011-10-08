@@ -60,7 +60,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
             $updatePathString = true;
         }
 
-        eZTagsObject::moveChildren( $tag, $mainTag );
+        $tag->moveChildrenBelowAnotherTag( $mainTag );
 
         $synonyms = $tag->getSynonyms();
         foreach ( $synonyms as $synonym )

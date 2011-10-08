@@ -71,7 +71,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $tag = new eZTagsObject( array( 'parent_id'        => $mainTag->attribute( 'parent_id' ),
                                         'main_tag_id'      => $mainTag->attribute( 'id' ),
                                         'depth'            => $mainTag->attribute( 'depth' ),
-                                        'path_string'      => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/',
+                                        'path_string'      => $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/',
                                         'main_language_id' => $language->attribute( 'id' ),
                                         'language_mask'    => $languageMask ), $language->attribute( 'locale' ) );
         $tag->store();

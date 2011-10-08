@@ -82,7 +82,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $db->begin();
 
         $oldParentDepth = $tag->attribute( 'depth' ) - 1;
-        $newParentDepth = ( $newParentTag instanceof eZTagsObject ) ? $newParentTag->attribute( 'depth' ) : 0;
+        $newParentDepth = $newParentTag instanceof eZTagsObject ? $newParentTag->attribute( 'depth' ) : 0;
 
         if ( $oldParentDepth != $newParentDepth )
             $updateDepth = true;

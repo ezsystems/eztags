@@ -42,7 +42,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
         {
             $returnArrayChild = array();
             $returnArrayChild['tag_parent_id']   = (int) $tag->attribute( 'parent_id' );
-            $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->attribute( 'keyword' ) : '';
+            $returnArrayChild['tag_parent_name'] = $tag->hasParent() ? $tag->getParent()->attribute( 'keyword' ) : '';
             $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
             $returnArrayChild['tag_id']          = (int) $tag->attribute( 'id' );
             $returnArray['tags'][]               = $returnArrayChild;
@@ -130,7 +130,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
                 {
                     $returnArrayChild = array();
                     $returnArrayChild['tag_parent_id']   = (int) $tag->attribute( 'parent_id' );
-                    $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->attribute( 'keyword' ) : '';
+                    $returnArrayChild['tag_parent_name'] = $tag->hasParent() ? $tag->getParent()->attribute( 'keyword' ) : '';
                     $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
                     $returnArrayChild['tag_id']          = (int) $tag->attribute( 'id' );
                     $returnArray['tags'][]               = $returnArrayChild;

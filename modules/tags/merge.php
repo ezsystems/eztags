@@ -45,7 +45,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
                 $oldParentTag->updateModified();
         }
 
-        eZTagsObject::moveChildren( $tag, $mainTag );
+        $tag->moveChildrenBelowAnotherTag( $mainTag );
 
         foreach ( $tag->getSynonyms() as $synonym )
         {
