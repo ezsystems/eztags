@@ -128,14 +128,11 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $tag->setAttribute( 'parent_id', $newParentID );
         $tag->store();
 
-        if ( !$newParentTag instanceof eZTagsObject )
-            $newParentTag = false;
-
         if ( $updatePathString )
-            $tag->updatePathString( $newParentTag );
+            $tag->updatePathString();
 
         if ( $updateDepth )
-            $tag->updateDepth( $newParentTag );
+            $tag->updateDepth();
 
         $tag->updateModified();
         $tag->registerSearchObjects();

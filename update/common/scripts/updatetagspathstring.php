@@ -30,7 +30,7 @@ while ( $firstLevelTags = eZTagsObject::fetchList( array( 'parent_id' => 0, 'mai
 
         $db->begin();
 
-        $tag->updatePathString( false );
+        $tag->updatePathString();
 
         $db->commit();
 

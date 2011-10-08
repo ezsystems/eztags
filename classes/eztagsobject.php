@@ -89,35 +89,35 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Updates path string of the tag and all of it's children and synonyms.
      *
-     * @param eZTagsObject $parentTag
      */
-    function updatePathString( $parentTag )
+    function updatePathString()
     {
-        $pathString = ( $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/' ) . $this->attribute( 'id' ) . '/';
-        $this->setAttribute( 'path_string', $pathString );
+        $parentTag = $this->getParent();
+        $pathStringPrefix = $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/';
+
+        $this->setAttribute( 'path_string', $pathStringPrefix . $this->attribute( 'id' ) . '/' );
         $this->store();
 
         foreach ( $this->getSynonyms() as $s )
         {
-            $pathString = ( $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/' ) . $s->attribute( 'id' ) . '/';
-            $s->setAttribute( 'path_string', $pathString );
+            $s->setAttribute( 'path_string', $pathStringPrefix . $s->attribute( 'id' ) . '/' );
             $s->store();
         }
 
         foreach ( $this->getChildren() as $c )
         {
-            $c->updatePathString( $this );
+            $c->updatePathString();
         }
     }
 
     /**
      * Updates depth of the tag and all of it's children and synonyms.
      *
-     * @param eZTagsObject $parentTag
      */
-    function updateDepth( $parentTag )
+    function updateDepth()
     {
-        $depth = $parentTag instanceof eZTagsObject ? (int) $parentTag->attribute( 'depth' ) + 1 : 1;
+        $parentTag = $this->getParent();
+        $depth = $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'depth' ) + 1 : 1;
 
         $this->setAttribute( 'depth', $depth );
         $this->store();
@@ -130,7 +130,7 @@ class eZTagsObject extends eZPersistentObject
 
         foreach ( $this->getChildren() as $c )
         {
-            $c->updateDepth( $this );
+            $c->updateDepth();
         }
     }
 
@@ -141,7 +141,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function hasParent()
     {
-		return $this->getParent() instanceof eZTagsObject;
+        return $this->getParent() instanceof eZTagsObject;
     }
 
     /**
@@ -387,7 +387,7 @@ class eZTagsObject extends eZPersistentObject
                 eZContentOperationCollection::registerSearchObject( $relatedObject->attribute( 'id' ), $relatedObject->attribute( 'current_version' ) );
             }
 
-			return;
+            return;
         }
 
         eZHTTPTool::instance()->setSessionVariable( 'eZTagsShowReindexMessage', 1 );
@@ -544,7 +544,7 @@ class eZTagsObject extends eZPersistentObject
     {
         foreach ( $this->getChildren() as $child )
         {
-        	$child->recursivelyDeleteTag();
+            $child->recursivelyDeleteTag();
         }
 
         $this->registerSearchObjects();
@@ -559,8 +559,8 @@ class eZTagsObject extends eZPersistentObject
 
     function moveChildrenBelowAnotherTag( $targetTag )
     {
-		if ( !$targetTag instanceof eZTagsObject )
-			return;
+        if ( !$targetTag instanceof eZTagsObject )
+            return;
 
         $currentTime = time();
         $children = $this->getChildren();
@@ -1052,10 +1052,10 @@ class eZTagsObject extends eZPersistentObject
      */
     static function recursiveTagDelete( $rootTag )
     {
-    	if ( !$rootTag instanceof eZTagsObject )
-    		return;
+        if ( !$rootTag instanceof eZTagsObject )
+            return;
 
-		$rootTag->recursivelyDeleteTag();
+        $rootTag->recursivelyDeleteTag();
     }
 
     /**
@@ -1069,10 +1069,10 @@ class eZTagsObject extends eZPersistentObject
      */
     static function moveChildren( $tag, $targetTag )
     {
-		if ( !$tag instanceof eZTagsObject )
-			return;
+        if ( !$tag instanceof eZTagsObject )
+            return;
 
-		$tag->moveChildrenBelowAnotherTag( $targetTag );
+        $tag->moveChildrenBelowAnotherTag( $targetTag );
     }
 
     private $CurrentLanguage = false;

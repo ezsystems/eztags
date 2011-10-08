@@ -43,8 +43,6 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
         $updateDepth = false;
         $updatePathString = false;
 
-        $newParentTag = $mainTag->getParent();
-
         $db = eZDB::instance();
         $db->begin();
 
@@ -74,14 +72,11 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
         $tag->setAttribute( 'main_tag_id', $mainTag->attribute( 'id' ) );
         $tag->store();
 
-        if ( !$newParentTag instanceof eZTagsObject )
-            $newParentTag = false;
-
         if ( $updatePathString )
-            $tag->updatePathString( $newParentTag );
+            $tag->updatePathString();
 
         if ( $updateDepth )
-            $tag->updateDepth( $newParentTag );
+            $tag->updateDepth();
 
         $tag->updateModified();
 
