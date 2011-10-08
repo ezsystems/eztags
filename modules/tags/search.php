@@ -6,7 +6,7 @@ $tagsSearchResults = array();
 $tagsSearchCount = 0;
 
 $offset = ( isset( $Params['Offset'] ) && (int) $Params['Offset'] > 0 ) ? (int) $Params['Offset'] : 0;
-$limit = 15;
+$limit = (int) eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'SearchLimit' );
 
 $viewParameters = array( 'offset' => $offset );
 
