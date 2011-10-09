@@ -69,6 +69,12 @@
 			cell.innerHTML = html;
 		}
 
+		var tagName = function(cell, record, column, data) {
+			var html = '<a href="' + settings.viewUrl + '/' + record.getData('id') + '">' + record.getData('keyword') + '</a>';
+
+			cell.innerHTML = html;
+		}
+
 		var timeStampYuiParser = function ( oData ) {
 			if ( oData != null )
 				return new Date( oData * 1000 );
@@ -79,7 +85,7 @@
 		var dataTableColumns = [
 			{ key: 'crank', label:'', sortable: false, resizeable: false, formatter: customMenu },
 			{ key: 'id', label: 'ID', sortable: true, resizeable: true, formatter: 'text' },
-			{ key: 'keyword', label: 'Tag name', sortable: true, resizeable: true, formatter: 'text' },
+			{ key: 'keyword', label: 'Tag name', sortable: true, resizeable: true, formatter: tagName },
 			{ key: 'translations', label: 'Translations', sortable: false, resizeable: true, formatter: translationView },
 			{ key: 'modified', label: 'Modified', sortable: true, resizeable: true, formatter: 'date' }
 		];

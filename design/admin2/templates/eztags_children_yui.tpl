@@ -48,6 +48,7 @@
                     parentTagID: {if is_set( $tag )}{$parent_tag_id}{else}0{/if},
                     rowsPerPage: 10,
                     languages: languages,
+                    viewUrl: {'/tags/id/'|ezurl},
                     editUrl: {'/tags/edit/'|ezurl},
                     icons: icons
                 {rdelim});
