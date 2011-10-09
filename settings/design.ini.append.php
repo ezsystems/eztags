@@ -2,4 +2,7 @@
 
 [ExtensionSettings]
 DesignExtensions[]=eztags
+
+[JavaScriptSettings]
+BackendJavaScriptList[]=jquery.eztagschildren.js
 */ ?>

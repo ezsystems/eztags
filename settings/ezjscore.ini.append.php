@@ -2,9 +2,13 @@
 
 [ezjscServer]
 FunctionList[]=ezjsctagssuggest
+FunctionList[]=ezjsctagschildren
 
 [ezjscServer_ezjsctagssuggest]
 Class=ezjscoreTagsSuggest
 TemplateFunction=false
-File=extension/eztags/classes/ezjscoretagssuggest.php
+
+[ezjscServer_ezjsctagschildren]
+Class=ezjscoreTagsChildren
+TemplateFunction=false
 */ ?>

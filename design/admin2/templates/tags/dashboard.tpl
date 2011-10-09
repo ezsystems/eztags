@@ -28,4 +28,4 @@
     </div>
 </div>
 
-{include uri='design:eztags_children.tpl'}
+{include uri='design:eztags_children_yui.tpl'}
