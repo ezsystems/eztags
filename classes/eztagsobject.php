@@ -437,7 +437,15 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchList( $params, $limits = null, $asObject = true, $sorts = null )
     {
-        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, $params, $sorts, $limits );
+        if ( is_array( $params ) && !empty( $params ) )
+            $customConds = ' AND ( ' . eZContentLanguage::languagesSQLFilter( 'eztags' ) . ' ) ';
+        else
+            $customConds = ' WHERE ( ' . eZContentLanguage::languagesSQLFilter( 'eztags' ) . ' ) ';
+
+        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, $params,
+                                                         $sorts, $limits, true, false, null,
+                                                         null, $customConds );
+
         $tagsList = eZTagsObject::processTagsForTranslations( $tagsList );
 
         if ( $asObject )
@@ -459,7 +467,17 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchListCount( $params )
     {
-        return eZPersistentObject::count( self::definition(), $params );
+        if ( is_array( $params ) && !empty( $params ) )
+            $customConds = ' AND ( ' . eZContentLanguage::languagesSQLFilter( 'eztags' ) . ' ) ';
+        else
+            $customConds = ' WHERE ( ' . eZContentLanguage::languagesSQLFilter( 'eztags' ) . ' ) ';
+
+        $customFields = array( array( 'operation' => 'COUNT( * )', 'name' => 'row_count' ) );
+
+        $rows = eZPersistentObject::fetchObjectList( self::definition(), array(), $params,
+                                                     array(), null, false, false,
+                                                     $customFields, null, $customConds );
+        return $rows[0]['row_count'];
     }
 
     /**
@@ -471,8 +489,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByParentID( $parentID )
     {
-        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'parent_id' => $parentID, 'main_tag_id' => 0 ) );
-        return eZTagsObject::processTagsForTranslations( $tagsList );
+        return self::fetchList( array( 'parent_id' => $parentID, 'main_tag_id' => 0 ) );
     }
 
     /**
@@ -484,7 +501,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function childrenCountByParentID( $parentID )
     {
-        return eZPersistentObject::count( self::definition(), array( 'parent_id' => $parentID, 'main_tag_id' => 0 ) );
+        return self::fetchListCount( array( 'parent_id' => $parentID, 'main_tag_id' => 0 ) );
     }
 
     /**
@@ -496,8 +513,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchSynonyms( $mainTagID )
     {
-        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'main_tag_id' => $mainTagID ) );
-        return eZTagsObject::processTagsForTranslations( $tagsList );
+        return self::fetchList( array( 'main_tag_id' => $mainTagID ) );
     }
 
     /**
@@ -509,7 +525,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function synonymsCount( $mainTagID )
     {
-        return eZPersistentObject::count( self::definition(), array( 'main_tag_id' => $mainTagID ) );
+        return self::fetchListCount( array( 'main_tag_id' => $mainTagID ) );
     }
 
     /**
@@ -521,8 +537,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByKeyword( $keyword )
     {
-        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'keyword' => $keyword ) );
-        return eZTagsObject::processTagsForTranslations( $tagsList );
+        return self::fetchList( array( 'keyword' => $keyword ) );
     }
 
     /**
@@ -534,10 +549,8 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByPathString( $pathString )
     {
-        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null,
-                                                         array( 'path_string' => array( 'like', $pathString . '%' ),
-                                                                'main_tag_id' => 0 ) );
-        return eZTagsObject::processTagsForTranslations( $tagsList );
+        return self::fetchList( array( 'path_string' => array( 'like', $pathString . '%' ),
+                                       'main_tag_id' => 0 ) );
     }
 
     function recursivelyDeleteTag()
