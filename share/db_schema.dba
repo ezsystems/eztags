@@ -53,6 +53,12 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'remote_id' => array(
+        'length' => '100',
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
     ),
     'indexes' =>
     array (
@@ -79,6 +85,14 @@ $schema = array (
         array (
           0 => 'keyword',
           1 => 'id',
+        ),
+      ),
+      'eztags_remote_id' =>
+      array (
+        'type' => 'unique',
+        'fields' =>
+        array (
+          0 => 'remote_id',
         ),
       ),
     ),

@@ -50,7 +50,11 @@ class eZTagsObject extends eZPersistentObject
                                                       'modified'    => array( 'name'     => 'Modified',
                                                                               'datatype' => 'integer',
                                                                               'default'  => 0,
-                                                                              'required' => false ) ),
+                                                                              'required' => false ),
+                                                      'remote_id'   => array( 'name' => "RemoteID",
+                                                                              'datatype' => 'string',
+                                                                              'default' => '',
+                                                                              'required' => true ), ),
                       'function_attributes' => array( 'parent'                    => 'getParent',
                                                       'children'                  => 'getChildren',
                                                       'children_count'            => 'getChildrenCount',
@@ -61,7 +65,8 @@ class eZTagsObject extends eZPersistentObject
                                                       'synonyms'                  => 'getSynonyms',
                                                       'synonyms_count'            => 'getSynonymsCount',
                                                       'icon'                      => 'getIcon',
-                                                      'url'                       => 'getUrl' ),
+                                                      'url'                       => 'getUrl',
+                                                      'remote_id'                 => 'remoteID' ),
                       'keys'                => array( 'id' ),
                       'increment_key'       => 'id',
                       'class_name'          => 'eZTagsObject',
@@ -784,6 +789,72 @@ class eZTagsObject extends eZPersistentObject
 
         return 0;
     }
+
+    /**
+     * Get remote id of content object
+    **/
+    function remoteID()
+    {
+        $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+
+        // Ensures that we provide the correct remote_id if we have one in the database
+        if ( $remoteID === null and $this->attribute( 'id' ) )
+        {
+            $db = eZDB::instance();
+            $resultArray = $db->arrayQuery( "SELECT remote_id FROM eztags WHERE id = '" . $this->attribute( 'id' ) . "'" );
+            if ( count( $resultArray ) == 1 )
+            {
+                $remoteID = $resultArray[0]['remote_id'];
+                $this->setAttribute( 'remote_id',  $remoteID );
+            }
+        }
+
+        if ( !$remoteID )
+        {
+            $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'tag' ) );
+            if ( $this->attribute( 'id' ) !== null )
+                $this->sync( array( 'remote_id' ) );
+            $remoteID = eZPersistentObject::attribute( 'remote_id', true );
+        }
+
+        return $remoteID;
+    }
+
+    /**
+     * Fetches Tag by remote_id
+     * @param string $remoteID
+     * @return eZTagsObject
+     */
+    static function fetchByRemoteID( $remoteID )
+    {
+        $db = eZDB::instance();
+        $remoteID =$db->escapeString( $remoteID );
+        $resultArray = $db->arrayQuery( 'SELECT id FROM eztags WHERE remote_id=\'' . $remoteID . '\'' );
+        if ( count( $resultArray ) != 1 )
+            $object = null;
+        else
+            $object = eZTagsObject::fetch( $resultArray[0]['id'] );
+        return $object;
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see eZPersistentObject::store()
+     */
+    function store( $fieldFilters = null )
+    {
+        if( !$this->RemoteID )
+        {
+            $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'tag' ) );
+            if( is_array( $fieldFilters ) && !empty( $fieldFilters ) )
+            {
+                $fieldFilters[] = 'remote_id';
+            }
+        }
+
+        parent::store( $fieldFilters );
+    }
+
 }
 
 ?>
