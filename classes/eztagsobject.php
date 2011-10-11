@@ -13,6 +13,11 @@ class eZTagsObject extends eZPersistentObject
      */
     function __construct( $row )
     {
+        if ( !isset( $row['remote_id'] ) || !$row['remote_id'] )
+        {
+            $row['remote_id'] = eZRemoteIdUtility::generate( 'tag' );
+        }
+
         parent::__construct( $row );
     }
 
@@ -65,8 +70,7 @@ class eZTagsObject extends eZPersistentObject
                                                       'synonyms'                  => 'getSynonyms',
                                                       'synonyms_count'            => 'getSynonymsCount',
                                                       'icon'                      => 'getIcon',
-                                                      'url'                       => 'getUrl',
-                                                      'remote_id'                 => 'remoteID' ),
+                                                      'url'                       => 'getUrl' ),
                       'keys'                => array( 'id' ),
                       'increment_key'       => 'id',
                       'class_name'          => 'eZTagsObject',
@@ -791,36 +795,6 @@ class eZTagsObject extends eZPersistentObject
     }
 
     /**
-     * Get remote id of content object
-    **/
-    function remoteID()
-    {
-        $remoteID = eZPersistentObject::attribute( 'remote_id', true );
-
-        // Ensures that we provide the correct remote_id if we have one in the database
-        if ( $remoteID === null and $this->attribute( 'id' ) )
-        {
-            $db = eZDB::instance();
-            $resultArray = $db->arrayQuery( "SELECT remote_id FROM eztags WHERE id = '" . $this->attribute( 'id' ) . "'" );
-            if ( count( $resultArray ) == 1 )
-            {
-                $remoteID = $resultArray[0]['remote_id'];
-                $this->setAttribute( 'remote_id',  $remoteID );
-            }
-        }
-
-        if ( !$remoteID )
-        {
-            $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'tag' ) );
-            if ( $this->attribute( 'id' ) !== null )
-                $this->sync( array( 'remote_id' ) );
-            $remoteID = eZPersistentObject::attribute( 'remote_id', true );
-        }
-
-        return $remoteID;
-    }
-
-    /**
      * Fetches Tag by remote_id
      * @param string $remoteID
      * @return eZTagsObject
@@ -835,24 +809,6 @@ class eZTagsObject extends eZPersistentObject
         else
             $object = eZTagsObject::fetch( $resultArray[0]['id'] );
         return $object;
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see eZPersistentObject::store()
-     */
-    function store( $fieldFilters = null )
-    {
-        if( !$this->RemoteID )
-        {
-            $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'tag' ) );
-            if( is_array( $fieldFilters ) && !empty( $fieldFilters ) )
-            {
-                $fieldFilters[] = 'remote_id';
-            }
-        }
-
-        parent::store( $fieldFilters );
     }
 
 }
