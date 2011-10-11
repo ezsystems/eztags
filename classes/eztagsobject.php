@@ -456,7 +456,7 @@ class eZTagsObject extends eZPersistentObject
                                                          $sorts, $limits, true, false, null,
                                                          null, $customConds );
 
-        $tagsList = eZTagsObject::processTagsForTranslations( $tagsList );
+        $tagsList = eZTagsObject::processTagsForTranslations( $tagsList, $mainTranslation );
 
         if ( $asObject )
             return $tagsList;
