@@ -441,7 +441,7 @@ class eZTagsObject extends eZPersistentObject
      * @param array $limits
      * @return array
      */
-    static function fetchList( $params, $limits = null, $asObject = true, $sorts = null, $mainTranslation = false )
+    static function fetchList( $params, $limits = null, $sorts = null, $mainTranslation = false )
     {
         $customConds = null;
         if ( !$mainTranslation )
@@ -456,16 +456,7 @@ class eZTagsObject extends eZPersistentObject
                                                          $sorts, $limits, true, false, null,
                                                          null, $customConds );
 
-        $tagsList = eZTagsObject::processTagsForTranslations( $tagsList, $mainTranslation );
-
-        if ( $asObject )
-            return $tagsList;
-
-        $tagsArray = array();
-        foreach ( $tagsList as $tag )
-            $tagsArray[] = array( 'name' => $tag->attribute( 'keyword' ), 'id' => $tag->attribute( 'id' ) );
-
-        return $tagsArray;
+        return eZTagsObject::processTagsForTranslations( $tagsList, $mainTranslation );
     }
 
     /**
@@ -494,6 +485,23 @@ class eZTagsObject extends eZPersistentObject
         return $rows[0]['row_count'];
     }
 
+    static function fetchLimitations()
+    {
+        $returnArray = array();
+
+        $tags = self::fetchList( array( 'parent_id' => 0, 'main_tag_id' => 0 ), null, null, true );
+
+        if ( is_array( $tags ) )
+        {
+            foreach ( $tags as $tag )
+            {
+                $returnArray[] = array( 'name' => $tag->attribute( 'keyword' ), 'id' => $tag->attribute( 'id' ) );
+            }
+        }
+
+        return $returnArray;
+    }
+
     /**
      * Returns array of eZTagsObject objects for given parent ID
      *
@@ -503,7 +511,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByParentID( $parentID, $mainTranslation = false )
     {
-        return self::fetchList( array( 'parent_id' => $parentID, 'main_tag_id' => 0 ), null, true, null, $mainTranslation );
+        return self::fetchList( array( 'parent_id' => $parentID, 'main_tag_id' => 0 ), null, null, $mainTranslation );
     }
 
     /**
@@ -527,7 +535,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchSynonyms( $mainTagID, $mainTranslation = false )
     {
-        return self::fetchList( array( 'main_tag_id' => $mainTagID ), null, true, null, $mainTranslation );
+        return self::fetchList( array( 'main_tag_id' => $mainTagID ), null, null, $mainTranslation );
     }
 
     /**
@@ -551,7 +559,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByKeyword( $keyword, $mainTranslation = false )
     {
-        return self::fetchList( array( 'keyword' => $keyword ), null, true, null, $mainTranslation );
+        return self::fetchList( array( 'keyword' => $keyword ), null, null, $mainTranslation );
     }
 
     /**
@@ -564,7 +572,7 @@ class eZTagsObject extends eZPersistentObject
     static function fetchByPathString( $pathString, $mainTranslation = false )
     {
         return self::fetchList( array( 'path_string' => array( 'like', $pathString . '%' ),
-                                       'main_tag_id' => 0 ), null, true, null, $mainTranslation );
+                                       'main_tag_id' => 0 ), null, null, $mainTranslation );
     }
 
     function recursivelyDeleteTag()
@@ -779,7 +787,7 @@ class eZTagsObject extends eZPersistentObject
         if ( empty( $sorts ) )
             $sorts = null;
 
-        $fetchResults = self::fetchList( $fetchParams, $limits, true, $sorts );
+        $fetchResults = self::fetchList( $fetchParams, $limits, $sorts );
 
         if ( is_array( $fetchResults ) && !empty( $fetchResults ) )
             return $fetchResults;

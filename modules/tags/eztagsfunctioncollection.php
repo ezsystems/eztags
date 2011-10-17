@@ -123,7 +123,6 @@ class eZTagsFunctionCollection
 
         $result = eZTagsObject::fetchList( $filterArray,
                                            array( 'offset' => 0, 'limit' => $limit ),
-                                           true,
                                            array( 'modified' => 'desc' ) );
 
         if ( is_array( $result ) && !empty( $result ) )

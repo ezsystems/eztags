@@ -32,12 +32,12 @@ class eZTagsAttributeFilter
 
             if ( !isset( $params['include_synonyms'] ) || ( isset( $params['include_synonyms'] ) && (bool) $params['include_synonyms'] == true ) )
             {
-                $result = eZTagsObject::fetchList( array( 'main_tag_id' => array( $tagIDsArray ) ), null, false );
-                if ( is_array( $result ) && !empty( $result ) )
+                $tags = eZTagsObject::fetchList( array( 'main_tag_id' => array( $tagIDsArray ) ) );
+                if ( is_array( $tags ) )
                 {
-                    foreach ( $result as $r )
+                    foreach ( $tags as $tag )
                     {
-                        array_push( $tagIDsArray, (int) $r['id'] );
+                        array_push( $tagIDsArray, $tag->attribute( 'id' ) );
                     }
                 }
             }

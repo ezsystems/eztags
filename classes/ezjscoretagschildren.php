@@ -43,7 +43,7 @@ class ezjscoreTagsChildren extends ezjscServerFunctions
 
         $children = eZTagsObject::fetchList(
             array( 'parent_id' => (int) $args[0], 'main_tag_id' => 0 ),
-            $limits, true, $sorts );
+            $limits, $sorts );
 
         $childrenCount = eZTagsObject::fetchListCount(
             array( 'parent_id' => (int) $args[0], 'main_tag_id' => 0 ) );

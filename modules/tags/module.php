@@ -108,8 +108,8 @@ $TagID = array(
     'path'      => 'classes/',
     'file'      => 'eztagsobject.php',
     'class'     => 'eZTagsObject',
-    'function'  => 'fetchList',
-    'parameter' => array( array( 'parent_id' => 0, 'main_tag_id' => 0 ), null, false ) );
+    'function'  => 'fetchLimitations',
+    'parameter' => array() );
 
 $FunctionList = array();
 $FunctionList['read']          = array( 'Class' => $ClassID );
