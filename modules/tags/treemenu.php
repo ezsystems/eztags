@@ -100,11 +100,7 @@ else
         $childResponse['has_children']              = $child->getChildrenCount() > 0 ? 1 : 0;
         $childResponse['synonyms_count']            = $child->getSynonymsCount();
         $childResponse['subtree_limitations_count'] = $child->getSubTreeLimitationsCount();
-
-        $childResponse['language_name_array']       = array();
-        if ( $child instanceof eZTagsObject )
-            $childResponse['language_name_array']   = $child->languageNameArray();
-
+        $childResponse['language_name_array']       = $child->languageNameArray();
         $childResponse['keyword']                   = $child->attribute( 'keyword' );
         $childResponse['url']                       = 'tags/id/' . $child->attribute( 'id' );
         $childResponse['icon']                      = eZURLOperator::eZImage( eZTemplate::factory(), 'tag_icons/small/' . $child->getIcon(), '' );
