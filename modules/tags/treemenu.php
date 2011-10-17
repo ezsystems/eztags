@@ -54,32 +54,6 @@ function arrayToJSON( $array )
     }
 }
 
-function lookupIcon( $ini, $tag )
-{
-    $iconMap = $ini->variable( 'Icons', 'IconMap' );
-    $returnValue = $ini->variable( 'Icons', 'Default' );
-
-    if ( array_key_exists( $tag->attribute( 'id' ), $iconMap ) && !empty( $iconMap[$tag->attribute( 'id' )] ) )
-    {
-        $returnValue = $iconMap[$tag->attribute( 'id' )];
-    }
-    else
-    {
-        $tempTag = $tag;
-        while ( $tempTag->attribute( 'parent_id' ) > 0 )
-        {
-            $tempTag = $tempTag->getParent();
-            if ( array_key_exists( $tempTag->attribute( 'id' ), $iconMap ) && !empty( $iconMap[$tempTag->attribute( 'id' )] ) )
-            {
-                $returnValue = $iconMap[$tempTag->attribute( 'id' )];
-                break;
-            }
-        }
-    }
-
-    return eZURLOperator::eZImage( eZTemplate::factory(), 'tag_icons/small/' . $returnValue, '' );
-}
-
 for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
 {
     ob_end_clean();
@@ -133,7 +107,7 @@ else
 
         $childResponse['keyword']                   = $child->attribute( 'keyword' );
         $childResponse['url']                       = 'tags/id/' . $child->attribute( 'id' );
-        $childResponse['icon']                      = lookupIcon( $eztagsINI, $child );
+        $childResponse['icon']                      = eZURLOperator::eZImage( eZTemplate::factory(), 'tag_icons/small/' . $child->getIcon(), '' );
 
         eZURI::transformURI( $childResponse['url'] );
         $childResponse['modified']                  = (int) $child->attribute( 'modified' );
