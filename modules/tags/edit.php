@@ -63,7 +63,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
     if ( empty( $error ) )
     {
         $newParentID = $http->hasPostVariable( 'TagEditParentID' ) ? (int) $http->postVariable( 'TagEditParentID' ) : 0;
-        $newParentTag = eZTagsObject::fetch( $newParentID );
+        $newParentTag = eZTagsObject::fetchWithMainTranslation( $newParentID );
         if ( !$newParentTag instanceof eZTagsObject && $newParentID > 0 )
             $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
     }
@@ -89,11 +89,11 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
         if ( $tag->attribute( 'parent_id' ) != $newParentID )
         {
-            $oldParentTag = $tag->getParent();
+            $oldParentTag = $tag->getParent( true );
             if ( $oldParentTag instanceof eZTagsObject )
                 $oldParentTag->updateModified();
 
-            $synonyms = $tag->getSynonyms();
+            $synonyms = $tag->getSynonyms( true );
             foreach ( $synonyms as $synonym )
             {
                 $synonym->setAttribute( 'parent_id', $newParentID );

@@ -275,7 +275,7 @@ class eZTagsObject extends eZPersistentObject
         if ( $mainTranslation )
             return self::fetchWithMainTranslation( $this->attribute( 'main_tag_id' ) );
 
-           return self::fetch( $this->attribute( 'main_tag_id' ) );
+        return self::fetch( $this->attribute( 'main_tag_id' ) );
     }
 
     /**

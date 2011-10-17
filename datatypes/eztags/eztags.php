@@ -279,9 +279,9 @@ class eZTags
             foreach ( $newTags as $t )
             {
                 //and then for each tag check if user can save in one of the allowed locations
-                $parentTag = eZTagsObject::fetch( $t['parent_id'] );
-                $pathString = ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/';
-                $depth = ( $parentTag instanceof eZTagsObject ) ? (int) $parentTag->attribute( 'depth' ) + 1 : 1;
+                $parentTag = eZTagsObject::fetchWithMainTranslation( $t['parent_id'] );
+                $pathString = $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/';
+                $depth = $parentTag instanceof eZTagsObject ? (int) $parentTag->attribute( 'depth' ) + 1 : 1;
 
                 if ( self::canSave( $pathString, $allowedLocations ) )
                 {
@@ -337,8 +337,8 @@ class eZTags
                 return $userLimitations;
             else
             {
-                $limitTag = eZTagsObject::fetch( $attributeSubTreeLimit );
-                $pathString = ( $limitTag instanceof eZTagsObject ) ? $limitTag->attribute( 'path_string' ) : '/';
+                $limitTag = eZTagsObject::fetchWithMainTranslation( $attributeSubTreeLimit );
+                $pathString = $limitTag instanceof eZTagsObject ? $limitTag->attribute( 'path_string' ) : '/';
 
                 foreach ( $userLimitations as $l )
                 {

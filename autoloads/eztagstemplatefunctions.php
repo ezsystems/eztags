@@ -89,19 +89,19 @@ class eZTagsTemplateFunctions
      */
     static function generateParentString( $tagID )
     {
-        $tag = eZTagsObject::fetch( $tagID );
+        $tag = eZTagsObject::fetchWithMainTranslation( $tagID );
         if ( !$tag instanceof eZTagsObject )
             return '(' . ezpI18n::tr( 'extension/eztags/tags/edit', 'no parent' ) . ')';
 
-        $synonymsCount = $tag->getSynonymsCount();
+        $synonymsCount = $tag->getSynonymsCount( true );
 
         $keywordsArray = array();
 
-        while ( $tag->hasParent() )
+        while ( $tag->hasParent( true ) )
         {
             $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
-            $tag = $tag->getParent();
-            $synonymsCount = $tag->getSynonymsCount();
+            $tag = $tag->getParent( true );
+            $synonymsCount = $tag->getSynonymsCount( true );
         }
 
         $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
@@ -120,7 +120,6 @@ class eZTagsTemplateFunctions
     {
         return eZTagsObject::fetchList( array( 'main_tag_id' => 0 ),
                                         array( 'limit' => $limit ),
-                                        true,
                                         array( 'modified' => 'desc' ) );
     }
 

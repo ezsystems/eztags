@@ -40,14 +40,14 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
 
         if ( $tag->attribute( 'parent_id' ) != $mainTag->attribute( 'parent_id' ) )
         {
-            $oldParentTag = $tag->getParent();
+            $oldParentTag = $tag->getParent( true );
             if ( $oldParentTag instanceof eZTagsObject )
                 $oldParentTag->updateModified();
         }
 
         $tag->moveChildrenBelowAnotherTag( $mainTag );
 
-        foreach ( $tag->getSynonyms() as $synonym )
+        foreach ( $tag->getSynonyms( true ) as $synonym )
         {
             $synonym->registerSearchObjects();
             $synonym->transferObjectsToAnotherTag( $mainTag );

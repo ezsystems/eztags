@@ -42,7 +42,7 @@ $parentTagID = (int) $options['parent-tag-id'];
 
 $sourceClassAttribute = eZContentClassAttribute::fetch( $sourceClassAttributeID );
 $destClassAttribute = eZContentClassAttribute::fetch( $destClassAttributeID );
-$parentTag = eZTagsObject::fetch( $parentTagID );
+$parentTag = eZTagsObject::fetchWithMainTranslation( $parentTagID );
 
 if ( !$sourceClassAttribute instanceof eZContentClassAttribute || $sourceClassAttribute->attribute( 'data_type_string' ) != 'ezkeyword' )
 {

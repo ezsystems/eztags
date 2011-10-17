@@ -19,7 +19,7 @@ if ( $http->hasPostVariable( 'YesButton' ) )
     $db = eZDB::instance();
     $db->begin();
 
-    $parentTag = $tag->getParent();
+    $parentTag = $tag->getParent( true );
     if ( $parentTag instanceof eZTagsObject )
         $parentTag->updateModified();
 

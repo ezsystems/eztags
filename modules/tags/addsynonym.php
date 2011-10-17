@@ -61,7 +61,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
     if ( empty( $error ) )
     {
-        $parentTag = $mainTag->getParent();
+        $parentTag = $mainTag->getParent( true );
 
         $db = eZDB::instance();
         $db->begin();

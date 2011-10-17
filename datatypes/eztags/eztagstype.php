@@ -178,9 +178,9 @@ class eZTagsType extends eZDataType
 
         $subTreeLimit = (int) $http->postVariable( $subTreeLimitName );
 
-        $tag = eZTagsObject::fetch( $subTreeLimit );
+        $tag = eZTagsObject::fetchWithMainTranslation( $subTreeLimit );
 
-        if ( !( $tag instanceof eZTagsObject ) && $subTreeLimit > 0 )
+        if ( !$tag instanceof eZTagsObject && $subTreeLimit > 0 )
         {
             return eZInputValidator::STATE_INVALID;
         }

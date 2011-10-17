@@ -51,7 +51,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
 
         if ( $tag->attribute( 'parent_id' ) != $mainTag->attribute( 'parent_id' ) )
         {
-            $oldParentTag = $tag->getParent();
+            $oldParentTag = $tag->getParent( true );
             if ( $oldParentTag instanceof eZTagsObject )
                 $oldParentTag->updateModified();
 
@@ -60,7 +60,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
 
         $tag->moveChildrenBelowAnotherTag( $mainTag );
 
-        $synonyms = $tag->getSynonyms();
+        $synonyms = $tag->getSynonyms( true );
         foreach ( $synonyms as $synonym )
         {
             $synonym->setAttribute( 'parent_id', $mainTag->attribute( 'parent_id' ) );
