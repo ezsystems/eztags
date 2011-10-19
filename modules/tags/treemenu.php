@@ -103,7 +103,7 @@ else
         $childResponse['language_name_array']       = $child->languageNameArray();
         $childResponse['keyword']                   = $child->attribute( 'keyword' );
         $childResponse['url']                       = 'tags/id/' . $child->attribute( 'id' );
-        $childResponse['icon']                      = eZURLOperator::eZImage( eZTemplate::factory(), 'tag_icons/small/' . $child->getIcon(), '' );
+        $childResponse['icon']                      = eZURLOperator::eZImage( null, 'tag_icons/small/' . $child->getIcon(), '' );
 
         eZURI::transformURI( $childResponse['url'] );
         $childResponse['modified']                  = (int) $child->attribute( 'modified' );
