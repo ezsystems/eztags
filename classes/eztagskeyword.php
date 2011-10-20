@@ -40,34 +40,21 @@ class eZTagsKeyword extends eZPersistentObject
                                                                               'default'  => '',
                                                                               'required' => true ) ),
                       'function_attributes' => array( 'language_name' => 'languageName' ),
-                      'keys'                => array( 'keyword_id', 'language_id' ),
+                      'keys'                => array( 'keyword_id', 'locale' ),
                       'class_name'          => 'eZTagsKeyword',
-                      'sort'                => array( 'keyword_id' => 'asc', 'language_id' => 'asc' ),
+                      'sort'                => array( 'keyword_id' => 'asc', 'locale' => 'asc' ),
                       'name'                => 'eztags_keyword' );
     }
 
     /**
-     * Returns eZTagsKeyword object for given tag ID and language ID
+     * Returns eZTagsKeyword object for given tag ID and locale
      *
      * @static
      * @param integer $tagID
-     * @param integer $languageID
+     * @param integer $locale
      * @return eZTagsKeyword
      */
-    static function fetch( $tagID, $languageID )
-    {
-        return eZPersistentObject::fetchObject( self::definition(), null, array( 'keyword_id' => $tagID, 'language_id' => $languageID ) );
-    }
-
-    /**
-     * Returns eZTagsKeyword object for given tag ID and language locale
-     *
-     * @static
-     * @param integer $tagID
-     * @param string $locale
-     * @return eZTagsKeyword
-     */
-    static function fetchByLocale( $tagID, $locale )
+    static function fetch( $tagID, $locale )
     {
         return eZPersistentObject::fetchObject( self::definition(), null, array( 'keyword_id' => $tagID, 'locale' => $locale ) );
     }
@@ -96,7 +83,7 @@ class eZTagsKeyword extends eZPersistentObject
 
     function languageName()
     {
-        $language = eZContentLanguage::fetch( $this->attribute( 'language_id' ) );
+        $language = eZContentLanguage::fetchByLocale( $this->attribute( 'locale' ) );
 
         if ( $language instanceof eZContentLanguage )
             return array( 'locale' => $language->attribute( 'locale' ), 'name' => $language->attribute( 'name' ) );

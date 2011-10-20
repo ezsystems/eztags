@@ -114,6 +114,9 @@ if ( $http->hasPostVariable('SaveButton' ) )
                                                  'language_id' => $language->attribute( 'id' ),
                                                  'keyword'     => $newKeyword,
                                                  'locale'      => $language->attribute( 'locale' ) ) );
+        if ( $http->hasPostVariable( 'AlwaysAvailable' ) )
+            $translation->setAttribute( 'language_id', $translation->attribute( 'language_id' ) + 1 );
+
         $translation->store();
 
         $tag->setAttribute( 'path_string', $tag->attribute( 'path_string' ) . $tag->attribute( 'id' ) . '/' );

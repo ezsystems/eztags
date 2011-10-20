@@ -15,7 +15,7 @@
                         {def $available_languages = $tag.available_languages}
                         {foreach $languages as $language}
                             {if $available_languages|contains( $language.locale )}
-                                {set $is_main_translation = cond($tag.main_language_id|eq($language.id), true(), false())}
+                                {set $is_main_translation = cond($tag.main_translation.locale|eq($language.locale), true(), false())}
                                 <label><input name="Locale" type="radio" value="{$language.locale|wash}"{if $is_main_translation} checked="checked"{/if}> {$language.name|wash}{if $is_main_translation} ({'Main translation'|i18n('extension/eztags/tags/edit')}){/if}</label>
                             {else}
                                 {append-block variable=$new_translations}

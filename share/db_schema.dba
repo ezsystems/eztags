@@ -226,7 +226,7 @@ $schema = array (
         'fields' =>
         array (
           0 => 'keyword_id',
-          1 => 'language_id',
+          1 => 'locale',
         ),
       ),
     ),

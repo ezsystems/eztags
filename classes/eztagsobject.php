@@ -894,9 +894,9 @@ class eZTagsObject extends eZPersistentObject
         return array_reverse( $moduleResultPath );
     }
 
-    function getMainTranslation()
+    function translationByLocale( $locale )
     {
-        return eZTagsKeyword::fetch( $this->attribute( 'id' ), $this->attribute( 'main_language_id' ) );
+        return eZTagsKeyword::fetch( $this->attribute( 'id' ), $locale );
     }
 
     function getTranslations()
@@ -909,14 +909,22 @@ class eZTagsObject extends eZPersistentObject
         return eZTagsKeyword::fetchCountByTagID( $this->attribute( 'id' ) );
     }
 
-    function translationByLanguageID( $languageID )
+    function getMainTranslation()
     {
-        return eZTagsKeyword::fetch( $this->attribute( 'id' ), (int) $languageID );
+        $language = eZContentLanguage::fetch( $this->attribute( 'main_language_id' ) );
+        if ( $language instanceof eZContentLanguage )
+            return $this->translationByLocale( $language->attribute( 'locale' ) );
+
+        return false;
     }
 
-    function translationByLocale( $locale )
+    function translationByLanguageID( $languageID )
     {
-        return eZTagsKeyword::fetchByLocale( $this->attribute( 'id' ), $locale );
+        $language = eZContentLanguage::fetch( $languageID );
+        if ( $language instanceof eZContentLanguage )
+            return $this->translationByLocale( $language->attribute( 'locale' ) );
+
+        return false;
     }
 
     function getKeyword()
@@ -958,12 +966,13 @@ class eZTagsObject extends eZPersistentObject
         return $languages['language_list'];
     }
 
-    function updateMainTranslation( $languageID, $forceStore = false )
+    function updateMainTranslation( $locale, $forceStore = false )
     {
-        $trans = $this->translationByLanguageID( $languageID );
-        if ( $trans instanceof eZTagsKeyword )
+        $trans = $this->translationByLocale( $locale );
+        $language = eZContentLanguage::fetchByLocale( $locale );
+        if ( $trans instanceof eZTagsKeyword && $language instanceof eZContentLanguage )
         {
-            $this->setAttribute( 'main_language_id', $trans->attribute( 'language_id' ) );
+            $this->setAttribute( 'main_language_id', $language->attribute( 'id' ) );
 
             if ( $forceStore )
                 $this->store();

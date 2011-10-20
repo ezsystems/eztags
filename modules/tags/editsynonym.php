@@ -83,10 +83,10 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
             $tag->updateLanguageMask();
         }
 
-        $tag->setAlwaysAvailable( $http->hasPostVariable( 'AlwaysAvailable' ) );
-
         if ( $http->hasPostVariable( 'SetAsMainTranslation' ) )
-            $tag->updateMainTranslation( $language->attribute( 'id' ) );
+            $tag->updateMainTranslation( $language->attribute( 'locale' ) );
+
+        $tag->setAlwaysAvailable( $http->hasPostVariable( 'AlwaysAvailable' ) );
 
         $tag->store();
         $tag->registerSearchObjects();

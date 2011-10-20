@@ -31,5 +31,5 @@ CREATE TABLE `eztags_keyword` (
   `language_id` int(11) NOT NULL,
   `keyword` varchar(255) NOT NULL default '',
   `locale` varchar(255) NOT NULL default '',
-  PRIMARY KEY ( `keyword_id`, `language_id` )
+  PRIMARY KEY ( `keyword_id`, `locale` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

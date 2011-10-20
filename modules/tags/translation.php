@@ -12,24 +12,26 @@ $db = eZDB::instance();
 
 if ( $http->hasPostVariable( 'RemoveTranslationButton' ) )
 {
-    if ( $http->hasPostVariable( 'LanguageID' ) && is_array( $http->postVariable( 'LanguageID' ) ) )
+    if ( $http->hasPostVariable( 'Locale' ) && is_array( $http->postVariable( 'Locale' ) ) )
     {
+        $mainTranslation = $tag->getMainTranslation();
+
         $db->begin();
-        foreach ( $http->postVariable( 'LanguageID' ) as $languageID )
+        foreach ( $http->postVariable( 'Locale' ) as $locale )
         {
-            $translation = $tag->translationByLanguageID( (int) $languageID );
-            if ( $translation instanceof eZTagsKeyword && $translation->attribute( 'language_id' ) != $tag->attribute( 'main_language_id' ) )
+            $translation = $tag->translationByLocale( $locale );
+            if ( $translation instanceof eZTagsKeyword && $translation->attribute( 'locale' ) != $mainTranslation->attribute( 'locale' ) )
                 $translation->remove();
         }
         $db->commit();
     }
 }
-else if ( $http->hasPostVariable( 'UpdateMainLanguageButton' ) )
+else if ( $http->hasPostVariable( 'UpdateMainTranslationButton' ) )
 {
-    if ( $http->hasPostVariable( 'MainLanguageID' ) )
+    if ( $http->hasPostVariable( 'MainLocale' ) )
     {
         $db->begin();
-        $tag->updateMainTranslation( $http->postVariable( 'MainLanguageID' ), true );
+        $tag->updateMainTranslation( $http->postVariable( 'MainLocale' ), true );
         $tag->updateModified();
         $db->commit();
     }

@@ -4,7 +4,7 @@
     <table class="list" cellpadding="0" border="0">
         <tbody>
             <tr>
-                <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'extension/eztags/tags/view' )}" onclick="ezjs_toggleCheckboxes( document.translationsform, 'LanguageID[]' ); return false;"/></th>
+                <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'extension/eztags/tags/view' )}" onclick="ezjs_toggleCheckboxes( document.translationsform, 'Locale[]' ); return false;"/></th>
                 <th>{'Language'|i18n( 'extension/eztags/tags/view' )}</th>
                 <th>{'Translation'|i18n( 'extension/eztags/tags/view' )}</th>
                 <th>{'Locale'|i18n( 'extension/eztags/tags/view' )}</th>
@@ -13,10 +13,10 @@
             </tr>
             {foreach $tag.translations as $translation}
                 <tr>
-                    <td><input type="checkbox" name="LanguageID[]" value="{$translation.language_id}"{if $translation.language_id|eq( $tag.main_language_id )} disabled="disabled"{/if} /></d>
+                    <td><input type="checkbox" name="Locale[]" value="{$translation.locale}"{if $translation.locale|eq( $tag.main_translation.locale )} disabled="disabled"{/if} /></d>
                     <td>
                         <img src="{$translation.locale|flag_icon}" width="18" height="12" alt="{$translation.locale}" />&nbsp;
-                        {if $translation.language_id|eq( $tag.main_language_id )}
+                        {if $translation.locale|eq( $tag.main_translation.locale )}
                             <strong><a href={concat( '/tags/id/', $tag.id, '/', $translation.locale )|ezurl}>{$translation.language_name.name|wash}</a></strong>
                         {else}
                             <a href={concat( '/tags/id/', $tag.id, '/', $translation.locale )|ezurl}>{$translation.language_name.name|wash}</a>
@@ -24,7 +24,7 @@
                     </td>
                     <td>{$translation.keyword|wash}</td>
                     <td>{$translation.locale|wash}</td>
-                    <td><input type="radio" {if $translation.language_id|eq( $tag.main_language_id )} checked="checked" class="main-translation-radio main-translation-radio-initial"{else} class="main-translation-radio"{/if} name="MainLanguageID" value="{$translation.language_id}" /></td>
+                    <td><input type="radio" {if $translation.locale|eq( $tag.main_translation.locale )} checked="checked" class="main-translation-radio main-translation-radio-initial"{else} class="main-translation-radio"{/if} name="MainLocale" value="{$translation.locale|wash}" /></td>
                     <td><a href={concat( '/tags/', cond( $tag.main_tag_id|eq( 0 ), 'edit', 'editsynonym' ), '/', $tag.id, '/', $translation.locale )|ezurl}><img src={'edit.gif'|ezimage} width="16" height="16" alt="{'Edit in <%language_name>.'|i18n( 'extension/eztags/tags/view', , hash( '%language_name', $translation.language_name.name ) )|wash}" /></a></td>
                 </tr>
             {/foreach}
@@ -41,7 +41,7 @@
         </div>
         <div class="button-right">
             {if $tag.translations|count}
-                <input id="tab-translations-list-set-main" class="button" type="submit" name="UpdateMainLanguageButton" value="{'Set main'|i18n( 'extension/eztags/tags/view' )}" />
+                <input id="tab-translations-list-set-main" class="button" type="submit" name="UpdateMainTranslationButton" value="{'Set main'|i18n( 'extension/eztags/tags/view' )}" />
                 <script type="text/javascript">
                 {literal}
                 (function( $ ) {
@@ -55,7 +55,7 @@
                 {/literal}
                 </script>
             {else}
-                <input class="button-disabled" type="submit" name="UpdateMainLanguageButton" value="{'Set main'|i18n( 'extension/eztags/tags/view' )}" disabled="disabled" />
+                <input class="button-disabled" type="submit" name="UpdateMainTranslationButton" value="{'Set main'|i18n( 'extension/eztags/tags/view' )}" disabled="disabled" />
             {/if}
         </div>
         <div class="break"></div>
