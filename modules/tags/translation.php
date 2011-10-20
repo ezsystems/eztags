@@ -31,7 +31,7 @@ else if ( $http->hasPostVariable( 'UpdateMainTranslationButton' ) )
     if ( $http->hasPostVariable( 'MainLocale' ) )
     {
         $db->begin();
-        $tag->updateMainTranslation( $http->postVariable( 'MainLocale' ), true );
+        $tag->updateMainTranslation( $http->postVariable( 'MainLocale' ) );
         $tag->updateModified();
         $db->commit();
     }
@@ -40,7 +40,7 @@ else if ( $http->hasPostVariable( 'UpdateAlwaysAvailableButton' ) )
 {
     $db->begin();
     $alwaysAvailable = $http->hasPostVariable( 'AlwaysAvailable' );
-    $tag->setAlwaysAvailable( $alwaysAvailable, true );
+    $tag->setAlwaysAvailable( $alwaysAvailable );
     $db->commit();
 }
 

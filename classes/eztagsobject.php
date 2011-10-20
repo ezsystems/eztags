@@ -927,12 +927,12 @@ class eZTagsObject extends eZPersistentObject
         return false;
     }
 
-    function getKeyword()
+    function getKeyword( $locale = false )
     {
         if ( $this->attribute( 'id' ) == null )
             return $this->Keyword;
 
-        $translation = $this->translationByLocale( $this->CurrentLanguage );
+        $translation = $this->translationByLocale( $locale === false ? $this->CurrentLanguage : $locale );
         if ( $translation instanceof eZTagsKeyword )
             return $translation->attribute( 'keyword' );
 
@@ -966,16 +966,33 @@ class eZTagsObject extends eZPersistentObject
         return $languages['language_list'];
     }
 
-    function updateMainTranslation( $locale, $forceStore = false )
+    function updateMainTranslation( $locale )
     {
         $trans = $this->translationByLocale( $locale );
         $language = eZContentLanguage::fetchByLocale( $locale );
         if ( $trans instanceof eZTagsKeyword && $language instanceof eZContentLanguage )
         {
             $this->setAttribute( 'main_language_id', $language->attribute( 'id' ) );
+            $keyword = $this->getKeyword( $locale );
+            $this->setAttribute( 'keyword', $keyword );
+            $this->store();
 
-            if ( $forceStore )
-                $this->store();
+            $isAlwaysAvailable = $this->isAlwaysAvailable();
+            foreach ( $this->getTranslations() as $translation )
+            {
+                if ( !$isAlwaysAvailable )
+                    $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
+                else
+                {
+                    if ( $translation->attribute( 'locale' ) != $language->attribute( 'locale' ) )
+                        $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
+                    else
+                        $languageID = (int) $translation->attribute( 'language_id' ) | 1;
+                }
+
+                $translation->setAttribute( 'language_id', $languageID );
+                $translation->store();
+            }
 
             return true;
         }
@@ -983,25 +1000,21 @@ class eZTagsObject extends eZPersistentObject
         return false;
     }
 
-    function updateLanguageMask( $mask = false, $forceStore = false )
+    function updateLanguageMask( $mask = false )
     {
-        if ( $mask == false )
+        if ( $mask === false )
         {
-            $translationList = $this->getTranslations();
-
             $locales = array();
-            foreach ( $translationList as $translation )
+            foreach ( $this->getTranslations() as $translation )
             {
-                $locales[] = $translation->Locale;
+                $locales[] = $translation->attribute( 'locale' );
             }
 
-            $mask = eZContentLanguage::maskByLocale( $locales );
+            $mask = eZContentLanguage::maskByLocale( $locales, $this->isAlwaysAvailable() );
         }
 
         $this->setAttribute( 'language_mask', $mask );
-
-        if ( $forceStore )
-            $this->store();
+        $this->store();
     }
 
     function isAlwaysAvailable()
@@ -1010,15 +1023,33 @@ class eZTagsObject extends eZPersistentObject
         return $zerothBit > 0 ? true : false;
     }
 
-    function setAlwaysAvailable( $alwaysAvailable, $forceStore = false )
+    function setAlwaysAvailable( $alwaysAvailable )
     {
         $languageMask = (int) $this->attribute( 'language_mask' ) & ~1;
         $zerothBit = $alwaysAvailable ? 1 : 0;
 
         $this->setAttribute( 'language_mask', $languageMask | $zerothBit );
+        $this->store();
 
-        if ( $forceStore )
-            $this->store();
+        $mainTranslation = $this->getMainTranslation();
+        if ( $mainTranslation instanceof eZTagsKeyword )
+        {
+            foreach ( $this->getTranslations() as $translation )
+            {
+                if ( !$alwaysAvailable )
+                    $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
+                else
+                {
+                    if ( $translation->attribute( 'locale' ) != $mainTranslation->attribute( 'locale' ) )
+                        $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
+                    else
+                        $languageID = (int) $translation->attribute( 'language_id' ) | 1;
+                }
+
+                $translation->setAttribute( 'language_id', $languageID );
+                $translation->store();
+            }
+        }
     }
 
     private function fetchTranslated( $fetchMainTranslation = false, $locale = false, $forceLoad = false )
