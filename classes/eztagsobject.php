@@ -445,23 +445,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchList( $params, $limits = null, $sorts = null, $mainTranslation = false, $locale = false )
     {
-        $customConds = is_array( $params ) && !empty( $params ) ? " AND " : " WHERE ";
-        $customConds .= eZContentLanguage::languagesSQLFilter( 'eztags' );
-        $customConds .= " AND eztags.id = eztags_keyword.keyword_id ";
-
-        if ( $mainTranslation !== false )
-        {
-            $customConds .= " AND eztags.main_language_id + MOD( eztags.language_mask, 2 ) = eztags_keyword.language_id ";
-        }
-        else if ( is_string( $locale ) )
-        {
-            $db = eZDB::instance();
-            $customConds .= " AND eztags_keyword.locale = '" . $db->escapeString( $locale ) . "' ";
-        }
-        else
-        {
-            $customConds .= " AND " . eZContentLanguage::sqlFilter( 'eztags_keyword', 'eztags' ) . " ";
-        }
+        $customConds = self::fetchCustomCondsSQL( $params, $mainTranslation, $locale );
 
         if ( is_array( $params ) )
         {
@@ -517,23 +501,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchListCount( $params, $mainTranslation = false, $locale = false )
     {
-        $customConds = is_array( $params ) && !empty( $params ) ? " AND " : " WHERE ";
-        $customConds .= eZContentLanguage::languagesSQLFilter( 'eztags' );
-        $customConds .= " AND eztags.id = eztags_keyword.keyword_id ";
-
-        if ( $mainTranslation !== false )
-        {
-            $customConds .= " AND eztags.main_language_id + MOD( eztags.language_mask, 2 ) = eztags_keyword.language_id ";
-        }
-        else if ( is_string( $locale ) )
-        {
-            $db = eZDB::instance();
-            $customConds .= " AND eztags_keyword.locale = '" . $db->escapeString( $locale ) . "' ";
-        }
-        else
-        {
-            $customConds .= " AND " . eZContentLanguage::sqlFilter( 'eztags_keyword', 'eztags' ) . " ";
-        }
+        $customConds = self::fetchCustomCondsSQL( $params, $mainTranslation, $locale );
 
         if ( is_array( $params ) )
         {
@@ -556,6 +524,29 @@ class eZTagsObject extends eZPersistentObject
                                                          array( 'eztags_keyword' ), $customConds );
 
         return $tagsList[0]['row_count'];
+    }
+
+    static function fetchCustomCondsSQL( $params, $mainTranslation = false, $locale = false )
+    {
+        $customConds = is_array( $params ) && !empty( $params ) ? " AND " : " WHERE ";
+        $customConds .= eZContentLanguage::languagesSQLFilter( 'eztags' );
+        $customConds .= " AND eztags.id = eztags_keyword.keyword_id ";
+
+        if ( $mainTranslation !== false )
+        {
+            $customConds .= " AND eztags.main_language_id + MOD( eztags.language_mask, 2 ) = eztags_keyword.language_id ";
+        }
+        else if ( is_string( $locale ) )
+        {
+            $db = eZDB::instance();
+            $customConds .= " AND eztags_keyword.locale = '" . $db->escapeString( $locale ) . "' ";
+        }
+        else
+        {
+            $customConds .= " AND " . eZContentLanguage::sqlFilter( 'eztags_keyword', 'eztags' ) . " ";
+        }
+
+        return $customConds;
     }
 
     static function fetchLimitations()
