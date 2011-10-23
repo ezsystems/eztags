@@ -22,15 +22,15 @@ $tagsIncludeSynonyms = $http->hasVariable( 'TagsIncludeSynonyms' );
 
 if ( !empty( $tagsSearchText ) )
 {
+    $sorts = array( 'eztags_keyword.keyword' => 'asc' );
     $limits = array( 'offset' => $offset, 'limit' => $limit );
-    $params = array( 'keyword' => array( 'like', '%' . $tagsSearchText . '%' ) );
-    $customFields = array( array( 'operation' => 'COUNT( * )', 'name' => 'row_count' ) );
+    $params = array( 'eztags_keyword.keyword' => array( 'like', '%' . $tagsSearchText . '%' ) );
 
-    $customConds = null;
+    $customConds = eZTagsObject::fetchCustomCondsSQL( $params );
     if ( $tagsSearchSubTree > 0 )
     {
         if ( $tagsIncludeSynonyms )
-            $customConds = ' AND ( path_string LIKE "%/' . $tagsSearchSubTree . '/%" OR main_tag_id = ' . $tagsSearchSubTree . ' ) ';
+            $customConds .= ' AND ( path_string LIKE "%/' . $tagsSearchSubTree . '/%" OR main_tag_id = ' . $tagsSearchSubTree . ' ) ';
         else
             $params['path_string'] = array( 'like', '%/' . $tagsSearchSubTree . '/%' );
     }
@@ -39,8 +39,21 @@ if ( !empty( $tagsSearchText ) )
         $params['main_tag_id'] = 0;
     }
 
-    $tagsSearchResults = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, $params, null, $limits, true, false, null, null, $customConds );
-    $tagsSearchCount = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), array(), $params, array(), null, false, false, $customFields, null, $customConds );
+    $tagsSearchResults = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), array(), $params,
+                                                              $sorts, $limits, true, false,
+                                                              array( 'DISTINCT eztags.*',
+                                                                     array( 'operation' => 'eztags_keyword.keyword',
+                                                                            'name'      => 'keyword' ),
+                                                                     array( 'operation' => 'eztags_keyword.locale',
+                                                                            'name'      => 'locale' ) ),
+                                                              array( 'eztags_keyword' ), $customConds );
+
+    $tagsSearchCount = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), array(), $params,
+                                                            array(), null, false, false,
+                                                            array( array( 'operation' => 'COUNT( * )',
+                                                                          'name'      => 'row_count' ) ),
+                                                            array( 'eztags_keyword' ), $customConds );
+
     $tagsSearchCount = $tagsSearchCount[0]['row_count'];
 }
 
