@@ -6,7 +6,7 @@ $locale = !empty( $locale ) ? $locale : false;
 
 $http = eZHTTPTool::instance();
 
-$tag = eZTagsObject::fetchByLocale( $tagID, $locale );
+$tag = eZTagsObject::fetch( $tagID, $locale );
 if ( !$tag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 

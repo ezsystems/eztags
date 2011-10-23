@@ -79,7 +79,9 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $translation = new eZTagsKeyword( array( 'keyword_id'  => $tag->attribute( 'id' ),
                                                  'language_id' => $language->attribute( 'id' ),
                                                  'keyword'     => $newKeyword,
-                                                 'locale'      => $language->attribute( 'locale' ) ) );
+                                                 'locale'      => $language->attribute( 'locale' ),
+                                                 'status'      => eZTagsKeyword::STATUS_PUBLISHED ) );
+
         if ( $http->hasPostVariable( 'AlwaysAvailable' ) )
             $translation->setAttribute( 'language_id', $translation->attribute( 'language_id' ) + 1 );
 

@@ -7,6 +7,9 @@
  */
 class eZTagsKeyword extends eZPersistentObject
 {
+    const STATUS_DRAFT = 0;
+    const STATUS_PUBLISHED = 1;
+
     /**
      * Constructor
      *
@@ -38,6 +41,10 @@ class eZTagsKeyword extends eZPersistentObject
                                                       'locale'      => array( 'name'     => 'Locale',
                                                                               'datatype' => 'string',
                                                                               'default'  => '',
+                                                                              'required' => true ),
+                                                      'status'      => array( 'name'     => 'Status',
+                                                                              'datatype' => 'integer',
+                                                                              'default'  => self::STATUS_DRAFT,
                                                                               'required' => true ) ),
                       'function_attributes' => array( 'language_name' => 'languageName' ),
                       'keys'                => array( 'keyword_id', 'locale' ),
@@ -52,11 +59,16 @@ class eZTagsKeyword extends eZPersistentObject
      * @static
      * @param integer $tagID
      * @param integer $locale
+     * @param bool $includeDrafts
      * @return eZTagsKeyword
      */
-    static function fetch( $tagID, $locale )
+    static function fetch( $tagID, $locale, $includeDrafts = false )
     {
-        return eZPersistentObject::fetchObject( self::definition(), null, array( 'keyword_id' => $tagID, 'locale' => $locale ) );
+        $fetchParams = array( 'keyword_id' => $tagID, 'locale' => $locale );
+        if ( !$includeDrafts )
+            $fetchParams['status'] = self::STATUS_PUBLISHED;
+
+        return eZPersistentObject::fetchObject( self::definition(), null, $fetchParams );
     }
 
     /**

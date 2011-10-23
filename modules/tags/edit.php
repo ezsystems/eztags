@@ -5,11 +5,27 @@ $http = eZHTTPTool::instance();
 $tagID = (int) $Params['TagID'];
 $locale = (string) $Params['Locale'];
 
-if ( $http->hasPostVariable( 'DiscardButton' ) )
-    return $Module->redirectToView( 'id', array( $tagID ) );
-
 if ( empty( $locale ) )
     $locale = $http->hasPostVariable( 'Locale' ) ? $http->postVariable( 'Locale' ) : false;
+
+if ( $http->hasPostVariable( 'DiscardButton' ) )
+{
+    if ( $locale !== false )
+    {
+        $tag = eZTagsObject::fetchWithMainTranslation( $tagID );
+        if ( $tag instanceof eZTagsObject )
+        {
+            $tagTranslation = eZTagsKeyword::fetch( $tag->attribute( 'id' ), $locale, true );
+            if ( $tagTranslation instanceof eZTagsKeyword && $tagTranslation->attribute( 'status' ) == eZTagsKeyword::STATUS_DRAFT )
+            {
+                $tagTranslation->remove();
+                $tag->updateLanguageMask();
+            }
+        }
+    }
+
+    return $Module->redirectToView( 'id', array( $tagID ) );
+}
 
 if ( $locale === false )
 {
@@ -41,12 +57,29 @@ $language = eZContentLanguage::fetchByLocale( $locale );
 if ( !$language instanceof eZContentLanguage )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
-$tag = eZTagsObject::fetchByLocale( $tagID, $language->attribute( 'locale' ), true );
+$tag = eZTagsObject::fetchWithMainTranslation( $tagID );
 if ( !$tag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
 if ( $tag->attribute( 'main_tag_id' ) != 0 )
     return $Module->redirectToView( 'edit', array( $tag->attribute( 'main_tag_id' ) ) );
+
+$tagTranslation = eZTagsKeyword::fetch( $tag->attribute( 'id' ), $language->attribute( 'locale' ), true );
+if ( !$tagTranslation instanceof eZTagsKeyword )
+{
+    $tagTranslation = new eZTagsKeyword( array( 'keyword_id'  => $tag->attribute( 'id' ),
+                                                'keyword'     => '',
+                                                'language_id' => $language->attribute( 'id' ),
+                                                'locale'      => $language->attribute( 'locale' ),
+                                                'status'      => eZTagsKeyword::STATUS_DRAFT ) );
+
+    $tagTranslation->store();
+    $tag->updateLanguageMask();
+}
+
+$tag = eZTagsObject::fetch( $tagID, $language->attribute( 'locale' ) );
+if ( !$tag instanceof eZTagsObject )
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
 $warning = '';
 $error = '';
@@ -103,22 +136,9 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
             $updatePathString = true;
         }
 
-        $tagTranslation = $tag->translationByLocale( $language->attribute( 'locale' ) );
-        if ( $tagTranslation instanceof eZTagKeyword )
-        {
-            $tagTranslation->setAttribute( 'keyword', $newKeyword );
-            $tagTranslation->store();
-        }
-        else
-        {
-            $tagTranslation = new eZTagsKeyword( array( 'keyword_id'  => $tag->attribute( 'id' ),
-                                                        'keyword'     => $newKeyword,
-                                                        'language_id' => $language->attribute( 'id' ),
-                                                        'locale'      => $language->attribute( 'locale' ) ) );
-
-            $tagTranslation->store();
-            $tag->updateLanguageMask();
-        }
+        $tagTranslation->setAttribute( 'keyword', $newKeyword );
+        $tagTranslation->setAttribute( 'status', eZTagsKeyword::STATUS_PUBLISHED );
+        $tagTranslation->store();
 
         if ( $http->hasPostVariable( 'SetAsMainTranslation' ) )
             $tag->updateMainTranslation( $language->attribute( 'locale' ) );
