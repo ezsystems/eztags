@@ -12,7 +12,7 @@
         <div class="box-content">
             <div class="context-attributes">
                 <div class="block">
-                    <input id="tags_search_text" name="TagsSearchText" type="text" size="100" value="{$tags_search_text}" />
+                    <input id="tags_search_text" name="TagsSearchText" type="text" size="50" value="{$tags_search_text}" />
                     <input class="button" type="submit" name="TagsSearchButton" value="{"Search tags"|i18n( "extension/eztags/tags/search" )}" />
                     <input type="hidden" name="TagsSearchSubTree" value="{$tags_search_subtree}" />
                     <label for="tags_include_synonyms">
