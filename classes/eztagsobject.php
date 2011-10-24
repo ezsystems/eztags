@@ -801,14 +801,9 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByRemoteID( $remoteID )
     {
-        $db = eZDB::instance();
-        $remoteID =$db->escapeString( $remoteID );
-        $resultArray = $db->arrayQuery( 'SELECT id FROM eztags WHERE remote_id=\'' . $remoteID . '\'' );
-        if ( count( $resultArray ) != 1 )
-            $object = null;
-        else
-            $object = eZTagsObject::fetch( $resultArray[0]['id'] );
-        return $object;
+        return eZPersistentObject::fetchObject( self::definition(), null, array(
+            'remote_id' => $remoteID
+        ) );
     }
 
 }
