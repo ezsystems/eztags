@@ -23,6 +23,8 @@ if ( $http->hasPostVariable( 'RemoveTranslationButton' ) )
             if ( $translation instanceof eZTagsKeyword && $translation->attribute( 'locale' ) != $mainTranslation->attribute( 'locale' ) )
                 $translation->remove();
         }
+
+        $tag->updateLanguageMask();
         $db->commit();
     }
 }
