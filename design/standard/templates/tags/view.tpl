@@ -42,7 +42,7 @@
             {/if}
 
             {include uri='design:navigator/google.tpl'
-                     page_uri=concat( '/tags/view/', $tag.url )
+                     page_uri=$tag.url
                      item_count=$nodes_count
                      view_parameters=$view_parameters
                      item_limit=$limit}
@@ -74,7 +74,7 @@
                                 {if $name|downcase|ne( $tag.keyword|downcase )}
                                     {set $t = fetch( tags, tags_by_keyword, hash( keyword, $name ) )}
                                     {if $t|count}
-                                        <li><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $t[0].icon )|ezimage} title="{$t[0].keyword|wash}" alt="{$t[0].keyword|wash}" /> <a href={concat( 'tags/view/', $t[0].url )|ezurl}>{$t[0].keyword|wash}</a> ({$count})</li>
+                                        <li><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $t[0].icon )|ezimage} title="{$t[0].keyword|wash}" alt="{$t[0].keyword|wash}" /> <a href={$t[0].url|ezurl}>{$t[0].keyword|wash}</a> ({$count})</li>
                                     {/if}
                                 {/if}
                             {/foreach}

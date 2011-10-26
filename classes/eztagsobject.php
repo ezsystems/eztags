@@ -76,6 +76,7 @@ class eZTagsObject extends eZPersistentObject
                                                       'icon'                      => 'getIcon',
                                                       'url'                       => 'getUrl',
                                                       'path'                      => 'getPath',
+                                                      'path_count'                => 'getPathCount',
                                                       'keyword'                   => 'getKeyword',
                                                       'available_languages'       => 'getAvailableLanguages',
                                                       'current_language'          => 'getCurrentLanguage',
@@ -354,20 +355,33 @@ class eZTagsObject extends eZPersistentObject
      */
     function getUrl()
     {
-        $keywordsArray = array();
-        $path = $this->getPath( false, true );
+        $path = self::getPath();
+        $fullPathCount = self::getPathCount( true );
+        $urlPrefix = trim( eZINI::instance( 'eztags.ini' )->variable( 'GeneralSettings', 'URLPrefix' ) );
+        $urlPrefix = trim( $urlPrefix, '/' );
 
-        if ( is_array( $path ) && !empty( $path ) )
+        $keywordArray = array();
+
+        if ( is_array( $path ) )
         {
-            foreach ( $path as $tag )
+            if ( count( $path ) != $fullPathCount )
             {
-                $keywordsArray[] = urlencode( $tag->attribute( 'keyword' ) );
+                return 'tags/id/' . $this->attribute( 'id' );
+            }
+            else
+            {
+                foreach ( $path as $tag )
+                {
+                    $keywordArray[] = $tag->attribute( 'keyword' );
+                }
+
+                $keywordArray[] = $this->attribute( 'keyword' );
+
+                return $urlPrefix . '/' . implode( '/', $keywordArray );
             }
         }
 
-        $keywordsArray[] = urlencode( $this->attribute( 'keyword' ) );
-
-        return implode( '/', $keywordsArray );
+        return $urlPrefix . '/' . $this->attribute( 'keyword' );
     }
 
     function getPath( $reverseSort = false, $mainTranslation = false )
@@ -383,6 +397,18 @@ class eZTagsObject extends eZPersistentObject
                                 null,
                                 array( 'path_string' => $reverseSort != false ? 'desc' : 'asc' ),
                                 $mainTranslation );
+    }
+
+    function getPathCount( $mainTranslation = false )
+    {
+        $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
+
+        if ( !is_array( $pathArray ) || empty( $pathArray ) || count( $pathArray ) == 1 )
+            return 0;
+
+        $pathArray = array_slice( $pathArray, 0, count( $pathArray ) - 1 );
+
+        return self::fetchListCount( array( 'id' => array( $pathArray ) ), $mainTranslation );
     }
 
     function getParentString()
@@ -575,8 +601,7 @@ class eZTagsObject extends eZPersistentObject
     static function fetchCustomCondsSQL( $params, $mainTranslation = false, $locale = false )
     {
         $customConds = is_array( $params ) && !empty( $params ) ? " AND " : " WHERE ";
-        $customConds .= eZContentLanguage::languagesSQLFilter( 'eztags' );
-        $customConds .= " AND eztags.id = eztags_keyword.keyword_id ";
+        $customConds .= " eztags.id = eztags_keyword.keyword_id ";
 
         if ( $mainTranslation !== false )
         {
@@ -585,10 +610,12 @@ class eZTagsObject extends eZPersistentObject
         else if ( is_string( $locale ) )
         {
             $db = eZDB::instance();
+            $customConds .= " AND " . eZContentLanguage::languagesSQLFilter( 'eztags' ) . " ";
             $customConds .= " AND eztags_keyword.locale = '" . $db->escapeString( $locale ) . "' ";
         }
         else
         {
+            $customConds .= " AND " . eZContentLanguage::languagesSQLFilter( 'eztags' ) . " ";
             $customConds .= " AND " . eZContentLanguage::sqlFilter( 'eztags_keyword', 'eztags' ) . " ";
         }
 
