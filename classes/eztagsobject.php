@@ -256,13 +256,14 @@ class eZTagsObject extends eZPersistentObject
      */
     function isInsideSubTreeLimit()
     {
-        $tag = $this;
-        while ( $tag->hasParent( true ) )
+        $path = $this->getPath( true, true );
+
+        if ( is_array( $path ) && !empty( $path ) )
         {
-            $tag = $tag->getParent( true );
-            if ( $tag->getSubTreeLimitationsCount() > 0 )
+            foreach ( $path as $tag )
             {
-                return true;
+                if ( $tag->getSubTreeLimitationsCount() > 0 )
+                    return true;
             }
         }
 
@@ -328,14 +329,19 @@ class eZTagsObject extends eZPersistentObject
         else
             $tag = $this;
 
-        if ( array_key_exists( $tag->attribute( 'id' ), $iconMap ) && !empty( $iconMap[$tag->attribute( 'id' )] ) )
-            return $iconMap[$tag->attribute( 'id' )];
+        $tagID = $tag->attribute( 'id' );
+        if ( array_key_exists( $tagID, $iconMap ) && !empty( $iconMap[$tagID] ) )
+            return $iconMap[$tagID];
 
-        while ( $tag->hasParent( true ) )
+        $path = $tag->getPath( true, true );
+        if ( is_array( $path ) && !empty( $path ) )
         {
-            $tag = $tag->getParent( true );
-            if ( array_key_exists( $tag->attribute( 'id' ), $iconMap ) && !empty( $iconMap[$tag->attribute( 'id' )] ) )
-                return $iconMap[$tag->attribute( 'id' )];
+            foreach ( $path as $pathElement )
+            {
+                $pathElementID = $pathElement->attribute( 'id' );
+                if ( array_key_exists( $pathElementID, $iconMap ) && !empty( $iconMap[$pathElementID] ) )
+                    return $iconMap[$pathElementID];
+            }
         }
 
         return $defaultIcon;
@@ -348,16 +354,20 @@ class eZTagsObject extends eZPersistentObject
      */
     function getUrl()
     {
-        $url = urlencode( $this->attribute( 'keyword' ) );
-        $tag = $this;
+        $keywordsArray = array();
+        $path = $this->getPath( false, true );
 
-        while ( $tag->hasParent( true ) )
+        if ( is_array( $path ) && !empty( $path ) )
         {
-            $tag = $tag->getParent( true );
-            $url = urlencode( $tag->attribute( 'keyword' ) ) . '/' . $url;
+            foreach ( $path as $tag )
+            {
+                $keywordsArray[] = urlencode( $tag->attribute( 'keyword' ) );
+            }
         }
 
-        return $url;
+        $keywordsArray[] = urlencode( $this->attribute( 'keyword' ) );
+
+        return implode( '/', $keywordsArray );
     }
 
     function getPath( $reverseSort = false, $mainTranslation = false )
@@ -961,13 +971,15 @@ class eZTagsObject extends eZPersistentObject
                                          'text'   => $tag->attribute( 'keyword' ),
                                          'url'    => false );
 
-            $tempTag = $tag;
-            while ( $tempTag->hasParent( true ) )
+            $path = $tag->getPath( true, true );
+            if ( is_array( $path ) && !empty( $path ) )
             {
-                $tempTag = $tempTag->getParent( true );
-                $moduleResultPath[] = array( 'tag_id' => $tempTag->attribute( 'id' ),
-                                             'text'   => $tempTag->attribute( 'keyword' ),
-                                             'url'    => $generateUrls ? 'tags/' . $view . '/' . $tempTag->attribute( $attribute ) : false );
+                foreach ( $path as $pathElement )
+                {
+                    $moduleResultPath[] = array( 'tag_id' => $pathElement->attribute( 'id' ),
+                                                 'text'   => $pathElement->attribute( 'keyword' ),
+                                                 'url'    => $generateUrls ? 'tags/' . $view . '/' . $pathElement->attribute( $attribute ) : false );
+                }
             }
         }
 

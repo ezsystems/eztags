@@ -93,20 +93,22 @@ class eZTagsTemplateFunctions
         if ( !$tag instanceof eZTagsObject )
             return '(' . ezpI18n::tr( 'extension/eztags/tags/edit', 'no parent' ) . ')';
 
-        $synonymsCount = $tag->getSynonymsCount( true );
-
         $keywordsArray = array();
 
-        while ( $tag->hasParent( true ) )
+        $path = $tag->getPath( false, true );
+        if ( is_array( $path ) && !empty( $path ) )
         {
-            $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
-            $tag = $tag->getParent( true );
-            $synonymsCount = $tag->getSynonymsCount( true );
+            foreach ( $path as $pathElement )
+            {
+                $synonymsCount = $pathElement->getSynonymsCount( true );
+                $keywordsArray[] = $synonymsCount > 0 ? $pathElement->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $pathElement->attribute( 'keyword' );
+            }
         }
 
-        $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
+        $synonymsCount = $tag->getSynonymsCount( true );
+        $keywordsArray[] = $synonymsCount > 0 ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
 
-        return implode( ' / ', array_reverse( $keywordsArray ) );
+        return implode( ' / ', $keywordsArray );
     }
 
     /**
