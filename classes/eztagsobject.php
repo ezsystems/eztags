@@ -75,6 +75,7 @@ class eZTagsObject extends eZPersistentObject
                                                       'synonyms_count'            => 'getSynonymsCount',
                                                       'icon'                      => 'getIcon',
                                                       'url'                       => 'getUrl',
+                                                      'path'                      => 'getPath',
                                                       'keyword'                   => 'getKeyword',
                                                       'available_languages'       => 'getAvailableLanguages',
                                                       'current_language'          => 'getCurrentLanguage',
@@ -357,6 +358,21 @@ class eZTagsObject extends eZPersistentObject
         }
 
         return $url;
+    }
+
+    function getPath( $reverseSort = false, $mainTranslation = false )
+    {
+        $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
+
+        if ( !is_array( $pathArray ) || empty( $pathArray ) || count( $pathArray ) == 1 )
+            return array();
+
+        $pathArray = array_slice( $pathArray, 0, count( $pathArray ) - 1 );
+
+        return self::fetchList( array( 'id' => array( $pathArray ) ),
+                                null,
+                                array( 'path_string' => $reverseSort != false ? 'desc' : 'asc' ),
+                                $mainTranslation );
     }
 
     /**
