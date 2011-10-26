@@ -22,7 +22,7 @@ if ( $http->hasSessionVariable( 'eZTagsShowReindexMessage' ) )
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:tags/dashboard.tpl' );
-$Result['path']    = eZTagsObject::generateModuleResultPath( false, false, false,
+$Result['path']    = eZTagsObject::generateModuleResultPath( false, null,
                                                              ezpI18n::tr( 'extension/eztags/tags/view', 'Tags Dashboard' ) );
 
 ?>

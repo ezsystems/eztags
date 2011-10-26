@@ -372,16 +372,16 @@ class eZTagsObject extends eZPersistentObject
             {
                 foreach ( $path as $tag )
                 {
-                    $keywordArray[] = $tag->attribute( 'keyword' );
+                    $keywordArray[] = urlencode( $tag->attribute( 'keyword' ) );
                 }
 
-                $keywordArray[] = $this->attribute( 'keyword' );
+                $keywordArray[] = urlencode( $this->attribute( 'keyword' ) );
 
-                return urlencode( $urlPrefix . '/' . implode( '/', $keywordArray ) );
+                return $urlPrefix . '/' . implode( '/', $keywordArray );
             }
         }
 
-        return urlencode( $urlPrefix . '/' . $this->attribute( 'keyword' ) );
+        return $urlPrefix . '/' . urlencode( $this->attribute( 'keyword' ) );
     }
 
     function getPath( $reverseSort = false, $mainTranslation = false )
@@ -1003,13 +1003,9 @@ class eZTagsObject extends eZPersistentObject
         return 0;
     }
 
-    static function generateModuleResultPath( $tag = false, $view = false, $attribute = false, $textPart = false )
+    static function generateModuleResultPath( $tag = false, $urlToGenerate = null, $textPart = false, $mainTranslation = true )
     {
         $moduleResultPath = array();
-
-        $generateUrls = false;
-        if ( is_string( $view ) && is_string( $attribute ) )
-            $generateUrls = true;
 
         if ( is_string( $textPart ) )
         {
@@ -1023,14 +1019,26 @@ class eZTagsObject extends eZPersistentObject
                                          'text'   => $tag->attribute( 'keyword' ),
                                          'url'    => false );
 
-            $path = $tag->getPath( true, true );
+            $path = $tag->getPath( true, $mainTranslation );
             if ( is_array( $path ) && !empty( $path ) )
             {
                 foreach ( $path as $pathElement )
                 {
+                    // if $urlToGenerate === null, generate no urls
+                    $url = false;
+                    if ( $urlToGenerate !== null )
+                    {
+                        // if true generate nice urls
+                        if ( $urlToGenerate )
+                            $url = $pathElement->getUrl();
+                        // else generate urls with ID
+                        else
+                            $url = 'tags/id/' . $pathElement->attribute( 'id' );
+                    }
+
                     $moduleResultPath[] = array( 'tag_id' => $pathElement->attribute( 'id' ),
                                                  'text'   => $pathElement->attribute( 'keyword' ),
-                                                 'url'    => $generateUrls ? 'tags/' . $view . '/' . $pathElement->attribute( $attribute ) : false );
+                                                 'url'    => $url );
                 }
             }
         }

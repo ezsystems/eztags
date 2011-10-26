@@ -36,7 +36,7 @@ if ( $locale === false )
     $Result = array();
     $Result['content']    = $tpl->fetch( 'design:tags/addsynonym_languages.tpl' );
     $Result['ui_context'] = 'edit';
-    $Result['path']       = eZTagsObject::generateModuleResultPath( $mainTag, false, false,
+    $Result['path']       = eZTagsObject::generateModuleResultPath( $mainTag, null,
                                                                     ezpI18n::tr( 'extension/eztags/tags/edit', 'New synonym tag' ) );
 
     return;
@@ -105,7 +105,7 @@ $tpl->setVariable( 'ui_context', 'edit' );
 $Result = array();
 $Result['content']    = $tpl->fetch( 'design:tags/addsynonym.tpl' );
 $Result['ui_context'] = 'edit';
-$Result['path']       = eZTagsObject::generateModuleResultPath( $mainTag, false, false,
+$Result['path']       = eZTagsObject::generateModuleResultPath( $mainTag, null,
                                                                 ezpI18n::tr( 'extension/eztags/tags/edit', 'New synonym tag' ) );
 
 ?>
