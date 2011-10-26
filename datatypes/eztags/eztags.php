@@ -268,7 +268,7 @@ class eZTags
 
         //we need to check if user really has access to tags/add, taking into account policy and subtree limits
         $attributeSubTreeLimit = $attribute->contentClassAttribute()->attribute( eZTagsType::SUBTREE_LIMIT_FIELD );
-        $userLimitations = eZTagsTemplateFunctions::getSimplifiedUserAccess('tags', 'add');
+        $userLimitations = eZTagsTemplateFunctions::getSimplifiedUserAccess( 'tags', 'add' );
 
         if ( $userLimitations['accessWord'] != 'no' && !empty( $newTags ) )
         {
