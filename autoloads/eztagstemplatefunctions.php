@@ -93,22 +93,7 @@ class eZTagsTemplateFunctions
         if ( !$tag instanceof eZTagsObject )
             return '(' . ezpI18n::tr( 'extension/eztags/tags/edit', 'no parent' ) . ')';
 
-        $keywordsArray = array();
-
-        $path = $tag->getPath( false, true );
-        if ( is_array( $path ) && !empty( $path ) )
-        {
-            foreach ( $path as $pathElement )
-            {
-                $synonymsCount = $pathElement->getSynonymsCount( true );
-                $keywordsArray[] = $synonymsCount > 0 ? $pathElement->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $pathElement->attribute( 'keyword' );
-            }
-        }
-
-        $synonymsCount = $tag->getSynonymsCount( true );
-        $keywordsArray[] = $synonymsCount > 0 ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
-
-        return implode( ' / ', $keywordsArray );
+        return $tag->getParentString();
     }
 
     /**

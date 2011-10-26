@@ -385,6 +385,26 @@ class eZTagsObject extends eZPersistentObject
                                 $mainTranslation );
     }
 
+    function getParentString()
+    {
+        $keywordsArray = array();
+
+        $path = $this->getPath( false, true );
+        if ( is_array( $path ) && !empty( $path ) )
+        {
+            foreach ( $path as $tag )
+            {
+                $synonymsCount = $tag->getSynonymsCount( true );
+                $keywordsArray[] = $synonymsCount > 0 ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
+            }
+        }
+
+        $synonymsCount = $this->getSynonymsCount( true );
+        $keywordsArray[] = $synonymsCount > 0 ? $this->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $this->attribute( 'keyword' );
+
+        return implode( ' / ', $keywordsArray );
+    }
+
     /**
      * Updates modified timestamp on current tag and all of its parents
      * Expensive to run through API, so SQL takes care of it
