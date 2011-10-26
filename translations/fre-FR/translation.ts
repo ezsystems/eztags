@@ -2,6 +2,59 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>design/admin/parts/user/menu</name>
+    <message>
+        <source>Change the left menu width to small size.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Small</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the left menu width to large size.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Large</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the left menu width to medium size.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/article/comments</name>
+    <message>
+        <source>%login_link_startLog in%login_link_end to comment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/full/article</name>
+    <message>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%login_link_startLog in%login_link_end or %create_link_startcreate a user account%create_link_end to comment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Limit by tags subtree</source>
@@ -9,7 +62,7 @@
     </message>
     <message>
         <source>Show dropdown instead of autocomplete</source>
-        <translation>Afficher une liste déroulante au lieu de l'autocomplétion</translation>
+        <translation>Afficher une liste déroulante au lieu de l&apos;autocomplétion</translation>
     </message>
     <message>
         <source>Select subtree</source>
@@ -27,16 +80,63 @@
         <source>No</source>
         <translation>Non</translation>
     </message>
+    <message>
+        <source>Hide root subtree limit tag when editing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum number of allowed tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(0 = unlimited)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlimited</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/datatypes</name>
+    <message>
+        <source>Tags</source>
+        <translation>Mots clés</translation>
+    </message>
+    <message>
+        <source>Loading</source>
+        <translation>Chargement</translation>
+    </message>
+    <message>
+        <source>Selected tags</source>
+        <translation>Mots clés sélectionnés</translation>
+    </message>
+    <message>
+        <source>There are no selected tags</source>
+        <translation>Il y a aucun mot clé sélectionné</translation>
+    </message>
+    <message>
+        <source>Suggested tags</source>
+        <translation>Mot clés suggérés</translation>
+    </message>
+    <message>
+        <source>There are no tags to suggest</source>
+        <translation>Il n&apos;y a ancun mot clé suggéré</translation>
+    </message>
+    <message>
+        <source>Add new</source>
+        <translation>Ajouter un nouveau mot clé</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/errors</name>
     <message>
         <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
-        <translation>Le mot clé ne peut pas être modifié car il est utilisé comme limitation de l'arborescence par un ou plusieurs attributs de classes.</translation>
+        <translation>Le mot clé ne peut pas être modifié car il est utilisé comme limitation de l&apos;arborescence par un ou plusieurs attributs de classes.</translation>
     </message>
     <message>
         <source>Selected target tag is invalid.</source>
-        <translation>Le mot clé parent sélectionné n'est pas valide.</translation>
+        <translation>Le mot clé parent sélectionné n&apos;est pas valide.</translation>
     </message>
     <message>
         <source>Name cannot be empty.</source>
@@ -44,22 +144,11 @@
     </message>
     <message>
         <source>Tag/synonym with that name already exists in selected location.</source>
-        <translation>Ce mot clé existe déjà dans l'emplacement sélectionné.</translation>
+        <translation>Ce mot clé existe déjà dans l&apos;emplacement sélectionné.</translation>
     </message>
     <message>
         <source>Go back</source>
         <translation>Retour en arrière</translation>
-    </message>
-</context>
-<context>
-    <name>extension/eztags/warnings</name>
-    <message>
-        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
-        <translation>ATTENTION: Le mot clé est dans les limites de l'arborescence des attributs de classe. Si il est déplacé en dehors de ces limites, cela peut conduire à des incohérences telles que les objets pourraient avoir des mots clés qu'ils ne sont pas supposés avoir. </translation>
-    </message>
-    <message>
-        <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
-        <translation>La réindexation est obligatoire pour voir les changements dans le moteur de recherche. Activer "DelayedIndexing" dans le ficier site.ini pour réindexer automatiquement.</translation>
     </message>
 </context>
 <context>
@@ -87,6 +176,22 @@
     <message>
         <source>No parent</source>
         <translation>Aucun parent</translation>
+    </message>
+    <message>
+        <source>Up one level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Children tags (%children_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show %1 tags per page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The current tag does not contain any children.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -180,19 +285,19 @@
         <translation>Sélectionner le mot clé  principal</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the "%keyword" tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
-        <translation>Etes vous sûr de vouloir supprimer le mot clé "%keyword" ? Tous les mots clés et synonymes enfant seront aussi supprimés et enlevés des objets existants.</translation>
+        <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation>Etes vous sûr de vouloir supprimer le mot clé &quot;%keyword&quot; ? Tous les mots clés et synonymes enfant seront aussi supprimés et enlevés des objets existants.</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the "%keyword" synonym?</source>
-        <translation>Etes vous sûr de vouloir supprimer le synonyme "%keyword" ?</translation>
+        <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>
+        <translation>Etes vous sûr de vouloir supprimer le synonyme &quot;%keyword&quot; ?</translation>
     </message>
     <message>
         <source>Transfer all related objects to the main tag</source>
         <translation>Transférer tous les objets en relation au mlot clé principal</translation>
     </message>
     <message>
-        <source>Merging this tag with another tag will delete the tag and it's synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
+        <source>Merging this tag with another tag will delete the tag and it&apos;s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
         <translation>Fusionner ce mot clé avec un autre détruira ce dernier ainsi que ses synonymes et transferera tous les objets en relation au mot clé principal. Tous les mots clés enfant deviendront enfant du mot clé principal.</translation>
     </message>
     <message>
@@ -204,11 +309,11 @@
         <translation>Non</translation>
     </message>
     <message>
-        <source>The tag you're about to delete has</source>
+        <source>The tag you&apos;re about to delete has</source>
         <translation>Le mot clé que vous allez supprimer est</translation>
     </message>
     <message>
-        <source>The tag you're about to merge has</source>
+        <source>The tag you&apos;re about to merge has</source>
         <translation>Le mot clé que vous allez fusionner est</translation>
     </message>
     <message>
@@ -217,7 +322,7 @@
     </message>
     <message>
         <source>number of objects related to first level children tags</source>
-        <translation>Nombre d'objets en relaion avec les mots clés de premier niveau</translation>
+        <translation>Nombre d&apos;objets en relaion avec les mots clés de premier niveau</translation>
     </message>
     <message>
         <source>number of synonyms</source>
@@ -225,7 +330,81 @@
     </message>
     <message>
         <source>number of objects related to synonyms</source>
-        <translation>Nombre d'objets en relation avec les synonymes</translation>
+        <translation>Nombre d&apos;objets en relation avec les synonymes</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/tags/search</name>
+    <message>
+        <source>Tags search</source>
+        <translation>Chercher par mots clés</translation>
+    </message>
+    <message>
+        <source>Search tags</source>
+        <translation>Chercher des mots clés</translation>
+    </message>
+    <message>
+        <source>Include synonyms in search</source>
+        <translation>Inclure les synonymes dans la recherche</translation>
+    </message>
+    <message>
+        <source>Empty search not allowed. Please enter your search query above.</source>
+        <translation>Les recherches vides ne sont pas autorisées. Merci de saisir votre recherche dans le champ ci-dessus.</translation>
+    </message>
+    <message>
+        <source>No tags were found while searching for &quot;%1&quot;.</source>
+        <translation>Aucun mot clé trouvé pour votre recherche &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <source>Search for &quot;%1&quot; returned %2 matches.</source>
+        <translation>Votre recherche pour &quot;%1&quot; a retourné %2 résultats.</translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Mot clé</translation>
+    </message>
+    <message>
+        <source>Parent tag</source>
+        <translation>Parent</translation>
+    </message>
+    <message>
+        <source>Main tag name</source>
+        <translation>Mot clé principal</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/tags/treemenu</name>
+    <message>
+        <source>Select tag</source>
+        <translation>Mot clé sélectionné</translation>
+    </message>
+    <message>
+        <source>Parent tag ID</source>
+        <translation>ID du mot clé parent</translation>
+    </message>
+    <message>
+        <source>Tag ID</source>
+        <translation>ID du mot clé</translation>
+    </message>
+    <message>
+        <source>Top Level Tags</source>
+        <translation>Racine des mots clés</translation>
+    </message>
+    <message>
+        <source>Dynamic tree not allowed for this siteaccess</source>
+        <translation>Les arborescences dynamiques ne sont pas autorisées pour ce siteaccess</translation>
+    </message>
+    <message>
+        <source>Tag does not exist</source>
+        <translation>Ce mot clé n&apos;existe pas</translation>
+    </message>
+    <message>
+        <source>Internal error</source>
+        <translation>Erreur interne</translation>
+    </message>
+    <message>
+        <source>Tags structure</source>
+        <translation>Structure des mots clés</translation>
     </message>
 </context>
 <context>
@@ -280,7 +459,7 @@
     </message>
     <message>
         <source>Subtree limitations</source>
-        <translation>Limitations de l'arborescence</translation>
+        <translation>Limitations de l&apos;arborescence</translation>
     </message>
     <message>
         <source>Class ID</source>
@@ -292,116 +471,29 @@
     </message>
     <message>
         <source>Attribute identifier</source>
-        <translation>Identifiant de l'attribut</translation>
+        <translation>Identifiant de l&apos;attribut</translation>
     </message>
     <message>
         <source>No subtree limitations</source>
-        <translation>Aucune limitation d'arborescence</translation>
+        <translation>Aucune limitation d&apos;arborescence</translation>
     </message>
 </context>
 <context>
-<name>extension/eztags/tags/search</name>
+    <name>extension/eztags/warnings</name>
     <message>
-        <source>Tags search</source>
-        <translation>Chercher par mots clés</translation>
+        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
+        <translation>ATTENTION: Le mot clé est dans les limites de l&apos;arborescence des attributs de classe. Si il est déplacé en dehors de ces limites, cela peut conduire à des incohérences telles que les objets pourraient avoir des mots clés qu&apos;ils ne sont pas supposés avoir. </translation>
     </message>
     <message>
-        <source>Search tags</source>
-        <translation>Chercher des mots clés</translation>
-    </message>
-    <message>
-        <source>Include synonyms in search</source>
-        <translation>Inclure les synonymes dans la recherche</translation>
-    </message>
-    <message>
-        <source>Empty search not allowed. Please enter your search query above.</source>
-        <translation>Les recherches vides ne sont pas autorisées. Merci de saisir votre recherche dans le champ ci-dessus.</translation>
-    </message>
-    <message>
-        <source>No tags were found while searching for "%1".</source>
-        <translation>Aucun mot clé trouvé pour votre recherche "%1".</translation>
-    </message>
-    <message>
-        <source>Search for "%1" returned %2 matches.</source>
-        <translation>Votre recherche pour "%1" a retourné %2 résultats.</translation>
-    </message>
-    <message>
-        <source>Tag name</source>
-        <translation>Mot clé</translation>
-    </message>
-    <message>
-        <source>Parent tag</source>
-        <translation>Parent</translation>
-    </message>
-    <message>
-        <source>Main tag name</source>
-        <translation>Mot clé principal</translation>
+        <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
+        <translation>La réindexation est obligatoire pour voir les changements dans le moteur de recherche. Activer &quot;DelayedIndexing&quot; dans le ficier site.ini pour réindexer automatiquement.</translation>
     </message>
 </context>
 <context>
-    <name>extension/eztags/datatypes</name>
+    <name>kernel/classes/datatypes</name>
     <message>
-        <source>Tags</source>
-        <translation>Mots clés</translation>
-    </message>
-    <message>
-        <source>Loading</source>
-        <translation>Chargement</translation>
-    </message>
-    <message>
-        <source>Selected tags</source>
-        <translation>Mots clés sélectionnés</translation>
-    </message>
-    <message>
-        <source>There are no selected tags</source>
-        <translation>Il y a aucun mot clé sélectionné</translation>
-    </message>
-    <message>
-        <source>Suggested tags</source>
-        <translation>Mot clés suggérés</translation>
-    </message>
-    <message>
-        <source>There are no tags to suggest</source>
-        <translation>Il n'y a ancun mot clé suggéré</translation>
-    </message>
-    <message>
-        <source>Add new</source>
-        <translation>Ajouter un nouveau mot clé</translation>
-    </message>
-</context>
-<context>
-    <name>extension/eztags/tags/treemenu</name>
-    <message>
-        <source>Select tag</source>
-        <translation>Mot clé sélectionné</translation>
-    </message>
-    <message>
-        <source>Parent tag ID</source>
-        <translation>ID du mot clé parent</translation>
-    </message>
-    <message>
-        <source>Tag ID</source>
-        <translation>ID du mot clé</translation>
-    </message>
-    <message>
-        <source>Top Level Tags</source>
-        <translation>Racine des mots clés</translation>
-    </message>
-    <message>
-        <source>Dynamic tree not allowed for this siteaccess</source>
-        <translation>Les arborescences dynamiques ne sont pas autorisées pour ce siteaccess</translation>
-    </message>
-    <message>
-        <source>Tag does not exist</source>
-        <translation>Ce mot clé n'existe pas</translation>
-    </message>
-    <message>
-        <source>Internal error</source>
-        <translation>Erreur interne</translation>
-    </message>
-    <message>
-        <source>Tags structure</source>
-        <translation>Structure des mots clés</translation>
+        <source>Input required.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
