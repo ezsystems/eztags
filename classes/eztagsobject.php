@@ -377,11 +377,11 @@ class eZTagsObject extends eZPersistentObject
 
                 $keywordArray[] = $this->attribute( 'keyword' );
 
-                return $urlPrefix . '/' . implode( '/', $keywordArray );
+                return urlencode( $urlPrefix . '/' . implode( '/', $keywordArray ) );
             }
         }
 
-        return $urlPrefix . '/' . $this->attribute( 'keyword' );
+        return urlencode( $urlPrefix . '/' . $this->attribute( 'keyword' ) );
     }
 
     function getPath( $reverseSort = false, $mainTranslation = false )
@@ -807,16 +807,21 @@ class eZTagsObject extends eZPersistentObject
      */
     static function exists( $tagID, $keyword, $parentID )
     {
-        $params = array( 'keyword' => array( 'like', trim( $keyword ) ), 'parent_id' => $parentID );
+        $db = eZDB::instance();
+        $sql = "SELECT COUNT(*) AS row_count FROM eztags, eztags_keyword
+                WHERE eztags.id = eztags_keyword.keyword_id AND
+                eztags.parent_id = " . (int) $parentID . " AND
+                eztags.id <> " . (int) $tagID . " AND
+                eztags_keyword.keyword LIKE '" . $db->escapeString( $keyword ) . "'";
 
-        if ( $tagID > 0 )
+        $result = $db->arrayQuery( $sql );
+
+        if ( is_array( $result ) && !empty( $result ) )
         {
-            $params['id'] = array( '!=', $tagID );
+            if ( (int) $result[0]['row_count'] > 0 )
+                return true;
         }
 
-        $count = self::fetchListCount( $params );
-        if ( $count > 0 )
-            return true;
         return false;
     }
 
