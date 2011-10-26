@@ -98,16 +98,16 @@ class eZTagsTemplateFunctions
 
     /**
      * Returns $limit latest tags
+     * Deprecated: use fetch( tags, latest_tags, hash( ... ) )
      *
+     * @deprecated
      * @static
      * @param integer $limit
      * @return array
      */
     static function fetchLatestTags( $limit )
     {
-        return eZTagsObject::fetchList( array( 'main_tag_id' => 0 ),
-                                        array( 'limit' => $limit ),
-                                        array( 'modified' => 'desc' ) );
+        return eZTagsFunctionCollection::fetchLatestTags( 0, $limit );
     }
 
     /**
