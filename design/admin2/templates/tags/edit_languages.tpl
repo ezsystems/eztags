@@ -27,15 +27,18 @@
                     </div>
                 </fieldset>
             </div>
-            <div class="block">
-                <fieldset>
-                    <legend>{'Add translation'|i18n('extension/eztags/tags/edit')}</legend>
-                    <p>{'Select the translation you want to add'|i18n('extension/eztags/tags/edit')}:</p>
-                    <div class="indent">
-                        {$new_translations|implode( '' )}
-                    </div>
-                </fieldset>
-            </div>
+
+            {if $new_translations|count}
+                <div class="block">
+                    <fieldset>
+                        <legend>{'Add translation'|i18n('extension/eztags/tags/edit')}</legend>
+                        <p>{'Select the translation you want to add'|i18n('extension/eztags/tags/edit')}:</p>
+                        <div class="indent">
+                            {$new_translations|implode( '' )}
+                        </div>
+                    </fieldset>
+                </div>
+            {/if}
 
             <div class="controlbar">
                 <div class="block">
