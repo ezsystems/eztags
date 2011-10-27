@@ -36,4 +36,8 @@
     </div>
 </div>
 
-{include uri='design:eztags_children_yui.tpl'}
+{if ezini( 'GeneralSettings', 'ShowOldStyleChildrenList', 'eztags.ini' )|eq( 'enabled' )}
+    {include uri='design:eztags_children.tpl'}
+{else}
+    {include uri='design:eztags_children_yui.tpl'}
+{/if}
