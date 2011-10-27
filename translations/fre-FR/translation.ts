@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="fr_FR">
 <context>
     <name>design/admin/parts/user/menu</name>
     <message>
         <source>Change the left menu width to small size.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier la largeur du menu à gauche pour une petite taille.</translation>
     </message>
     <message>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Petit</translation>
     </message>
     <message>
         <source>Medium</source>
-        <translation type="unfinished"></translation>
+        <translation>Moyen</translation>
     </message>
     <message>
         <source>Change the left menu width to large size.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier la largeur du menu à gauche pour une grande taille.</translation>
     </message>
     <message>
         <source>Large</source>
-        <translation type="unfinished"></translation>
+        <translation>Grand</translation>
     </message>
     <message>
         <source>Change the left menu width to medium size.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier la largeur du menu à gauche pour une taille moyenne.</translation>
     </message>
 </context>
 <context>
     <name>design/ezwebin/article/comments</name>
     <message>
         <source>%login_link_startLog in%login_link_end to comment.</source>
-        <translation type="unfinished"></translation>
+        <translation>%login_link_startConnectez vous%login_link_end pour laisser un commentaire.</translation>
     </message>
 </context>
 <context>
     <name>design/ezwebin/full/article</name>
     <message>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Commentaires</translation>
     </message>
     <message>
         <source>New comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau commentaire</translation>
     </message>
     <message>
         <source>%login_link_startLog in%login_link_end or %create_link_startcreate a user account%create_link_end to comment.</source>
-        <translation type="unfinished"></translation>
+        <translation>%login_link_startConnectez vous%login_link_end ou %create_link_startcréez un compte utilisateur%create_link_end pour laisser un commentaire.</translation>
     </message>
     <message>
         <source>Tip a friend</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer à un ami</translation>
     </message>
 </context>
 <context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Limit by tags subtree</source>
-        <translation>Limiter à une sous arborescence de mots clés</translation>
+        <translation>Limiter à une sous arborescence de mot clés</translation>
     </message>
     <message>
         <source>Show dropdown instead of autocomplete</source>
@@ -82,19 +82,19 @@
     </message>
     <message>
         <source>Hide root subtree limit tag when editing object</source>
-        <translation type="unfinished"></translation>
+        <translation>Cacher le mot clé limitant l&apos;arborescence lors de l&apos;édition de l&apos;objet</translation>
     </message>
     <message>
         <source>Maximum number of allowed tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de mots clés maximum autorisés</translation>
     </message>
     <message>
         <source>(0 = unlimited)</source>
-        <translation type="unfinished"></translation>
+        <translation>(0 = illimité)</translation>
     </message>
     <message>
         <source>Unlimited</source>
-        <translation type="unfinished"></translation>
+        <translation>Illimité</translation>
     </message>
 </context>
 <context>
@@ -179,19 +179,19 @@
     </message>
     <message>
         <source>Up one level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Remonter d&apos;un niveau.</translation>
     </message>
     <message>
         <source>Children tags (%children_count)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mot clés enfants (%children_count)</translation>
     </message>
     <message>
         <source>Show %1 tags per page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer %1 mot clés par page.</translation>
     </message>
     <message>
         <source>The current tag does not contain any children.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le mot clé courant ne contient aucun enfant.</translation>
     </message>
 </context>
 <context>
@@ -493,7 +493,7 @@
     <name>kernel/classes/datatypes</name>
     <message>
         <source>Input required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Saisie obligatoire.</translation>
     </message>
 </context>
 </TS>
