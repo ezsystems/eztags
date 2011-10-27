@@ -2,6 +2,6 @@
 	{if $attribute.data_type_string|eq( 'eztags' )}
 		<h3>{$attribute.contentclass_attribute.name} (Class ID: {$attribute.contentclass_attribute.id})</h3>
 
-		{attribute_view_gui view=$attribute}
+		{attribute_view_gui attribute=$attribute}
 	{/if}
 {/foreach}
