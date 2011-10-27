@@ -84,10 +84,10 @@
 
 		var dataTableColumns = [
 			{ key: 'crank', label:'', sortable: false, resizeable: false, formatter: customMenu },
-			{ key: 'id', label: 'ID', sortable: true, resizeable: true, formatter: 'text' },
-			{ key: 'keyword', label: 'Tag name', sortable: true, resizeable: true, formatter: tagName },
-			{ key: 'translations', label: 'Translations', sortable: false, resizeable: true, formatter: translationView },
-			{ key: 'modified', label: 'Modified', sortable: true, resizeable: true, formatter: 'date' }
+			{ key: 'id', label: settings.i18n.id, sortable: true, resizeable: true, formatter: 'text' },
+			{ key: 'keyword', label: settings.i18n.tag_name, sortable: true, resizeable: true, formatter: tagName },
+			{ key: 'translations', label: settings.i18n.translations, sortable: false, resizeable: true, formatter: translationView },
+			{ key: 'modified', label: settings.i18n.modified, sortable: true, resizeable: true, formatter: 'date' }
 		];
 
 		var dataSourceFields = [

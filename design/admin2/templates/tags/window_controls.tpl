@@ -28,7 +28,7 @@
     {/if}
 
     <li id="node-tab-tags-latest" class="{if $tag_exists}middle{else}first{/if}{if $tab_index|eq('latest')} selected{/if}">
-        <a href={concat( $tag_url, '/(tab)/latest' )|ezurl}>{'Latest tags'|i18n( 'extension/eztags/tags/dashboard' )}</a>
+        <a href={concat( $tag_url, '/(tab)/latest' )|ezurl}>{'Latest tags'|i18n( 'extension/eztags/tags/view' )}</a>
     </li>
 
     {if $tag_exists}

@@ -11,7 +11,7 @@
     <div class="box-header">
         <div class="button-left">
             <h2 class="context-title">
-                {if is_set($tag)}<a href={$tag.depth|gt(1)|choose( '/tags/dashboard'|ezurl, concat( '/tags/id/', $tag.parent.id )|ezurl )} title="{'Up one level.'|i18n(  'extension/eztags/tags/dashboard'  )}"><img src={'up-16x16-grey.png'|ezimage} alt="{'Up one level.'|i18n( 'extension/eztags/tags/dashboard' )}" title="{'Up one level.'|i18n( 'extension/eztags/tags/dashboard' )}" /></a>&nbsp;{/if}{'Children tags (%children_count)'|i18n( 'extension/eztags/tags/dashboard',, hash( '%children_count', $children_count ) )}
+                {if is_set($tag)}<a href={$tag.depth|gt(1)|choose( '/tags/dashboard'|ezurl, concat( '/tags/id/', $tag.parent.id )|ezurl )} title="{'Up one level.'|i18n(  'extension/eztags/tags/view'  )}"><img src={'up-16x16-grey.png'|ezimage} alt="{'Up one level.'|i18n( 'extension/eztags/tags/view' )}" title="{'Up one level.'|i18n( 'extension/eztags/tags/view' )}" /></a>&nbsp;{/if}{'Children tags (%children_count)'|i18n( 'extension/eztags/tags/view',, hash( '%children_count', $children_count ) )}
             </h2>
         </div>
         <div class="button-right button-header"></div>
@@ -42,6 +42,13 @@
                 *}{/foreach}{*
             *}{rdelim};
 
+            var i18n = {ldelim}{*
+                *}'id': '{"ID"|i18n( "extension/eztags/tags/view" )}',{*
+                *}'tag_name': '{"Tag name"|i18n( "extension/eztags/tags/view" )}',{*
+                *}'translations': '{"Tag translations"|i18n( "extension/eztags/tags/view" )}',{*
+                *}'modified': '{"Modified"|i18n( "extension/eztags/tags/view" )}'{*
+            *}{rdelim};
+
             jQuery(document).ready(function($) {ldelim}
                 $('#eztags-tag-children-table').eZTagsChildren({ldelim}
                     YUI2BasePath: "{$yui2_base_path}",
@@ -50,7 +57,8 @@
                     languages: languages,
                     viewUrl: {'/tags/id/'|ezurl},
                     editUrl: {'/tags/edit/'|ezurl},
-                    icons: icons
+                    icons: icons,
+                    i18n: i18n
                 {rdelim});
             {rdelim});
         </script>

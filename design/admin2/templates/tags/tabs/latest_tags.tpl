@@ -5,10 +5,10 @@
         <tbody>
             <tr>
                 <th class="tight">&nbsp;</th>
-                <th>{"ID"|i18n( "extension/eztags/tags/dashboard" )}</th>
-                <th>{"Tag name"|i18n( "extension/eztags/tags/dashboard" )}</th>
-                <th>{"Parent tag name"|i18n( "extension/eztags/tags/dashboard" )}</th>
-                <th>{"Modified"|i18n( "extension/eztags/tags/dashboard" )}</th>
+                <th>{"ID"|i18n( "extension/eztags/tags/view" )}</th>
+                <th>{"Tag name"|i18n( "extension/eztags/tags/view" )}</th>
+                <th>{"Parent tag name"|i18n( "extension/eztags/tags/view" )}</th>
+                <th>{"Modified"|i18n( "extension/eztags/tags/view" )}</th>
             </tr>
             {foreach $latest_tags as $t sequence array( 'bglight', 'bgdark' ) as $sequence}
                 <tr>
@@ -18,7 +18,7 @@
                     {if $t.parent}
                         <td><a href={concat( 'tags/id/', $t.parent.id )|ezurl}>{$t.parent.keyword|wash}</a></td>
                     {else}
-                        <td>{"No parent"|i18n( "extension/eztags/tags/dashboard" )}</td>
+                        <td>{"No parent"|i18n( "extension/eztags/tags/view" )}</td>
                     {/if}
                     <td>{$t.modified|datetime( 'custom', '%d.%m.%Y %H:%i' )}</td>
                 </tr>
@@ -26,5 +26,5 @@
         </tbody>
     </table>
 {else}
-    {"No content"|i18n( "extension/eztags/tags/view" )}
+    {"No tags"|i18n( "extension/eztags/tags/view" )}
 {/if}

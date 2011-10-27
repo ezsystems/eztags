@@ -25,7 +25,7 @@
             <div class="block tag-edit-keyword">
                 <label>{'Tag name'|i18n( 'extension/eztags/tags/edit' )}</label>
                 <input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{cond( ezhttp_hasvariable( 'TagEditKeyword', 'post' ), ezhttp( 'TagEditKeyword', 'post' ), '' )|trim|wash}" />
-                <label><input type="checkbox" name="AlwaysAvailable" checked="checked" /> {'Tag is available in main translation when no translation found in siteaccess locale'|i18n( 'extension/eztags/tags/edit' )}</label>
+                <label><input type="checkbox" name="AlwaysAvailable" checked="checked" /> {'Use the main language if there is no prioritized translation.'|i18n( 'extension/eztags/tags/edit' )}</label>
                 <input type="hidden" name="Locale" value="{$language.locale|wash}" />
             </div>
 

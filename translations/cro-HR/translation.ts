@@ -2,10 +2,54 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
-    <name>design/standard/class/datatype</name>
+    <name>extension/eztags/datatypes</name>
+    <message>
+        <source>Tags</source>
+        <translation>Oznake</translation>
+    </message>
+    <message>
+        <source>Loading</source>
+        <translation>Učitavanje</translation>
+    </message>
+    <message>
+        <source>Selected tags</source>
+        <translation>Odabrane oznake</translation>
+    </message>
+    <message>
+        <source>There are no selected tags</source>
+        <translation>Nema odabranih oznaka</translation>
+    </message>
+    <message>
+        <source>Suggested tags</source>
+        <translation>Predložene oznake</translation>
+    </message>
+    <message>
+        <source>There are no tags to suggest</source>
+        <translation>Nema predloženih oznaka</translation>
+    </message>
+    <message>
+        <source>Add new</source>
+        <translation>Dodaj kao novu</translation>
+    </message>
+    <message>
+        <source>At least one tag is required to be added.</source>
+        <translation>Potrebno je dodati barem jednu oznaku.</translation>
+    </message>
+    <message>
+        <source>Attribute contains invalid data.</source>
+        <translation>Atribut sadrži neispravne podatke.</translation>
+    </message>
+    <message>
+        <source>Up to %1 tags are allowed to be added.</source>
+        <translation>Maksimalni dopušteni broj oznaka je %1.</translation>
+    </message>
     <message>
         <source>Limit by tags subtree</source>
         <translation>Ograničenje po podstablu oznaka</translation>
+    </message>
+    <message>
+        <source>Select subtree</source>
+        <translation>Odaberi podstablo</translation>
     </message>
     <message>
         <source>Hide root subtree limit tag when editing object</source>
@@ -24,32 +68,24 @@
         <translation>(0 = neograničeno)</translation>
     </message>
     <message>
-        <source>Unlimited</source>
-        <translation>Neograničeno</translation>
-    </message>
-    <message>
-        <source>Select subtree</source>
-        <translation>Odaberi podstablo</translation>
-    </message>
-    <message>
         <source>No limit</source>
         <translation>Nema ograničenja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Ne</translation>
     </message>
     <message>
         <source>Yes</source>
         <translation>Da</translation>
     </message>
     <message>
-        <source>No</source>
-        <translation>Ne</translation>
+        <source>Unlimited</source>
+        <translation>Neograničeno</translation>
     </message>
 </context>
 <context>
     <name>extension/eztags/errors</name>
-    <message>
-        <source>Selected locale does not exist in the system. Please select a valid translation.</source>
-        <translation>Odabrani lokalitet ne postoji u sustavu. Molimo odaberite ispravan prijevod.</translation>
-    </message>
     <message>
         <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
         <translation>Oznaku nije moguće uređivati jer se koristi kao ograničenje po podstablu u jednom ili više atributa klase.</translation>
@@ -63,8 +99,8 @@
         <translation>Ime ne može biti prazno.</translation>
     </message>
     <message>
-        <source>Tag/synonym with that name already exists in selected location.</source>
-        <translation>Oznaka/sinonim s tim imenom već postoji na odabranoj lokaciji.</translation>
+        <source>Tag/synonym with that translation already exists in selected location.</source>
+        <translation>Oznaka/sinonim s tim prijevodom već postoji na odabranoj lokaciji.</translation>
     </message>
     <message>
         <source>Go back</source>
@@ -72,64 +108,10 @@
     </message>
 </context>
 <context>
-    <name>extension/eztags/warnings</name>
-    <message>
-        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
-        <translation>PAŽNJA: Oznaka je unutar ograničenja po podstablu. Micanje oznake van tih ograničenja može dovesti do nekonzistentnosti jer bi objekti imali oznake koje ne bi trebali imati.</translation>
-    </message>
-    <message>
-        <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
-        <translation>Ručno regeneriranje indeksa pretraživača je potrebno da bi se promjene vidjele kod pretrage. Uključite DelayedIndexing u site.ini datoteci za automatsko reindeksiranje.</translation>
-    </message>
-</context>
-<context>
-    <name>extension/eztags/tags/dashboard</name>
-    <message>
-        <source>Latest tags</source>
-        <translation>Najnovije oznake</translation>
-    </message>
-    <message>
-        <source>ID</source>
-        <translation>ID</translation>
-    </message>
-    <message>
-        <source>Tag name</source>
-        <translation>Ime oznake</translation>
-    </message>
-    <message>
-        <source>Parent tag name</source>
-        <translation>Ime nadređene oznake</translation>
-    </message>
-    <message>
-        <source>Modified</source>
-        <translation>Promjenjeno</translation>
-    </message>
-    <message>
-        <source>No parent</source>
-        <translation>Nema nadređene oznake</translation>
-    </message>
-    <message>
-        <source>Up one level.</source>
-        <translation>Jedan nivo iznad.</translation>
-    </message>
-    <message>
-        <source>Children tags (%children_count)</source>
-        <translation>Podređene oznake (%children_count)</translation>
-    </message>
-    <message>
-        <source>Show %1 tags per page.</source>
-        <translation>Prikaži %1 oznaka po stranici.</translation>
-    </message>
-    <message>
-        <source>The current tag does not contain any children.</source>
-        <translation>Trenutna oznaka ne sadrži podređene oznake.</translation>
-    </message>
-</context>
-<context>
     <name>extension/eztags/tags/edit</name>
     <message>
         <source>no parent</source>
-        <translation>bez nadređene oznake</translation>
+        <translation>nema nadređene oznake</translation>
     </message>
     <message>
         <source>New tag</source>
@@ -145,15 +127,15 @@
     </message>
     <message>
         <source>Main tag name</source>
-        <translation>Ime glavne oznake</translation>
+        <translation>Glavna oznaka</translation>
     </message>
     <message>
         <source>Tag name</source>
-        <translation>Ime oznake</translation>
+        <translation>Oznaka</translation>
     </message>
     <message>
         <source>Synonym name</source>
-        <translation>Ime sinonima</translation>
+        <translation>Sinonim</translation>
     </message>
     <message>
         <source>Parent tag</source>
@@ -162,14 +144,6 @@
     <message>
         <source>Select parent</source>
         <translation>Odaberi nadređenu oznaku</translation>
-    </message>
-    <message>
-        <source>Add child tag</source>
-        <translation>Dodaj podređenu oznaku</translation>
-    </message>
-    <message>
-        <source>Add synonym</source>
-        <translation>Dodaj sinonim</translation>
     </message>
     <message>
         <source>Convert to synonym</source>
@@ -216,19 +190,19 @@
         <translation>Odaberi glavnu oznaku</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the "%keyword" tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
-        <translation>Jeste li sigurni da želite izbrisati oznaku "%keyword"? Sve podređene oznake i sinonimi će također biti izbrisani i uklonjeni iz postojećih objekata.</translation>
+        <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation>Jeste li sigurni da želite izbrisati oznaku &quot;%keyword&quot;? Sve podređene oznake i sinonimi će također biti izbrisani i uklonjeni iz postojećih objekata.</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the "%keyword" synonym?</source>
-        <translation>Jeste li sigurni da želite izbrisati sinonim "%keyword"?</translation>
+        <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>
+        <translation>Jeste li sigurni da želite izbrisati sinonim &quot;%keyword&quot;?</translation>
     </message>
     <message>
         <source>Transfer all related objects to the main tag</source>
         <translation>Prebaci sve povezane objekte na glavnu oznaku</translation>
     </message>
     <message>
-        <source>Merging this tag with another tag will delete the tag and it's synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
+        <source>Merging this tag with another tag will delete the tag and it&apos;s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
         <translation>Spajanje ove oznake s drugom oznakom će izbrisati oznaku i njene sinonime i prebaciti sve povezane objekte na glavnu oznaku. Također, sve podređene oznake će postati podređene glavnoj oznaci.</translation>
     </message>
     <message>
@@ -240,11 +214,11 @@
         <translation>Ne</translation>
     </message>
     <message>
-        <source>The tag you're about to delete has</source>
+        <source>The tag you&apos;re about to delete has</source>
         <translation>Oznaka koju brišete ima</translation>
     </message>
     <message>
-        <source>The tag you're about to merge has</source>
+        <source>The tag you&apos;re about to merge has</source>
         <translation>Oznaka koju spajate ima</translation>
     </message>
     <message>
@@ -288,14 +262,124 @@
         <translation>Glavni prijevod</translation>
     </message>
     <message>
-        <source>Tag is available in main translation when no translation found in siteaccess locale</source>
-        <translation>Oznaka je dostupna na glavnom prijevodu ako ne postoji prijevod za siteaccess lokalitet</translation>
+        <source>Edit</source>
+        <translation>Uredi</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Odustani</translation>
+    </message>
+    <message>
+        <source>Use the main language if there is no prioritized translation.</source>
+        <translation>Koristi glavni prijevod ako nema prioritiziranog prijevoda.</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/tags/search</name>
+    <message>
+        <source>Tags search</source>
+        <translation>Pretraživanje oznaka</translation>
+    </message>
+    <message>
+        <source>Search tags</source>
+        <translation>Pretraži oznake</translation>
+    </message>
+    <message>
+        <source>Include synonyms in search</source>
+        <translation>Uključi sinonime u pretragu</translation>
+    </message>
+    <message>
+        <source>Empty search not allowed. Please enter your search query above.</source>
+        <translation>Prazna pretraga nije dozvoljena. Upišite vaš tekst pretrage u polje iznad.</translation>
+    </message>
+    <message>
+        <source>No tags were found while searching for &quot;%1&quot;.</source>
+        <translation>Za pretragu &quot;%1&quot; nije pronađena nijedna oznaka.</translation>
+    </message>
+    <message>
+        <source>Search for &quot;%1&quot; returned %2 matches.</source>
+        <translation>Za pretragu &quot;%1&quot; je pronađeno %2 oznaka.</translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Oznaka</translation>
+    </message>
+    <message>
+        <source>Parent tag</source>
+        <translation>Nadređena oznaka</translation>
+    </message>
+    <message>
+        <source>Main tag name</source>
+        <translation>Glavna oznaka</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/tags/treemenu</name>
+    <message>
+        <source>Select tag</source>
+        <translation>Odaberite oznaku</translation>
+    </message>
+    <message>
+        <source>Parent tag ID</source>
+        <translation>ID nadređene oznake</translation>
+    </message>
+    <message>
+        <source>Tag ID</source>
+        <translation>ID oznake</translation>
+    </message>
+    <message>
+        <source>Dynamic tree not allowed for this siteaccess</source>
+        <translation>Dinamičko stablo nije dopušteno u trenutnom siteaccessu</translation>
+    </message>
+    <message>
+        <source>Tag does not exist</source>
+        <translation>Oznaka ne postoji</translation>
+    </message>
+    <message>
+        <source>Internal error</source>
+        <translation>Interna greška</translation>
+    </message>
+    <message>
+        <source>Tags structure</source>
+        <translation>Struktura oznaka</translation>
+    </message>
+    <message>
+        <source>Add child tag</source>
+        <translation>Dodaj podređenu oznaku</translation>
+    </message>
+    <message>
+        <source>Edit tag</source>
+        <translation>Uredi oznaku</translation>
+    </message>
+    <message>
+        <source>Delete tag</source>
+        <translation>Izbriši oznaku</translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Spoji oznaku</translation>
+    </message>
+    <message>
+        <source>Add synonym</source>
+        <translation>Dodaj sinonim</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>Pretvori u sinonim</translation>
+    </message>
+    <message>
+        <source>New translation</source>
+        <translation>Novi prijevod</translation>
+    </message>
+    <message>
+        <source>Top level tags</source>
+        <translation>Vršne oznake</translation>
     </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>
     <message>
-        <source>Tags Dashboard</source>
+        <source>Tags dashboard</source>
         <translation>Kontrolna ploča oznaka</translation>
     </message>
     <message>
@@ -312,11 +396,11 @@
     </message>
     <message>
         <source>Name</source>
-        <translation>Ime</translation>
+        <translation>Naziv</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Promjenjeno</translation>
+        <translation>Promijenjeno</translation>
     </message>
     <message>
         <source>Related tags</source>
@@ -362,110 +446,136 @@
         <source>No subtree limitations</source>
         <translation>Nema ograničenja po podstablu</translation>
     </message>
-</context>
-<context>
-    <name>extension/eztags/tags/search</name>
     <message>
-        <source>Tags search</source>
-        <translation>Pretraživanje oznaka</translation>
+        <source>Invert selection.</source>
+        <translation>Obrni odabir.</translation>
     </message>
     <message>
-        <source>Search tags</source>
-        <translation>Pretraži oznake</translation>
+        <source>Language</source>
+        <translation>Jezik</translation>
     </message>
     <message>
-        <source>Include synonyms in search</source>
-        <translation>Uključi sinonime u pretragu</translation>
+        <source>Translation</source>
+        <translation>Prijevod</translation>
     </message>
     <message>
-        <source>Empty search not allowed. Please enter your search query above.</source>
-        <translation>Prazna pretraga nije dozvoljena. Upišite vaš tekst pretrage u polje iznad.</translation>
+        <source>Locale</source>
+        <translation>Lokalitet</translation>
     </message>
     <message>
-        <source>No tags were found while searching for "%1".</source>
-        <translation>Za pretragu "%1" nije pronađena nijedna oznaka.</translation>
+        <source>Main</source>
+        <translation>Glavni</translation>
     </message>
     <message>
-        <source>Search for "%1" returned %2 matches.</source>
-        <translation>Za pretragu "%1" je pronađeno %2 oznaka.</translation>
+        <source>Edit in &lt;%language_name&gt;.</source>
+        <translation>Uredi na &lt;%language_name&gt;.</translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation>Ukloni odabrano</translation>
+    </message>
+    <message>
+        <source>Set main</source>
+        <translation>Postavi za glavni</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Ažuriraj</translation>
+    </message>
+    <message>
+        <source>Tag translations</source>
+        <translation>Prijevodi oznaka</translation>
+    </message>
+    <message>
+        <source>Up one level.</source>
+        <translation>Jedan nivo iznad.</translation>
+    </message>
+    <message>
+        <source>Children tags (%children_count)</source>
+        <translation>Podređene oznake (%children_count)</translation>
+    </message>
+    <message>
+        <source>Show %1 tags per page.</source>
+        <translation>Prikaži %1 oznaka po stranici.</translation>
     </message>
     <message>
         <source>Tag name</source>
-        <translation>Ime oznake</translation>
+        <translation>Oznaka</translation>
     </message>
     <message>
-        <source>Parent tag</source>
+        <source>The current tag does not contain any children.</source>
+        <translation>Trenutna oznaka ne sadrži podređene oznake.</translation>
+    </message>
+    <message>
+        <source>Parent tag name</source>
         <translation>Nadređena oznaka</translation>
     </message>
     <message>
-        <source>Main tag name</source>
-        <translation>Ime glavne oznake</translation>
-    </message>
-</context>
-<context>
-    <name>extension/eztags/datatypes</name>
-    <message>
-        <source>Tags</source>
-        <translation>Oznake</translation>
+        <source>No parent</source>
+        <translation>Nema nadređene oznake</translation>
     </message>
     <message>
-        <source>Loading</source>
-        <translation>Učitavanje</translation>
+        <source>Latest tags</source>
+        <translation>Najnovije oznake</translation>
     </message>
     <message>
-        <source>Selected tags</source>
-        <translation>Odabrane oznake</translation>
+        <source>Edit synonym</source>
+        <translation>Uredi sinonim</translation>
     </message>
     <message>
-        <source>There are no selected tags</source>
-        <translation>Nema odabranih oznaka</translation>
+        <source>Delete synonym</source>
+        <translation>Izbriši sinonim</translation>
     </message>
     <message>
-        <source>Suggested tags</source>
-        <translation>Predložene oznake</translation>
+        <source>Add child tag</source>
+        <translation>Dodaj podređenu oznaku</translation>
     </message>
     <message>
-        <source>There are no tags to suggest</source>
-        <translation>Nema predloženih oznaka</translation>
+        <source>Edit tag</source>
+        <translation>Uredi oznaku</translation>
     </message>
     <message>
-        <source>Add new</source>
-        <translation>Dodaj kao novu</translation>
-    </message>
-</context>
-<context>
-    <name>extension/eztags/tags/treemenu</name>
-    <message>
-        <source>Select tag</source>
-        <translation>Odaberite oznaku</translation>
+        <source>Delete tag</source>
+        <translation>Izbriši oznaku</translation>
     </message>
     <message>
-        <source>Parent tag ID</source>
-        <translation>ID nadređene oznake</translation>
+        <source>Merge tag</source>
+        <translation>Spoji oznaku</translation>
+    </message>
+    <message>
+        <source>Add synonym</source>
+        <translation>Dodaj sinonim</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>Pretvori u sinonim</translation>
+    </message>
+    <message>
+        <source>No tags</source>
+        <translation>Nema oznaka</translation>
+    </message>
+    <message>
+        <source>Use the main language if there is no prioritized translation.</source>
+        <translation>Koristi glavni prijevod ako nema prioritiziranog prijevoda.</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation>Zadnja promjena</translation>
     </message>
     <message>
         <source>Tag ID</source>
         <translation>ID oznake</translation>
     </message>
+</context>
+<context>
+    <name>extension/eztags/warnings</name>
     <message>
-        <source>Top Level Tags</source>
-        <translation>Vršne oznake</translation>
+        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
+        <translation>PAŽNJA: Oznaka je unutar ograničenja po podstablu. Micanje oznake van tih ograničenja može dovesti do nekonzistentnosti jer bi objekti imali oznake koje ne bi trebali imati.</translation>
     </message>
     <message>
-        <source>Dynamic tree not allowed for this siteaccess</source>
-        <translation>Dinamičko stablo nije dopušteno u trenutnom siteaccessu</translation>
-    </message>
-    <message>
-        <source>Tag does not exist</source>
-        <translation>Oznaka ne postoji</translation>
-    </message>
-    <message>
-        <source>Internal error</source>
-        <translation>Interna greška</translation>
-    </message>
-    <message>
-        <source>Tags structure</source>
-        <translation>Struktura oznaka</translation>
+        <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
+        <translation>Ručno regeneriranje indeksa pretraživača je potrebno da bi se promjene vidjele kod pretrage. Uključite DelayedIndexing u site.ini datoteci za automatsko reindeksiranje.</translation>
     </message>
 </context>
 </TS>

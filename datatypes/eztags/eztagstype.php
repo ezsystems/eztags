@@ -75,13 +75,13 @@ class eZTagsType extends eZDataType
             {
                 if ( $contentObjectAttribute->validateIsRequired() )
                 {
-                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'At least one tag is required to be added.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
             }
             else if ( !( strlen( $data ) > 0 && strlen( $data2 ) > 0 && strlen( $data3 ) > 0 ) )
             {
-                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
             else
@@ -91,21 +91,21 @@ class eZTagsType extends eZDataType
                 $data3Array = explode( '|#', $data3 );
                 if ( count( $data2Array ) != count( $dataArray ) || count( $data3Array ) != count( $dataArray ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
 
                 $maxTags = (int) $classAttribute->attribute( self::MAX_TAGS_FIELD );
                 if ( $maxTags > 0 && ( count( $dataArray ) > $maxTags || count( $data2Array ) > $maxTags || count( $data3Array ) > $maxTags ) )
                 {
-                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
+                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Up to %1 tags are allowed to be added.', null, array( '%1' => $maxTags ) ) );
                     return eZInputValidator::STATE_INVALID;
                 }
             }
         }
         else if ( $contentObjectAttribute->validateIsRequired() )
         {
-            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes', 'Input required.' ) );
+            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'At least one tag is required to be added.' ) );
             return eZInputValidator::STATE_INVALID;
         }
 

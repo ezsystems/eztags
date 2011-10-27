@@ -381,7 +381,7 @@ var treeMenu;
         *}"id":0,{*
         *}"parent_id":0,{*
         *}"has_children":true,{*
-        *}"keyword":"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
+        *}"keyword":"{"Top level tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
         *}"url":{'tags/dashboard'|ezurl},{*
         *}"icon":{concat('tag_icons/small/', ezini('Icons', 'Default', 'eztags.ini'))|ezimage},{*
         *}"modified":currentDate{rdelim};

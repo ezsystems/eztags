@@ -1,6 +1,6 @@
 <div class="context-block tags-dashboard">
     <div class="box-header">
-        <h1 class="context-title">{'Tags Dashboard'|i18n( 'extension/eztags/tags/view' )}</h1>
+        <h1 class="context-title">{'Tags dashboard'|i18n( 'extension/eztags/tags/view' )}</h1>
         <div class="header-mainline"></div>
     </div>
 
@@ -19,7 +19,7 @@
             <div class="button-left">
                 <div class="block">
                     <form name="tagadd" id="tagadd" style="float:left;" enctype="multipart/form-data" method="post" action={'tags/add/0'|ezurl}>
-                        <input class="defaultbutton" type="submit" name="SubmitButton" value="{"Add child tag"|i18n( "extension/eztags/tags/edit" )}" />
+                        <input class="defaultbutton" type="submit" name="SubmitButton" value="{"Add child tag"|i18n( "extension/eztags/tags/view" )}" />
                     </form>
                 </div>
             </div>

@@ -91,7 +91,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
 
     if ( empty( $error ) && eZTagsObject::exists( 0, $newKeyword, $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'id' ) : 0 ) )
-        $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
+        $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that translation already exists in selected location.' );
 
     if ( empty( $error ) )
     {

@@ -34,7 +34,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
 
     if ( empty( $error ) && eZTagsObject::exists( $tag->attribute( 'id' ), $tag->attribute( 'keyword' ), $mainTag->attribute( 'parent_id' ) ) )
-        $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
+        $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that translation already exists in selected location.' );
 
     if ( empty( $error ) )
     {

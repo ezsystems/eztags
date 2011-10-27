@@ -63,7 +63,7 @@
 
     <div class="block">
         <div class="block">
-            <input id="tab-translations-alwaysavailable-checkbox" type="checkbox" name="AlwaysAvailable" value="1"{if $tag.always_available} checked="checked"{/if} /> {'Tag is available in main translation when no translation found in siteaccess locale'|i18n( 'extension/eztags/tags/view' )}
+            <input id="tab-translations-alwaysavailable-checkbox" type="checkbox" name="AlwaysAvailable" value="1"{if $tag.always_available} checked="checked"{/if} /> {'Use the main language if there is no prioritized translation.'|i18n( 'extension/eztags/tags/view' )}
         </div>
 
         <div class="block">

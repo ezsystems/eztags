@@ -44,23 +44,23 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
         <div class="break"></div>
     </div>
     {if $tags_add_access}
-        <a id="add-child-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add child tag"|i18n( "extension/eztags/tags/edit" )}</a>
+        <a id="add-child-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add child tag"|i18n( "extension/eztags/tags/treemenu" )}</a>
     {/if}
     {if $tags_edit_access}
-        <a id="edit-tag" href="#" class="more" onmouseover="ezpopmenu_showSubLevel( event, 'TagEditSubmenu', 'edit-tag' ); return false;">{"Edit tag"|i18n( "extension/eztags/tags/edit" )}</a>
+        <a id="edit-tag" href="#" class="more" onmouseover="ezpopmenu_showSubLevel( event, 'TagEditSubmenu', 'edit-tag' ); return false;">{"Edit tag"|i18n( "extension/eztags/tags/treemenu" )}</a>
     {/if}
     {if $tags_delete_access}
-        <a id="delete-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Delete tag"|i18n( "extension/eztags/tags/edit" )}</a>
+        <a id="delete-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Delete tag"|i18n( "extension/eztags/tags/treemenu" )}</a>
     {/if}
     {if $tags_merge_access}
-        <a id="merge-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Merge tag"|i18n( "extension/eztags/tags/edit" )}</a>
+        <a id="merge-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Merge tag"|i18n( "extension/eztags/tags/treemenu" )}</a>
     {/if}
     <hr />
     {if $tags_add_synonym_access}
-        <a id="add-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add synonym"|i18n( "extension/eztags/tags/edit" )}</a>
+        <a id="add-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Add synonym"|i18n( "extension/eztags/tags/treemenu" )}</a>
     {/if}
     {if $tags_make_synonym_access}
-        <a id="make-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Convert to synonym"|i18n( "extension/eztags/tags/edit" )}</a>
+        <a id="make-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Convert to synonym"|i18n( "extension/eztags/tags/treemenu" )}</a>
     {/if}
 </div>
 
@@ -68,7 +68,7 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
     <div class="popupmenu" id="TagEditSubmenu">
         <div id="edit-tag-languages"></div>
         <hr />
-        <a id="edit-tag-languages-new" href="#" onmouseover="ezpopmenu_mouseOver( 'TagEditSubmenu' )">{'New translation'|i18n( 'extension/eztags/tags/edit' )}</a>
+        <a id="edit-tag-languages-new" href="#" onmouseover="ezpopmenu_mouseOver( 'TagEditSubmenu' )">{'New translation'|i18n( 'extension/eztags/tags/treemenu' )}</a>
     </div>
 {/if}
 
@@ -77,7 +77,7 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
         <div class="popupmenuheader"><h3 id="tag-simple-header">XXX</h3>
             <div class="break"></div>
         </div>
-        <a id="add-child-tag-simple" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenuSimple' )">{"Add child tag"|i18n( "extension/eztags/tags/edit" )}</a>
+        <a id="add-child-tag-simple" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenuSimple' )">{"Add child tag"|i18n( "extension/eztags/tags/treemenu" )}</a>
     </div>
 {/if}
 
