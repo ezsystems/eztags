@@ -355,8 +355,8 @@ class eZTagsObject extends eZPersistentObject
      */
     function getUrl()
     {
-        $path = self::getPath();
-        $fullPathCount = self::getPathCount( true );
+        $path = $this->getPath();
+        $fullPathCount = $this->getPathCount( true );
         $urlPrefix = trim( eZINI::instance( 'eztags.ini' )->variable( 'GeneralSettings', 'URLPrefix' ) );
         $urlPrefix = trim( $urlPrefix, '/' );
 
