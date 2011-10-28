@@ -13,6 +13,11 @@ class eZTagsObject extends eZPersistentObject
      */
     function __construct( $row )
     {
+        if ( !isset( $row['remote_id'] ) || !$row['remote_id'] )
+        {
+            $row['remote_id'] = self::generateRemoteID();
+        }
+
         parent::__construct( $row );
     }
 
@@ -50,7 +55,11 @@ class eZTagsObject extends eZPersistentObject
                                                       'modified'    => array( 'name'     => 'Modified',
                                                                               'datatype' => 'integer',
                                                                               'default'  => 0,
-                                                                              'required' => false ) ),
+                                                                              'required' => false ),
+                                                      'remote_id'   => array( 'name' => "RemoteID",
+                                                                              'datatype' => 'string',
+                                                                              'default' => '',
+                                                                              'required' => true ), ),
                       'function_attributes' => array( 'parent'                    => 'getParent',
                                                       'children'                  => 'getChildren',
                                                       'children_count'            => 'getChildrenCount',
@@ -822,6 +831,35 @@ class eZTagsObject extends eZPersistentObject
             return $count;
 
         return 0;
+    }
+
+    /**
+     * Fetches Tag by remote_id
+     * @param string $remoteID
+     * @return eZTagsObject
+     */
+    static function fetchByRemoteID( $remoteID )
+    {
+        return eZPersistentObject::fetchObject( self::definition(), null, array(
+            'remote_id' => $remoteID
+        ) );
+    }
+
+    /**
+     * Backward compatible remoteID generator
+     * @return string
+     */
+    static function generateRemoteID()
+    {
+        //eZRemoteIdUtility introduced in eZPublish version 4.5
+        if ( method_exists( 'eZRemoteIdUtility', 'generate' ) )
+        {
+            return eZRemoteIdUtility::generate( 'tag' );
+        }
+        else
+        {
+           return md5( (string) mt_rand() . (string) time() );
+        }
     }
 }
 
