@@ -108,6 +108,21 @@
     </message>
 </context>
 <context>
+    <name>extension/eztags/node/view</name>
+    <message>
+        <source>Class attribute ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eZ Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show eZ Tags attributes overview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/tags/edit</name>
     <message>
         <source>no parent</source>

@@ -108,6 +108,21 @@
     </message>
 </context>
 <context>
+    <name>extension/eztags/node/view</name>
+    <message>
+        <source>Class attribute ID</source>
+        <translation>ID atributa klase</translation>
+    </message>
+    <message>
+        <source>eZ Tags</source>
+        <translation>eZ Tags</translation>
+    </message>
+    <message>
+        <source>Show eZ Tags attributes overview.</source>
+        <translation>Prikaži pregled eZ Tags atributa.</translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/tags/edit</name>
     <message>
         <source>no parent</source>
