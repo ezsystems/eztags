@@ -9,7 +9,11 @@ $FunctionList['tag'] = array( 'name'            => 'tag',
                               'parameter_type'  => 'standard',
                               'parameters'      => array( array( 'name'     => 'tag_id',
                                                                  'type'     => 'integer',
-                                                                 'required' => true ) ) );
+                                                                 'required' => true ),
+                                                          array( 'name'     => 'language',
+                                                                 'type'     => 'string',
+                                                                 'required' => false,
+                                                                 'default'  => false ) ) );
 
 $FunctionList['tags_by_keyword'] = array( 'name'            => 'tags_by_keyword',
                                           'operation_types' => array( 'read' ),
@@ -18,7 +22,11 @@ $FunctionList['tags_by_keyword'] = array( 'name'            => 'tags_by_keyword'
                                           'parameter_type'  => 'standard',
                                           'parameters'      => array( array( 'name'     => 'keyword',
                                                                              'type'     => 'string',
-                                                                             'required' => true ) ) );
+                                                                             'required' => true ),
+                                                                      array( 'name'     => 'language',
+                                                                             'type'     => 'string',
+                                                                             'required' => false,
+                                                                             'default'  => false ) ) );
 
 $FunctionList['list'] = array( 'name'            => 'list',
                                'operation_types' => array( 'read' ),
@@ -51,6 +59,10 @@ $FunctionList['list'] = array( 'name'            => 'list',
                                                            array( 'name'     => 'include_synonyms',
                                                                   'type'     => 'bool',
                                                                   'required' => false,
+                                                                  'default'  => false ),
+                                                           array( 'name'     => 'language',
+                                                                  'type'     => 'string',
+                                                                  'required' => false,
                                                                   'default'  => false ) ) );
 
 $FunctionList['list_count'] = array( 'name'            => 'list_count',
@@ -71,6 +83,10 @@ $FunctionList['list_count'] = array( 'name'            => 'list_count',
                                                                         'default'  => 'le' ),
                                                                  array( 'name'     => 'include_synonyms',
                                                                         'type'     => 'bool',
+                                                                        'required' => false,
+                                                                        'default'  => false ),
+                                                                 array( 'name'     => 'language',
+                                                                        'type'     => 'string',
                                                                         'required' => false,
                                                                         'default'  => false ) ) );
 
@@ -105,6 +121,10 @@ $FunctionList['tree'] = array( 'name'            => 'tree',
                                                            array( 'name'     => 'include_synonyms',
                                                                   'type'     => 'bool',
                                                                   'required' => false,
+                                                                  'default'  => false ),
+                                                           array( 'name'     => 'language',
+                                                                  'type'     => 'string',
+                                                                  'required' => false,
                                                                   'default'  => false ) ) );
 
 $FunctionList['tree_count'] = array( 'name'            => 'tree_count',
@@ -126,6 +146,10 @@ $FunctionList['tree_count'] = array( 'name'            => 'tree_count',
                                                                  array( 'name'     => 'include_synonyms',
                                                                         'type'     => 'bool',
                                                                         'required' => false,
+                                                                        'default'  => false ),
+                                                                 array( 'name'     => 'language',
+                                                                        'type'     => 'string',
+                                                                        'required' => false,
                                                                         'default'  => false ) ) );
 
 $FunctionList['latest_tags'] = array( 'name'            => 'latest_tags',
@@ -140,6 +164,10 @@ $FunctionList['latest_tags'] = array( 'name'            => 'latest_tags',
                                                                   array( 'name'     => 'limit',
                                                                          'type'     => 'integer',
                                                                          'required' => false,
-                                                                         'default'  => 0 ) ) );
+                                                                         'default'  => 0 ),
+                                                                  array( 'name'     => 'language',
+                                                                         'type'     => 'string',
+                                                                         'required' => false,
+                                                                         'default'  => false ) ) );
 
 ?>
