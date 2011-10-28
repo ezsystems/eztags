@@ -285,8 +285,8 @@ class eZTags
 
                 if ( self::canSave( $pathString, $allowedLocations ) )
                 {
-                    $db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, depth, path_string, modified ) VALUES ( " .
-                                 $t['parent_id'] . ", 0, '" . $db->escapeString( trim( $t['keyword'] ) ) . "', $depth, '$pathString', 0 )" );
+                    $db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, depth, path_string, modified, remote_id ) VALUES ( " .
+                                 $t['parent_id'] . ", 0, '" . $db->escapeString( trim( $t['keyword'] ) ) . "', $depth, '$pathString', 0, '" . eZTagsObject::generateRemoteID() . "' )" );
                     $tagID = (int) $db->lastSerialID( 'eztags', 'id' );
                     $db->query( "UPDATE eztags SET path_string = CONCAT(path_string, CAST($tagID AS CHAR), '/') WHERE id = $tagID" );
 

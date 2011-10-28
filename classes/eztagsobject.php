@@ -15,7 +15,7 @@ class eZTagsObject extends eZPersistentObject
     {
         if ( !isset( $row['remote_id'] ) || !$row['remote_id'] )
         {
-            $row['remote_id'] = eZRemoteIdUtility::generate( 'tag' );
+            $row['remote_id'] = self::generateRemoteID();
         }
 
         parent::__construct( $row );
@@ -806,6 +806,22 @@ class eZTagsObject extends eZPersistentObject
         ) );
     }
 
+    /**
+     * Backward compatible remoteID generator
+     * @return string
+     */
+    static function generateRemoteID()
+    {
+        //eZRemoteIdUtility introduced in eZPublish version 4.5
+        if ( method_exists( 'eZRemoteIdUtility', 'generate' ) )
+        {
+            return eZRemoteIdUtility::generate( 'tag' );
+        }
+        else
+        {
+           return md5( (string) mt_rand() . (string) time() );
+        }
+    }
 }
 
 ?>
