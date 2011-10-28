@@ -13,6 +13,9 @@ class eZTagsObject extends eZPersistentObject
      */
     function __construct( $row, $locale = false )
     {
+        if ( !isset( $row['remote_id'] ) || !$row['remote_id'] )
+            $row['remote_id'] = self::generateRemoteID();
+
         parent::__construct( $row );
 
         if ( isset( $row['locale'] ) && $row['locale'] != null )
@@ -63,7 +66,11 @@ class eZTagsObject extends eZPersistentObject
                                                       'language_mask'    => array( 'name'     => 'LanguageMask',
                                                                                    'datatype' => 'integer',
                                                                                    'default'  => 0,
-                                                                                   'required' => false ) ),
+                                                                                   'required' => false ),
+                                                      'remote_id'        => array( 'name'     => 'RemoteID',
+                                                                                   'datatype' => 'string',
+                                                                                   'default'  => '',
+                                                                                   'required' => true ) ),
                       'function_attributes' => array( 'parent'                    => 'getParent',
                                                       'children'                  => 'getChildren',
                                                       'children_count'            => 'getChildrenCount',
@@ -640,6 +647,19 @@ class eZTagsObject extends eZPersistentObject
     }
 
     /**
+     * Backwards compatible remote ID generator
+     * @return string
+     */
+    static function generateRemoteID()
+    {
+        // eZRemoteIdUtility introduced in eZ Publish version 4.5
+        if ( method_exists( 'eZRemoteIdUtility', 'generate' ) )
+            return eZRemoteIdUtility::generate( 'tag' );
+        else
+           return md5( (string) mt_rand() . (string) time() );
+    }
+
+    /**
      * Returns array of eZTagsObject objects for given parent ID
      *
      * @static
@@ -710,6 +730,17 @@ class eZTagsObject extends eZPersistentObject
     {
         return self::fetchList( array( 'path_string' => array( 'like', $pathString . '%' ),
                                        'main_tag_id' => 0 ), null, null, $mainTranslation );
+    }
+
+    /**
+     * Fetches tag by remote_id
+     * @param string $remoteID
+     * @param bool $mainTranslation
+     * @return eZTagsObject
+     */
+    static function fetchByRemoteID( $remoteID, $mainTranslation = false )
+    {
+        return self::fetchList( array( 'remote_id' => $remoteID ), null, null, $mainTranslation );
     }
 
     function recursivelyDeleteTag()

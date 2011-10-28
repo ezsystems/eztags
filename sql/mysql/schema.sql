@@ -8,9 +8,11 @@ CREATE TABLE `eztags` (
   `modified` int(11) NOT NULL default '0',
   `main_language_id` int(11) NOT NULL default '0',
   `language_mask` int(11) NOT NULL default '0',
+  `remote_id` varchar(100) NOT NULL default '',
   PRIMARY KEY ( `id` ),
   KEY `eztags_keyword` ( `keyword` ),
-  KEY `eztags_keyword_id` ( `keyword`, `id` )
+  KEY `eztags_keyword_id` ( `keyword`, `id` ),
+  UNIQUE KEY `eztags_remote_id` ( `remote_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `eztags_attribute_link` (
