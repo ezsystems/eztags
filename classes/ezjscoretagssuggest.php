@@ -98,7 +98,13 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
                          'AsObjects'       => false );
 
         $searchResult = $solrSearch->search( '', $params );
+        if ( !isset( $searchResult['SearchExtras'] ) || !$searchResult['SearchExtras'] instanceof ezfSearchResultInfo )
+            return $returnArray;
+
         $facetResult = $searchResult['SearchExtras']->attribute( 'facet_fields' );
+        if ( !is_array( $facetResult ) || empty( $facetResult[0]['nameList'] ) )
+            return $returnArray;
+
         $facetResult = $facetResult[0]['nameList'];
 
         $keywords = array();
