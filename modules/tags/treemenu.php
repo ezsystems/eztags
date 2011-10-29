@@ -7,53 +7,6 @@ if ( !defined( 'MAX_AGE' ) )
     define( 'MAX_AGE', 86400 );
 }
 
-function washJS( $string )
-{
-    return str_replace( array( "\\", "/", "\n", "\t", "\r", "\b", "\f", '"' ), array( '\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"' ), $string );
-}
-
-function arrayToJSON( $array )
-{
-    if ( $array )
-    {
-        $result = array();
-        $resultDict = array();
-        $isDict = false;
-        $index = 0;
-        foreach ( $array as $key => $value )
-        {
-            if ( $key != $index++ )
-            {
-                $isDict = true;
-            }
-
-            if ( is_array( $value ) )
-            {
-                $value = arrayToJSON( $value );
-            }
-            else if ( !is_numeric( $value ) or $key == 'name' )
-            {
-                $value = '"' . washJS( $value ) . '"';
-            }
-
-            $result[] = $value;
-            $resultDict[] = '"' . washJS( $key ) . '":' . $value;
-        }
-        if ( $isDict )
-        {
-            return '{' . implode( $resultDict, ',' ) . '}';
-        }
-        else
-        {
-            return '[' . implode( $result, ',' ) . ']';
-        }
-    }
-    else
-    {
-        return '[]';
-    }
-}
-
 for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
 {
     ob_end_clean();
@@ -83,7 +36,17 @@ if ( !( $tag instanceof eZTagsObject || $TagID == 0 ) )
 }
 else
 {
-    $children = eZTagsObject::fetchByParentID( $tagID );
+    $maxTags = 100;
+    if ( $eztagsINI->hasVariable( 'TreeMenu', 'MaxTags' ) && is_numeric( $eztagsINI->variable( 'TreeMenu', 'MaxTags' ) ) )
+        $maxTags = (int) $eztagsINI->variable( 'TreeMenu', 'MaxTags' );
+
+    $limitArray = null;
+    if ( $maxTags > 0 )
+        $limitArray = array( 'offset' => 0, 'length' => $maxTags );
+
+    $children = eZTagsObject::fetchList( array( 'parent_id'   => $tagID,
+                                                'main_tag_id' => 0 ),
+                                         $limitArray );
 
     $response = array();
     $response['error_code']     = 0;
@@ -109,31 +72,12 @@ else
         $childResponse['modified']                  = (int) $child->attribute( 'modified' );
         $response['children'][]                     = $childResponse;
     }
-    $httpCharset = eZTextCodec::httpCharset();
 
-    //$jsonText = arrayToJSON( $response );
     $jsonText = json_encode( $response );
-
-/*
-    $codec = eZTextCodec::instance( $httpCharset, 'unicode' );
-    $jsonTextArray = $codec->convertString( $jsonText );
-    $jsonText = '';
-    foreach ( $jsonTextArray as $character )
-    {
-        if ( $character < 128 )
-        {
-            $jsonText .= chr( $character );
-        }
-        else
-        {
-            $jsonText .= '\u' . str_pad( dechex( $character ), 4, '0000', STR_PAD_LEFT );
-        }
-    }
-*/
 
     header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
     header( 'Cache-Control: cache, max-age=' . MAX_AGE . ', post-check=' . MAX_AGE . ', pre-check=' . MAX_AGE );
-    header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', ( $tag instanceof eZTagsObject ) ? (int) $tag->attribute( 'modified' ) : time() ) . ' GMT' );
+    header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $tag instanceof eZTagsObject ? (int) $tag->attribute( 'modified' ) : time() ) . ' GMT' );
     header( 'Pragma: cache' );
     header( 'Content-Type: application/json' );
     header( 'Content-Length: '. strlen( $jsonText ) );
