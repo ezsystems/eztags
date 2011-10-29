@@ -1,6 +1,6 @@
 {def $eztags_attribute_count = 0}
 
-{foreach $node.data_map as $identifier => $attribute}
+{foreach $node.data_map as $attribute}
     {if $attribute.data_type_string|eq( 'eztags' )}
         <h4>{$attribute.contentclass_attribute.name} ({'Class attribute ID'|i18n( 'extension/eztags/node/view' )}: {$attribute.contentclass_attribute.id})</h4>
 
