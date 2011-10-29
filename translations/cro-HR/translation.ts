@@ -121,6 +121,10 @@
         <source>Show eZ Tags attributes overview.</source>
         <translation>Prikaži pregled eZ Tags atributa.</translation>
     </message>
+    <message>
+        <source>No tags</source>
+        <translation>Nema oznaka</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/edit</name>

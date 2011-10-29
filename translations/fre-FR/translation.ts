@@ -121,6 +121,10 @@
         <source>Show eZ Tags attributes overview.</source>
         <translation>Montrer un aperçu des attributs d&apos;eZ Tags.</translation>
     </message>
+    <message>
+        <source>No tags</source>
+        <translation>Aucun mot clé</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/edit</name>

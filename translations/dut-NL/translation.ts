@@ -121,6 +121,10 @@
         <source>Show eZ Tags attributes overview.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No tags</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/edit</name>
