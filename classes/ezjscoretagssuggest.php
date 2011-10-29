@@ -16,27 +16,27 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
     public static function autocomplete( $args )
     {
         $http = eZHTTPTool::instance();
+        $returnArray = array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
-        $searchString = $http->postVariable( 'search_string' );
-        $subTreeLimit = $http->postVariable( 'subtree_limit' );
-        $hideRootTag = $http->postVariable( 'hide_root_tag' ) == '1' ? true : false;
+        $searchString = $http->hasPostVariable( 'search_string' ) ? trim( $http->postVariable( 'search_string' ) ) : '';
+        if ( empty( $searchString ) )
+            return $returnArray;
+
+        $subTreeLimit = $http->hasPostVariable( 'subtree_limit' ) ? (int) $http->postVariable( 'subtree_limit' ) : 0;
+        $hideRootTag = $http->hasPostVariable( 'hide_root_tag' ) && $http->postVariable( 'hide_root_tag' ) == '1' ? true : false;
 
         $params = array( 'keyword' => array( 'like', $searchString . '%' ) );
         if ( $subTreeLimit > 0 )
         {
             if ( $hideRootTag )
-            {
                 $params['id'] = array( '<>', $subTreeLimit );
-            }
 
             $params['path_string'] = array( 'like', '%/' . $subTreeLimit . '/%' );
         }
-        $tags = eZTagsObject::fetchList( $params );
 
-        $returnArray = array();
-        $returnArray['status']  = 'success';
-        $returnArray['message'] = '';
-        $returnArray['tags']    = array();
+        $tags = eZTagsObject::fetchList( $params );
+        if ( !is_array( $tags ) || empty( $tags ) )
+            return $returnArray;
 
         foreach ( $tags as $tag )
         {
@@ -60,67 +60,60 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
      */
     public static function suggest( $args )
     {
-        $tags = array();
-        $siteINI = eZINI::instance( 'site.ini' );
+        $returnArray = array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
-        if ( $siteINI->variable( 'SearchSettings', 'SearchEngine' ) == 'ezsolr' && class_exists( 'eZSolr' ) )
+        $siteIni = eZINI::instance();
+        $searchEngine = $siteIni->variable( 'SearchSettings', 'SearchEngine' );
+
+        if ( !class_exists( 'eZSolr' ) || $searchEngine != 'ezsolr' )
+            return $returnArray;
+
+        $http = eZHTTPTool::instance();
+
+        $tagsString = $http->hasPostVariable( 'tags_string' ) ? $http->postVariable( 'tags_string' ) : '';
+        $tagsArray = explode( '|#', $tagsString );
+
+        if ( !is_array( $tagsArray ) || empty( $tagsArray ) )
+            return $returnArray;
+
+        $subTreeLimit = $http->hasPostVariable( 'subtree_limit' ) ? (int) $http->postVariable( 'subtree_limit' ) : 0;
+        $hideRootTag = $http->hasPostVariable( 'hide_root_tag' ) && $http->postVariable( 'hide_root_tag' ) == '1' ? true : false;
+
+        $solrFilter = array();
+        $tagsArray = array_values( array_unique( $tagsArray ) );
+        for ( $i = 0; $i < count( $tagsArray ); $i++ )
         {
-            $tagsCount = 1;
-            $filteredTagsArray = array();
-            $http = eZHTTPTool::instance();
-
-            $tagsString = $http->postVariable( 'tags_string' );
-            $tagsArray = explode( '|#', $tagsString );
-            $subTreeLimit = $http->postVariable( 'subtree_limit' );
-            $hideRootTag = $http->postVariable( 'hide_root_tag' ) == '1' ? true : false;
-
-            if ( !empty( $tagsArray ) && strlen( trim( $tagsArray[0] ) ) > 0 )
-            {
-                $solrFilter = '"' . trim( $tagsArray[0] ) . '"';
-                $filteredTagsArray[] = strtolower( trim( $tagsArray[0] ) );
-                for ( $i = 1; $i < count( $tagsArray ); $i++ )
-                {
-                    if ( strlen( trim( $tagsArray[$i] ) ) > 0 )
-                    {
-                        $solrFilter = $solrFilter . ' OR "' . trim( $tagsArray[$i] ) . '"';
-                        $filteredTagsArray[] = strtolower( trim( $tagsArray[$i] ) );
-                        $tagsCount++;
-                    }
-                }
-                $solrFilter = 'ezf_df_tags:(' . $solrFilter . ')';
-
-                $solrSearch = new eZSolr();
-                $params = array( 'SearchOffset'   => 0,
-                                 'SearchLimit'    => 0,
-                                 'Facet'          => array( array( 'field' => 'ezf_df_tags', 'limit' => 5 + $tagsCount, 'mincount', 1 ) ),
-                                 'SortBy'         => null,
-                                 'Filter'         => $solrFilter,
-                                 'QueryHandler'   => 'ezpublish',
-                                 'FieldsToReturn' => null );
-                $searchResult = $solrSearch->search( '', $params );
-                $facetResult = $searchResult['SearchExtras']->attribute( 'facet_fields' );
-                $facetResult = $facetResult[0]['nameList'];
-
-                $tags = array();
-                foreach ( $facetResult as $facetValue )
-                {
-                    if ( !in_array( strtolower( $facetValue ), $filteredTagsArray ) )
-                    {
-                        $tags[] = trim( $facetValue );
-                    }
-                }
-
-                if ( !empty( $tags ) )
-                {
-                    $tags = eZTagsObject::fetchByKeyword( array( $tags ) );
-                }
-            }
+            $tagsArray[$i] = strtolower( trim( $tagsArray[$i] ) );
+            $solrFilter[] = '"' . $tagsArray[$i] . '"';
         }
 
-        $returnArray = array();
-        $returnArray['status']  = 'success';
-        $returnArray['message'] = '';
-        $returnArray['tags']    = array();
+        $solrFilter = 'ezf_df_tags:(' . implode( ' OR ', $solrFilter ) . ')';
+
+        $solrSearch = new eZSolr();
+        $params = array( 'SearchOffset'   => 0,
+                         'SearchLimit'    => 0,
+                         'Facet'          => array( array( 'field' => 'ezf_df_tags', 'limit' => 5 + count( $tagsArray ), 'mincount' => 1 ) ),
+                         'Filter'         => $solrFilter,
+                         'QueryHandler'   => 'ezpublish',
+                         'AsObjects'       => false );
+
+        $searchResult = $solrSearch->search( '', $params );
+        $facetResult = $searchResult['SearchExtras']->attribute( 'facet_fields' );
+        $facetResult = $facetResult[0]['nameList'];
+
+        $keywords = array();
+        foreach ( $facetResult as $facetValue )
+        {
+            if ( !in_array( trim( strtolower( $facetValue ) ), $tagsArray ) )
+                $keywords[] = trim( $facetValue );
+        }
+
+        if ( empty( $keywords ) )
+            return $returnArray;
+
+        $tags = eZTagsObject::fetchByKeyword( array( $keywords ) );
+        if ( !is_array( $tags ) || empty( $tags ) )
+            return $returnArray;
 
         foreach ( $tags as $tag )
         {
