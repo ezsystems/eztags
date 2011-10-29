@@ -82,4 +82,4 @@ Bugfix commit is located at: https://github.com/ezsystems/ezie/commit/6f29d071b8
      <copyField source="*_k" dest="ezf_df_tags"/>
 
    * Inside <fields> element add:
-     <field name="ezf_df_tags" type="text" indexed="true" stored="true" multiValued="true" termVectors="true"/>
+     <field name="ezf_df_tags" type="lckeyword" indexed="true" stored="true" multiValued="true" termVectors="true"/>
