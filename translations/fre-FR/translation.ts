@@ -33,15 +33,15 @@
     </message>
     <message>
         <source>At least one tag is required to be added.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous devez ajouter au moins un mot clé.</translation>
     </message>
     <message>
         <source>Attribute contains invalid data.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;attribut contient des données invalides.</translation>
     </message>
     <message>
         <source>Up to %1 tags are allowed to be added.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous pouvez ajouter jusqu&apos;à %1 mots clé.</translation>
     </message>
     <message>
         <source>Limit by tags subtree</source>
@@ -100,7 +100,7 @@
     </message>
     <message>
         <source>Tag/synonym with that translation already exists in selected location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le mot clé/synonyme avec cette traduction existe déjà à l&apos;emplacement sélectionné.</translation>
     </message>
     <message>
         <source>Go back</source>
@@ -111,15 +111,15 @@
     <name>extension/eztags/node/view</name>
     <message>
         <source>Class attribute ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID d&apos;attribut de classe</translation>
     </message>
     <message>
         <source>eZ Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Tags</translation>
     </message>
     <message>
         <source>Show eZ Tags attributes overview.</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer un aperçu des attributs d&apos;eZ Tags.</translation>
     </message>
 </context>
 <context>
@@ -254,39 +254,39 @@
     </message>
     <message>
         <source>Set as main translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir comme traduction principale</translation>
     </message>
     <message>
         <source>Add translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une traduction</translation>
     </message>
     <message>
         <source>Select the translation you want to add</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez la traduction à ajouter</translation>
     </message>
     <message>
         <source>Edit translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer la traduction</translation>
     </message>
     <message>
         <source>Select the translation you want to edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez la traduction à éditer</translation>
     </message>
     <message>
         <source>Main translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Traduction principale</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <source>Use the main language if there is no prioritized translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser la langue principale s&apos;il n&apos;existe pas de traduction prioritaire.</translation>
     </message>
 </context>
 <context>
@@ -384,7 +384,7 @@
     </message>
     <message>
         <source>New translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle traduction</translation>
     </message>
     <message>
         <source>Top level tags</source>
@@ -463,43 +463,43 @@
     </message>
     <message>
         <source>Invert selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inverser la sélection.</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
     <message>
         <source>Translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Traduction</translation>
     </message>
     <message>
         <source>Locale</source>
-        <translation type="unfinished"></translation>
+        <translation>Localisation</translation>
     </message>
     <message>
         <source>Main</source>
-        <translation type="unfinished"></translation>
+        <translation>Principal</translation>
     </message>
     <message>
         <source>Edit in &lt;%language_name&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer en &lt;%language_name&gt;.</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer la sélection</translation>
     </message>
     <message>
         <source>Set main</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir comme principal</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre à jour</translation>
     </message>
     <message>
         <source>Tag translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Traductions des mots clé</translation>
     </message>
     <message>
         <source>Up one level.</source>
@@ -567,19 +567,19 @@
     </message>
     <message>
         <source>No tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun mot clé</translation>
     </message>
     <message>
         <source>Use the main language if there is no prioritized translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser la langue principale s&apos;il n&apos;existe pas de traduction prioritaire.</translation>
     </message>
     <message>
         <source>Last modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Dernière modification</translation>
     </message>
     <message>
         <source>Tag ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID du mot clé</translation>
     </message>
 </context>
 <context>
