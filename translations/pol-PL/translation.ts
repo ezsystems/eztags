@@ -2,6 +2,59 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="pl_PL">
 <context>
+    <name>design/admin/parts/user/menu</name>
+    <message>
+        <source>Change the left menu width to small size.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Small</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the left menu width to large size.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Large</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the left menu width to medium size.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/article/comments</name>
+    <message>
+        <source>%login_link_startLog in%login_link_end to comment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/full/article</name>
+    <message>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%login_link_startLog in%login_link_end or %create_link_startcreate a user account%create_link_end to comment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Limit by tags subtree</source>
@@ -45,6 +98,37 @@
     </message>
 </context>
 <context>
+    <name>extension/eztags/datatypes</name>
+    <message>
+        <source>Tags</source>
+        <translation>Tagi</translation>
+    </message>
+    <message>
+        <source>Loading</source>
+        <translation>Wczytywanie</translation>
+    </message>
+    <message>
+        <source>Selected tags</source>
+        <translation>Wybrane tagi</translation>
+    </message>
+    <message>
+        <source>There are no selected tags</source>
+        <translation>Brak wybranych tagów</translation>
+    </message>
+    <message>
+        <source>Suggested tags</source>
+        <translation>Sugerowane tagi</translation>
+    </message>
+    <message>
+        <source>There are no tags to suggest</source>
+        <translation>Brak tagów do zasugerowania</translation>
+    </message>
+    <message>
+        <source>Add new</source>
+        <translation>Dodaj nowy</translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/errors</name>
     <message>
         <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
@@ -52,7 +136,7 @@
     </message>
     <message>
         <source>Selected target tag is invalid.</source>
-        <translation>Wybrany docelowy tag jest niepoprawny.</translation>
+        <translation type="unfinished">Wybrany docelowy tag jest niepoprawny.</translation>
     </message>
     <message>
         <source>Name cannot be empty.</source>
@@ -65,17 +149,6 @@
     <message>
         <source>Go back</source>
         <translation>Wstecz</translation>
-    </message>
-</context>
-<context>
-    <name>extension/eztags/warnings</name>
-    <message>
-        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
-        <translation>BĄDŹ OSTROŻNY: Tag znajduje się w poddrzewie, będącym ograniczeniem atrybutu klasy. Przeniesienie tagu poza to ograniczenie może doprowadzić do niespójności, jako że może pozostać z obiektami, z którymi być nie powinien.</translation>
-    </message>
-    <message>
-        <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
-        <translation>Aby zobaczyć zmiany w wyszukiwaniu , wymagana jest ręczna regeneracja indeksu wyszukiwania. Ustaw opcję DelayedIndexing na enabled w pliku site.ini w celu uzyskania automatycznego indeksowania.</translation>
     </message>
 </context>
 <context>
@@ -261,6 +334,80 @@
     </message>
 </context>
 <context>
+    <name>extension/eztags/tags/search</name>
+    <message>
+        <source>Tags search</source>
+        <translation>Wyszukiwanie tagów</translation>
+    </message>
+    <message>
+        <source>Search tags</source>
+        <translation>Szukaj tagów</translation>
+    </message>
+    <message>
+        <source>Include synonyms in search</source>
+        <translation>Uwzględniaj synonimy w trakcie przeszukiwania</translation>
+    </message>
+    <message>
+        <source>Empty search not allowed. Please enter your search query above.</source>
+        <translation>Szukanie po pustej frazie niedozwolone. Proszę wprowadzić powyżej treść zapytania.</translation>
+    </message>
+    <message>
+        <source>No tags were found while searching for &quot;%1&quot;.</source>
+        <translation>Nie znaleziono żadnych tagów w trakcie poszukiwania frazy &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <source>Search for &quot;%1&quot; returned %2 matches.</source>
+        <translation>Przeszukiwanie frazy &quot;%1&quot; zwróciło %2 trafień.</translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Nazwa tagu</translation>
+    </message>
+    <message>
+        <source>Parent tag</source>
+        <translation>Tag rodzica</translation>
+    </message>
+    <message>
+        <source>Main tag name</source>
+        <translation>Nazwa głównego tagu</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/tags/treemenu</name>
+    <message>
+        <source>Select tag</source>
+        <translation>Wybierz tag</translation>
+    </message>
+    <message>
+        <source>Parent tag ID</source>
+        <translation>ID tagu rodzica</translation>
+    </message>
+    <message>
+        <source>Tag ID</source>
+        <translation>ID tagu</translation>
+    </message>
+    <message>
+        <source>Top Level Tags</source>
+        <translation>Tagi najwyższego poziomu</translation>
+    </message>
+    <message>
+        <source>Dynamic tree not allowed for this siteaccess</source>
+        <translation>Dynamiczne drzewo nie jest dozwolone dla tego dostępu do strony</translation>
+    </message>
+    <message>
+        <source>Tag does not exist</source>
+        <translation>Tag nie istnieje</translation>
+    </message>
+    <message>
+        <source>Internal error</source>
+        <translation>Wewnętrzny błąd</translation>
+    </message>
+    <message>
+        <source>Tags structure</source>
+        <translation>Struktura tagów</translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/tags/view</name>
     <message>
         <source>Tags Dashboard</source>
@@ -332,108 +479,21 @@
     </message>
 </context>
 <context>
-    <name>extension/eztags/tags/search</name>
+    <name>extension/eztags/warnings</name>
     <message>
-        <source>Tags search</source>
-        <translation>Wyszukiwanie tagów</translation>
+        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
+        <translation>BĄDŹ OSTROŻNY: Tag znajduje się w poddrzewie, będącym ograniczeniem atrybutu klasy. Przeniesienie tagu poza to ograniczenie może doprowadzić do niespójności, jako że może pozostać z obiektami, z którymi być nie powinien.</translation>
     </message>
     <message>
-        <source>Search tags</source>
-        <translation>Szukaj tagów</translation>
-    </message>
-    <message>
-        <source>Include synonyms in search</source>
-        <translation>Uwzględniaj synonimy w trakcie przeszukiwania</translation>
-    </message>
-    <message>
-        <source>Empty search not allowed. Please enter your search query above.</source>
-        <translation>Szukanie po pustej frazie niedozwolone. Proszę wprowadzić powyżej treść zapytania.</translation>
-    </message>
-    <message>
-        <source>No tags were found while searching for &quot;%1&quot;.</source>
-        <translation>Nie znaleziono żadnych tagów w trakcie poszukiwania frazy &quot;%1&quot;.</translation>
-    </message>
-    <message>
-        <source>Search for &quot;%1&quot; returned %2 matches.</source>
-        <translation>Przeszukiwanie frazy &quot;%1&quot; zwróciło %2 trafień.</translation>
-    </message>
-    <message>
-        <source>Tag name</source>
-        <translation>Nazwa tagu</translation>
-    </message>
-    <message>
-        <source>Parent tag</source>
-        <translation>Tag rodzica</translation>
-    </message>
-    <message>
-        <source>Main tag name</source>
-        <translation>Nazwa głównego tagu</translation>
+        <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
+        <translation>Aby zobaczyć zmiany w wyszukiwaniu , wymagana jest ręczna regeneracja indeksu wyszukiwania. Ustaw opcję DelayedIndexing na enabled w pliku site.ini w celu uzyskania automatycznego indeksowania.</translation>
     </message>
 </context>
 <context>
-    <name>extension/eztags/datatypes</name>
+    <name>kernel/classes/datatypes</name>
     <message>
-        <source>Tags</source>
-        <translation>Tagi</translation>
-    </message>
-    <message>
-        <source>Loading</source>
-        <translation>Wczytywanie</translation>
-    </message>
-    <message>
-        <source>Selected tags</source>
-        <translation>Wybrane tagi</translation>
-    </message>
-    <message>
-        <source>There are no selected tags</source>
-        <translation>Brak wybranych tagów</translation>
-    </message>
-    <message>
-        <source>Suggested tags</source>
-        <translation>Sugerowane tagi</translation>
-    </message>
-    <message>
-        <source>There are no tags to suggest</source>
-        <translation>Brak tagów do zasugerowania</translation>
-    </message>
-    <message>
-        <source>Add new</source>
-        <translation>Dodaj nowy</translation>
-    </message>
-</context>
-<context>
-    <name>extension/eztags/tags/treemenu</name>
-    <message>
-        <source>Select tag</source>
-        <translation>Wybierz tag</translation>
-    </message>
-    <message>
-        <source>Parent tag ID</source>
-        <translation>ID tagu rodzica</translation>
-    </message>
-    <message>
-        <source>Tag ID</source>
-        <translation>ID tagu</translation>
-    </message>
-    <message>
-        <source>Top Level Tags</source>
-        <translation>Tagi najwyższego poziomu</translation>
-    </message>
-    <message>
-        <source>Dynamic tree not allowed for this siteaccess</source>
-        <translation>Dynamiczne drzewo nie jest dozwolone dla tego dostępu do strony</translation>
-    </message>
-    <message>
-        <source>Tag does not exist</source>
-        <translation>Tag nie istnieje</translation>
-    </message>
-    <message>
-        <source>Internal error</source>
-        <translation>Wewnętrzny błąd</translation>
-    </message>
-    <message>
-        <source>Tags structure</source>
-        <translation>Struktura tagów</translation>
+        <source>Input required.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
