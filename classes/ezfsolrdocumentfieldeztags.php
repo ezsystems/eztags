@@ -1,7 +1,17 @@
 <?php
 
+/**
+ * ezfSolrDocumentFieldeZTags class implements custom indexing
+ * handler for eZ Find
+ *
+ */
 class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
 {
+    /**
+     * Returns the data from content object attribute which is sent to Solr backend
+     *
+     * @return array
+     */
     public function getData()
     {
         $data = array();
@@ -26,6 +36,14 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
         return $data;
     }
 
+    /**
+     * Returns the list of field names this handler sends to Solr backend
+     *
+     * @static
+     * @param eZContentClassAttribute $classAttribute
+     * @param array $exclusiveTypeFilter
+     * @return array
+     */
     public static function getFieldNameList( eZContentClassAttribute $classAttribute, $exclusiveTypeFilter = array() )
     {
         $fieldsList = array();

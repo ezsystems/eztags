@@ -88,11 +88,23 @@ class eZTagsKeyword extends eZPersistentObject
         return array();
     }
 
+    /**
+     * Returns count of eZTagsKeyword objects for supplied tag ID
+     *
+     * @static
+     * @param integer $tagID
+     * @return integer
+     */
     static function fetchCountByTagID( $tagID )
     {
         return eZPersistentObject::count( self::definition(), array( 'keyword_id' => (int) $tagID ) );
     }
 
+    /**
+     * Returns array with language name and locale for this instance
+     *
+     * @return array
+     */
     function languageName()
     {
         $language = eZContentLanguage::fetchByLocale( $this->attribute( 'locale' ) );

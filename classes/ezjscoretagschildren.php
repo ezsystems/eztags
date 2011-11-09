@@ -6,6 +6,14 @@
  */
 class ezjscoreTagsChildren extends ezjscServerFunctions
 {
+    /**
+     * Returns the json encoded string of children tags for supplied GET params
+     * Used in YUI version of children tags list in admin interface
+     *
+     * @static
+     * @param array $args
+     * @return string
+     */
     public static function tagsChildren( $args )
     {
         if ( !isset( $args[0] ) || !is_numeric( $args[0] ) )

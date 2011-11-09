@@ -53,6 +53,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
     /**
      * Fetches the array of eZTagsAttributeLinkObject objects based on provided tag ID
      *
+     * @static
      * @param integer $tagID
      * @return array
      */
@@ -69,6 +70,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
     /**
      * Fetches the eZTagsAttributeLinkObject object based on provided content object params and keyword ID
      *
+     * @static
      * @param integer $objectAttributeID
      * @param integer $objectAttributeVersion
      * @param integer $objectID

@@ -9,6 +9,7 @@ class eZTagsAttributeFilter
     /**
      * Creates and returns SQL parts used in fetch functions
      *
+     * @param array $params
      * @return array
      */
     function createSqlParts( $params )
