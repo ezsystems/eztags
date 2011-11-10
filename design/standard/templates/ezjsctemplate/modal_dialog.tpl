@@ -1,5 +1,5 @@
 {if is_unset( $attribute_id )}{def $attribute_id = '0'}{/if}
-{run-once}{include uri='design:ezjsctemplate/tree_menu_script.tpl'}{/run-once}
+{include uri='design:ezjsctemplate/tree_menu_script.tpl'}
 
 <div class="jqmDialog parent-selector-tree" id="parent-selector-tree-{$attribute_id}">
     <div class="jqmdIn">
