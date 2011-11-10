@@ -2,7 +2,7 @@
 {if is_unset( $current_user )}{def $current_user = fetch( user, current_user )}{/if}
 
 <script type="text/javascript">
-	var TagsStructureMenuParams = {ldelim}{*
+	var TagsStructureMenuModalParams = {ldelim}{*
 		*}"perm":"{concat( $current_user.role_id_list|implode( ',' ), '|' , $current_user.limited_assignment_value_list|implode( ',' ) )|md5}",{*
 		*}"expiry":"{fetch( content, content_tree_menu_expiry )}",{*
 		*}"showTips":{if ezini( 'TreeMenu', 'ToolTips', 'eztags.ini' )|eq( 'enabled' )}true{else}false{/if},{*

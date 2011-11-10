@@ -11,7 +11,7 @@ var treeMenu_{$attribute_id};
     var persistence             = {if $menu_persistence}true{else}false{/if};
     var root_tag_id             = {if $root_tag}{$root_tag.id}{else}0{/if};
     var currentDate             = new Date().valueOf();
-    treeMenu_{$attribute_id}    = new TagsStructureMenu( tag_path, persistence, '{$attribute_id}', TagsStructureMenuParams );
+    treeMenu_{$attribute_id}    = new TagsStructureMenuModal( tag_path, persistence, '{$attribute_id}', TagsStructureMenuModalParams );
 
     {if $root_tag}
         var rootTag = {ldelim}{*

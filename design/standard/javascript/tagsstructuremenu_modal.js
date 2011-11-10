@@ -1,4 +1,4 @@
-function TagsStructureMenu( path, persistent, attr_id, params )
+function TagsStructureMenuModal( path, persistent, attr_id, params )
 {
     this.cookieName     = "tagsStructureMenu";
     this.cookieValidity = 3650; // days
