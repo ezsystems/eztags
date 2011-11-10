@@ -1,5 +1,5 @@
 {if is_unset( $attribute_id )}{def $attribute_id = '0'}{/if}
-{include uri='design:ezjsctemplate/tree_menu_script.tpl'}
+{include uri='design:ezjsctemplate/tree_menu_script.tpl' menu_persistence=false()}
 
 <div class="jqmDialog parent-selector-tree" id="parent-selector-tree-{$attribute_id}">
     <div class="jqmdIn">
@@ -9,11 +9,11 @@
                 <div class="contentstructure">
                 {if and( is_set( $root_tag ), $root_tag|is_array )}
                     {foreach $root_tag as $key => $value}
-                        {include uri='design:ezjsctemplate/tree_menu.tpl' menu_persistence=false() attribute_id=concat( $attribute_id, '_', $key ) root_tag=$value}
+                        {include uri='design:ezjsctemplate/tree_menu.tpl' attribute_id=concat( $attribute_id, '_', $key ) root_tag=$value}
                         {delimiter}<hr />{/delimiter}
                     {/foreach}
                 {else}
-                    {include uri='design:ezjsctemplate/tree_menu.tpl' menu_persistence=false() attribute_id=$attribute_id root_tag=cond( is_set( $root_tag ), $root_tag, false() )}
+                    {include uri='design:ezjsctemplate/tree_menu.tpl' attribute_id=$attribute_id root_tag=cond( is_set( $root_tag ), $root_tag, false() )}
                 {/if}
                 </div>
             </div>

@@ -1,17 +1,17 @@
-function TagsStructureMenuModal( path, persistent, attr_id, params )
+function TagsStructureMenuModal( attr_id, params )
 {
     this.cookieName     = "tagsStructureMenu";
     this.cookieValidity = 3650; // days
-    this.useCookie      = persistent;
+    this.useCookie      = params.useCookie;
     this.cookie         = this.useCookie ? _getCookie( this.cookieName ) : '';
     this.open           = ( this.cookie ) ? this.cookie.split( '/' ): [];
-    this.autoOpenPath   = path;
+    this.autoOpenPath   = params.path;
     this.attribute_id   = attr_id;
     this.perm           = params.perm;
     this.expiry         = params.expiry;
     this.hideTagID      = jQuery('#hide_tag_id_' + this.attribute_id).val();
     this.showTips       = params.showTips;
-    this.autoOpen       = false;
+    this.autoOpen       = params.autoOpen;
 
     this.updateCookie = function()
     {
@@ -71,7 +71,7 @@ function TagsStructureMenuModal( path, persistent, attr_id, params )
         {
             liclass += ' lastli';
         }
-        if ( path && ( path[path.length-1] == item.id || ( !item.has_children && jQuery.inArray( item.id, path ) !== -1 ) ) )
+        if ( params.path && ( params.path[params.path.length-1] == item.id || ( !item.has_children && jQuery.inArray( item.id, params.path ) !== -1 ) ) )
         {
             liclass += ' currentnode';
         }
