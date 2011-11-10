@@ -10,7 +10,7 @@ FrontendJavaScriptList[]=jqModal.js
 FrontendJavaScriptList[]=tagsSuggest-init.js
 FrontendJavaScriptList[]=jquery.tagsSuggest.js
 FrontendJavaScriptList[]=eztagsselectparent.js
-FrontendJavaScriptList[]=tagsstructuremenu_modal.js
+FrontendJavaScriptList[]=tagsstructuremenu.js
 
 BackendJavaScriptList[]=ezjsc::jquery
 BackendJavaScriptList[]=ezjsc::jqueryio
@@ -20,7 +20,6 @@ BackendJavaScriptList[]=tagsSuggest-init.js
 BackendJavaScriptList[]=jquery.tagsSuggest.js
 BackendJavaScriptList[]=eztagsselectparent.js
 BackendJavaScriptList[]=tagsstructuremenu.js
-BackendJavaScriptList[]=tagsstructuremenu_modal.js
 BackendJavaScriptList[]=jquery.eztagschildren.js
 
 [StylesheetSettings]

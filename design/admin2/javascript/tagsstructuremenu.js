@@ -1,13 +1,16 @@
-function TagsStructureMenu( params )
+function TagsStructureMenu( params, attribute_id )
 {
     this.cookieName     = "tagsStructureMenu";
     this.cookieValidity = 3650; // days
     this.useCookie      = params.useCookie;
     this.cookie         = this.useCookie ? _getCookie( this.cookieName ) : '';
-    this.open           = ( this.cookie )? this.cookie.split( '/' ): [];
+    this.open           = ( this.cookie ) ? this.cookie.split( '/' ): [];
     this.autoOpenPath   = params.path;
+    this.attribute_id   = attribute_id;
     this.perm           = params.perm;
     this.expiry         = params.expiry;
+    this.modal          = params.modal;
+    this.hideTagID      = jQuery( '#hide_tag_id_' + this.attribute_id ).val();
     this.context        = params.context;
     this.showTips       = params.showTips;
     this.autoOpen       = params.autoOpen;
@@ -63,7 +66,7 @@ function TagsStructureMenu( params )
         }
     };
 
-    this.generateEntry = function( item, lastli, rootTag )
+    this.generateEntry = function( item, lastli, isRootTag )
     {
         var liclass = '';
         if ( lastli )
@@ -74,64 +77,78 @@ function TagsStructureMenu( params )
         {
             liclass += ' currentnode';
         }
-        var html = '<li id="n'+item.id+'"'
-            + ( ( liclass )? ' class="' + liclass + '"':
-                             '' )
-            + '>';
-        if ( item.has_children && !rootTag )
+        if ( item.id == this.hideTagID )
         {
-            html += '<a class="openclose-open" id="a'
+            liclass += ' disabled';
+        }
+
+        var html = '<li id="n-' + this.attribute_id + '-' + item.id + '"' + ( ( liclass ) ? ' class="' + liclass + '"': '' ) + '>';
+        if ( item.has_children && !isRootTag )
+        {
+            html += '<a class="openclose-open" id="a-' + this.attribute_id + '-'
                 + item.id
-                + '" href="#" onclick="this.blur(); return treeMenu.load( this, '
+                + '" href="#" onclick="this.blur(); return treeMenu_' + this.attribute_id + '.load( this, '
                 + item.id
                 + ', '
                 + item.modified
                 +' )"><\/a>';
         }
 
-        if ( this.context != 'browse' && item.id >= 0 )
+        if ( !this.modal )
         {
-            var languagesString = [];
-            for (var locale in item.language_name_array)
-                languagesString.push('{locale:"' + locale + '", name:"' + item.language_name_array[locale] + '"}');
+            if ( this.context != 'browse' && item.id >= 0 )
+            {
+                var languagesString = [];
+                for (var locale in item.language_name_array)
+                    languagesString.push('{locale:"' + locale + '", name:"' + item.language_name_array[locale] + '"}');
 
-            languagesString = '[' + languagesString.join(',') + ']';
+                languagesString = '[' + languagesString.join(',') + ']';
 
-            html += '<a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, '
-                + ((rootTag) ? '\'TagMenuSimple\'' : '\'TagMenu\'')
-                + ', {\'%tagID%\':'
-                + item.id
-                + ', \'%languages%\':'
-                + languagesString.replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
-                + ' }, \''
-                + String(item.keyword).replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
-                + '\', '
-                + -1
-                + ', '
-                + -1
-                + ' ); return false"><img src="'
-                + item.icon
-                + '" title="' + item.keyword + '" /><\/a>';
+                html += '<a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, '
+                    + ((isRootTag) ? '\'TagMenuSimple\'' : '\'TagMenu\'')
+                    + ', {\'%tagID%\':'
+                    + item.id
+                    + ', \'%languages%\':'
+                    + languagesString.replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+                    + ' }, \''
+                    + String(item.keyword).replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+                    + '\', '
+                    + -1
+                    + ', '
+                    + -1
+                    + ' ); return false"><img src="'
+                    + item.icon
+                    + '" title="' + item.keyword + '" /><\/a>';
+            }
+            else
+            {
+                html += '<img src="'
+                    + item.icon
+                    + '" title="' + item.keyword + '" />';
+            }
+
+            html += '&nbsp;<a class="image-text" href="' + item.url + '"';
         }
         else
         {
-            html += '<img src="'
-                + item.icon
-                + '" title="' + item.keyword + '" />';
+            html += '<a class="nodeicon" href="#" rel="' + item.id + '"><img src="' + item.icon + '" alt="" title="Icon" /><\/a>&nbsp;<a class="image-text" href="#" rel="' + item.id + '"';
         }
-
-        html += '&nbsp;<a class="image-text" href="'
-            + item.url
-            + '"';
 
         if ( this.showTips )
         {
             html += ' title="' + params.tag_id_string + ': ' + item.id + ', ' + params.parent_tag_id_string + ': ' + item.parent_id + '"';
         }
 
-        html += '><span class="node-name-normal' + ((item.subtree_limitations_count > 0) ? ' disabled' : '') + '">' + item.keyword;
+        if ( !this.modal )
+        {
+            html += '><span class="node-name-normal' + ( ( item.subtree_limitations_count > 0 ) ? ' disabled' : '' ) + '">' + item.keyword;
+        }
+        else
+        {
+            html += '><span class="node-name-normal">' + item.keyword;
+        }
 
-        if(item.synonyms_count > 0)
+        if( item.synonyms_count > 0 )
         {
             html += ' (+' + item.synonyms_count + ')';
         }
@@ -139,9 +156,7 @@ function TagsStructureMenu( params )
         html += '<\/span>';
 
         html += '<\/a>';
-        html += '<div id="c'
-             + item.id
-             + '"><\/div>';
+        html += '<div id="c-' + this.attribute_id + '-' + item.id + '"><\/div>';
         html += '<\/li>';
 
         return html;
@@ -149,7 +164,7 @@ function TagsStructureMenu( params )
 
     this.load = function( aElement, tagID, modifiedSubnode )
     {
-        var divElement = document.getElementById('c' + tagID);
+        var divElement = document.getElementById('c-' + this.attribute_id + '-' + tagID);
 
         if ( !divElement )
         {
@@ -261,7 +276,7 @@ function TagsStructureMenu( params )
 
     this.openUnder = function( parentTagID )
     {
-        var divElement = document.getElementById( 'c' + parentTagID );
+        var divElement = document.getElementById( 'c-' + this.attribute_id + '-' + parentTagID );
         if ( !divElement )
         {
             return;
@@ -279,7 +294,7 @@ function TagsStructureMenu( params )
             var liCandidate = children[i];
             if ( liCandidate.nodeType == 1 && liCandidate.id )
             {
-                var tagID = liCandidate.id.substr( 1 ), openIndex = jQuery.inArray( tagID, this.autoOpenPath );
+                var tagID = liCandidate.id.substr( 3 + this.attribute_id.length ), openIndex = jQuery.inArray( tagID, this.autoOpenPath );
                 if ( this.autoOpen && openIndex !== -1 )
                 {
                     this.autoOpenPath.splice( openIndex, 1 );
@@ -287,7 +302,7 @@ function TagsStructureMenu( params )
                 }
                 if ( jQuery.inArray( tagID, this.open ) !== -1 )
                 {
-                    var aElement = document.getElementById( 'a' + tagID );
+                    var aElement = document.getElementById( 'a-' + this.attribute_id + '-' + tagID );
                     if ( aElement )
                     {
                         aElement.onclick();
@@ -299,7 +314,7 @@ function TagsStructureMenu( params )
 
     this.collapse = function( parentTagID )
     {
-        var divElement = document.getElementById( 'c' + parentTagID );
+        var divElement = document.getElementById( 'c-' + this.attribute_id + '-' + parentTagID );
         if ( !divElement )
         {
             return;
@@ -311,8 +326,8 @@ function TagsStructureMenu( params )
             var aElement = aElements[index];
             if ( aElement.className == 'openclose-close' )
             {
-                var tagID        = aElement.id.substr( 1 );
-                var subdivElement = document.getElementById( 'c' + tagID );
+                var tagID        = aElement.id.substr( 3 + this.attribute_id.length );
+                var subdivElement = document.getElementById( 'c-' + this.attribute_id + '-' + tagID );
                 if ( subdivElement )
                 {
                     subdivElement.className = 'hidden';
@@ -322,7 +337,7 @@ function TagsStructureMenu( params )
             }
         }
 
-        var aElement = document.getElementById( 'a' + parentTagID );
+        var aElement = document.getElementById( 'a-' + this.attribute_id + '-' + parentTagID );
         if ( aElement )
         {
             divElement.className = 'hidden';

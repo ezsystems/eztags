@@ -5,7 +5,7 @@ var treeMenu_{$attribute_id};
 (function(){ldelim}
     var root_tag_id             = {if $root_tag}{$root_tag.id}{else}0{/if};
     var currentDate             = new Date().valueOf();
-    treeMenu_{$attribute_id}    = new TagsStructureMenuModal( '{$attribute_id}', TagsStructureMenuModalParams );
+    treeMenu_{$attribute_id}    = new TagsStructureMenu( TagsStructureMenuParams, '{$attribute_id}' );
 
     {if $root_tag}
         var rootTag = {ldelim}{*
