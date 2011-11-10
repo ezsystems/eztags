@@ -19,6 +19,7 @@ BackendJavaScriptList[]=jqModal.js
 BackendJavaScriptList[]=tagsSuggest-init.js
 BackendJavaScriptList[]=jquery.tagsSuggest.js
 BackendJavaScriptList[]=eztagsselectparent.js
+BackendJavaScriptList[]=tagsstructuremenu.js
 BackendJavaScriptList[]=tagsstructuremenu_modal.js
 BackendJavaScriptList[]=jquery.eztagschildren.js
 
