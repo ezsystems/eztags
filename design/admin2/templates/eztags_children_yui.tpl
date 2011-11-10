@@ -1,5 +1,3 @@
-{ezscript_require( array( 'ezjsc::jquery', 'ezjsc::jqueryio', 'ezjsc::yui2' ) )}
-
 {def $parent_tag_id = 0}
 {if is_set( $tag )}
     {set $parent_tag_id = $tag.id}

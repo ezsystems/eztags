@@ -1,6 +1,3 @@
-{ezcss_require( array( 'jqmodal.css', 'contentstructure-tree.css' ) )}
-{ezscript_require( array( 'jqModal.js', 'eztagsselectparent.js' ) )}
-
 <div class="context-block tags-add">
     <div class="box-header">
         <h1 class="context-title">{"New tag"|i18n( 'extension/eztags/tags/edit' )}</h1>

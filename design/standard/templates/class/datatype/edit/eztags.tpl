@@ -1,6 +1,3 @@
-{ezcss_require( array( 'jqmodal.css', 'contentstructure-tree.css' ) )}
-{ezscript_require( array( 'ezjsc::jquery', 'ezjsc::jqueryio', 'jqModal.js', 'eztagsselectparent.js' ) )}
-
 <div class="block"></div>
 
 {* Subtree limit *}

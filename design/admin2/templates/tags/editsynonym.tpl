@@ -1,8 +1,5 @@
 {def $is_main_translation = $tag.main_translation.locale|eq( $language.locale )}
 
-{ezcss_require( array( 'jqmodal.css', 'contentstructure-tree.css' ) )}
-{ezscript_require( array( 'jqModal.js', 'eztagsselectparent.js' ) )}
-
 <div class="context-block tags-edit">
     <div class="box-header">
         <h1 class="context-title">{"Edit synonym"|i18n( 'extension/eztags/tags/edit' )}: {$tag.keyword|wash} [{$tag.id}]</h1>

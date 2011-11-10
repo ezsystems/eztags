@@ -1,6 +1,3 @@
-{ezcss_require( array( 'jqmodal.css', 'contentstructure-tree.css' ) )}
-{ezscript_require( array( 'jqModal.js', 'eztagsselectparent.js' ) )}
-
 <div class="context-block tags-add">
     <div class="box-header">
         <h1 class="context-title">{"New synonym tag"|i18n( 'extension/eztags/tags/edit' )} ({"Main tag ID"|i18n( 'extension/eztags/tags/edit' )}: {$main_tag.id}, {"Main tag name"|i18n( 'extension/eztags/tags/edit' )}: {$main_tag.keyword|wash})</h1>
