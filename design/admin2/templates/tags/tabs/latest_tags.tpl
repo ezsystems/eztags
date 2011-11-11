@@ -12,7 +12,7 @@
             </tr>
             {foreach $latest_tags as $t sequence array( 'bglight', 'bgdark' ) as $sequence}
                 <tr>
-                    <td><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $t.icon )|ezimage} alt="{$t.keyword|wash}" /></td>
+                    <td><img class="transparent-png-icon" src="{$t.icon|tag_icon}" alt="{$t.keyword|wash}" /></td>
                     <td>{$t.id}</td>
                     <td><a href={concat( 'tags/id/', $t.id )|ezurl}>{$t.keyword|wash}</a></td>
                     {if $t.parent}

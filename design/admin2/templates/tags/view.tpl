@@ -1,7 +1,7 @@
 <div class="context-block">
     <div class="box-header">
         <h1 class="context-title">
-            <img class="transparent-png-icon" src={concat( 'tag_icons/normal/', $tag.icon )|ezimage} alt="{$tag.keyword|wash}" />
+            <img class="transparent-png-icon" src="{$tag.icon|tag_icon( 'normal' )}" alt="{$tag.keyword|wash}" />
             {if $tag.main_tag_id|eq( 0 )}
                 {'Tag'|i18n( 'extension/eztags/tags/view' )}: {$tag.keyword|wash}
             {else}

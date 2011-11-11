@@ -13,7 +13,7 @@ class eZTagsTemplateFunctions
      */
     function operatorList()
     {
-        return array( 'eztags_parent_string', 'latest_tags', 'user_limitations' );
+        return array( 'eztags_parent_string', 'latest_tags', 'user_limitations', 'tag_icon' );
     }
 
     /**
@@ -47,7 +47,13 @@ class eZTagsTemplateFunctions
                                                                           'default'  => '' ),
                                                                           'function' => array( 'type'     => 'string',
                                                                                                'required' => true,
-                                                                                               'default'  => '' ) ) );
+                                                                                               'default'  => '' ) ),
+                      'tag_icon'             => array( 'first'  => array( 'type'     => 'string',
+                                                                          'required' => false,
+                                                                          'default'  => '' ),
+                                                       'second' => array( 'type'     => 'string',
+                                                                          'required' => false,
+                                                                          'default'  => '' ) ) );
     }
 
     /**
@@ -76,6 +82,18 @@ class eZTagsTemplateFunctions
             case 'user_limitations':
             {
                 $operatorValue = self::getSimplifiedUserAccess( $namedParameters['module'], $namedParameters['function'] );
+            } break;
+            case 'tag_icon':
+            {
+                if ( $operatorValue === null )
+                    $operatorValue = self::getTagIcon( $namedParameters['first'], $namedParameters['second'] );
+                else
+                {
+                    if ( empty( $namedParameters['first'] ) )
+                        $operatorValue = self::getTagIcon( $operatorValue );
+                    else
+                        $operatorValue = self::getTagIcon( $operatorValue, $namedParameters['first'] );
+                }
             } break;
         }
     }
@@ -121,7 +139,6 @@ class eZTagsTemplateFunctions
      * @param string $function Name of the policy function ($FunctionList element in module.php)
      * @return array
      */
-
     static function getSimplifiedUserAccess( $module, $function )
     {
         $user = eZUser::currentUser();
@@ -144,6 +161,19 @@ class eZTagsTemplateFunctions
             }
         }
         return $userAccess;
+    }
+
+    /**
+     * Returns the full URL of the tag icon image
+     *
+     * @static
+     * @param string $icon
+     * @param string $size
+     * @return string
+     */
+    static function getTagIcon( $icon, $size = 'small' )
+    {
+        return eZURLOperator::eZImage( null, 'tag_icons/' . $size . '/' . $icon, 'ezimage' );
     }
 }
 

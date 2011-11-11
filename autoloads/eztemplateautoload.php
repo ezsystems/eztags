@@ -9,7 +9,7 @@ $eZTemplateOperatorArray = array();
 
 $eZTemplateOperatorArray[] = array( 'script'         => 'extension/eztags/autoloads/eztagstemplatefunctions.php',
                                     'class'          => 'eZTagsTemplateFunctions',
-                                    'operator_names' => array( 'eztags_parent_string', 'latest_tags', 'user_limitations' ) );
+                                    'operator_names' => array( 'eztags_parent_string', 'latest_tags', 'user_limitations', 'tag_icon' ) );
 
 $eZTemplateOperatorArray[] = array( 'script'         => 'extension/eztags/autoloads/eztagscloud.php',
                                     'class'          => 'eZTagsCloud',

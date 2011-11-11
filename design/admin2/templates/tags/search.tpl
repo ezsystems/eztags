@@ -53,13 +53,13 @@
                         {foreach $tags_search_results as $result sequence array( 'bglight', 'bgdark' ) as $sequence}
                             <tr class="{$sequence}">
                                 <td>
-                                    <img class="transparent-png-icon" src={concat( 'tag_icons/small/', $result.icon )|ezimage} alt="{$result.keyword|wash}" />
+                                    <img class="transparent-png-icon" src="{$result.icon|tag_icon}" alt="{$result.keyword|wash}" />
                                     <a href={concat( 'tags/id/', $result.id )|ezurl}>{$result.keyword|wash}</a>
                                 </td>
                                 <td>{eztags_parent_string( $result.parent_id )}</td>
                                 <td>
                                     {if $result.main_tag_id|gt( 0 )}
-                                        <img class="transparent-png-icon" src={concat( 'tag_icons/small/', $result.main_tag.icon )|ezimage} alt="{$result.main_tag.keyword|wash}" />
+                                        <img class="transparent-png-icon" src="{$result.main_tag.icon|tag_icon}" alt="{$result.main_tag.keyword|wash}" />
                                         <a href={concat( 'tags/id/', $result.main_tag.id )|ezurl}>{$result.main_tag.keyword|wash}</a>
                                     {else}
                                         &nbsp;

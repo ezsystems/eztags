@@ -9,7 +9,7 @@
             </tr>
             {foreach $tag.synonyms as $synonym}
                 <tr>
-                    <td><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $synonym.icon )|ezimage} alt="{$synonym.keyword|wash}" /></td>
+                    <td><img class="transparent-png-icon" src="{$synonym.icon|tag_icon}" alt="{$synonym.keyword|wash}" /></td>
                     <td>{$synonym.id}</td>
                     <td><a href={concat( 'tags/id/', $synonym.id )|ezurl}>{$synonym.keyword|wash}</a></td>
                     <td>{$synonym.modified|datetime( 'custom', '%d.%m.%Y %H:%i' )}</td>

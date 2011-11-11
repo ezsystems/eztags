@@ -32,7 +32,7 @@ var TagsStructureMenuParams = {ldelim}{*
         *}"has_children":true,{*
         *}"keyword":"{"Top level tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
         *}"url":{'tags/dashboard'|ezurl},{*
-        *}"icon":{concat('tag_icons/small/', ezini('Icons', 'Default', 'eztags.ini'))|ezimage},{*
+        *}"icon":"{ezini( 'Icons', 'Default', 'eztags.ini' )|tag_icon}",{*
         *}"modified":currentDate{rdelim};
 
     document.writeln( '<ul id="content_tree_menu">' );

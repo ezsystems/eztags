@@ -11,7 +11,7 @@
 
             <div class="tag-header">
                 <h1>
-                <img class="transparent-png-icon" src={concat( 'tag_icons/normal/', $tag.icon )|ezimage} title="{$tag.keyword|wash}" alt="{$tag.keyword|wash}" />
+                <img class="transparent-png-icon" src="{$tag.icon|tag_icon( 'normal' )}" title="{$tag.keyword|wash}" alt="{$tag.keyword|wash}" />
                 {$tag.keyword|wash}
                 </h1>
             </div>
@@ -74,7 +74,7 @@
                                 {if $name|downcase|ne( $tag.keyword|downcase )}
                                     {set $t = fetch( tags, tags_by_keyword, hash( keyword, $name ) )}
                                     {if $t|count}
-                                        <li><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $t[0].icon )|ezimage} title="{$t[0].keyword|wash}" alt="{$t[0].keyword|wash}" /> <a href={$t[0].url|ezurl}>{$t[0].keyword|wash}</a> ({$count})</li>
+                                        <li><img class="transparent-png-icon" src="{$t[0].icon|tag_icon}" title="{$t[0].keyword|wash}" alt="{$t[0].keyword|wash}" /> <a href={$t[0].url|ezurl}>{$t[0].keyword|wash}</a> ({$count})</li>
                                     {/if}
                                 {/if}
                             {/foreach}
