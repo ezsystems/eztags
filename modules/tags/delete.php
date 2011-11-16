@@ -31,11 +31,11 @@ if ( $http->hasPostVariable( 'YesButton' ) && $deleteAllowed )
     if ( $parentTag instanceof eZTagsObject )
         $parentTag->updateModified();
 
-    $tag->recursivelyDeleteTag();
-
     /* Extended Hook */
     if ( class_exists( 'ezpEvent', false ) )
         $tag = ezpEvent::getInstance()->filter( 'tag/delete', $tag );
+
+    $tag->recursivelyDeleteTag();
 
     $db->commit();
 

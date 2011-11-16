@@ -45,6 +45,15 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
                 $oldParentTag->updateModified();
         }
 
+        /* Extended Hook */
+        if ( class_exists( 'ezpEvent', false ) )
+        {
+            $tag = ezpEvent::getInstance()->filter( 'tag/merge', array(
+                'tag'          => $tag,
+                'newParentTag' => $mainTag,
+                'oldParentTag' => $oldParentTag ) );
+        }
+
         $tag->moveChildrenBelowAnotherTag( $mainTag );
 
         foreach ( $tag->getSynonyms( true ) as $synonym )
@@ -59,10 +68,6 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
         $tag->remove();
 
         $mainTag->updateModified();
-
-        /* Extended Hook */
-        if ( class_exists( 'ezpEvent', false ) )
-            $tag = ezpEvent::getInstance()->filter( 'tag/merge', array( 'tag' => $tag, 'mainTag' => $mainTag ) );
 
         $db->commit();
 
