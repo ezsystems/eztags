@@ -89,6 +89,17 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $tag->setAttribute( 'parent_id', $newParentID );
         $tag->store();
 
+        /* Extended Hook */
+        if ( class_exists( 'ezpEvent', false ) ) {
+	        $tag = ezpEvent::getInstance()->filter( 'tag/edit', array(
+                        																'tag'=>$tag,
+                        																'oldParentTag'=>$oldParentTag,
+                        																'newParentTag'=>$newParentTag,
+                        																'move'=>$updatePathString
+                        											)
+        	);
+        }
+
         if ( !$newParentTag instanceof eZTagsObject )
             $newParentTag = false;
 
@@ -100,10 +111,6 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
         $tag->updateModified();
         $tag->registerSearchObjects();
-
-        /* Extended Hook */
-        if ( class_exists( 'ezpEvent', false ) )
-            $tag = ezpEvent::getInstance()->filter( 'tag/edit', $tag );
 
         $db->commit();
 
