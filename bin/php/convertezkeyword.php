@@ -85,6 +85,10 @@ $objectCount = eZPersistentObject::count( eZContentObject::definition(), array(
                                               'status' => eZContentObject::STATUS_PUBLISHED
                                           ) );
 
+$cli->output( "{$objectCount} objects to update..." );
+$script->setIterationData( '.', '~' );
+$script->resetIteration( $objectCount );
+
 while ( $offset < $objectCount )
 {
     $objects = eZContentObject::fetchFilteredList( array(
@@ -161,11 +165,12 @@ while ( $offset < $objectCount )
             $db->commit();
 
             unset( $languageDataMap );
-            $cli->output( "Converted object ID " . $object->attribute( 'id' ) );
+            $script->iterate( $cli, true );
         }
     }
 
     unset( $objects );
+    eZContentObject::clearCache();
     $offset += $limit;
 }
 
