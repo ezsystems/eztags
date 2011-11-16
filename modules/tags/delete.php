@@ -45,11 +45,11 @@ else
             $parentTag->updateModified();
         }
 
-        eZTagsObject::recursiveTagDelete( $tag );
-
         /* Extended Hook */
         if ( class_exists( 'ezpEvent', false ) )
-            $tag = ezpEvent::getInstance()->filter( 'tag/delete', $tag );
+        	$tag = ezpEvent::getInstance()->filter( 'tag/delete', $tag );
+
+        eZTagsObject::recursiveTagDelete( $tag );
 
         $db->commit();
 
