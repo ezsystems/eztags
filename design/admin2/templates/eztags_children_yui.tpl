@@ -50,7 +50,7 @@
             jQuery(document).ready(function($) {ldelim}
                 $('#eztags-tag-children-table').eZTagsChildren({ldelim}
                     YUI2BasePath: "{$yui2_base_path}",
-                    parentTagID: {if is_set( $tag )}{$parent_tag_id}{else}0{/if},
+                    dataSourceURI: "{concat( '/ezjscore/call/ezjsctagschildren::tagsChildren::', $parent_tag_id, '?' )|ezurl(no)}",
                     rowsPerPage: 10,
                     languages: languages,
                     viewUrl: {'/tags/id/'|ezurl},

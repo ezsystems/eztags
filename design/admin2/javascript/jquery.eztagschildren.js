@@ -112,7 +112,7 @@
 			dir: YAHOO.widget.DataTable.CLASS_ASC
 		}
 
-		var dataSource = new YAHOO.util.XHRDataSource( "/ezjscore/call/ezjsctagschildren::tagsChildren::" + settings.parentTagID + "?", {
+		var dataSource = new YAHOO.util.XHRDataSource( settings.dataSourceURI, {
 			responseType: YAHOO.util.DataSource.TYPE_JSON,
 			responseSchema: {
 				resultsList: 'data',
