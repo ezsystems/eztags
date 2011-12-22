@@ -94,7 +94,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
 
         /* Extended Hook */
         if ( class_exists( 'ezpEvent', false ) )
-            $tag = ezpEvent::getInstance()->filter( 'tag/add', array('tag'=>$tag,'parentTag'=>$parentTag) );
+            $tag = ezpEvent::getInstance()->filter( 'tag/add', array( 'tag' => $tag, 'parentTag' => $parentTag ) );
 
         $db->commit();
 

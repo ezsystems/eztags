@@ -91,13 +91,11 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
         /* Extended Hook */
         if ( class_exists( 'ezpEvent', false ) ) {
-	        $tag = ezpEvent::getInstance()->filter( 'tag/edit', array(
-                        																'tag'=>$tag,
-                        																'oldParentTag'=>$oldParentTag,
-                        																'newParentTag'=>$newParentTag,
-                        																'move'=>$updatePathString
-                        											)
-        	);
+            $tag = ezpEvent::getInstance()->filter( 'tag/edit', array(
+                'tag'          => $tag,
+                'oldParentTag' => $oldParentTag,
+                'newParentTag' => $newParentTag,
+                'move'         => $updatePathString ) );
         }
 
         if ( !$newParentTag instanceof eZTagsObject )
