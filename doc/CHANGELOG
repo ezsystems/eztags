@@ -1,6 +1,12 @@
 eZ Tags extension changelog
 
-1.2
+1.2.1 (22.12.2011)
+==========================
+
+* Updated ezpEvent hooks to be compatible with Smart Tags extension
+
+
+1.2 (07.09.2011)
 ==========================
 
 * Added script that can convert ezkeyword attributes to eztags attributes
