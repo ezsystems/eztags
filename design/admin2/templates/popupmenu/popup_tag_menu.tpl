@@ -6,7 +6,6 @@
      $tags_make_synonym_access = fetch( user, has_access_to, hash( module, tags, function, makesynonym ) )}
 
 <script type="text/javascript">
-<!--
 menuArray['TagMenu'] = {ldelim} 'depth': 0, 'headerID': 'tag-header' {rdelim};
 menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
 {if $tags_add_access}
@@ -33,7 +32,6 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
     menuArray['TagMenuSimple']['elements'] = {ldelim}{rdelim};
     menuArray['TagMenuSimple']['elements']['add-child-tag-simple'] = {ldelim} 'url': {"/tags/add/%tagID%"|ezurl} {rdelim};
 {/if}
-// -->
 </script>
 <div class="popupmenu" id="TagMenu">
     <div class="popupmenuheader"><h3 id="tag-header">XXX</h3>

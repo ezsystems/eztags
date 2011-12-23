@@ -1,6 +1,5 @@
 {literal}
 <script type="text/javascript">
-<!--
 function TagsStructureMenu( path, persistent, attr_id )
 {
     this.cookieName     = "tagsStructureMenu";
@@ -321,7 +320,5 @@ function TagsStructureMenu( path, persistent, attr_id )
         }
     };
 }
-
-// -->
 </script>
 {/literal}
