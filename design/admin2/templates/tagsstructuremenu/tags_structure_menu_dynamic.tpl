@@ -4,7 +4,6 @@
 
 {literal}
 <script type="text/javascript">
-<!--
 function TagsStructureMenu( path, persistent )
 {
     this.cookieName     = "tagsStructureMenu";
@@ -354,14 +353,11 @@ function TagsStructureMenu( path, persistent )
         }
     };
 }
-
-// -->
 </script>
 {/literal}
 {/cache-block}
 
 <script type="text/javascript">
-<!--
 var treeMenu;
 (function(){ldelim}
     var path         = [{if is_set( $module_result.path[0].tag_id)}{foreach $module_result.path as $element}'{$element.tag_id}'{delimiter}, {/delimiter}{/foreach}{/if}];
@@ -384,6 +380,4 @@ var treeMenu;
 
     treeMenu.load( false, 0, currentDate );
 {rdelim})();
-
-// -->
 </script>
