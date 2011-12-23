@@ -3,7 +3,6 @@
 {/if}
 
 <script type="text/javascript">
-<!--
 if (typeof treeMenu_{$attribute_id} == 'undefined') {ldelim}
 var treeMenu_{$attribute_id};
 (function(){ldelim}
@@ -45,5 +44,4 @@ var treeMenu_{$attribute_id};
     {/if}
 {rdelim})();
 {rdelim}
-// -->
 </script>
