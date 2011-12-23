@@ -39,7 +39,6 @@
 
 {literal}
 <script language="JavaScript" type="text/javascript">
-<!--
 function confirmDiscard( question )
 {
     // Disable/bypass the reload-based (plain HTML) confirmation interface.
@@ -48,7 +47,6 @@ function confirmDiscard( question )
     // Ask user if she really wants do it, return this to the handler.
     return confirm( question );
 }
--->
 </script>
 {/literal}
 

@@ -2,7 +2,6 @@
 {if is_unset( $current_user )}{def $current_user = fetch( user, current_user )}{/if}
 
 <script type="text/javascript">
-<!--
 var treeMenu_0;
 
 var TagsStructureMenuParams = {ldelim}{*
@@ -41,6 +40,4 @@ var TagsStructureMenuParams = {ldelim}{*
 
     treeMenu_0.load( false, 0, currentDate );
 {rdelim})();
-
-// -->
 </script>
