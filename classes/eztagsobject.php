@@ -392,7 +392,7 @@ class eZTagsObject extends eZPersistentObject
     {
         $eZTagsINI = eZINI::instance( 'eztags.ini' );
 
-        if ( eZINI::instance( 'site.ini' )->variable( 'SearchSettings', 'DelayedIndexing' ) == 'enabled'
+        if ( eZINI::instance( 'site.ini' )->variable( 'SearchSettings', 'DelayedIndexing' ) !== 'disabled'
             || $eZTagsINI->variable( 'SearchSettings', 'ReindexWhenDelayedIndexingDisabled' ) == 'enabled' )
         {
             $relatedObjects = $this->getRelatedObjects();
