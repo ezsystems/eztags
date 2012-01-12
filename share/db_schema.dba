@@ -53,6 +53,13 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'remote_id' =>
+      array (
+        'length' => 100,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
       'main_language_id' =>
       array (
         'length' => 11,
@@ -66,13 +73,6 @@ $schema = array (
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
-      ),
-      'remote_id' =>
-      array (
-        'length' => 100,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
       ),
     ),
     'indexes' =>
