@@ -1,5 +1,5 @@
 {ezcss_require( array( 'jqmodal.css', 'contentstructure-tree.css' ) )}
-{ezscript_require( array( 'jqModal.js', 'eztagsselectparent.js' ) )}
+{ezscript_require( array( 'jqmodal.js', 'eztagsselectparent.js' ) )}
 
 <div class="context-block tags-edit">
     <div class="box-header">
