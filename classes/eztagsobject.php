@@ -70,7 +70,8 @@ class eZTagsObject extends eZPersistentObject
                                                       'synonyms'                  => 'getSynonyms',
                                                       'synonyms_count'            => 'getSynonymsCount',
                                                       'icon'                      => 'getIcon',
-                                                      'url'                       => 'getUrl' ),
+                                                      'url'                       => 'getUrl',
+                                                      'is_synonym'                =>  'isSynonym' ),
                       'keys'                => array( 'id' ),
                       'increment_key'       => 'id',
                       'class_name'          => 'eZTagsObject',
@@ -391,7 +392,7 @@ class eZTagsObject extends eZPersistentObject
     {
         $eZTagsINI = eZINI::instance( 'eztags.ini' );
 
-        if ( eZINI::instance( 'site.ini' )->variable( 'SearchSettings', 'DelayedIndexing' ) == 'enabled'
+        if ( eZINI::instance( 'site.ini' )->variable( 'SearchSettings', 'DelayedIndexing' ) !== 'disabled'
             || $eZTagsINI->variable( 'SearchSettings', 'ReindexWhenDelayedIndexingDisabled' ) == 'enabled' )
         {
             $relatedObjects = $this->getRelatedObjects();
@@ -860,6 +861,15 @@ class eZTagsObject extends eZPersistentObject
         {
            return md5( (string) mt_rand() . (string) time() );
         }
+    }
+
+    /**
+     * Tells wether tag object is a synonym of another tag object
+     * @return boolean
+     */
+    function isSynonym()
+    {
+        return $this->attribute( 'main_tag_id' ) && $this->attribute( 'main_tag_id' ) !== $this->attribute( 'id' );
     }
 }
 
