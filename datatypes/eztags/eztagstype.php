@@ -330,26 +330,21 @@ class eZTagsType extends eZDataType
         $eztags->createFromAttribute( $attribute );
 
         if( $ini->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled' )
-        {
             return $eztags->keywordString( ', ' );
-        }
-        else
+
+        $keywords = array();
+        $tags = $eztags->attribute( 'tags' );
+        foreach( $tags as $tag )
         {
-            $keywords = array();
-            $tags = $eztags->attribute( 'tags' );
-            foreach( $tags as $tag )
+            if( $tag->isSynonym() )
             {
-                if( $tag->isSynonym() )
-                {
-                    $tag = $tag->attribute( 'main_tag' );
-
-                }
-
-                $keywords[] = $tag->attribute( 'keyword' );
+                $tag = $tag->attribute( 'main_tag' );
             }
 
-            return implode( ', ', array_unique( $keywords ) );
+            $keywords[] = $tag->attribute( 'keyword' );
         }
+
+        return implode( ', ', array_unique( $keywords ) );
     }
 
     /**

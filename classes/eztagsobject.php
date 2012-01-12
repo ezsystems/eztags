@@ -71,7 +71,7 @@ class eZTagsObject extends eZPersistentObject
                                                       'synonyms_count'            => 'getSynonymsCount',
                                                       'icon'                      => 'getIcon',
                                                       'url'                       => 'getUrl',
-                                                      'is_synonym'                =>  'isSynonym' ),
+                                                      'is_synonym'                => 'isSynonym' ),
                       'keys'                => array( 'id' ),
                       'increment_key'       => 'id',
                       'class_name'          => 'eZTagsObject',
