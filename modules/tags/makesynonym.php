@@ -110,6 +110,12 @@ else
 
             $tag->updateModified();
 
+            $ini = eZINI::instance( 'eztags.ini' );
+            if( $ini->variable( 'SearchSettings', 'IndexSynonyms' ) !== 'enabled' )
+            {
+                $tag->registerSearchObjects();
+            }
+
             $db->commit();
 
             return $Module->redirectToView( 'id', array( $tagID ) );
