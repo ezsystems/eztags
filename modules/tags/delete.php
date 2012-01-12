@@ -33,7 +33,7 @@ if ( $http->hasPostVariable( 'YesButton' ) && $deleteAllowed )
 
     /* Extended Hook */
     if ( class_exists( 'ezpEvent', false ) )
-        $tag = ezpEvent::getInstance()->filter( 'tag/delete', $tag );
+        ezpEvent::getInstance()->filter( 'tag/delete', $tag );
 
     $tag->recursivelyDeleteTag();
 
