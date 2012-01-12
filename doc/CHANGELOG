@@ -3,7 +3,10 @@ eZ Tags extension changelog
 1.2.2 (12.01.2012)
 ==========================
 
-* Fix regression in ezpEvent hooks that could cause fatal errors in certain situations
+* Remote ID support for eZ Tags (thanks Benjamin Choquet)
+* Option to replace tag synonyms with main tag IDs when indexing (thanks Benjamin Choquet)
+* Wildcard searching in tags/tags_by_keyword fetch (thanks Sander van den Akker)
+* Various bug fixes
 
 
 1.2.1 (22.12.2011)
