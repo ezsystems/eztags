@@ -73,7 +73,7 @@ else
             /* Extended Hook */
             if ( class_exists( 'ezpEvent', false ) )
             {
-                $tag = ezpEvent::getInstance()->filter( 'tag/merge', array(
+                ezpEvent::getInstance()->filter( 'tag/merge', array(
                     'tag'          => $tag,
                     'newParentTag' => $mainTag,
                     'oldParentTag' => $oldParentTag ) );
