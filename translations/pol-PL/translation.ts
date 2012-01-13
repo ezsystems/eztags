@@ -33,7 +33,7 @@
     </message>
     <message>
         <source>At least one tag is required to be added.</source>
-        <translation>Należy dodać co najmniej jeden tag</translation>
+        <translation>Należy dodać co najmniej jeden tag.</translation>
     </message>
     <message>
         <source>Attribute contains invalid data.</source>
