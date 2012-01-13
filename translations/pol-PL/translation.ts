@@ -5,53 +5,53 @@
     <name>design/admin/parts/user/menu</name>
     <message>
         <source>Change the left menu width to small size.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw małą szerokość lewego menu.</translation>
     </message>
     <message>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Mały</translation>
     </message>
     <message>
         <source>Medium</source>
-        <translation type="unfinished"></translation>
+        <translation>Średni</translation>
     </message>
     <message>
         <source>Change the left menu width to large size.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw dużą szerokość lewego menu.</translation>
     </message>
     <message>
         <source>Large</source>
-        <translation type="unfinished"></translation>
+        <translation>Duży</translation>
     </message>
     <message>
         <source>Change the left menu width to medium size.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw średnią szerokość lewego menu.</translation>
     </message>
 </context>
 <context>
     <name>design/ezwebin/article/comments</name>
     <message>
         <source>%login_link_startLog in%login_link_end to comment.</source>
-        <translation type="unfinished"></translation>
+        <translation>W celu skomentowania %login_link_startzaloguj się%login_link_end.</translation>
     </message>
 </context>
 <context>
     <name>design/ezwebin/full/article</name>
     <message>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Komentarze</translation>
     </message>
     <message>
         <source>New comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowy komentarz</translation>
     </message>
     <message>
         <source>%login_link_startLog in%login_link_end or %create_link_startcreate a user account%create_link_end to comment.</source>
-        <translation type="unfinished"></translation>
+        <translation>W celu skomentowania %login_link_startzaloguj się%login_link_end lub %create_link_startstwórz konto użytkownika%create_link_end.</translation>
     </message>
     <message>
         <source>Tip a friend</source>
-        <translation type="unfinished"></translation>
+        <translation>Powiadom znajomego</translation>
     </message>
 </context>
 <context>
@@ -136,7 +136,7 @@
     </message>
     <message>
         <source>Selected target tag is invalid.</source>
-        <translation type="unfinished">Wybrany docelowy tag jest niepoprawny.</translation>
+        <translation>Wybrany docelowy tag jest niepoprawny.</translation>
     </message>
     <message>
         <source>Name cannot be empty.</source>
@@ -493,7 +493,7 @@
     <name>kernel/classes/datatypes</name>
     <message>
         <source>Input required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość wymagana.</translation>
     </message>
 </context>
 </TS>
