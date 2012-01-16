@@ -80,6 +80,22 @@
         <source>Yes</source>
         <translation>Ja</translation>
     </message>
+    <message>
+        <source>Hide root subtree limit tag when editing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum number of allowed tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(0 = unlimited)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlimited</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/datatypes</name>
@@ -118,6 +134,22 @@
         <source>Go back</source>
         <translation>Terug</translation>
     </message>
+    <message>
+        <source>Name cannot be empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag/synonym with that name already exists in selected location.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selected target tag is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/dashboard</name>
@@ -144,6 +176,22 @@
     <message>
         <source>No parent</source>
         <translation>Geen bovenliggende</translation>
+    </message>
+    <message>
+        <source>Up one level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Children tags (%children_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show %1 tags per page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The current tag does not contain any children.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -279,6 +327,10 @@
     <message>
         <source>The tag you&apos;re about to merge has</source>
         <translation>Het label dat u wilt samenvoegen heeft</translation>
+    </message>
+    <message>
+        <source>no parent</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -424,6 +476,24 @@
     <message>
         <source>Related tags</source>
         <translation>Gerelateerde labels</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/warnings</name>
+    <message>
+        <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/datatypes</name>
+    <message>
+        <source>Input required.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

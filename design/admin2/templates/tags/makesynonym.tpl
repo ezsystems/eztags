@@ -1,5 +1,5 @@
 {ezcss_require( array( 'jqmodal.css', 'contentstructure-tree.css' ) )}
-{ezscript_require( array( 'jqModal.js', 'eztagsselectparent.js' ) )}
+{ezscript_require( array( 'jqmodal.js', 'eztagsselectparent.js' ) )}
 
 <div class="context-block tags-edit">
     <div class="box-header">
@@ -59,7 +59,6 @@
 
     {literal}
     <script language="JavaScript" type="text/javascript">
-    <!--
     function confirmDiscard( question )
     {
         // Disable/bypass the reload-based (plain HTML) confirmation interface.
@@ -68,7 +67,6 @@
         // Ask user if she really wants do it, return this to the handler.
         return confirm( question );
     }
-    -->
     </script>
     {/literal}
 {/if}

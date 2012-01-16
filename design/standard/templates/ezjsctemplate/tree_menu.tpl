@@ -3,7 +3,7 @@
 {/if}
 
 <script type="text/javascript">
-<!--
+if (typeof treeMenu_{$attribute_id} == 'undefined') {ldelim}
 var treeMenu_{$attribute_id};
 (function(){ldelim}
     var tag_path                = [{if is_set( $module_result.path[0].tag_id)}{foreach $module_result.path as $element}'{$element.tag_id}'{delimiter}, {/delimiter}{/foreach}{/if}];
@@ -43,5 +43,5 @@ var treeMenu_{$attribute_id};
         treeMenu_{$attribute_id}.load( false, 0, currentDate );
     {/if}
 {rdelim})();
-// -->
+{rdelim}
 </script>

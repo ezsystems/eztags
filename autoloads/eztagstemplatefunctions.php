@@ -84,29 +84,27 @@ class eZTagsTemplateFunctions
      * Generates tag heirarchy string for given tag ID
      *
      * @static
-     * @param integer $tag_id
+     * @param integer $tagID
      * @return string
      */
-    static function generateParentString( $tag_id )
+    static function generateParentString( $tagID )
     {
-        if ( $tag_id == 0 )
-        {
+        $tag = eZTagsObject::fetch( $tagID );
+        if ( !$tag instanceof eZTagsObject )
             return '(' . ezpI18n::tr( 'extension/eztags/tags/edit', 'no parent' ) . ')';
-        }
 
-        $tag = eZTagsObject::fetch( $tag_id );
         $synonymsCount = $tag->getSynonymsCount();
 
         $keywordsArray = array();
 
         while ( $tag->hasParent() )
         {
-            $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->Keyword . ' (+' . $synonymsCount . ')' : $tag->Keyword;
+            $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
             $tag = $tag->getParent();
             $synonymsCount = $tag->getSynonymsCount();
         }
 
-        $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->Keyword . ' (+' . $synonymsCount . ')' : $tag->Keyword;
+        $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
 
         return implode( ' / ', array_reverse( $keywordsArray ) );
     }

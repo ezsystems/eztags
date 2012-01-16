@@ -17,9 +17,9 @@ if ( !( $tag instanceof eZTagsObject ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
-if ( $tag->MainTagID != 0 )
+if ( $tag->attribute( 'main_tag_id' ) != 0 )
 {
-    return $Module->redirectToView( 'delete', array( $tag->MainTagID ) );
+    return $Module->redirectToView( 'delete', array( $tag->attribute( 'main_tag_id' ) ) );
 }
 
 if ( $tag->getSubTreeLimitationsCount() > 0 )
@@ -55,7 +55,7 @@ else
 
         if ( $parentTag instanceof eZTagsObject )
         {
-            return $Module->redirectToView( 'id', array( $parentTag->ID ) );
+            return $Module->redirectToView( 'id', array( $parentTag->attribute( 'id' ) ) );
         }
         else
         {

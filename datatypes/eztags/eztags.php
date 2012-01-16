@@ -216,7 +216,7 @@ class eZTags
             {
                 $existing = eZTagsObject::fetchList( array( 'keyword' => array( 'like', trim( $this->KeywordArray[$key] ) ), 'parent_id' => $this->ParentArray[$key] ) );
                 if ( is_array( $existing ) && !empty( $existing ) )
-                    $tempIDArray[] = $existing[0]->ID;
+                    $tempIDArray[] = $existing[0]->attribute( 'id' );
             }
             else
             {
@@ -253,8 +253,8 @@ class eZTags
 
                     if ( is_array( $existing ) && !empty( $existing ) )
                     {
-                        if ( !in_array( $existing[0]->ID, $existingTagIDs ) )
-                            $tagsToLink[] = $existing[0]->ID;
+                        if ( !in_array( $existing[0]->attribute( 'id' ), $existingTagIDs ) )
+                            $tagsToLink[] = $existing[0]->attribute( 'id' );
                     }
                     else
                     {
@@ -280,13 +280,13 @@ class eZTags
             {
                 //and then for each tag check if user can save in one of the allowed locations
                 $parentTag = eZTagsObject::fetch( $t['parent_id'] );
-                $pathString = ( $parentTag instanceof eZTagsObject ) ? $parentTag->PathString : '/';
-                $depth = ( $parentTag instanceof eZTagsObject ) ? $parentTag->Depth + 1 : 1;
+                $pathString = ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/';
+                $depth = ( $parentTag instanceof eZTagsObject ) ? (int) $parentTag->attribute( 'depth' ) + 1 : 1;
 
                 if ( self::canSave( $pathString, $allowedLocations ) )
                 {
-                    $db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, depth, path_string, modified ) VALUES ( " .
-                                 $t['parent_id'] . ", 0, '" . $db->escapeString( trim( $t['keyword'] ) ) . "', $depth, '$pathString', 0 )" );
+                    $db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, depth, path_string, modified, remote_id ) VALUES ( " .
+                                 $t['parent_id'] . ", 0, '" . $db->escapeString( trim( $t['keyword'] ) ) . "', $depth, '$pathString', 0, '" . eZTagsObject::generateRemoteID() . "' )" );
                     $tagID = (int) $db->lastSerialID( 'eztags', 'id' );
                     $db->query( "UPDATE eztags SET path_string = CONCAT(path_string, CAST($tagID AS CHAR), '/') WHERE id = $tagID" );
 
@@ -338,7 +338,7 @@ class eZTags
             else
             {
                 $limitTag = eZTagsObject::fetch( $attributeSubTreeLimit );
-                $pathString = ( $limitTag instanceof eZTagsObject ) ? $limitTag->PathString : '/';
+                $pathString = ( $limitTag instanceof eZTagsObject ) ? $limitTag->attribute( 'path_string' ) : '/';
 
                 foreach ( $userLimitations as $l )
                 {

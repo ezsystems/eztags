@@ -2,6 +2,59 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>design/admin/parts/user/menu</name>
+    <message>
+        <source>Change the left menu width to small size.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Small</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the left menu width to large size.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Large</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the left menu width to medium size.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/article/comments</name>
+    <message>
+        <source>%login_link_startLog in%login_link_end to comment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>design/ezwebin/full/article</name>
+    <message>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%login_link_startLog in%login_link_end or %create_link_startcreate a user account%create_link_end to comment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tip a friend</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>design/standard/class/datatype</name>
     <message>
         <source>Limit by tags subtree</source>
@@ -45,6 +98,37 @@
     </message>
 </context>
 <context>
+    <name>extension/eztags/datatypes</name>
+    <message>
+        <source>Tags</source>
+        <translation>Oznake</translation>
+    </message>
+    <message>
+        <source>Loading</source>
+        <translation>Učitavanje</translation>
+    </message>
+    <message>
+        <source>Selected tags</source>
+        <translation>Odabrane oznake</translation>
+    </message>
+    <message>
+        <source>There are no selected tags</source>
+        <translation>Nema odabranih oznaka</translation>
+    </message>
+    <message>
+        <source>Suggested tags</source>
+        <translation>Predložene oznake</translation>
+    </message>
+    <message>
+        <source>There are no tags to suggest</source>
+        <translation>Nema predloženih oznaka</translation>
+    </message>
+    <message>
+        <source>Add new</source>
+        <translation>Dodaj kao novu</translation>
+    </message>
+</context>
+<context>
     <name>extension/eztags/errors</name>
     <message>
         <source>Tag cannot be modified because it is being used as subtree limitation in one or more class attributes.</source>
@@ -65,17 +149,6 @@
     <message>
         <source>Go back</source>
         <translation>Vrati se nazad</translation>
-    </message>
-</context>
-<context>
-    <name>extension/eztags/warnings</name>
-    <message>
-        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
-        <translation>PAŽNJA: Oznaka je unutar ograničenja po podstablu. Micanje oznake van tih ograničenja može dovesti do nekonzistentnosti jer bi objekti imali oznake koje ne bi trebali imati.</translation>
-    </message>
-    <message>
-        <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
-        <translation>Ručno regeneriranje indeksa pretraživača je potrebno da bi se promjene vidjele kod pretrage. Uključite DelayedIndexing u site.ini datoteci za automatsko reindeksiranje.</translation>
     </message>
 </context>
 <context>
@@ -212,19 +285,19 @@
         <translation>Odaberi glavnu oznaku</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the "%keyword" tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
-        <translation>Jeste li sigurni da želite izbrisati oznaku "%keyword"? Sve podređene oznake i sinonimi će također biti izbrisani i uklonjeni iz postojećih objekata.</translation>
+        <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation>Jeste li sigurni da želite izbrisati oznaku &quot;%keyword&quot;? Sve podređene oznake i sinonimi će također biti izbrisani i uklonjeni iz postojećih objekata.</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the "%keyword" synonym?</source>
-        <translation>Jeste li sigurni da želite izbrisati sinonim "%keyword"?</translation>
+        <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>
+        <translation>Jeste li sigurni da želite izbrisati sinonim &quot;%keyword&quot;?</translation>
     </message>
     <message>
         <source>Transfer all related objects to the main tag</source>
         <translation>Prebaci sve povezane objekte na glavnu oznaku</translation>
     </message>
     <message>
-        <source>Merging this tag with another tag will delete the tag and it's synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
+        <source>Merging this tag with another tag will delete the tag and it&apos;s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
         <translation>Spajanje ove oznake s drugom oznakom će izbrisati oznaku i njene sinonime i prebaciti sve povezane objekte na glavnu oznaku. Također, sve podređene oznake će postati podređene glavnoj oznaci.</translation>
     </message>
     <message>
@@ -236,11 +309,11 @@
         <translation>Ne</translation>
     </message>
     <message>
-        <source>The tag you're about to delete has</source>
+        <source>The tag you&apos;re about to delete has</source>
         <translation>Oznaka koju brišete ima</translation>
     </message>
     <message>
-        <source>The tag you're about to merge has</source>
+        <source>The tag you&apos;re about to merge has</source>
         <translation>Oznaka koju spajate ima</translation>
     </message>
     <message>
@@ -258,6 +331,80 @@
     <message>
         <source>number of objects related to synonyms</source>
         <translation>broj objekata povezanih sa sinonimima</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/tags/search</name>
+    <message>
+        <source>Tags search</source>
+        <translation>Pretraživanje oznaka</translation>
+    </message>
+    <message>
+        <source>Search tags</source>
+        <translation>Pretraži oznake</translation>
+    </message>
+    <message>
+        <source>Include synonyms in search</source>
+        <translation>Uključi sinonime u pretragu</translation>
+    </message>
+    <message>
+        <source>Empty search not allowed. Please enter your search query above.</source>
+        <translation>Prazna pretraga nije dozvoljena. Upišite vaš tekst pretrage u polje iznad.</translation>
+    </message>
+    <message>
+        <source>No tags were found while searching for &quot;%1&quot;.</source>
+        <translation>Za pretragu &quot;%1&quot; nije pronađena nijedna oznaka.</translation>
+    </message>
+    <message>
+        <source>Search for &quot;%1&quot; returned %2 matches.</source>
+        <translation>Za pretragu &quot;%1&quot; je pronađeno %2 oznaka.</translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Ime oznake</translation>
+    </message>
+    <message>
+        <source>Parent tag</source>
+        <translation>Nadređena oznaka</translation>
+    </message>
+    <message>
+        <source>Main tag name</source>
+        <translation>Ime glavne oznake</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/tags/treemenu</name>
+    <message>
+        <source>Select tag</source>
+        <translation>Odaberite oznaku</translation>
+    </message>
+    <message>
+        <source>Parent tag ID</source>
+        <translation>ID nadređene oznake</translation>
+    </message>
+    <message>
+        <source>Tag ID</source>
+        <translation>ID oznake</translation>
+    </message>
+    <message>
+        <source>Top Level Tags</source>
+        <translation>Vršne oznake</translation>
+    </message>
+    <message>
+        <source>Dynamic tree not allowed for this siteaccess</source>
+        <translation>Dinamičko stablo nije dopušteno u trenutnom siteaccessu</translation>
+    </message>
+    <message>
+        <source>Tag does not exist</source>
+        <translation>Oznaka ne postoji</translation>
+    </message>
+    <message>
+        <source>Internal error</source>
+        <translation>Interna greška</translation>
+    </message>
+    <message>
+        <source>Tags structure</source>
+        <translation>Struktura oznaka</translation>
     </message>
 </context>
 <context>
@@ -332,108 +479,21 @@
     </message>
 </context>
 <context>
-    <name>extension/eztags/tags/search</name>
+    <name>extension/eztags/warnings</name>
     <message>
-        <source>Tags search</source>
-        <translation>Pretraživanje oznaka</translation>
+        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
+        <translation>PAŽNJA: Oznaka je unutar ograničenja po podstablu. Micanje oznake van tih ograničenja može dovesti do nekonzistentnosti jer bi objekti imali oznake koje ne bi trebali imati.</translation>
     </message>
     <message>
-        <source>Search tags</source>
-        <translation>Pretraži oznake</translation>
-    </message>
-    <message>
-        <source>Include synonyms in search</source>
-        <translation>Uključi sinonime u pretragu</translation>
-    </message>
-    <message>
-        <source>Empty search not allowed. Please enter your search query above.</source>
-        <translation>Prazna pretraga nije dozvoljena. Upišite vaš tekst pretrage u polje iznad.</translation>
-    </message>
-    <message>
-        <source>No tags were found while searching for "%1".</source>
-        <translation>Za pretragu "%1" nije pronađena nijedna oznaka.</translation>
-    </message>
-    <message>
-        <source>Search for "%1" returned %2 matches.</source>
-        <translation>Za pretragu "%1" je pronađeno %2 oznaka.</translation>
-    </message>
-    <message>
-        <source>Tag name</source>
-        <translation>Ime oznake</translation>
-    </message>
-    <message>
-        <source>Parent tag</source>
-        <translation>Nadređena oznaka</translation>
-    </message>
-    <message>
-        <source>Main tag name</source>
-        <translation>Ime glavne oznake</translation>
+        <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
+        <translation>Ručno regeneriranje indeksa pretraživača je potrebno da bi se promjene vidjele kod pretrage. Uključite DelayedIndexing u site.ini datoteci za automatsko reindeksiranje.</translation>
     </message>
 </context>
 <context>
-    <name>extension/eztags/datatypes</name>
+    <name>kernel/classes/datatypes</name>
     <message>
-        <source>Tags</source>
-        <translation>Oznake</translation>
-    </message>
-    <message>
-        <source>Loading</source>
-        <translation>Učitavanje</translation>
-    </message>
-    <message>
-        <source>Selected tags</source>
-        <translation>Odabrane oznake</translation>
-    </message>
-    <message>
-        <source>There are no selected tags</source>
-        <translation>Nema odabranih oznaka</translation>
-    </message>
-    <message>
-        <source>Suggested tags</source>
-        <translation>Predložene oznake</translation>
-    </message>
-    <message>
-        <source>There are no tags to suggest</source>
-        <translation>Nema predloženih oznaka</translation>
-    </message>
-    <message>
-        <source>Add new</source>
-        <translation>Dodaj kao novu</translation>
-    </message>
-</context>
-<context>
-    <name>extension/eztags/tags/treemenu</name>
-    <message>
-        <source>Select tag</source>
-        <translation>Odaberite oznaku</translation>
-    </message>
-    <message>
-        <source>Parent tag ID</source>
-        <translation>ID nadređene oznake</translation>
-    </message>
-    <message>
-        <source>Tag ID</source>
-        <translation>ID oznake</translation>
-    </message>
-    <message>
-        <source>Top Level Tags</source>
-        <translation>Vršne oznake</translation>
-    </message>
-    <message>
-        <source>Dynamic tree not allowed for this siteaccess</source>
-        <translation>Dinamičko stablo nije dopušteno u trenutnom siteaccessu</translation>
-    </message>
-    <message>
-        <source>Tag does not exist</source>
-        <translation>Oznaka ne postoji</translation>
-    </message>
-    <message>
-        <source>Internal error</source>
-        <translation>Interna greška</translation>
-    </message>
-    <message>
-        <source>Tags structure</source>
-        <translation>Struktura oznaka</translation>
+        <source>Input required.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

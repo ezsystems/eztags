@@ -185,7 +185,7 @@ class eZTagsType extends eZDataType
             return eZInputValidator::STATE_INVALID;
         }
 
-        if ( $subTreeLimit > 0 && $tag->MainTagID > 0 )
+        if ( $subTreeLimit > 0 && $tag->attribute( 'main_tag_id' ) > 0 )
         {
             return eZInputValidator::STATE_INVALID;
         }
@@ -325,10 +325,26 @@ class eZTagsType extends eZDataType
      */
     function metaData( $attribute )
     {
+        $ini = eZINI::instance( 'eztags.ini' );
         $eztags = new eZTags();
         $eztags->createFromAttribute( $attribute );
 
-        return $eztags->keywordString( ', ' );
+        if( $ini->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled' )
+            return $eztags->keywordString( ', ' );
+
+        $keywords = array();
+        $tags = $eztags->attribute( 'tags' );
+        foreach( $tags as $tag )
+        {
+            if( $tag->isSynonym() )
+            {
+                $tag = $tag->attribute( 'main_tag' );
+            }
+
+            $keywords[] = $tag->attribute( 'keyword' );
+        }
+
+        return implode( ', ', array_unique( $keywords ) );
     }
 
     /**

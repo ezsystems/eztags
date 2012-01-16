@@ -24,9 +24,9 @@ if ( $parentTagID > 0 )
         return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
     }
 
-    if ( $parentTag->MainTagID != 0 )
+    if ( $parentTag->attribute( 'main_tag_id' ) != 0 )
     {
-        return $Module->redirectToView( 'add', array( $parentTag->MainTagID ) );
+        return $Module->redirectToView( 'add', array( $parentTag->attribute( 'main_tag_id' ) ) );
     }
 }
 
@@ -39,7 +39,7 @@ if ( !isset( $userLimitations['simplifiedLimitations']['Tag'] ) )
 }
 else
 {
-    $parentTagPathString = ( $parentTag instanceof eZTagsObject ) ? $parentTag->PathString : '/';
+    $parentTagPathString = ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/';
     foreach ( $userLimitations['simplifiedLimitations']['Tag'] as $key => $value )
     {
         if ( strpos( $parentTagPathString, '/' . $value . '/' ) !== false )
@@ -71,7 +71,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
     }
 
     $newKeyword = trim( $http->postVariable( 'TagEditKeyword' ) );
-    if ( empty( $error ) && eZTagsObject::exists( 0, $newKeyword, ( $parentTag instanceof eZTagsObject ) ? $parentTag->ID : 0 ) )
+    if ( empty( $error ) && eZTagsObject::exists( 0, $newKeyword, ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'id' ) : 0 ) )
     {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
     }
@@ -81,14 +81,14 @@ if ( $http->hasPostVariable('SaveButton' ) )
         $db = eZDB::instance();
         $db->begin();
 
-        $tag = new eZTagsObject( array( 'parent_id'   => ( $parentTag instanceof eZTagsObject ) ? $parentTag->ID : 0,
+        $tag = new eZTagsObject( array( 'parent_id'   => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'id' ) : 0,
                                         'main_tag_id' => 0,
                                         'keyword'     => $newKeyword,
-                                        'depth'       => ( $parentTag instanceof eZTagsObject ) ? $parentTag->Depth + 1 : 1,
-                                        'path_string' => ( $parentTag instanceof eZTagsObject ) ? $parentTag->PathString : '/' ) );
+                                        'depth'       => ( $parentTag instanceof eZTagsObject ) ? (int) $parentTag->attribute( 'depth' ) + 1 : 1,
+                                        'path_string' => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/' ) );
 
         $tag->store();
-        $tag->PathString = $tag->PathString . $tag->ID . '/';
+        $tag->setAttribute( 'path_string', $tag->attribute( 'path_string' ) . $tag->attribute( 'id' ) . '/' );
         $tag->store();
         $tag->updateModified();
 
@@ -98,7 +98,7 @@ if ( $http->hasPostVariable('SaveButton' ) )
 
         $db->commit();
 
-        return $Module->redirectToView( 'id', array( $tag->ID ) );
+        return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
     }
 }
 
@@ -118,14 +118,14 @@ if ( $parentTag instanceof eZTagsObject )
     $tempTag = $parentTag;
     while ( $tempTag->hasParent() )
     {
-        $Result['path'][] = array( 'tag_id' => $tempTag->ID,
-                                   'text'   => $tempTag->Keyword,
+        $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
+                                   'text'   => $tempTag->attribute( 'keyword' ),
                                    'url'    => false );
         $tempTag = $tempTag->getParent();
     }
 
-    $Result['path'][] = array( 'tag_id' => $tempTag->ID,
-                               'text'   => $tempTag->Keyword,
+    $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
+                               'text'   => $tempTag->attribute( 'keyword' ),
                                'url'    => false );
 
     $Result['path'] = array_reverse( $Result['path'] );

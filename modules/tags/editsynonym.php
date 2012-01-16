@@ -16,7 +16,7 @@ if ( !( $tag instanceof eZTagsObject ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
-if ( $tag->MainTagID == 0 )
+if ( $tag->attribute( 'main_tag_id' ) == 0 )
 {
     return $Module->redirectToView( 'edit', array( $tagID ) );
 }
@@ -34,7 +34,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
     }
 
     $newKeyword = trim( $http->postVariable( 'TagEditKeyword' ) );
-    if ( empty( $error ) && eZTagsObject::exists( $tag->ID, $newKeyword, $tag->ParentID ) )
+    if ( empty( $error ) && eZTagsObject::exists( $tag->attribute( 'id' ), $newKeyword, $tag->attribute( 'parent_id' ) ) )
     {
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Tag/synonym with that name already exists in selected location.' );
     }
@@ -44,7 +44,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $db = eZDB::instance();
         $db->begin();
 
-        $tag->Keyword = $newKeyword;
+        $tag->setAttribute( 'keyword', $newKeyword );
         $tag->store();
         $tag->registerSearchObjects();
 
@@ -68,14 +68,14 @@ $tempTag = $tag;
 while ( $tempTag->hasParent() )
 {
     $tempTag = $tempTag->getParent();
-    $Result['path'][] = array( 'tag_id' => $tempTag->ID,
-                               'text'   => $tempTag->Keyword,
+    $Result['path'][] = array( 'tag_id' => $tempTag->attribute( 'id' ),
+                               'text'   => $tempTag->attribute( 'keyword' ),
                                'url'    => false );
 }
 
 $Result['path'] = array_reverse( $Result['path'] );
-$Result['path'][] = array( 'tag_id' => $tag->ID,
-                           'text'   => $tag->Keyword,
+$Result['path'][] = array( 'tag_id' => $tag->attribute( 'id' ),
+                           'text'   => $tag->attribute( 'keyword' ),
                            'url'    => false );
 
 $contentInfoArray = array();

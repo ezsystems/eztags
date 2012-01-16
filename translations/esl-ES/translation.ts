@@ -80,6 +80,22 @@
         <source>Yes</source>
         <translation>Sí</translation>
     </message>
+    <message>
+        <source>Hide root subtree limit tag when editing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum number of allowed tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(0 = unlimited)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlimited</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/datatypes</name>
@@ -136,13 +152,6 @@
     </message>
 </context>
 <context>
-    <name>extension/eztags/warnings</name>
-    <message>
-        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>extension/eztags/tags/dashboard</name>
     <message>
         <source>Latest tags</source>
@@ -167,6 +176,22 @@
     <message>
         <source>No parent</source>
         <translation>Sin padre</translation>
+    </message>
+    <message>
+        <source>Up one level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Children tags (%children_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show %1 tags per page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The current tag does not contain any children.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -451,6 +476,17 @@
     <message>
         <source>Related tags</source>
         <translation>Tags relacionados</translation>
+    </message>
+</context>
+<context>
+    <name>extension/eztags/warnings</name>
+    <message>
+        <source>TAKE CARE: Tag is inside class attribute subtree limit(s). If moved outside those limits, it could lead to inconsistency as objects could end up with tags that they are not supposed to have.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
