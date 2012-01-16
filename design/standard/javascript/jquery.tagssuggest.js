@@ -232,12 +232,12 @@
 
 			function runSuggest() {
 				tags_suggested.empty();
-				var tag_names = names.val();
+				var tag_ids = tids.val();
 				//var content_title = $('input[id$="title"]:first').val();
-				if (tag_names)
+				if (tag_ids)
 				{
 					tags_suggested.parent('div.tags-list').removeClass('no-results').addClass('loading');
-					$.ez(settings.ezjscSuggest, {'tags_string': tag_names, 'subtree_limit': subtree_limit, 'hide_root_tag': hide_root_tag}, function(data)
+					$.ez(settings.ezjscSuggest, {'tag_ids': tag_ids, 'subtree_limit': subtree_limit, 'hide_root_tag': hide_root_tag}, function(data)
 						{
 							if (!data.content.tags.length)
 							{

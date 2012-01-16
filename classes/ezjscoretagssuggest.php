@@ -62,38 +62,27 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
     {
         $returnArray = array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
-        $siteIni = eZINI::instance();
-        $searchEngine = $siteIni->variable( 'SearchSettings', 'SearchEngine' );
-
+        $searchEngine = eZINI::instance()->variable( 'SearchSettings', 'SearchEngine' );
         if ( !class_exists( 'eZSolr' ) || $searchEngine != 'ezsolr' )
             return $returnArray;
 
         $http = eZHTTPTool::instance();
 
-        $tagsString = $http->hasPostVariable( 'tags_string' ) ? $http->postVariable( 'tags_string' ) : '';
-        $tagsArray = explode( '|#', $tagsString );
-
-        if ( !is_array( $tagsArray ) || empty( $tagsArray ) )
+        $tagIDs = $http->hasPostVariable( 'tag_ids' ) ? $http->postVariable( 'tag_ids' ) : '';
+        if ( empty( $tagIDs ) )
             return $returnArray;
+
+        $tagIDs = explode( '|#', $tagIDs );
+        $tagIDs = array_values( array_unique( $tagIDs ) );
 
         $subTreeLimit = $http->hasPostVariable( 'subtree_limit' ) ? (int) $http->postVariable( 'subtree_limit' ) : 0;
         $hideRootTag = $http->hasPostVariable( 'hide_root_tag' ) && $http->postVariable( 'hide_root_tag' ) == '1' ? true : false;
 
-        $solrFilter = array();
-        $tagsArray = array_values( array_unique( $tagsArray ) );
-        for ( $i = 0; $i < count( $tagsArray ); $i++ )
-        {
-            $tagsArray[$i] = strtolower( trim( $tagsArray[$i] ) );
-            $solrFilter[] = '"' . $tagsArray[$i] . '"';
-        }
-
-        $solrFilter = 'ezf_df_tags:(' . implode( ' OR ', $solrFilter ) . ')';
-
         $solrSearch = new eZSolr();
         $params = array( 'SearchOffset'   => 0,
                          'SearchLimit'    => 0,
-                         'Facet'          => array( array( 'field' => 'ezf_df_tags', 'limit' => 5 + count( $tagsArray ), 'mincount' => 1 ) ),
-                         'Filter'         => $solrFilter,
+                         'Facet'          => array( array( 'field' => 'ezf_df_tag_ids', 'limit' => 5 + count( $tagIDs ), 'mincount' => 1 ) ),
+                         'Filter'         => 'ezf_df_tag_ids:(' . implode( ' OR ', $tagIDs ) . ')',
                          'QueryHandler'   => 'ezpublish',
                          'AsObjects'       => false );
 
@@ -106,22 +95,20 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
             return $returnArray;
 
         $facetResult = $facetResult[0]['nameList'];
+        $facetResult = array_values( $facetResult );
 
-        $keywords = array();
-        foreach ( $facetResult as $facetValue )
+        $tagsToSuggest = array();
+        foreach ( $facetResult as $result )
         {
-            if ( !in_array( trim( strtolower( $facetValue ) ), $tagsArray ) )
-                $keywords[] = trim( $facetValue );
+            if ( !in_array( $result, $tagIDs ) )
+                $tagsToSuggest[] = $result;
         }
 
-        if ( empty( $keywords ) )
+        $tagsToSuggest = eZTagsObject::fetchList( array( 'id' => array( $tagsToSuggest ) ) );
+        if ( !is_array( $tagsToSuggest ) || empty( $tagsToSuggest ) )
             return $returnArray;
 
-        $tags = eZTagsObject::fetchByKeyword( array( $keywords ) );
-        if ( !is_array( $tags ) || empty( $tags ) )
-            return $returnArray;
-
-        foreach ( $tags as $tag )
+        foreach ( $tagsToSuggest as $tag )
         {
             if ( !$subTreeLimit > 0 || ( $subTreeLimit > 0 && strpos( $tag->attribute( 'path_string' ), '/' . $subTreeLimit . '/' ) !== false ) )
             {
