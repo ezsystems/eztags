@@ -82,9 +82,9 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
         $params = array( 'SearchOffset'   => 0,
                          'SearchLimit'    => 0,
                          'Facet'          => array( array( 'field' => 'ezf_df_tag_ids', 'limit' => 5 + count( $tagIDs ), 'mincount' => 1 ) ),
-                         'Filter'         => 'ezf_df_tag_ids:(' . implode( ' OR ', $tagIDs ) . ')',
+                         'Filter'         => array( 'ezf_df_tag_ids' => implode( ' OR ', $tagIDs ) ),
                          'QueryHandler'   => 'ezpublish',
-                         'AsObjects'       => false );
+                         'AsObjects'      => false );
 
         $searchResult = $solrSearch->search( '', $params );
         if ( !isset( $searchResult['SearchExtras'] ) || !$searchResult['SearchExtras'] instanceof ezfSearchResultInfo )
