@@ -77,9 +77,6 @@ Bugfix commit is located at: https://github.com/ezsystems/ezie/commit/6f29d071b8
 8. (OPTIONAL) - If you wish to use tags suggestions and see related tags, you must use ezfind extension.
    Edit the file extension/ezfind/java/solr/conf/schema.xml to add the following lines and then restart Tomcat/Jetty:
 
-   * Inside <schema> element add:
-     <copyField source="*_lk" dest="ezf_df_tags"/>
-     <copyField source="*_k" dest="ezf_df_tags"/>
-
    * Inside <fields> element add:
      <field name="ezf_df_tags" type="lckeyword" indexed="true" stored="true" multiValued="true" termVectors="true"/>
+     <field name="ezf_df_tag_ids" type="sint" indexed="true" stored="true" multiValued="true" termVectors="true"/>
