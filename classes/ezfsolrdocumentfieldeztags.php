@@ -16,21 +16,31 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
     {
         $data = array();
 
-        $contentClassAttribute = $this->ContentObjectAttribute->contentClassAttribute();
+        $contentObjectAttribute = $this->ContentObjectAttribute;
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
         $keywordFieldName = parent::generateAttributeFieldName( $contentClassAttribute, 'lckeyword' );
         $textFieldName = parent::generateAttributeFieldName( $contentClassAttribute, 'text' );
+        $tagIDsFieldName = parent::generateSubattributeFieldName( $contentClassAttribute, 'tag_ids', 'sint' );
 
         $data[$keywordFieldName] = '';
         $data[$textFieldName] = '';
+        $data[$tagIDsFieldName] = array();
 
-        if ( $this->ContentObjectAttribute->hasContent() )
+        if ( $contentObjectAttribute->hasContent() )
         {
-            $keywordString = $this->ContentObjectAttribute->content()->keywordString( ', ' );
-            $textString = $this->ContentObjectAttribute->content()->keywordString( ' ' );
+            $objectAttributeContent = $contentObjectAttribute->content();
+
+            $keywordString = $objectAttributeContent->keywordString( ', ' );
+            $textString = $objectAttributeContent->keywordString( ' ' );
+            $tagIDs = $objectAttributeContent->attribute( 'tag_ids' );
 
             $data[$keywordFieldName] = $keywordString;
             $data[$textFieldName] = $textString;
+            $data[$tagIDsFieldName] = $tagIDs;
+
+            $data['ezf_df_tag_ids'] = $tagIDs;
+            $data['ezf_df_tags'] = $objectAttributeContent->attribute( 'keywords' );
         }
 
         return $data;
@@ -53,6 +63,9 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
 
         if ( empty( $exclusiveTypeFilter ) || !in_array( 'text', $exclusiveTypeFilter ) )
             $fieldsList[] = parent::generateAttributeFieldName( $classAttribute, 'text' );
+
+        if ( empty( $exclusiveTypeFilter ) || !in_array( 'sint', $exclusiveTypeFilter ) )
+            $fieldsList[] = parent::generateSubattributeFieldName( $classAttribute, 'tag_ids', 'sint' );
 
         return $fieldsList;
     }

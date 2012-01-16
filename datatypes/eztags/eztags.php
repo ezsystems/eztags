@@ -36,6 +36,8 @@ class eZTags
     {
         return array( 'tags',
                       'tag_ids',
+                      'keywords',
+                      'parent_ids',
                       'id_string',
                       'keyword_string',
                       'parent_string' );
@@ -70,6 +72,16 @@ class eZTags
             case 'tag_ids' :
             {
                 return $this->IDArray;
+            } break;
+
+            case 'keywords' :
+            {
+                return $this->KeywordArray;
+            } break;
+
+            case 'parent_ids' :
+            {
+                return $this->ParentArray;
             } break;
 
             case 'id_string' :
