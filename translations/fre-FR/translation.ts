@@ -101,7 +101,7 @@
     <name>extension/eztags/datatypes</name>
     <message>
         <source>Tags</source>
-        <translation>Mots clés</translation>
+        <translation>Tags</translation>
     </message>
     <message>
         <source>Loading</source>
