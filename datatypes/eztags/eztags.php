@@ -393,7 +393,14 @@ class eZTags
         if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
             return array();
 
-        return eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) );
+        $filter = array( 'id' => array( $this->IDArray ) );
+        $ini = eZINI::instance( 'eztags.ini' );
+        if( $ini->variable( 'VisibilitySettings', 'ShowHiddenTags' ) !== 'enabled' )
+        {
+            $filter['hidden'] = 0;
+        }
+
+        return eZTagsObject::fetchList( $filter );
     }
 
     /**
