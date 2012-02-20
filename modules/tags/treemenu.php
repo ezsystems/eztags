@@ -101,6 +101,8 @@ $tagID = (int) $Params['TagID'];
 $siteINI = eZINI::instance();
 $eztagsINI = eZINI::instance( 'eztags.ini' );
 
+$showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+
 $tag = eZTagsObject::fetch( $tagID );
 
 if ( !( $tag instanceof eZTagsObject || $TagID == 0 ) )
@@ -120,6 +122,9 @@ else
 
     foreach ( $children as $child )
     {
+        if( !$showHidden && !$child->isVisible() )
+            continue;
+
         $childResponse = array();
         $childResponse['id']                        = (int) $child->attribute( 'id' );
         $childResponse['parent_id']                 = (int) $child->attribute( 'parent_id' );
