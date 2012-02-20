@@ -345,6 +345,14 @@
         <translation>Cacher / Révéler</translation>
     </message>
     <message>
+        <source>Visibility</source>
+        <translation>Visibilité</translation>
+    </message>
+    <message>
+        <source>Visible</source>
+        <translation>Visible</translation>
+    </message>
+    <message>
         <source>Hidden</source>
         <translation>Caché</translation>
     </message>
