@@ -51,6 +51,10 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
                                         'keyword'     => $newKeyword,
                                         'depth'       => $mainTag->attribute( 'depth' ),
                                         'path_string' => ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/' ) );
+        if( !$mainTag->isVisible() )
+        {
+            $tag->setInvisible( true );
+        }
 
         $tag->store();
         $tag->setAttribute( 'path_string', $tag->attribute( 'path_string' ) . $tag->attribute( 'id' ) . '/' );

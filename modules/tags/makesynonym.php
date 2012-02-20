@@ -97,6 +97,12 @@ else
 
             $tag->setAttribute( 'parent_id', $mainTag->attribute( 'parent_id' ) );
             $tag->setAttribute( 'main_tag_id', $mainTag->attribute( 'id' ) );
+
+            if( !$mainTag->isVisible() )
+            {
+                $tag->setInvisible( true );
+            }
+
             $tag->store();
 
             if ( !$newParentTag instanceof eZTagsObject )

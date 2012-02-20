@@ -75,10 +75,19 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
                 $oldParentTag->updateModified();
             }
 
+            if( !$newParentTag->isVisible() )
+            {
+                $tag->setInvisible( true );
+            }
+
             $synonyms = $tag->getSynonyms();
             foreach ( $synonyms as $synonym )
             {
                 $synonym->setAttribute( 'parent_id', $newParentID );
+                if( !$newParentTag->isVisible() )
+                {
+                    $synonym->setInvisible( true );
+                }
                 $synonym->store();
             }
 
@@ -87,6 +96,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
         $tag->setAttribute( 'keyword', $newKeyword );
         $tag->setAttribute( 'parent_id', $newParentID );
+
         $tag->store();
 
         /* Extended Hook */
