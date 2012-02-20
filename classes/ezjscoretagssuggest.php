@@ -31,6 +31,14 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
             $params['path_string'] = array( 'like', '%/' . $subTreeLimit . '/%' );
         }
+
+        $eztagsINI = eZINI::instance( 'eztags.ini' );
+        $showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+        if( !$showHidden )
+        {
+            $params['hidden'] = 0;
+        }
+
         $tags = eZTagsObject::fetchList( $params );
 
         $returnArray = array();
@@ -62,6 +70,8 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
     {
         $tags = array();
         $siteINI = eZINI::instance( 'site.ini' );
+        $eztagsINI = eZINI::instance( 'eztags.ini' );
+        $showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
 
         if ( $siteINI->variable( 'SearchSettings', 'SearchEngine' ) == 'ezsolr' && class_exists( 'eZSolr' ) )
         {
@@ -128,12 +138,15 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
             {
                 if ( !$hideRootTag || ( $hideRootTag && $tag->attribute( 'id' ) != $subTreeLimit ) )
                 {
-                    $returnArrayChild = array();
-                    $returnArrayChild['tag_parent_id']   = (int) $tag->attribute( 'parent_id' );
-                    $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->attribute( 'keyword' ) : '';
-                    $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
-                    $returnArrayChild['tag_id']          = (int) $tag->attribute( 'id' );
-                    $returnArray['tags'][]               = $returnArrayChild;
+                    if( $showHidden || $tag->isVisible() )
+                    {
+                        $returnArrayChild = array();
+                        $returnArrayChild['tag_parent_id']   = (int) $tag->attribute( 'parent_id' );
+                        $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->attribute( 'keyword' ) : '';
+                        $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
+                        $returnArrayChild['tag_id']          = (int) $tag->attribute( 'id' );
+                        $returnArray['tags'][]               = $returnArrayChild;
+                    }
                 }
             }
         }
