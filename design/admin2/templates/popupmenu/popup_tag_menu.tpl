@@ -3,7 +3,8 @@
      $tags_delete_access = fetch( user, has_access_to, hash( module, tags, function, delete ) )
      $tags_merge_access = fetch( user, has_access_to, hash( module, tags, function, merge ) )
      $tags_add_synonym_access = fetch( user, has_access_to, hash( module, tags, function, addsynonym ) )
-     $tags_make_synonym_access = fetch( user, has_access_to, hash( module, tags, function, makesynonym ) )}
+     $tags_make_synonym_access = fetch( user, has_access_to, hash( module, tags, function, makesynonym ) )
+     $tags_hide_access = fetch( user, has_access_to, hash( module, tags, function, hide ) )}
 
 <script type="text/javascript">
 menuArray['TagMenu'] = {ldelim} 'depth': 0, 'headerID': 'tag-header' {rdelim};
@@ -25,6 +26,9 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
 {/if}
 {if $tags_make_synonym_access}
     menuArray['TagMenu']['elements']['make-synonym-tag'] = {ldelim} 'url': {"/tags/makesynonym/%tagID%"|ezurl} {rdelim};
+{/if}
+{if $tags_make_synonym_access}
+    menuArray['TagMenu']['elements']['hide-tag'] = {ldelim} 'url': {"/tags/hide/%tagID%"|ezurl} {rdelim};
 {/if}
 
 {if $tags_add_access}
@@ -55,6 +59,10 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
     {/if}
     {if $tags_make_synonym_access}
         <a id="make-synonym-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Convert to synonym"|i18n( "extension/eztags/tags/edit" )}</a>
+    {/if}
+    <hr />
+    {if $tags_hide_access}
+        <a id="hide-tag" href="#" onmouseover="ezpopmenu_mouseOver( 'TagMenu' )">{"Hide/Unhide"|i18n( "extension/eztags/tags/edit" )}</a>
     {/if}
 </div>
 

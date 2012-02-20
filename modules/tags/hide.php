@@ -18,6 +18,18 @@ if ( !( $tag instanceof eZTagsObject ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
+if( !trim( $action ) )
+{
+    if( $tag->isVisible() )
+    {
+        $action = 'hide';
+    }
+    elseif( $tag->isHidden() )
+    {
+        $action = 'unhide';
+    }
+}
+
 if( !in_array( $action, array( 'hide', 'unhide' ) ) )
 {
     return $Module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel' );

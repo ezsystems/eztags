@@ -341,6 +341,10 @@
         <translation>Révéler</translation>
     </message>
     <message>
+        <source>Hide/Unhide</source>
+        <translation>Cacher / Révéler</translation>
+    </message>
+    <message>
         <source>Hidden</source>
         <translation>Caché</translation>
     </message>
