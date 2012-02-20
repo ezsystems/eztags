@@ -59,6 +59,12 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'hidden' => array(
+          'length' => 1,
+          'type' => 'int',
+          'not_null' => '1',
+          'default' => 0,
+      ),
     ),
     'indexes' =>
     array (
@@ -95,6 +101,14 @@ $schema = array (
           0 => 'remote_id',
         ),
       ),
+      'eztags_hidden' =>
+      array (
+          'type' => 'non-unique',
+          'fields' =>
+          array (
+              0 => 'hidden',
+          ),
+      )
     ),
   ),
   'eztags_attribute_link' =>
