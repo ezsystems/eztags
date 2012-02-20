@@ -142,7 +142,7 @@ function TagsStructureMenu( path, persistent )
 {literal}
         }
 
-        html += '><span class="node-name-normal' + ((item.subtree_limitations_count > 0) ? ' disabled' : '') + '">'
+        html += '><span class="' + ( item.visible ? 'node-name-normal' : 'node-name-hidden' ) +  ((item.subtree_limitations_count > 0) ? ' disabled' : '') + '">'
             + item.keyword;
 
         if(item.synonyms_count > 0)
@@ -372,7 +372,8 @@ var treeMenu;
         *}"keyword":"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
         *}"url":{'tags/dashboard'|ezurl},{*
         *}"icon":{concat('tag_icons/small/', ezini('Icons', 'Default', 'eztags.ini'))|ezimage},{*
-        *}"modified":currentDate{rdelim};
+        *}"modified":currentDate,{*
+        *}"visible":true{rdelim};
 
     document.writeln( '<ul id="content_tree_menu">' );
     document.writeln( treeMenu.generateEntry( rootTag, false, true ) );

@@ -129,6 +129,7 @@ else
         $childResponse['keyword']                   = $child->attribute( 'keyword' );
         $childResponse['url']                       = 'tags/id/' . $child->attribute( 'id' );
         $childResponse['icon']                      = lookupIcon( $eztagsINI, $child );
+        $childResponse['visible']                   = $child->isVisible();
 
         eZURI::transformURI( $childResponse['url'] );
         $childResponse['modified']                  = (int) $child->attribute( 'modified' );

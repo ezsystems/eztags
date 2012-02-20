@@ -45,6 +45,7 @@ $doHide = $action === 'hide';
 $db = eZDB::instance();
 $db->begin();
 $tag->setHidden( $doHide );
+$tag->updateModified();
 $tag->store();
 
 //hide synonyms
@@ -52,6 +53,7 @@ $synonyms = $tag->getSynonyms();
 foreach( $synonyms as $synonym )
 {
     $synonym->setInvisible( $doHide );
+    $synonym->updateModified();
     $synonym->store();
 }
 
@@ -62,6 +64,7 @@ foreach( $subtags as $subtag )
     if( $subtag != $tag )
     {
         $subtag->setInvisible( $doHide );
+        $subtag->updateModified();
         $subtag->store();
     }
 }
