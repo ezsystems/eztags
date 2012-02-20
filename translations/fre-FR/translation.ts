@@ -332,6 +332,22 @@
         <source>number of objects related to synonyms</source>
         <translation>Nombre d&apos;objets en relation avec les synonymes</translation>
     </message>
+    <message>
+        <source>Hide</source>
+        <translation>Cacher</translation>
+    </message>
+    <message>
+        <source>Unhide</source>
+        <translation>Révéler</translation>
+    </message>
+    <message>
+        <source>Hidden</source>
+        <translation>Caché</translation>
+    </message>
+    <message>
+        <source>Hidden by superior</source>
+        <translation>Caché par un tag supérieur</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/search</name>
