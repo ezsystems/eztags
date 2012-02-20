@@ -17,7 +17,10 @@ class eZTagsFunctionCollection
     {
         $result = eZTagsObject::fetch( $tag_id );
 
-        if( $result instanceof eZTagsObject )
+        $eztagsINI = eZINI::instance( 'eztags.ini' );
+        $showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+
+        if( $result instanceof eZTagsObject && ( $showHidden || $result->isVisible() ) )
             return array( 'result' => $result );
         else
             return array( 'result' => false );
@@ -32,7 +35,10 @@ class eZTagsFunctionCollection
      */
     static public function fetchTagsByKeyword( $keyword )
     {
-        $result = eZTagsObject::fetchByKeyword( $keyword );
+        $eztagsINI = eZINI::instance( 'eztags.ini' );
+        $showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+
+        $result = eZTagsObject::fetchByKeyword( $keyword, $showHidden );
 
         if( is_array( $result ) && !empty( $result ) )
             return array( 'result' => $result );
@@ -58,10 +64,14 @@ class eZTagsFunctionCollection
         if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
             return array( 'result' => false );
 
+        $eztagsINI = eZINI::instance( 'eztags.ini' );
+        $showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+
         $params = array( 'SortBy' => $sortBy,
                          'Offset' => $offset,
                          'Limit'  => $limit,
-                         'IncludeSynonyms' => $includeSynonyms );
+                         'IncludeSynonyms' => $includeSynonyms,
+                         'ShowHidden' => $showHidden );
 
         if ( $depth !== false )
         {
@@ -89,7 +99,10 @@ class eZTagsFunctionCollection
         if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
             return array( 'result' => 0 );
 
-        $params = array( 'IncludeSynonyms' => $includeSynonyms );
+        $eztagsINI = eZINI::instance( 'eztags.ini' );
+        $showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+        $params = array( 'IncludeSynonyms' => $includeSynonyms,
+                         'ShowHidden' => $showHidden );
 
         if ( $depth !== false )
         {
@@ -116,6 +129,11 @@ class eZTagsFunctionCollection
 
         if ( $parentTagID !== false )
             $filterArray['parent_id'] = (int) $parentTagID;
+
+        $eztagsINI = eZINI::instance( 'eztags.ini' );
+        $showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+        if( !$showHidden )
+            $filterArray['hidden'] = 0;
 
         $result = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null,
                                                        $filterArray,

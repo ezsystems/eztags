@@ -549,11 +549,18 @@ class eZTagsObject extends eZPersistentObject
      *
      * @static
      * @param mixed $keyword
+     * @param boolean $showHidden
      * @return array
      */
-    static function fetchByKeyword( $keyword )
+    static function fetchByKeyword( $keyword, $showHidden = true )
     {
-        $cond = $customCond = null;
+        $cond = array();
+        $customCond = null;
+
+        if( !$showHidden )
+        {
+            $cond['hidden'] = 0;
+        }
 
         if ( strpos( $keyword, '*' ) !== false )
             $customCond = self::generateCustomCondition( $keyword );
@@ -721,6 +728,7 @@ class eZTagsObject extends eZPersistentObject
         $depth           = ( isset( $params['Depth'] ) )                                   ? $params['Depth']                  : false;
         $depthOperator   = ( isset( $params['DepthOperator'] ) )                           ? $params['DepthOperator']          : false;
         $includeSynonyms = ( isset( $params['IncludeSynonyms'] ) )                         ? (bool) $params['IncludeSynonyms'] : false;
+        $showHidden      = ( isset( $params['ShowHidden'] ) )                              ? (bool) $params['ShowHidden']      : true;
 
         $fetchParams = array();
 
@@ -732,6 +740,9 @@ class eZTagsObject extends eZPersistentObject
 
         if ( !$includeSynonyms )
             $fetchParams['main_tag_id'] = 0;
+
+        if (!$showHidden )
+            $fetchParams['hidden'] = 0;
 
         if ( $depth !== false && (int) $depth > 0 )
         {
@@ -830,6 +841,7 @@ class eZTagsObject extends eZPersistentObject
         $depth           = ( isset( $params['Depth'] ) )                                   ? $params['Depth']                  : false;
         $depthOperator   = ( isset( $params['DepthOperator'] ) )                           ? $params['DepthOperator']          : false;
         $includeSynonyms = ( isset( $params['IncludeSynonyms'] ) )                         ? (bool) $params['IncludeSynonyms'] : false;
+        $showHidden      = ( isset( $params['ShowHidden'] ) )                              ? (bool) $params['ShowHidden']      : true;
 
         $fetchParams = array();
 
@@ -841,6 +853,9 @@ class eZTagsObject extends eZPersistentObject
 
         if ( !$includeSynonyms )
             $fetchParams['main_tag_id'] = 0;
+
+        if (!$showHidden )
+            $fetchParams['hidden'] = 0;
 
         if ( $depth !== false && (int) $depth > 0 )
         {
