@@ -111,7 +111,7 @@ function TagsStructureMenu( path, persistent, attr_id )
 {literal}
         }
 
-        html += '><span class="node-name-normal">'
+        html += '><span class="' + ( item.visible ? 'node-name-normal' : 'node-name-hidden' ) + '">'
             + item.keyword;
 
         if(item.synonyms_count > 0)
