@@ -14,6 +14,9 @@ if ( !($tag instanceof eZTagsObject ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
+$eztagsINI = eZINI::instance( 'eztags.ini' );
+$showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+
 if( !$showHidden && !$tag->isVisible() )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
