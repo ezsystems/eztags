@@ -14,6 +14,11 @@ if ( !($tag instanceof eZTagsObject ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
+if( !$showHidden && !$tag->isVisible() )
+{
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+}
+
 $viewParameters = array();
 if ( isset( $Params['Offset'] ) )
     $viewParameters['offset'] = (int) $Params['Offset'];

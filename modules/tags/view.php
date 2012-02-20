@@ -8,10 +8,18 @@ if ( !( is_array( $keywordArray ) && !empty( $keywordArray ) ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
 
+$eztagsINI = eZINI::instance( 'eztags.ini' );
+$showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+
 $parentID = 0;
 for ( $i = 0; $i < count( $keywordArray ) - 1; $i++ )
 {
-    $tags = eZTagsObject::fetchList( array( 'parent_id' => $parentID, 'main_tag_id' => 0, 'keyword' => urldecode( trim( $keywordArray[$i] ) ) ) );
+    $filter = array( 'parent_id' => $parentID, 'main_tag_id' => 0, 'keyword' => urldecode( trim( $keywordArray[$i] ) ) );
+    if( !$showHidden )
+    {
+        $filter['hidden'] = 0;
+    }
+    $tags = eZTagsObject::fetchList( $filter );
     if ( is_array( $tags ) && !empty( $tags ) )
     {
         $parentID = $tags[0]->attribute( 'id' );
@@ -22,8 +30,18 @@ for ( $i = 0; $i < count( $keywordArray ) - 1; $i++ )
     }
 }
 
-$tags = eZTagsObject::fetchList( array( 'parent_id' => $parentID, 'keyword' => urldecode( trim( $keywordArray[count( $keywordArray ) - 1] ) ) ) );
+$filter = array( 'parent_id' => $parentID, 'keyword' => urldecode( trim( $keywordArray[count( $keywordArray ) - 1] ) ) );
+if( !$showHidden )
+{
+    $filter['hidden'] = 0;
+}
+$tags = eZTagsObject::fetchList( $filter );
 if ( !( is_array( $tags ) && !empty( $tags ) ) )
+{
+    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+}
+
+if( !$showHidden && !$tags[0]->isVisible() )
 {
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 }
