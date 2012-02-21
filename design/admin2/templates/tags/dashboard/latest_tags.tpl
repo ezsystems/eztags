@@ -10,17 +10,17 @@
             <th>{"Parent tag name"|i18n( "extension/eztags/tags/dashboard" )}</th>
             <th>{"Modified"|i18n( "extension/eztags/tags/dashboard" )}</th>
         </tr>
-        {foreach $latest_tags as $tag sequence array( 'bglight', 'bgdark' ) as $sequence}
+        {foreach $latest_tags as $latest_tag sequence array( 'bglight', 'bgdark' ) as $sequence}
             <tr>
-                <td><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $tag.icon )|ezimage} alt="{$tag.keyword|wash}" /></td>
-                <td>{$tag.id}</td>
-                <td><a href={concat( 'tags/id/', $tag.id )|ezurl}>{$tag.keyword|wash}</a></td>
-                {if $tag.parent}
-                    <td><a href={concat( 'tags/id/', $tag.parent.id )|ezurl}>{$tag.parent.keyword|wash}</a></td>
+                <td><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $latest_tag.icon )|ezimage} alt="{$latest_tag.keyword|wash}" /></td>
+                <td>{$latest_tag.id}</td>
+                <td><a href={concat( 'tags/id/', $latest_tag.id )|ezurl}>{$latest_tag.keyword|wash}</a></td>
+                {if $latest_tag.parent}
+                    <td><a href={concat( 'tags/id/', $latest_tag.parent.id )|ezurl}>{$latest_tag.parent.keyword|wash}</a></td>
                 {else}
                     <td>{"No parent"|i18n( "extension/eztags/tags/dashboard" )}</td>
                 {/if}
-                <td>{$tag.modified|datetime( 'custom', '%d.%m.%Y %H:%i' )}</td>
+                <td>{$latest_tag.modified|datetime( 'custom', '%d.%m.%Y %H:%i' )}</td>
             </tr>
         {/foreach}
     </tbody>
