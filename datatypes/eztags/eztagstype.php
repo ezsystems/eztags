@@ -362,7 +362,6 @@ class eZTagsType extends eZDataType
         {
             $keywords = array();
             $tags = $eztags->attribute( 'tags' );
-            var_dump( $eztags->keywordString( ', ' ) );
             foreach( $tags as $tag )
             {
                 if( $tag->isSynonym() )
@@ -375,7 +374,6 @@ class eZTagsType extends eZDataType
                     $keywords[] = $tag->attribute( 'keyword' );
                 }
             }
-            var_dump( implode( ', ', array_unique( $keywords ) ) );
             return implode( ', ', array_unique( $keywords ) );
         }
     }
