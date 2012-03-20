@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package version="3.5.2" development="false" install_type="install">
-  <name>eztags</name>
+  <name>eztags_extension</name>
   <summary>eztags extension</summary>
   <description>This package contains the eztags eZ Publish extension</description>
+  <vendor>eZ systems</vendor>
   <type value="extension"/>
   <ezpublish>
-    <version>4.7.0alpha1</version>
-    <named-version>4.7alpha1</named-version>
+    <version>4.7.0</version>
+    <named-version>4.7</named-version>
   </ezpublish>
   <maintainers>
     <maintainer>
