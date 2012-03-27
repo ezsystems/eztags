@@ -829,11 +829,16 @@ class eZTagsObject extends eZPersistentObject
      * @param string $remoteID
      * @param bool $mainTranslation
      *
-     * @return eZTagsObject
+     * @return eZTagsObject|null
      */
     static function fetchByRemoteID( $remoteID, $mainTranslation = false )
     {
-        return self::fetchList( array( 'remote_id' => $remoteID ), null, null, $mainTranslation );
+        $tagsList = self::fetchList( array( 'remote_id' => $remoteID ), null, null, $mainTranslation );
+
+        if ( is_array( $tagsList ) && !empty( $tagsList ) )
+            return $tagsList[0];
+
+        return null;
     }
 
     /**
