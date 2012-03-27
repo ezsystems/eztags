@@ -107,7 +107,7 @@ class eZTagsObject extends eZPersistentObject
     function updatePathString()
     {
         $parentTag = $this->getParent( true );
-        $pathStringPrefix = $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/';
+        $pathStringPrefix = $parentTag instanceof self ? $parentTag->attribute( 'path_string' ) : '/';
 
         $this->setAttribute( 'path_string', $pathStringPrefix . $this->attribute( 'id' ) . '/' );
         $this->store();
@@ -130,7 +130,7 @@ class eZTagsObject extends eZPersistentObject
     function updateDepth()
     {
         $parentTag = $this->getParent( true );
-        $depth = $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'depth' ) + 1 : 1;
+        $depth = $parentTag instanceof self ? $parentTag->attribute( 'depth' ) + 1 : 1;
 
         $this->setAttribute( 'depth', $depth );
         $this->store();
@@ -156,7 +156,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function hasParent( $mainTranslation = false )
     {
-        return $this->getParent( $mainTranslation ) instanceof eZTagsObject;
+        return $this->getParent( $mainTranslation ) instanceof self;
     }
 
     /**
@@ -239,7 +239,7 @@ class eZTagsObject extends eZPersistentObject
     {
         if ( $this->attribute( 'main_tag_id' ) == 0 )
         {
-            return eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(), null,
+            return parent::fetchObjectList( eZContentClassAttribute::definition(), null,
                                                         array( 'data_type_string'              => 'eztags',
                                                                eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
                                                                'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
@@ -257,7 +257,7 @@ class eZTagsObject extends eZPersistentObject
     {
         if ( $this->attribute( 'main_tag_id' ) == 0 )
         {
-            return eZPersistentObject::count( eZContentClassAttribute::definition(),
+            return parent::count( eZContentClassAttribute::definition(),
                                               array( 'data_type_string'              => 'eztags',
                                                      eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
                                                      'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
@@ -606,7 +606,7 @@ class eZTagsObject extends eZPersistentObject
             $sorts = array( 'eztags_keyword.keyword' => 'asc' );
         }
 
-        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), array(), $params,
+        $tagsList = parent::fetchObjectList( self::definition(), array(), $params,
                                                          $sorts, $limits, true, false,
                                                          array( 'DISTINCT eztags.*',
                                                                 array( 'operation' => 'eztags_keyword.keyword',
@@ -646,7 +646,7 @@ class eZTagsObject extends eZPersistentObject
             $params = $newParams;
         }
 
-        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), array(), $params,
+        $tagsList = parent::fetchObjectList( self::definition(), array(), $params,
                                                          array(), null, false, false,
                                                          array( array( 'operation' => 'COUNT( * )',
                                                                        'name'      => 'row_count' ) ),
@@ -863,7 +863,7 @@ class eZTagsObject extends eZPersistentObject
      */
     function moveChildrenBelowAnotherTag( $targetTag )
     {
-        if ( !$targetTag instanceof eZTagsObject )
+        if ( !$targetTag instanceof self )
             return;
 
         $currentTime = time();
@@ -892,10 +892,10 @@ class eZTagsObject extends eZPersistentObject
      */
     function transferObjectsToAnotherTag( $destination )
     {
-        if ( !$destination instanceof eZTagsObject )
+        if ( !$destination instanceof self )
         {
-            $destination = eZTagsObject::fetchWithMainTranslation( (int) $destination );
-            if ( !$destination instanceof eZTagsObject )
+            $destination = self::fetchWithMainTranslation( (int) $destination );
+            if ( !$destination instanceof self )
                 return;
         }
 
@@ -986,8 +986,8 @@ class eZTagsObject extends eZPersistentObject
         if ( !is_numeric( $tagID ) || (int) $tagID < 0 )
             return false;
 
-        $tag = eZTagsObject::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->attribute( 'main_tag_id' ) != 0 )
+        $tag = self::fetch( (int) $tagID );
+        if ( (int) $tagID > 0 && !$tag instanceof self && $tag->attribute( 'main_tag_id' ) != 0 )
             return false;
 
         if ( !is_array( $params ) )
@@ -1014,7 +1014,7 @@ class eZTagsObject extends eZPersistentObject
         if ( $depth !== false && (int) $depth > 0 )
         {
             $tagDepth = 0;
-            if ( $tag instanceof eZTagsObject )
+            if ( $tag instanceof self )
                 $tagDepth = (int) $tag->attribute( 'depth' );
 
             $depth = (int) $depth + $tagDepth;
@@ -1100,8 +1100,8 @@ class eZTagsObject extends eZPersistentObject
         if ( !is_numeric( $tagID ) || (int) $tagID < 0 )
             return 0;
 
-        $tag = eZTagsObject::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->attribute( 'main_tag_id' ) != 0 )
+        $tag = self::fetch( (int) $tagID );
+        if ( (int) $tagID > 0 && !$tag instanceof self && $tag->attribute( 'main_tag_id' ) != 0 )
             return 0;
 
         if ( !is_array( $params ) )
@@ -1125,7 +1125,7 @@ class eZTagsObject extends eZPersistentObject
         if ( $depth !== false && (int) $depth > 0 )
         {
             $tagDepth = 0;
-            if ( $tag instanceof eZTagsObject )
+            if ( $tag instanceof self )
                 $tagDepth = (int) $tag->attribute( 'depth' );
 
             $depth = (int) $depth + $tagDepth;
@@ -1175,7 +1175,7 @@ class eZTagsObject extends eZPersistentObject
                                          'url'    => false );
         }
 
-        if ( $tag instanceof eZTagsObject )
+        if ( $tag instanceof self )
         {
             $moduleResultPath[] = array( 'tag_id' => $tag->attribute( 'id' ),
                                          'text'   => $tag->attribute( 'keyword' ),
@@ -1466,7 +1466,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function recursiveTagDelete( $rootTag )
     {
-        if ( !$rootTag instanceof eZTagsObject )
+        if ( !$rootTag instanceof self )
             return;
 
         $rootTag->recursivelyDeleteTag();
@@ -1485,7 +1485,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static function moveChildren( $tag, $targetTag )
     {
-        if ( !$tag instanceof eZTagsObject )
+        if ( !$tag instanceof self )
             return;
 
         $tag->moveChildrenBelowAnotherTag( $targetTag );
