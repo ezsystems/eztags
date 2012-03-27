@@ -1,16 +1,17 @@
 <?php
 
 /**
- * ezjscoreTagsSuggest class implements ezjscore server functions for eztags
- *
+ * ezjscTags class implements eZ JS Core server functions for eztags
  */
-class ezjscoreTagsSuggest extends ezjscServerFunctions
+class ezjscTags extends ezjscServerFunctions
 {
     /**
      * Provides auto complete results when adding tags to object
      *
      * @static
-     * @param mixed $args
+     *
+     * @param array $args
+     *
      * @return array
      */
     public static function autocomplete( $args )
@@ -20,6 +21,10 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
         $searchString = $http->hasPostVariable( 'search_string' ) ? trim( $http->postVariable( 'search_string' ) ) : '';
         if ( empty( $searchString ) )
+            return $returnArray;
+
+        $locale = $http->hasPostVariable( 'locale' ) ? $http->postVariable( 'locale' ) : '';
+        if ( empty( $locale ) )
             return $returnArray;
 
         $subTreeLimit = $http->hasPostVariable( 'subtree_limit' ) ? (int) $http->postVariable( 'subtree_limit' ) : 0;
@@ -34,17 +39,24 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
             $params['path_string'] = array( 'like', '%/' . $subTreeLimit . '/%' );
         }
 
+		$prioritizedLocales = self::getTopPrioritiziedLanguages( $locale );
+		eZContentLanguage::setPrioritizedLanguages( $prioritizedLocales );
+
         $tags = eZTagsObject::fetchList( $params );
+
+		eZContentLanguage::clearPrioritizedLanguages();
+
         if ( !is_array( $tags ) || empty( $tags ) )
             return $returnArray;
 
         foreach ( $tags as $tag )
         {
             $returnArrayChild = array();
-            $returnArrayChild['tag_parent_id']   = (int) $tag->attribute( 'parent_id' );
+            $returnArrayChild['tag_parent_id']   = $tag->attribute( 'parent_id' );
             $returnArrayChild['tag_parent_name'] = $tag->hasParent( true ) ? $tag->getParent( true )->attribute( 'keyword' ) : '';
             $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
-            $returnArrayChild['tag_id']          = (int) $tag->attribute( 'id' );
+            $returnArrayChild['tag_id']          = $tag->attribute( 'id' );
+            $returnArrayChild['tag_locale']      = $tag->attribute( 'current_language' );
             $returnArray['tags'][]               = $returnArrayChild;
         }
 
@@ -55,7 +67,9 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
      * Provides suggestion results when adding tags to object
      *
      * @static
-     * @param mixed $args
+     *
+     * @param array $args
+     *
      * @return array
      */
     public static function suggest( $args )
@@ -70,6 +84,10 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
         $tagIDs = $http->hasPostVariable( 'tag_ids' ) ? $http->postVariable( 'tag_ids' ) : '';
         if ( empty( $tagIDs ) )
+            return $returnArray;
+
+        $locale = $http->hasPostVariable( 'locale' ) ? $http->postVariable( 'locale' ) : '';
+        if ( empty( $locale ) )
             return $returnArray;
 
         $tagIDs = explode( '|#', $tagIDs );
@@ -104,7 +122,13 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
                 $tagsToSuggest[] = $result;
         }
 
+		$prioritizedLocales = self::getTopPrioritiziedLanguages( $locale );
+		eZContentLanguage::setPrioritizedLanguages( $prioritizedLocales );
+
         $tagsToSuggest = eZTagsObject::fetchList( array( 'id' => array( $tagsToSuggest ) ) );
+
+		eZContentLanguage::clearPrioritizedLanguages();
+
         if ( !is_array( $tagsToSuggest ) || empty( $tagsToSuggest ) )
             return $returnArray;
 
@@ -115,10 +139,11 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
                 if ( !$hideRootTag || ( $hideRootTag && $tag->attribute( 'id' ) != $subTreeLimit ) )
                 {
                     $returnArrayChild = array();
-                    $returnArrayChild['tag_parent_id']   = (int) $tag->attribute( 'parent_id' );
+                    $returnArrayChild['tag_parent_id']   = $tag->attribute( 'parent_id' );
                     $returnArrayChild['tag_parent_name'] = $tag->hasParent( true ) ? $tag->getParent( true )->attribute( 'keyword' ) : '';
                     $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
-                    $returnArrayChild['tag_id']          = (int) $tag->attribute( 'id' );
+                    $returnArrayChild['tag_id']          = $tag->attribute( 'id' );
+                    $returnArrayChild['tag_locale']      = $tag->attribute( 'current_language' );
                     $returnArray['tags'][]               = $returnArrayChild;
                 }
             }
@@ -126,6 +151,67 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
         return $returnArray;
     }
+
+    /**
+     * Returns requested tag translations
+     *
+     * @static
+     *
+     * @param array $args
+     *
+     * @return array
+     */
+	public static function tagtranslations( $args )
+    {
+        $returnArray = array( 'status' => 'success', 'message' => '', 'translations' => false );
+
+        $http = eZHTTPTool::instance();
+
+        $tagID = $http->hasPostVariable( 'tag_id' ) ? (int) $http->postVariable( 'tag_id' ) : 0;
+		$tag = eZTagsObject::fetchWithMainTranslation( $tagID );
+		if ( !$tag instanceof eZTagsObject )
+			return $returnArray;
+
+		$returnArray['translations'] = array();
+		$tagTranslations = $tag->getTranslations();
+		if ( is_array( $tagTranslations ) && !empty( $tagTranslations ) )
+		{
+			foreach ( $tagTranslations as $translation )
+			{
+				$returnArray['translations'][] = array(
+					'locale'      => $translation->attribute( 'locale' ),
+					'translation' => $translation->attribute( 'keyword' ) );
+			}
+		}
+
+		return $returnArray;
+    }
+
+    /**
+     * Returns the current top prioritized languages without specified $locale
+     *
+     * @static
+     *
+     * @param string $locale
+     *
+     * @return array
+     */
+	private static function getTopPrioritiziedLanguages( $locale )
+	{
+		$prioritizedLocales = eZContentLanguage::prioritizedLanguageCodes();
+		if ( !is_array( $prioritizedLocales ) )
+		{
+			$prioritizedLocales = array( $locale );
+			return $prioritizedLocales;
+		}
+
+		$key = array_search( $locale, $prioritizedLocales );
+		if ( $key !== false )
+			unset( $prioritizedLocales[$key] );
+
+		array_unshift( $prioritizedLocales, $locale );
+		return $prioritizedLocales;
+	}
 }
 
 ?>
