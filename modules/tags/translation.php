@@ -25,6 +25,7 @@ if ( $http->hasPostVariable( 'RemoveTranslationButton' ) )
         }
 
         $tag->updateLanguageMask();
+        $tag->updateModified();
         $db->commit();
     }
 }
