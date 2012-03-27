@@ -1,17 +1,38 @@
 <?php
 
+/**
+ * eZTagsCloud class implements eztagscloud template operator method
+ */
 class eZTagsCloud
 {
+    /**
+     * Return an array with the list of template operator names
+     *
+     * @return array
+     */
     function operatorList()
     {
         return array( 'eztagscloud' );
     }
 
+    /**
+     * Return true to tell the template engine that the parameter list exists per operator type,
+     * this is needed for operator classes that have multiple operators.
+     *
+     * @return bool
+     */
     function namedParameterPerOperator()
     {
         return true;
     }
 
+    /**
+     * Returns an array of named parameters, this allows for easier retrieval
+     * of operator parameters. This also requires the function modify() has an extra
+     * parameter called $namedParameters.
+     *
+     * @return array
+     */
     function namedParameterList()
     {
         return array( 'eztagscloud' => array( 'params' => array( 'type'     => 'array',
@@ -19,6 +40,17 @@ class eZTagsCloud
                                                                  'default'  => array() ) ) );
     }
 
+    /**
+     * Executes the PHP function for the operator cleanup and modifies $operatorValue.
+     *
+     * @param eZTemplate $tpl
+     * @param string $operatorName
+     * @param array $operatorParameters
+     * @param string $rootNamespace
+     * @param string $currentNamespace
+     * @param mixed $operatorValue
+     * @param array $namedParameters
+     */
     function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         switch ( $operatorName )

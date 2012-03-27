@@ -94,6 +94,27 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
         else
             return false;
     }
+
+    /**
+     * Removes the objects from persistence which are related to content object attribute
+     * defined by attribute ID and attribute version
+     *
+     * @static
+     *
+     * @param integer $objectAttributeID
+     * @param integer|null $objectAttributeVersion
+     */
+    static function removeByAttribute( $objectAttributeID, $objectAttributeVersion = null )
+	{
+		if ( !is_numeric( $objectAttributeID ) )
+			return;
+
+		$conditions = array( 'objectattribute_id' => (int) $objectAttributeID );
+		if ( is_numeric( $objectAttributeVersion ) )
+			$conditions['objectattribute_version'] = (int) $objectAttributeVersion;
+
+		parent::removeObject( self::definition(), $conditions );
+	}
 }
 
 ?>

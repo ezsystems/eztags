@@ -1,13 +1,12 @@
 <?php
 
 /**
- * eZTagsTemplateFunctions class implements eztags tpl operator methods
- *
+ * eZTagsTemplateFunctions class implements eztags template operator methods
  */
 class eZTagsTemplateFunctions
 {
     /**
-     * Return an array with the template operator name.
+     * Return an array with the list of template operator names
      *
      * @return array
      */
@@ -99,10 +98,12 @@ class eZTagsTemplateFunctions
     }
 
     /**
-     * Generates tag heirarchy string for given tag ID
+     * Generates tag hierarchy string for given tag ID
      *
      * @static
+     *
      * @param integer $tagID
+     *
      * @return string
      */
     static function generateParentString( $tagID )
@@ -119,9 +120,12 @@ class eZTagsTemplateFunctions
      * Deprecated: use fetch( tags, latest_tags, hash( ... ) )
      *
      * @deprecated
+     *
      * @static
+     *
      * @param integer $limit
-     * @return array
+     *
+     * @return eZTagsObject[]
      */
     static function fetchLatestTags( $limit )
     {
@@ -135,8 +139,10 @@ class eZTagsTemplateFunctions
      * If your limitation name is not defined as a key, then your user has full access to this limitation
      *
      * @static
+     *
      * @param string $module Name of the module
-     * @param string $function Name of the policy function ($FunctionList element in module.php)
+     * @param string $function Name of the policy function ( $FunctionList element in module.php )
+     *
      * @return array
      */
     static function getSimplifiedUserAccess( $module, $function )
@@ -160,6 +166,7 @@ class eZTagsTemplateFunctions
                 }
             }
         }
+
         return $userAccess;
     }
 
@@ -167,8 +174,10 @@ class eZTagsTemplateFunctions
      * Returns the full URL of the tag icon image
      *
      * @static
+     *
      * @param string $icon
      * @param string $size
+     *
      * @return string
      */
     static function getTagIcon( $icon, $size = 'small' )

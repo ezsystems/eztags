@@ -72,6 +72,7 @@ $sourceClassAttributeIdentifier = $sourceClassAttribute->attribute( 'identifier'
 $destClassAttributeIdentifier = $destClassAttribute->attribute( 'identifier' );
 $isDestClassAttributeTranslatable = (bool) $destClassAttribute->attribute( 'can_translate' );
 
+/** @var eZUser $adminUser */
 $adminUser = eZUser::fetchByName( 'admin' );
 $adminUser->loginCurrent();
 
@@ -91,6 +92,7 @@ $script->resetIteration( $objectCount );
 
 while ( $offset < $objectCount )
 {
+    /** @var eZContentObject[] $objects */
     $objects = eZContentObject::fetchFilteredList( array(
                                                        'contentclass_id' => $sourceClassAttribute->attribute( 'contentclass_id' ),
                                                        'status' => eZContentObject::STATUS_PUBLISHED
@@ -114,7 +116,9 @@ while ( $offset < $objectCount )
             $objectAttributes = $languageDataMap[$initialLanguageCode];
             if ( isset( $objectAttributes[$sourceClassAttributeIdentifier] ) && isset( $objectAttributes[$destClassAttributeIdentifier] ) )
             {
+                /** @var eZContentObjectAttribute $sourceObjectAttribute */
                 $sourceObjectAttribute = $objectAttributes[$sourceClassAttributeIdentifier];
+                /** @var eZContentObjectAttribute $destObjectAttribute */
                 $destObjectAttribute = $objectAttributes[$destClassAttributeIdentifier];
 
                 if ( $sourceObjectAttribute->hasContent() )

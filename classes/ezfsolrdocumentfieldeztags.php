@@ -15,9 +15,7 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
     {
         $data = array();
 
-        /**
-         * @var eZContentClassAttribute $contentClassAttribute
-         */
+        /** @var eZContentClassAttribute $contentClassAttribute */
         $contentObjectAttribute = $this->ContentObjectAttribute;
         $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
@@ -31,9 +29,7 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
 
         if ( $contentObjectAttribute->hasContent() )
         {
-            /**
-             * @var eZTags $objectAttributeContent
-             */
+            /** @var eZTags $objectAttributeContent */
             $objectAttributeContent = $contentObjectAttribute->content();
 
             $keywordString = $objectAttributeContent->keywordString( ', ' );
