@@ -3,16 +3,27 @@
 /**
  * eZTagsKeyword class inherits eZPersistentObject class
  * to be able to access eztags_keyword database table through API
- *
  */
 class eZTagsKeyword extends eZPersistentObject
 {
+    /**
+     * Defines the draft status of this object
+     *
+     * @const STATUS_DRAFT
+     */
     const STATUS_DRAFT = 0;
+
+    /**
+     * Defines the published status of this object
+     *
+     * @const STATUS_PUBLISHED
+     */
     const STATUS_PUBLISHED = 1;
 
     /**
      * Constructor
      *
+     * @param array $row
      */
     function __construct( $row )
     {
@@ -57,9 +68,11 @@ class eZTagsKeyword extends eZPersistentObject
      * Returns eZTagsKeyword object for given tag ID and locale
      *
      * @static
+     *
      * @param integer $tagID
-     * @param integer $locale
+     * @param string $locale
      * @param bool $includeDrafts
+     *
      * @return eZTagsKeyword
      */
     static function fetch( $tagID, $locale, $includeDrafts = false )
@@ -68,19 +81,21 @@ class eZTagsKeyword extends eZPersistentObject
         if ( !$includeDrafts )
             $fetchParams['status'] = self::STATUS_PUBLISHED;
 
-        return eZPersistentObject::fetchObject( self::definition(), null, $fetchParams );
+        return parent::fetchObject( self::definition(), null, $fetchParams );
     }
 
     /**
      * Returns eZTagsKeyword list for given tag ID
      *
      * @static
+     *
      * @param integer $tagID
-     * @return array
+     *
+     * @return eZTagsKeyword[]
      */
     static function fetchByTagID( $tagID )
     {
-        $tagKeywordList = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'keyword_id' => $tagID ) );
+        $tagKeywordList = parent::fetchObjectList( self::definition(), null, array( 'keyword_id' => $tagID ) );
 
         if ( is_array( $tagKeywordList ) )
             return $tagKeywordList;
@@ -92,12 +107,14 @@ class eZTagsKeyword extends eZPersistentObject
      * Returns count of eZTagsKeyword objects for supplied tag ID
      *
      * @static
+     *
      * @param integer $tagID
+     *
      * @return integer
      */
     static function fetchCountByTagID( $tagID )
     {
-        return eZPersistentObject::count( self::definition(), array( 'keyword_id' => (int) $tagID ) );
+        return parent::count( self::definition(), array( 'keyword_id' => (int) $tagID ) );
     }
 
     /**

@@ -3,13 +3,13 @@
 /**
  * eZTagsAttributeLinkObject class inherits eZPersistentObject class
  * to be able to access eztags_attribute_link database table through API
- *
  */
 class eZTagsAttributeLinkObject extends eZPersistentObject
 {
     /**
      * Constructor
      *
+     * @param array $row
      */
     function __construct( $row )
     {
@@ -54,12 +54,14 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      * Fetches the array of eZTagsAttributeLinkObject objects based on provided tag ID
      *
      * @static
+     *
      * @param integer $tagID
-     * @return array
+     *
+     * @return eZTagsAttributeLinkObject[]
      */
     static function fetchByTagID( $tagID )
     {
-        $objects = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'keyword_id' => $tagID ) );
+        $objects = parent::fetchObjectList( self::definition(), null, array( 'keyword_id' => $tagID ) );
 
         if ( is_array( $objects ) )
             return $objects;
@@ -71,15 +73,17 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      * Fetches the eZTagsAttributeLinkObject object based on provided content object params and keyword ID
      *
      * @static
+     *
      * @param integer $objectAttributeID
      * @param integer $objectAttributeVersion
      * @param integer $objectID
      * @param integer $keywordID
+     *
      * @return eZTagsAttributeLinkObject if found, false otherwise
      */
     static function fetchByObjectAttributeAndKeywordID( $objectAttributeID, $objectAttributeVersion, $objectID, $keywordID )
     {
-        $objects = eZPersistentObject::fetchObjectList( self::definition(), null,
+        $objects = parent::fetchObjectList( self::definition(), null,
                                                         array( 'objectattribute_id'      => $objectAttributeID,
                                                                'objectattribute_version' => $objectAttributeVersion,
                                                                'object_id'               => $objectID,

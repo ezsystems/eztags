@@ -2,7 +2,6 @@
 
 /**
  * eZTagsAttributeFilter class implements TagsAttributeFilter extended attribute
- *
  */
 class eZTagsAttributeFilter
 {
@@ -10,6 +9,7 @@ class eZTagsAttributeFilter
      * Creates and returns SQL parts used in fetch functions
      *
      * @param array $params
+     *
      * @return array
      */
     function createSqlParts( $params )

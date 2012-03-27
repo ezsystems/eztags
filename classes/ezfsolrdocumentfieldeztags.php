@@ -3,7 +3,6 @@
 /**
  * ezfSolrDocumentFieldeZTags class implements custom indexing
  * handler for eZ Find
- *
  */
 class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
 {
@@ -16,6 +15,9 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
     {
         $data = array();
 
+        /**
+         * @var eZContentClassAttribute $contentClassAttribute
+         */
         $contentObjectAttribute = $this->ContentObjectAttribute;
         $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
@@ -29,6 +31,9 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
 
         if ( $contentObjectAttribute->hasContent() )
         {
+            /**
+             * @var eZTags $objectAttributeContent
+             */
             $objectAttributeContent = $contentObjectAttribute->content();
 
             $keywordString = $objectAttributeContent->keywordString( ', ' );
@@ -50,8 +55,10 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
      * Returns the list of field names this handler sends to Solr backend
      *
      * @static
+     *
      * @param eZContentClassAttribute $classAttribute
      * @param array $exclusiveTypeFilter
+     *
      * @return array
      */
     public static function getFieldNameList( eZContentClassAttribute $classAttribute, $exclusiveTypeFilter = array() )
