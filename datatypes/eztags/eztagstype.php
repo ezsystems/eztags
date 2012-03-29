@@ -2,7 +2,6 @@
 
 /**
  * eZTagsType class implements the eztags datatype
- *
  */
 class eZTagsType extends eZDataType
 {
@@ -22,7 +21,6 @@ class eZTagsType extends eZDataType
 
     /**
      * Constructor
-     *
      */
     function __construct()
     {
@@ -40,14 +38,8 @@ class eZTagsType extends eZDataType
     {
         if ( $currentVersion != false )
         {
-            $originalContentObjectAttributeID = $originalContentObjectAttribute->attribute( 'id' );
-            $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
-
-            $eztags = $originalContentObjectAttribute->content();
-            if ( $eztags instanceof eZTags )
-            {
-                $eztags->store( $contentObjectAttribute );
-            }
+            $eZTags = eZTags::createFromAttribute( $originalContentObjectAttribute, $contentObjectAttribute->attribute( 'language_code' ) );
+            $eZTags->store( $contentObjectAttribute );
         }
     }
 
@@ -57,6 +49,7 @@ class eZTagsType extends eZDataType
      * @param eZHTTPTool $http
      * @param string $base
      * @param eZContentObjectAttribute $contentObjectAttribute
+     *
      * @return bool
      */
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
@@ -65,13 +58,15 @@ class eZTagsType extends eZDataType
 
         if ( $http->hasPostVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) &&
              $http->hasPostVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) &&
-             $http->hasPostVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) )
+             $http->hasPostVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) &&
+             $http->hasPostVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) );
             $data2 = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) );
             $data3 = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) );
+            $data4 = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) ) );
 
-            if ( strlen( $data ) == 0 && strlen( $data2 ) == 0 && strlen( $data3 ) == 0 )
+            if ( empty( $data ) && empty( $data2 ) && empty( $data3 ) && empty( $data4 ) )
             {
                 if ( $contentObjectAttribute->validateIsRequired() )
                 {
@@ -79,7 +74,7 @@ class eZTagsType extends eZDataType
                     return eZInputValidator::STATE_INVALID;
                 }
             }
-            else if ( !( strlen( $data ) > 0 && strlen( $data2 ) > 0 && strlen( $data3 ) > 0 ) )
+            else if ( empty( $data ) || empty( $data2 ) || empty( $data3 ) || empty( $data4 ) )
             {
                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
                 return eZInputValidator::STATE_INVALID;
@@ -89,14 +84,15 @@ class eZTagsType extends eZDataType
                 $dataArray = explode( '|#', $data );
                 $data2Array = explode( '|#', $data2 );
                 $data3Array = explode( '|#', $data3 );
-                if ( count( $data2Array ) != count( $dataArray ) || count( $data3Array ) != count( $dataArray ) )
+                $data4Array = explode( '|#', $data4 );
+                if ( count( $data2Array ) != count( $dataArray ) || count( $data3Array ) != count( $dataArray ) || count( $data4Array ) != count( $dataArray ) )
                 {
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
                     return eZInputValidator::STATE_INVALID;
                 }
 
                 $maxTags = (int) $classAttribute->attribute( self::MAX_TAGS_FIELD );
-                if ( $maxTags > 0 && ( count( $dataArray ) > $maxTags || count( $data2Array ) > $maxTags || count( $data3Array ) > $maxTags ) )
+                if ( $maxTags > 0 && ( count( $dataArray ) > $maxTags || count( $data2Array ) > $maxTags || count( $data3Array ) > $maxTags || count( $data4Array ) > $maxTags ) )
                 {
                     $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Up to %1 tags are allowed to be added.', null, array( '%1' => $maxTags ) ) );
                     return eZInputValidator::STATE_INVALID;
@@ -118,21 +114,23 @@ class eZTagsType extends eZDataType
      * @param eZHTTPTool $http
      * @param string $base
      * @param eZContentObjectAttribute $contentObjectAttribute
+     *
      * @return bool
      */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) &&
              $http->hasPostVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) &&
-             $http->hasPostVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) )
+             $http->hasPostVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) &&
+             $http->hasPostVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $data2 = $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) );
             $data3 = $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) );
+            $data4 = $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) );
 
-            $eztags = new eZTags();
-            $eztags->createFromStrings( $data3, $data, $data2 );
-            $contentObjectAttribute->setContent( $eztags );
+            $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $data3, $data, $data2, $data4 );
+            $contentObjectAttribute->setContent( $eZTags );
 
             return true;
         }
@@ -147,11 +145,10 @@ class eZTagsType extends eZDataType
      */
     function storeObjectAttribute( $attribute )
     {
-        $eztags = $attribute->content();
-        if ( $eztags instanceof eZTags )
-        {
-            $eztags->store( $attribute );
-        }
+        /** @var $eZTags eZTags */
+        $eZTags = $attribute->content();
+        if ( $eZTags instanceof eZTags )
+            $eZTags->store( $attribute );
     }
 
     /**
@@ -160,6 +157,7 @@ class eZTagsType extends eZDataType
      * @param eZHTTPTool $http
      * @param string $base
      * @param eZContentClassAttribute $attribute
+     *
      * @return bool
      */
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
@@ -199,6 +197,7 @@ class eZTagsType extends eZDataType
      * @param eZHTTPTool $http
      * @param string $base
      * @param eZContentClassAttribute $attribute
+     *
      * @return bool
      */
     function fetchClassAttributeHTTPInput( $http, $base, $attribute )
@@ -240,12 +239,14 @@ class eZTagsType extends eZDataType
 
     /**
      * Extracts values from the attribute parameters and sets it in the class attribute.
+     *
      * @param eZContentClassAttribute $classAttribute
-     * @param DOMNode $attributeNode
-     * @param DOMNode $attributeParametersNode
+     * @param DOMElement $attributeNode
+     * @param DOMElement $attributeParametersNode
      */
     function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
+        /** @var $domNodes DOMNodeList */
         $subTreeLimit = 0;
         $domNodes = $attributeParametersNode->getElementsByTagName( 'subtree-limit' );
         if ( $domNodes->length > 0 )
@@ -273,7 +274,8 @@ class eZTagsType extends eZDataType
     }
 
     /**
-     * Adds the necessary dom structure to the attribute parameters.
+     * Adds the necessary DOM structure to the attribute parameters
+     *
      * @param eZContentClassAttribute $classAttribute
      * @param DOMNode $attributeNode
      * @param DOMNode $attributeParametersNode
@@ -307,28 +309,29 @@ class eZTagsType extends eZDataType
      * Returns the content
      *
      * @param eZContentObjectAttribute $attribute
+     *
      * @return eZTags
      */
     function objectAttributeContent( $attribute )
     {
-        $eztags = new eZTags();
-        $eztags->createFromAttribute( $attribute );
-
-        return $eztags;
+        return eZTags::createFromAttribute( $attribute );
     }
 
     /**
-     * Returns the meta data used for storing search indeces
+     * Returns the meta data used for storing search indices
      *
      * @param eZContentObjectAttribute $attribute
+     *
      * @return string
      */
     function metaData( $attribute )
     {
-        $eztags = new eZTags();
-        $eztags->createFromAttribute( $attribute );
+        /** @var $eZTags eZTags */
+		$eZTags = $attribute->content();
+		if ( $eZTags instanceof eZTags )
+			return $eZTags->keywordString( ', ' );
 
-        return $eztags->keywordString( ', ' );
+		return '';
     }
 
     /**
@@ -339,14 +342,8 @@ class eZTagsType extends eZDataType
      */
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
-        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-        $contentObjectAttributeVersion = $contentObjectAttribute->attribute( "version" );
-
-        // We remove the link between the tag and the object attribute to be removed
-        $db = eZDB::instance();
-        $db->query( "DELETE FROM eztags_attribute_link
-                     WHERE objectattribute_id = $contentObjectAttributeID
-                     AND objectattribute_version = $contentObjectAttributeVersion" );
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+		eZTagsAttributeLinkObject::removeByAttribute( $contentObjectAttributeID, $version );
     }
 
     /**
@@ -354,28 +351,29 @@ class eZTagsType extends eZDataType
      *
      * @param eZContentObjectAttribute $attribute
      * @param string $name
+     *
      * @return string
      */
     function title( $attribute, $name = null )
     {
-        $eztags = new eZTags();
-        $eztags->createFromAttribute( $attribute );
-
-        return $eztags->keywordString();
+    	return $this->metaData( $attribute );
     }
 
     /**
      * Returns true if content object attribute has content
      *
      * @param eZContentObjectAttribute $contentObjectAttribute
+     *
      * @return bool
      */
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
-        $eztags = new eZTags();
-        $eztags->createFromAttribute( $contentObjectAttribute );
-        $idArray = $eztags->idArray();
+        /** @var $eZTags eZTags */
+		$eZTags = $contentObjectAttribute->content();
+		if ( !$eZTags instanceof eZTags )
+			return false;
 
+        $idArray = $eZTags->attribute( 'tag_ids' );
         return !empty( $idArray );
     }
 
@@ -393,14 +391,18 @@ class eZTagsType extends eZDataType
      * Returns string representation of a content object attribute
      *
      * @param eZContentObjectAttribute $contentObjectAttribute
+     *
      * @return string
      */
     function toString( $contentObjectAttribute )
     {
-        $eztags = new eZTags();
-        $eztags->createFromAttribute( $contentObjectAttribute  );
+        /** @var $eZTags eZTags */
+		$eZTags = $contentObjectAttribute->content();
+		if ( $eZTags instanceof eZTags )
+        	return $eZTags->attribute( 'id_string' ) . '|#' . $eZTags->attribute( 'keyword_string' ) .
+        		'|#' . $eZTags->attribute( 'parent_string' ) . '|#' . $eZTags->attribute( 'locale_string' );
 
-        return $eztags->idString() . '|#' . $eztags->keywordString() . '|#' . $eztags->parentString();
+		return '';
     }
 
     /**
@@ -411,27 +413,29 @@ class eZTagsType extends eZDataType
      *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @param string $string
+     *
      * @return bool
      */
     function fromString( $contentObjectAttribute, $string )
     {
-        if ( trim( $string ) != '' )
+        if ( strlen( trim( $string ) ) > 0 )
         {
             $itemsArray = explode( '|#', trim( $string ) );
-            if ( is_array( $itemsArray ) && !empty( $itemsArray ) && count( $itemsArray ) % 3 == 0 )
+            if ( is_array( $itemsArray ) && !empty( $itemsArray ) && count( $itemsArray ) % 4 == 0 )
             {
-                $tagsCount = count( $itemsArray ) / 3;
+                $tagsCount = count( $itemsArray ) / 4;
                 $idArray = array_slice( $itemsArray, 0, $tagsCount );
                 $keywordArray = array_slice( $itemsArray, $tagsCount, $tagsCount );
                 $parentArray = array_slice( $itemsArray, $tagsCount * 2, $tagsCount );
+                $localeArray = array_slice( $itemsArray, $tagsCount * 3, $tagsCount );
 
                 $idString = implode( '|#', $idArray );
                 $keywordString = implode( '|#', $keywordArray );
                 $parentString = implode( '|#', $parentArray );
+                $localeString = implode( '|#', $localeArray );
 
-                $eztags = new eZTags();
-                $eztags->createFromStrings( $idString, $keywordString, $parentString );
-                $contentObjectAttribute->setContent( $eztags );
+                $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $idString, $keywordString, $parentString, $localeString );
+                $contentObjectAttribute->setContent( $eZTags );
 
                 return true;
             }
@@ -445,44 +449,55 @@ class eZTagsType extends eZDataType
      *
      * @param eZPackage $package
      * @param eZContentObjectAttribute $objectAttribute
+     *
      * @return DOMNode
      */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $eztags = new eZTags();
-        $eztags->createFromAttribute( $objectAttribute );
+        /** @var $eZTags eZTags */
+		$eZTags = $objectAttribute->content();
+		if ( !$eZTags instanceof eZTags )
+        	return $node;
+
         $dom = $node->ownerDocument;
+
         $idStringNode = $dom->createElement( 'id-string' );
-        $idStringNode->appendChild( $dom->createTextNode( $eztags->idString() ) );
+        $idStringNode->appendChild( $dom->createTextNode( $eZTags->attribute( 'id_string' ) ) );
         $node->appendChild( $idStringNode );
+
         $keywordStringNode = $dom->createElement( 'keyword-string' );
-        $keywordStringNode->appendChild( $dom->createTextNode( $eztags->keywordString() ) );
+        $keywordStringNode->appendChild( $dom->createTextNode( $eZTags->attribute( 'keyword_string' ) ) );
         $node->appendChild( $keywordStringNode );
+
         $parentStringNode = $dom->createElement( 'parent-string' );
-        $parentStringNode->appendChild( $dom->createTextNode( $eztags->parentString() ) );
+        $parentStringNode->appendChild( $dom->createTextNode( $eZTags->attribute( 'parent_string' ) ) );
         $node->appendChild( $parentStringNode );
+
+        $localeStringNode = $dom->createElement( 'locale-string' );
+        $localeStringNode->appendChild( $dom->createTextNode( $eZTags->attribute( 'locale_string' ) ) );
+        $node->appendChild( $localeStringNode );
 
         return $node;
     }
 
     /**
-     * Deserializes the content object attribute from provided DOM node
+     * Unserializes the content object attribute from provided DOM node
      *
      * @param eZPackage $package
      * @param eZContentObjectAttribute $objectAttribute
-     * @param DOMNode $attributeNode
+     * @param DOMElement $attributeNode
      */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $idString = $attributeNode->getElementsByTagName( 'id-string' )->item( 0 )->textContent;
         $keywordString = $attributeNode->getElementsByTagName( 'keyword-string' )->item( 0 )->textContent;
         $parentString = $attributeNode->getElementsByTagName( 'parent-string' )->item( 0 )->textContent;
+        $localeString = $attributeNode->getElementsByTagName( 'locale-string' )->item( 0 )->textContent;
 
-        $eztags = new eZTags();
-        $eztags->createFromStrings( $idString, $keywordString, $parentString );
-        $objectAttribute->setContent( $eztags );
+        $eZTags = eZTags::createFromStrings( $objectAttribute, $idString, $keywordString, $parentString, $localeString );
+        $objectAttribute->setContent( $eZTags );
     }
 
     /**
@@ -497,6 +512,9 @@ class eZTagsType extends eZDataType
 
     /**
      * Sets grouped_input to true for edit view of the datatype
+     *
+     * @param eZContentObjectAttribute $objectAttribute
+     * @param array|bool $mergeInfo
      *
      * @return array
      */
