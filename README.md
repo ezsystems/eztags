@@ -4,7 +4,7 @@ eZ Tags is an eZ Publish extension for taxonomy management and easier classifica
 ## License, installation instructions and changelog
 [License](/ezsystems/eztags/tree/multilanguage/LICENSE)
 
-[Installation instructions](/ezsystems/eztags/tree/multilanguage/doc/INSTALL)
+[Installation instructions](/ezsystems/eztags/tree/multilanguage/doc/INSTALL.md)
 
 [Changelog](/ezsystems/eztags/tree/multilanguage/doc/CHANGELOG.md)
 
