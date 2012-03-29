@@ -54,7 +54,7 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
 
                     if ( $tag instanceof eZTagsObject )
                     {
-                        $tagIDs[] = $tag->attribute( 'id' );
+                        $tagIDs[] = (int) $tag->attribute( 'id' );
                         $keywords[] = $tag->attribute( 'keyword' );
                     }
                 }
