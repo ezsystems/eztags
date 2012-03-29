@@ -32,16 +32,44 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
             /** @var eZTags $objectAttributeContent */
             $objectAttributeContent = $contentObjectAttribute->content();
 
-            $keywordString = $objectAttributeContent->keywordString( ', ' );
-            $textString = $objectAttributeContent->keywordString( ' ' );
-            $tagIDs = $objectAttributeContent->attribute( 'tag_ids' );
+            $keywordString = '';
+            $textString = '';
+            $tagIDs = array();
+            $keywords = array();
+
+            if ( eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled' )
+            {
+                $keywordString = $objectAttributeContent->keywordString( ', ' );
+                $textString = $objectAttributeContent->keywordString( ' ' );
+                $tagIDs = $objectAttributeContent->attribute( 'tag_ids' );
+                $keywords = $objectAttributeContent->attribute( 'keywords' );
+            }
+            else
+            {
+                $tags = $objectAttributeContent->tags();
+                foreach ( $tags as $tag )
+                {
+                    if ( $tag->isSynonym() )
+                        $tag = $tag->getMainTag();
+
+                    if ( $tag instanceof eZTagsObject )
+                    {
+                        $tagIDs[] = $tag->attribute( 'id' );
+                        $keywords[] = $tag->attribute( 'keyword' );
+                    }
+                }
+
+                $keywords = array_unique( $keywords );
+                $keywordString = implode( ', ', $keywords );
+                $textString = implode( ' ', $keywords );
+            }
 
             $data[$keywordFieldName] = $keywordString;
             $data[$textFieldName] = $textString;
             $data[$tagIDsFieldName] = $tagIDs;
 
             $data['ezf_df_tag_ids'] = $tagIDs;
-            $data['ezf_df_tags'] = $objectAttributeContent->attribute( 'keywords' );
+            $data['ezf_df_tags'] = $keywords;
         }
 
         return $data;

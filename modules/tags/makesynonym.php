@@ -78,6 +78,9 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
 
         $tag->updateModified();
 
+        if ( eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) !== 'enabled' )
+            $tag->registerSearchObjects();
+
         $db->commit();
 
         return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );

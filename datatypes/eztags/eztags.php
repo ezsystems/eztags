@@ -546,7 +546,7 @@ class eZTags
     /**
      * Returns tags within this instance
      *
-     * @return array
+     * @return eZTagsObject[]
      */
     function tags()
     {

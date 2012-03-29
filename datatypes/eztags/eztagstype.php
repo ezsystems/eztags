@@ -350,10 +350,24 @@ class eZTagsType extends eZDataType
     {
         /** @var $eZTags eZTags */
         $eZTags = $attribute->content();
-        if ( $eZTags instanceof eZTags )
+        if ( !$eZTags instanceof eZTags )
+            return '';
+
+        if ( eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled' )
             return $eZTags->keywordString( ', ' );
 
-        return '';
+        $keywords = array();
+        $tags = $eZTags->tags();
+        foreach ( $tags as $tag )
+        {
+            if ( $tag->isSynonym() )
+                $tag = $tag->getMainTag();
+
+            if ( $tag instanceof eZTagsObject )
+                $keywords[] = $tag->attribute( 'keyword' );
+        }
+
+        return implode( ', ', array_unique( $keywords ) );
     }
 
     /**
