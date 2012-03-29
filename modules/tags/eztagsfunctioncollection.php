@@ -30,8 +30,8 @@ class eZTagsFunctionCollection
 
         if ( $result instanceof eZTagsObject )
             return array( 'result' => $result );
-        else
-            return array( 'result' => false );
+
+        return array( 'result' => false );
     }
 
     /**
@@ -58,8 +58,8 @@ class eZTagsFunctionCollection
 
         if ( is_array( $result ) && !empty( $result ) )
             return array( 'result' => $result );
-        else
-            return array( 'result' => false );
+
+        return array( 'result' => false );
     }
 
     /**
@@ -150,7 +150,7 @@ class eZTagsFunctionCollection
      * Fetches latest modified tags by specified parameters
      *
      * @static
-     * @param integer $parentTagID
+     * @param integer|bool $parentTagID
      * @param integer $limit
      * @param mixed $language
      * @return array
@@ -182,8 +182,8 @@ class eZTagsFunctionCollection
 
         if ( is_array( $result ) && !empty( $result ) )
             return array( 'result' => $result );
-        else
-            return array( 'result' => false );
+
+        return array( 'result' => false );
     }
 }
 
