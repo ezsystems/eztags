@@ -408,8 +408,10 @@ class eZTagsType extends eZDataType
     /**
      * Creates the content object attribute content from the input string
      * Valid string value is list of ids, followed by list of keywords,
-     * followed by list of parent ids, all together separated by '|#'
-     * for example "1|#2|#3|#first tag|#second tag|#third tag|#12|#13|#14"
+     * followed by list of parent ids, followed by list of locales
+     * all together separated by '|#'
+     *
+     * for example "1|#2|#3|#first tag|#second tag|#third tag|#12|#13|#14|#eng-GB|#eng-GB|#eng-GB"
      *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @param string $string

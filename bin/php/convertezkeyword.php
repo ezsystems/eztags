@@ -124,7 +124,12 @@ while ( $offset < $objectCount )
                 if ( $sourceObjectAttribute->hasContent() )
                 {
                     $keywordArray = $sourceObjectAttribute->content()->keywordArray();
-                    $tagsArray = array_merge( array_fill( 0, count( $keywordArray ), '0' ), $keywordArray, array_fill( 0, count( $keywordArray ), $parentTagID ) );
+                    $tagsArray = array_merge(
+                        array_fill( 0, count( $keywordArray ), '0' ),
+                        $keywordArray,
+                        array_fill( 0, count( $keywordArray ), $parentTagID ),
+                        array_fill( 0, count( $keywordArray ), $destObjectAttribute->attribute( 'language_code' ) )
+                    );
 
                     $destObjectAttribute->fromString( implode( '|#', $tagsArray ) );
                     $destObjectAttribute->store();
@@ -149,7 +154,12 @@ while ( $offset < $objectCount )
                         if ( $sourceObjectAttribute->hasContent() )
                         {
                             $keywordArray = $sourceObjectAttribute->content()->keywordArray();
-                            $tagsArray = array_merge( array_fill( 0, count( $keywordArray ), '0' ), $keywordArray, array_fill( 0, count( $keywordArray ), $parentTagID ) );
+                            $tagsArray = array_merge(
+                                array_fill( 0, count( $keywordArray ), '0' ),
+                                $keywordArray,
+                                array_fill( 0, count( $keywordArray ), $parentTagID ),
+                                array_fill( 0, count( $keywordArray ), $destObjectAttribute->attribute( 'language_code' ) )
+                            );
 
                             $destObjectAttribute->fromString( implode( '|#', $tagsArray ) );
                             $destObjectAttribute->store();
