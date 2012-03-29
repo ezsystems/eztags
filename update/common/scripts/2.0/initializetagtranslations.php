@@ -21,6 +21,7 @@ if ( !isset( $options['locale'] ) )
     $script->shutdown( 1 );
 }
 
+/** @var eZContentLanguage $language */
 $language = eZContentLanguage::fetchByLocale( $options['locale'] );
 if ( !$language instanceof eZContentLanguage )
 {
@@ -36,16 +37,8 @@ $locale = $db->escapeString( $language->attribute( 'locale' ) );
 
 $db->query( "UPDATE eztags SET main_language_id = $languageID, language_mask = $languageID + 1" );
 
-$results = $db->arrayQuery( "SELECT id, keyword FROM eztags" );
-if ( is_array( $results ) )
-{
-    foreach ( $results as $result )
-    {
-        $tagID = (int) $result['id'];
-        $keyword = $db->escapeString( $result['keyword'] );
-        $db->query( "INSERT INTO eztags_keyword VALUES( $tagID, $languageID + 1, '$keyword', '$locale', 1 )" );
-    }
-}
+$db->query( "INSERT INTO eztags_keyword
+             SELECT id, $languageID + 1, keyword, '$locale', 1 FROM eztags" );
 
 $db->commit();
 $script->shutdown();
