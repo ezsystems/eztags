@@ -28,6 +28,28 @@ class eZTagsType extends eZDataType
     }
 
     /**
+     * Sets the default values in class attribute
+     *
+     * @param eZContentClassAttribute $classAttribute
+     */
+    function initializeClassAttribute( $classAttribute )
+    {
+        if ( $classAttribute->attribute( self::SUBTREE_LIMIT_FIELD ) === null )
+            $classAttribute->setAttribute( self::SUBTREE_LIMIT_FIELD, 0 );
+
+        if ( $classAttribute->attribute( self::SHOW_DROPDOWN_FIELD ) === null )
+            $classAttribute->setAttribute( self::SHOW_DROPDOWN_FIELD, 0 );
+
+        if ( $classAttribute->attribute( self::HIDE_ROOT_TAG_FIELD ) === null )
+            $classAttribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, 0 );
+
+        if ( $classAttribute->attribute( self::MAX_TAGS_FIELD ) === null )
+            $classAttribute->setAttribute( self::MAX_TAGS_FIELD, 0 );
+
+        $classAttribute->store();
+    }
+
+    /**
      * Sets the default value
      *
      * @param eZContentObjectAttribute $contentObjectAttribute
