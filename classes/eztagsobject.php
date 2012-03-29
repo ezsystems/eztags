@@ -78,6 +78,7 @@ class eZTagsObject extends eZPersistentObject
                                                       'children'                  => 'getChildren',
                                                       'children_count'            => 'getChildrenCount',
                                                       'related_objects'           => 'getRelatedObjects',
+                                                      'related_objects_count'     => 'getRelatedObjectsCount',
                                                       'subtree_limitations'       => 'getSubTreeLimitations',
                                                       'subtree_limitations_count' => 'getSubTreeLimitationsCount',
                                                       'main_tag'                  => 'getMainTag',
@@ -228,6 +229,32 @@ class eZTagsObject extends eZPersistentObject
         }
 
         return array();
+    }
+
+    /**
+     * Returns the count of objects related to this tag
+     *
+     * @return integer
+     */
+    function getRelatedObjectsCount()
+    {
+        // Not an easy task to fetch published objects with API and take care of current_version, status
+        // and attribute version, so just use SQL to fetch the object count in one go
+        $tagID = (int) $this->attribute( 'id' );
+
+        $db = eZDB::instance();
+        $result = $db->arrayQuery( "SELECT COUNT(DISTINCT o.id) AS count FROM eztags_attribute_link l
+                                   INNER JOIN ezcontentobject o ON l.object_id = o.id
+                                   AND l.objectattribute_version = o.current_version
+                                   AND o.status = " . eZContentObject::STATUS_PUBLISHED . "
+                                   WHERE l.keyword_id = $tagID" );
+
+        if ( is_array( $result ) && !empty( $result ) )
+        {
+            return (int) $result[0]['count'];
+        }
+
+        return 0;
     }
 
     /**
