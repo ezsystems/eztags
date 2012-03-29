@@ -3,11 +3,14 @@ eZ Tags is an eZ Publish extension for taxonomy management and easier classifica
 
 ## License, installation instructions and changelog
 [License](/ezsystems/eztags/tree/master/LICENSE)
+
 [Installation instructions](/ezsystems/eztags/tree/master/doc/INSTALL)
+
 [Changelog](/ezsystems/eztags/tree/master/doc/CHANGELOG)
 
 ## About the extension
 Main advantages of eZ Tags extension over ezkeyword datatype are:
+
 * tree hierarchy of tags
 * easy management through eZ Publish admin interface for adding, deleting and editing tags
 * easy tagging in object edit interface with autocomplete, suggestion and in place addition of new tags
@@ -15,6 +18,7 @@ Main advantages of eZ Tags extension over ezkeyword datatype are:
 * extended attribute filter for content list/tree fetch
 
 eZ Tags is not only able to replace the ezkeyword datatype, but can be used for all taxonomies, including:
+
 * closed classifications which are usually predefined
 * open classifications like user tags (usually referred to as "folksonomy")
 * combination of both
