@@ -327,11 +327,11 @@ class eZTagsType extends eZDataType
     function metaData( $attribute )
     {
         /** @var $eZTags eZTags */
-		$eZTags = $attribute->content();
-		if ( $eZTags instanceof eZTags )
-			return $eZTags->keywordString( ', ' );
+        $eZTags = $attribute->content();
+        if ( $eZTags instanceof eZTags )
+            return $eZTags->keywordString( ', ' );
 
-		return '';
+        return '';
     }
 
     /**
@@ -343,7 +343,7 @@ class eZTagsType extends eZDataType
     function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
-		eZTagsAttributeLinkObject::removeByAttribute( $contentObjectAttributeID, $version );
+        eZTagsAttributeLinkObject::removeByAttribute( $contentObjectAttributeID, $version );
     }
 
     /**
@@ -356,7 +356,7 @@ class eZTagsType extends eZDataType
      */
     function title( $attribute, $name = null )
     {
-    	return $this->metaData( $attribute );
+        return $this->metaData( $attribute );
     }
 
     /**
@@ -369,9 +369,9 @@ class eZTagsType extends eZDataType
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         /** @var $eZTags eZTags */
-		$eZTags = $contentObjectAttribute->content();
-		if ( !$eZTags instanceof eZTags )
-			return false;
+        $eZTags = $contentObjectAttribute->content();
+        if ( !$eZTags instanceof eZTags )
+            return false;
 
         $idArray = $eZTags->attribute( 'tag_ids' );
         return !empty( $idArray );
@@ -397,12 +397,12 @@ class eZTagsType extends eZDataType
     function toString( $contentObjectAttribute )
     {
         /** @var $eZTags eZTags */
-		$eZTags = $contentObjectAttribute->content();
-		if ( $eZTags instanceof eZTags )
-        	return $eZTags->attribute( 'id_string' ) . '|#' . $eZTags->attribute( 'keyword_string' ) .
-        		'|#' . $eZTags->attribute( 'parent_string' ) . '|#' . $eZTags->attribute( 'locale_string' );
+        $eZTags = $contentObjectAttribute->content();
+        if ( $eZTags instanceof eZTags )
+            return $eZTags->attribute( 'id_string' ) . '|#' . $eZTags->attribute( 'keyword_string' ) .
+                '|#' . $eZTags->attribute( 'parent_string' ) . '|#' . $eZTags->attribute( 'locale_string' );
 
-		return '';
+        return '';
     }
 
     /**
@@ -457,9 +457,9 @@ class eZTagsType extends eZDataType
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
         /** @var $eZTags eZTags */
-		$eZTags = $objectAttribute->content();
-		if ( !$eZTags instanceof eZTags )
-        	return $node;
+        $eZTags = $objectAttribute->content();
+        if ( !$eZTags instanceof eZTags )
+            return $node;
 
         $dom = $node->ownerDocument;
 

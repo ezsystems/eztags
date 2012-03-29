@@ -39,12 +39,12 @@ class ezjscTags extends ezjscServerFunctions
             $params['path_string'] = array( 'like', '%/' . $subTreeLimit . '/%' );
         }
 
-		$prioritizedLocales = self::getTopPrioritiziedLanguages( $locale );
-		eZContentLanguage::setPrioritizedLanguages( $prioritizedLocales );
+        $prioritizedLocales = self::getTopPrioritiziedLanguages( $locale );
+        eZContentLanguage::setPrioritizedLanguages( $prioritizedLocales );
 
         $tags = eZTagsObject::fetchList( $params );
 
-		eZContentLanguage::clearPrioritizedLanguages();
+        eZContentLanguage::clearPrioritizedLanguages();
 
         if ( !is_array( $tags ) || empty( $tags ) )
             return $returnArray;
@@ -122,12 +122,12 @@ class ezjscTags extends ezjscServerFunctions
                 $tagsToSuggest[] = $result;
         }
 
-		$prioritizedLocales = self::getTopPrioritiziedLanguages( $locale );
-		eZContentLanguage::setPrioritizedLanguages( $prioritizedLocales );
+        $prioritizedLocales = self::getTopPrioritiziedLanguages( $locale );
+        eZContentLanguage::setPrioritizedLanguages( $prioritizedLocales );
 
         $tagsToSuggest = eZTagsObject::fetchList( array( 'id' => array( $tagsToSuggest ) ) );
 
-		eZContentLanguage::clearPrioritizedLanguages();
+        eZContentLanguage::clearPrioritizedLanguages();
 
         if ( !is_array( $tagsToSuggest ) || empty( $tagsToSuggest ) )
             return $returnArray;
@@ -161,30 +161,30 @@ class ezjscTags extends ezjscServerFunctions
      *
      * @return array
      */
-	public static function tagtranslations( $args )
+    public static function tagtranslations( $args )
     {
         $returnArray = array( 'status' => 'success', 'message' => '', 'translations' => false );
 
         $http = eZHTTPTool::instance();
 
         $tagID = $http->hasPostVariable( 'tag_id' ) ? (int) $http->postVariable( 'tag_id' ) : 0;
-		$tag = eZTagsObject::fetchWithMainTranslation( $tagID );
-		if ( !$tag instanceof eZTagsObject )
-			return $returnArray;
+        $tag = eZTagsObject::fetchWithMainTranslation( $tagID );
+        if ( !$tag instanceof eZTagsObject )
+            return $returnArray;
 
-		$returnArray['translations'] = array();
-		$tagTranslations = $tag->getTranslations();
-		if ( is_array( $tagTranslations ) && !empty( $tagTranslations ) )
-		{
-			foreach ( $tagTranslations as $translation )
-			{
-				$returnArray['translations'][] = array(
-					'locale'      => $translation->attribute( 'locale' ),
-					'translation' => $translation->attribute( 'keyword' ) );
-			}
-		}
+        $returnArray['translations'] = array();
+        $tagTranslations = $tag->getTranslations();
+        if ( is_array( $tagTranslations ) && !empty( $tagTranslations ) )
+        {
+            foreach ( $tagTranslations as $translation )
+            {
+                $returnArray['translations'][] = array(
+                    'locale'      => $translation->attribute( 'locale' ),
+                    'translation' => $translation->attribute( 'keyword' ) );
+            }
+        }
 
-		return $returnArray;
+        return $returnArray;
     }
 
     /**
@@ -196,22 +196,22 @@ class ezjscTags extends ezjscServerFunctions
      *
      * @return array
      */
-	private static function getTopPrioritiziedLanguages( $locale )
-	{
-		$prioritizedLocales = eZContentLanguage::prioritizedLanguageCodes();
-		if ( !is_array( $prioritizedLocales ) )
-		{
-			$prioritizedLocales = array( $locale );
-			return $prioritizedLocales;
-		}
+    private static function getTopPrioritiziedLanguages( $locale )
+    {
+        $prioritizedLocales = eZContentLanguage::prioritizedLanguageCodes();
+        if ( !is_array( $prioritizedLocales ) )
+        {
+            $prioritizedLocales = array( $locale );
+            return $prioritizedLocales;
+        }
 
-		$key = array_search( $locale, $prioritizedLocales );
-		if ( $key !== false )
-			unset( $prioritizedLocales[$key] );
+        $key = array_search( $locale, $prioritizedLocales );
+        if ( $key !== false )
+            unset( $prioritizedLocales[$key] );
 
-		array_unshift( $prioritizedLocales, $locale );
-		return $prioritizedLocales;
-	}
+        array_unshift( $prioritizedLocales, $locale );
+        return $prioritizedLocales;
+    }
 }
 
 ?>

@@ -1345,11 +1345,11 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return bool
      */
-	function hasTranslation( $locale )
-	{
-		$availableLanguages = $this->getAvailableLanguages();
-		return in_array( $locale, $availableLanguages );
-	}
+    function hasTranslation( $locale )
+    {
+        $availableLanguages = $this->getAvailableLanguages();
+        return in_array( $locale, $availableLanguages );
+    }
 
     /**
      * Sets the main translation of the tag to provided locale
