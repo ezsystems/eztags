@@ -16,42 +16,42 @@ class eZTagsAttributeFilter
     {
         $returnArray = array( 'tables' => '', 'joins'  => '', 'columns' => '' );
 
-        if ( isset( $params['tag_id'] ) )
-        {
-            if ( is_array( $params['tag_id'] ) )
-            {
-                $tagIDsArray = $params['tag_id'];
-            }
-            else if ( (int) $params['tag_id'] > 0 )
-            {
-                $tagIDsArray = array( (int) $params['tag_id'] );
-            }
-            else
-            {
-                return $returnArray;
-            }
+        if ( !isset( $params['tag_id'] ) )
+            return $returnArray;
 
-            if ( !isset( $params['include_synonyms'] ) || ( isset( $params['include_synonyms'] ) && (bool) $params['include_synonyms'] == true ) )
+        if ( is_array( $params['tag_id'] ) )
+        {
+            $tagIDsArray = $params['tag_id'];
+        }
+        else if ( (int) $params['tag_id'] > 0 )
+        {
+            $tagIDsArray = array( (int) $params['tag_id'] );
+        }
+        else
+        {
+            return $returnArray;
+        }
+
+        if ( !isset( $params['include_synonyms'] ) || ( isset( $params['include_synonyms'] ) && (bool) $params['include_synonyms'] == true ) )
+        {
+            $tags = eZTagsObject::fetchList( array( 'main_tag_id' => array( $tagIDsArray ) ) );
+            if ( is_array( $tags ) )
             {
-                $tags = eZTagsObject::fetchList( array( 'main_tag_id' => array( $tagIDsArray ) ) );
-                if ( is_array( $tags ) )
+                foreach ( $tags as $tag )
                 {
-                    foreach ( $tags as $tag )
-                    {
-                        array_push( $tagIDsArray, $tag->attribute( 'id' ) );
-                    }
+                    $tagIDsArray[] = $tag->attribute( 'id' );
                 }
             }
-
-            $returnArray['tables'] = ", eztags_attribute_link i1, eztags i2 ";
-
-            $db = eZDB::instance();
-            $dbString = $db->generateSQLINStatement( $tagIDsArray, 'i1.keyword_id', false, true, 'int' );
-
-            $returnArray['joins'] = " $dbString AND i1.object_id = ezcontentobject.id AND
-                                      i1.objectattribute_version = ezcontentobject.current_version AND
-                                      i1.keyword_id = i2.id AND " . eZContentLanguage::languagesSQLFilter( 'i2' ) . " AND ";
         }
+
+        $returnArray['tables'] = ", eztags_attribute_link i1, eztags i2 ";
+
+        $db = eZDB::instance();
+        $dbString = $db->generateSQLINStatement( $tagIDsArray, 'i1.keyword_id', false, true, 'int' );
+
+        $returnArray['joins'] = " $dbString AND i1.object_id = ezcontentobject.id AND
+                                  i1.objectattribute_version = ezcontentobject.current_version AND
+                                  i1.keyword_id = i2.id AND " . eZContentLanguage::languagesSQLFilter( 'i2' ) . " AND ";
 
         return $returnArray;
     }

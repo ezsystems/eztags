@@ -151,19 +151,19 @@ class eZTagsTemplateFunctions
         $userAccess = $user->hasAccessTo( $module, $function );
 
         $userAccess['simplifiedLimitations'] = array();
-        if ( $userAccess['accessWord'] == 'limited' )
-        {
-            foreach ( $userAccess['policies'] as $policy )
-            {
-                foreach ( $policy as $limitationName => $limitationList )
-                {
-                    foreach ( $limitationList as $limitationValue )
-                    {
-                        $userAccess['simplifiedLimitations'][$limitationName][] = $limitationValue;
-                    }
+        if ( $userAccess['accessWord'] != 'limited' )
+            return $userAccess;
 
-                    $userAccess['simplifiedLimitations'][$limitationName] = array_unique( $userAccess['simplifiedLimitations'][$limitationName] );
+        foreach ( $userAccess['policies'] as $policy )
+        {
+            foreach ( $policy as $limitationName => $limitationList )
+            {
+                foreach ( $limitationList as $limitationValue )
+                {
+                    $userAccess['simplifiedLimitations'][$limitationName][] = $limitationValue;
                 }
+
+                $userAccess['simplifiedLimitations'][$limitationName] = array_unique( $userAccess['simplifiedLimitations'][$limitationName] );
             }
         }
 

@@ -174,14 +174,14 @@ class ezjscTags extends ezjscServerFunctions
 
         $returnArray['translations'] = array();
         $tagTranslations = $tag->getTranslations();
-        if ( is_array( $tagTranslations ) && !empty( $tagTranslations ) )
+        if ( !is_array( $tagTranslations ) || empty( $tagTranslations ) )
+            return $returnArray;
+
+        foreach ( $tagTranslations as $translation )
         {
-            foreach ( $tagTranslations as $translation )
-            {
-                $returnArray['translations'][] = array(
-                    'locale'      => $translation->attribute( 'locale' ),
-                    'translation' => $translation->attribute( 'keyword' ) );
-            }
+            $returnArray['translations'][] = array(
+                'locale'      => $translation->attribute( 'locale' ),
+                'translation' => $translation->attribute( 'keyword' ) );
         }
 
         return $returnArray;

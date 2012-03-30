@@ -218,18 +218,16 @@ class eZTagsObject extends eZPersistentObject
                                    AND o.status = " . eZContentObject::STATUS_PUBLISHED . "
                                    WHERE l.keyword_id = $tagID" );
 
-        if ( is_array( $result ) && !empty( $result ) )
-        {
-            $objectIDArray = array();
-            foreach ( $result as $r )
-            {
-                array_push( $objectIDArray, $r['object_id'] );
-            }
+        if ( !is_array( $result ) || empty( $result ) )
+            return array();
 
-            return eZContentObject::fetchIDArray( $objectIDArray );
+        $objectIDArray = array();
+        foreach ( $result as $r )
+        {
+            $objectIDArray[] = $r['object_id'];
         }
 
-        return array();
+        return eZContentObject::fetchIDArray( $objectIDArray );
     }
 
     /**
@@ -251,9 +249,7 @@ class eZTagsObject extends eZPersistentObject
                                    WHERE l.keyword_id = $tagID" );
 
         if ( is_array( $result ) && !empty( $result ) )
-        {
             return (int) $result[0]['count'];
-        }
 
         return 0;
     }
@@ -265,15 +261,13 @@ class eZTagsObject extends eZPersistentObject
      */
     function getSubTreeLimitations()
     {
-        if ( $this->attribute( 'main_tag_id' ) == 0 )
-        {
-            return parent::fetchObjectList( eZContentClassAttribute::definition(), null,
-                                                        array( 'data_type_string'              => 'eztags',
-                                                               eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
-                                                               'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
-        }
+        if ( $this->attribute( 'main_tag_id' ) != 0 )
+            return array();
 
-        return array();
+        return parent::fetchObjectList( eZContentClassAttribute::definition(), null,
+                                                    array( 'data_type_string'              => 'eztags',
+                                                           eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
+                                                           'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
     }
 
     /**
@@ -283,15 +277,13 @@ class eZTagsObject extends eZPersistentObject
      */
     function getSubTreeLimitationsCount()
     {
-        if ( $this->attribute( 'main_tag_id' ) == 0 )
-        {
-            return parent::count( eZContentClassAttribute::definition(),
-                                              array( 'data_type_string'              => 'eztags',
-                                                     eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
-                                                     'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
-        }
+        if ( $this->attribute( 'main_tag_id' ) != 0 )
+            return 0;
 
-        return 0;
+        return parent::count( eZContentClassAttribute::definition(),
+                                          array( 'data_type_string'              => 'eztags',
+                                                 eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
+                                                 'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
     }
 
     /**
@@ -737,16 +729,15 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchLimitations()
     {
-        $returnArray = array();
-
         $tags = self::fetchList( array( 'parent_id' => 0, 'main_tag_id' => 0 ), null, null, true );
 
-        if ( is_array( $tags ) )
+        if ( !is_array( $tags ) )
+            return array();
+
+        $returnArray = array();
+        foreach ( $tags as $tag )
         {
-            foreach ( $tags as $tag )
-            {
-                $returnArray[] = array( 'name' => $tag->attribute( 'keyword' ), 'id' => $tag->attribute( 'id' ) );
-            }
+            $returnArray[] = array( 'name' => $tag->attribute( 'keyword' ), 'id' => $tag->attribute( 'id' ) );
         }
 
         return $returnArray;
@@ -764,8 +755,8 @@ class eZTagsObject extends eZPersistentObject
         // eZRemoteIdUtility introduced in eZ Publish version 4.5
         if ( method_exists( 'eZRemoteIdUtility', 'generate' ) )
             return eZRemoteIdUtility::generate( 'tag' );
-        else
-           return md5( (string) mt_rand() . (string) time() );
+
+        return md5( (string) mt_rand() . (string) time() );
     }
 
     /**
@@ -1201,7 +1192,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @static
      *
-     * @param eZTagsObject $tag
+     * @param mixed $tag
      * @param mixed $urlToGenerate
      * @param mixed $textPart
      * @param bool $mainTranslation
@@ -1220,6 +1211,7 @@ class eZTagsObject extends eZPersistentObject
 
         if ( $tag instanceof self )
         {
+            /** @var eZTagsObject $tag */
             $moduleResultPath[] = array( 'tag_id' => $tag->attribute( 'id' ),
                                          'text'   => $tag->attribute( 'keyword' ),
                                          'url'    => false );
@@ -1400,34 +1392,32 @@ class eZTagsObject extends eZPersistentObject
     {
         $trans = $this->translationByLocale( $locale );
         $language = eZContentLanguage::fetchByLocale( $locale );
-        if ( $trans instanceof eZTagsKeyword && $language instanceof eZContentLanguage )
-        {
-            $this->setAttribute( 'main_language_id', $language->attribute( 'id' ) );
-            $keyword = $this->getKeyword( $locale );
-            $this->setAttribute( 'keyword', $keyword );
-            $this->store();
+        if ( !$trans instanceof eZTagsKeyword || !$language instanceof eZContentLanguage )
+            return false;
 
-            $isAlwaysAvailable = $this->isAlwaysAvailable();
-            foreach ( $this->getTranslations() as $translation )
+        $this->setAttribute( 'main_language_id', $language->attribute( 'id' ) );
+        $keyword = $this->getKeyword( $locale );
+        $this->setAttribute( 'keyword', $keyword );
+        $this->store();
+
+        $isAlwaysAvailable = $this->isAlwaysAvailable();
+        foreach ( $this->getTranslations() as $translation )
+        {
+            if ( !$isAlwaysAvailable )
+                $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
+            else
             {
-                if ( !$isAlwaysAvailable )
+                if ( $translation->attribute( 'locale' ) != $language->attribute( 'locale' ) )
                     $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
                 else
-                {
-                    if ( $translation->attribute( 'locale' ) != $language->attribute( 'locale' ) )
-                        $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
-                    else
-                        $languageID = (int) $translation->attribute( 'language_id' ) | 1;
-                }
-
-                $translation->setAttribute( 'language_id', $languageID );
-                $translation->store();
+                    $languageID = (int) $translation->attribute( 'language_id' ) | 1;
             }
 
-            return true;
+            $translation->setAttribute( 'language_id', $languageID );
+            $translation->store();
         }
 
-        return false;
+        return true;
     }
 
     /**

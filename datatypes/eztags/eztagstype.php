@@ -141,23 +141,23 @@ class eZTagsType extends eZDataType
      */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        if ( $http->hasPostVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) &&
-             $http->hasPostVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) &&
-             $http->hasPostVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) &&
-             $http->hasPostVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        if ( !$http->hasPostVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) ||
+             !$http->hasPostVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) ||
+             !$http->hasPostVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) ||
+             !$http->hasPostVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $data = $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $data2 = $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) );
-            $data3 = $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) );
-            $data4 = $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) );
-
-            $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $data3, $data, $data2, $data4 );
-            $contentObjectAttribute->setContent( $eZTags );
-
-            return true;
+            return false;
         }
 
-        return false;
+        $data = $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
+        $data2 = $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) );
+        $data3 = $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) );
+        $data4 = $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) );
+
+        $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $data3, $data, $data2, $data4 );
+        $contentObjectAttribute->setContent( $eZTags );
+
+        return true;
     }
 
     /**
@@ -456,30 +456,28 @@ class eZTagsType extends eZDataType
      */
     function fromString( $contentObjectAttribute, $string )
     {
-        if ( strlen( trim( $string ) ) > 0 )
-        {
-            $itemsArray = explode( '|#', trim( $string ) );
-            if ( is_array( $itemsArray ) && !empty( $itemsArray ) && count( $itemsArray ) % 4 == 0 )
-            {
-                $tagsCount = count( $itemsArray ) / 4;
-                $idArray = array_slice( $itemsArray, 0, $tagsCount );
-                $keywordArray = array_slice( $itemsArray, $tagsCount, $tagsCount );
-                $parentArray = array_slice( $itemsArray, $tagsCount * 2, $tagsCount );
-                $localeArray = array_slice( $itemsArray, $tagsCount * 3, $tagsCount );
+        if ( strlen( trim( $string ) ) == 0 )
+            return false;
 
-                $idString = implode( '|#', $idArray );
-                $keywordString = implode( '|#', $keywordArray );
-                $parentString = implode( '|#', $parentArray );
-                $localeString = implode( '|#', $localeArray );
+        $itemsArray = explode( '|#', trim( $string ) );
+        if ( !is_array( $itemsArray ) || !empty( $itemsArray ) || count( $itemsArray ) % 4 != 0 )
+            return false;
 
-                $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $idString, $keywordString, $parentString, $localeString );
-                $contentObjectAttribute->setContent( $eZTags );
+        $tagsCount = count( $itemsArray ) / 4;
+        $idArray = array_slice( $itemsArray, 0, $tagsCount );
+        $keywordArray = array_slice( $itemsArray, $tagsCount, $tagsCount );
+        $parentArray = array_slice( $itemsArray, $tagsCount * 2, $tagsCount );
+        $localeArray = array_slice( $itemsArray, $tagsCount * 3, $tagsCount );
 
-                return true;
-            }
-        }
+        $idString = implode( '|#', $idArray );
+        $keywordString = implode( '|#', $keywordArray );
+        $parentString = implode( '|#', $parentArray );
+        $localeString = implode( '|#', $localeArray );
 
-        return false;
+        $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $idString, $keywordString, $parentString, $localeString );
+        $contentObjectAttribute->setContent( $eZTags );
+
+        return true;
     }
 
     /**

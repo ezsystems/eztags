@@ -65,8 +65,8 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
 
         if ( is_array( $objects ) )
             return $objects;
-        else
-            return array();
+
+        return array();
     }
 
     /**
@@ -91,8 +91,8 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
 
         if ( is_array( $objects ) && !empty( $objects ) )
             return $objects[0];
-        else
-            return false;
+
+        return false;
     }
 
     /**

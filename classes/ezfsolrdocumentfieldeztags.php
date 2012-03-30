@@ -27,50 +27,50 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
         $data[$textFieldName] = '';
         $data[$tagIDsFieldName] = array();
 
-        if ( $contentObjectAttribute->hasContent() )
+        if ( !$contentObjectAttribute->hasContent() )
+            return $data;
+
+        /** @var eZTags $objectAttributeContent */
+        $objectAttributeContent = $contentObjectAttribute->content();
+
+        $keywordString = '';
+        $textString = '';
+        $tagIDs = array();
+        $keywords = array();
+
+        if ( eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled' )
         {
-            /** @var eZTags $objectAttributeContent */
-            $objectAttributeContent = $contentObjectAttribute->content();
-
-            $keywordString = '';
-            $textString = '';
-            $tagIDs = array();
-            $keywords = array();
-
-            if ( eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled' )
-            {
-                $keywordString = $objectAttributeContent->keywordString( ', ' );
-                $textString = $objectAttributeContent->keywordString( ' ' );
-                $tagIDs = $objectAttributeContent->attribute( 'tag_ids' );
-                $keywords = $objectAttributeContent->attribute( 'keywords' );
-            }
-            else
-            {
-                $tags = $objectAttributeContent->tags();
-                foreach ( $tags as $tag )
-                {
-                    if ( $tag->isSynonym() )
-                        $tag = $tag->getMainTag();
-
-                    if ( $tag instanceof eZTagsObject )
-                    {
-                        $tagIDs[] = (int) $tag->attribute( 'id' );
-                        $keywords[] = $tag->attribute( 'keyword' );
-                    }
-                }
-
-                $keywords = array_unique( $keywords );
-                $keywordString = implode( ', ', $keywords );
-                $textString = implode( ' ', $keywords );
-            }
-
-            $data[$keywordFieldName] = $keywordString;
-            $data[$textFieldName] = $textString;
-            $data[$tagIDsFieldName] = $tagIDs;
-
-            $data['ezf_df_tag_ids'] = $tagIDs;
-            $data['ezf_df_tags'] = $keywords;
+            $keywordString = $objectAttributeContent->keywordString( ', ' );
+            $textString = $objectAttributeContent->keywordString( ' ' );
+            $tagIDs = $objectAttributeContent->attribute( 'tag_ids' );
+            $keywords = $objectAttributeContent->attribute( 'keywords' );
         }
+        else
+        {
+            $tags = $objectAttributeContent->tags();
+            foreach ( $tags as $tag )
+            {
+                if ( $tag->isSynonym() )
+                    $tag = $tag->getMainTag();
+
+                if ( $tag instanceof eZTagsObject )
+                {
+                    $tagIDs[] = (int) $tag->attribute( 'id' );
+                    $keywords[] = $tag->attribute( 'keyword' );
+                }
+            }
+
+            $keywords = array_unique( $keywords );
+            $keywordString = implode( ', ', $keywords );
+            $textString = implode( ' ', $keywords );
+        }
+
+        $data[$keywordFieldName] = $keywordString;
+        $data[$textFieldName] = $textString;
+        $data[$tagIDsFieldName] = $tagIDs;
+
+        $data['ezf_df_tag_ids'] = $tagIDs;
+        $data['ezf_df_tags'] = $keywords;
 
         return $data;
     }
