@@ -66,27 +66,23 @@ class eZTagsType extends eZDataType
     }
 
     /**
-     * Validates the input and returns true if the input was valid for this datatype
+     * Validates the data structure and returns true if it is valid for this datatype
      *
-     * @param eZHTTPTool $http
-     * @param string $base
      * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param string $idString
+     * @param string $keywordString
+     * @param string $parentString
+     * @param string $localeString
      *
      * @return bool
      */
-    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
+    function validateObjectAttribute( $contentObjectAttribute, $idString, $keywordString, $parentString, $localeString )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
-        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
 
-        $data = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttributeID, '' ) );
-        $data2 = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttributeID, '' ) );
-        $data3 = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttributeID, '' ) );
-        $data4 = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttributeID, '' ) );
-
-        // we cannot use empty() here as there can be cases where $data or $data2 can be "0",
+        // we cannot use empty() here as there can be cases where $parentString or $idString can be "0",
         // which evaluates to false with empty(), which is wrong for our use case
-        if ( strlen( $data ) == 0 && strlen( $data2 ) == 0 && strlen( $data3 ) == 0 && strlen( $data4 ) == 0 )
+        if ( strlen( $keywordString ) == 0 && strlen( $parentString ) == 0 && strlen( $idString ) == 0 && strlen( $localeString ) == 0 )
         {
             if ( $contentObjectAttribute->validateIsRequired() )
             {
@@ -95,17 +91,17 @@ class eZTagsType extends eZDataType
             }
         }
         // see comment above
-        else if ( strlen( $data ) == 0 || strlen( $data2 ) == 0 || strlen( $data3 ) == 0 || strlen( $data4 ) == 0 )
+        else if ( strlen( $keywordString ) == 0 || strlen( $parentString ) == 0 || strlen( $idString ) == 0 || strlen( $localeString ) == 0 )
         {
             $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
             return eZInputValidator::STATE_INVALID;
         }
         else
         {
-            $dataArray = explode( '|#', $data );
-            $data2Array = explode( '|#', $data2 );
-            $data3Array = explode( '|#', $data3 );
-            $data4Array = explode( '|#', $data4 );
+            $dataArray = explode( '|#', $keywordString );
+            $data2Array = explode( '|#', $parentString );
+            $data3Array = explode( '|#', $idString );
+            $data4Array = explode( '|#', $localeString );
             if ( count( $data2Array ) != count( $dataArray ) || count( $data3Array ) != count( $dataArray ) || count( $data4Array ) != count( $dataArray ) )
             {
                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
@@ -124,6 +120,27 @@ class eZTagsType extends eZDataType
     }
 
     /**
+     * Validates the input and returns true if the input was valid for this datatype
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     *
+     * @return bool
+     */
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
+    {
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+
+        $keywordString = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttributeID, '' ) );
+        $parentString = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttributeID, '' ) );
+        $idString = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttributeID, '' ) );
+        $localeString = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttributeID, '' ) );
+
+        return $this->validateObjectAttribute( $contentObjectAttribute, $idString, $keywordString, $parentString, $localeString );
+    }
+
+    /**
      * Fetches the HTTP POST input and stores it in the data instance
      *
      * @param eZHTTPTool $http
@@ -136,12 +153,12 @@ class eZTagsType extends eZDataType
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
 
-        $data = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttributeID, '' ) );
-        $data2 = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttributeID, '' ) );
-        $data3 = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttributeID, '' ) );
-        $data4 = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttributeID, '' ) );
+        $keywordString = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttributeID, '' ) );
+        $parentString = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttributeID, '' ) );
+        $idString = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttributeID, '' ) );
+        $localeString = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttributeID, '' ) );
 
-        $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $data3, $data, $data2, $data4 );
+        $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $idString, $keywordString, $parentString, $localeString );
         $contentObjectAttribute->setContent( $eZTags );
 
         return true;
@@ -419,23 +436,33 @@ class eZTagsType extends eZDataType
      */
     function fromString( $contentObjectAttribute, $string )
     {
-        if ( strlen( trim( $string ) ) == 0 )
+        $idString = '';
+        $keywordString = '';
+        $parentString = '';
+        $localeString = '';
+
+        $string = trim( $string );
+        if ( !empty( $string ) )
+        {
+            $itemsArray = explode( '|#', $string );
+            if ( !is_array( $itemsArray ) || empty( $itemsArray ) || count( $itemsArray ) % 4 != 0 )
+                return false;
+
+            $tagsCount = count( $itemsArray ) / 4;
+            $idArray = array_slice( $itemsArray, 0, $tagsCount );
+            $keywordArray = array_slice( $itemsArray, $tagsCount, $tagsCount );
+            $parentArray = array_slice( $itemsArray, $tagsCount * 2, $tagsCount );
+            $localeArray = array_slice( $itemsArray, $tagsCount * 3, $tagsCount );
+
+            $idString = implode( '|#', $idArray );
+            $keywordString = implode( '|#', $keywordArray );
+            $parentString = implode( '|#', $parentArray );
+            $localeString = implode( '|#', $localeArray );
+        }
+
+        $validationResult = $this->validateObjectAttribute( $contentObjectAttribute, $idString, $keywordString, $parentString, $localeString );
+        if ( $validationResult != eZInputValidator::STATE_ACCEPTED )
             return false;
-
-        $itemsArray = explode( '|#', trim( $string ) );
-        if ( !is_array( $itemsArray ) || empty( $itemsArray ) || count( $itemsArray ) % 4 != 0 )
-            return false;
-
-        $tagsCount = count( $itemsArray ) / 4;
-        $idArray = array_slice( $itemsArray, 0, $tagsCount );
-        $keywordArray = array_slice( $itemsArray, $tagsCount, $tagsCount );
-        $parentArray = array_slice( $itemsArray, $tagsCount * 2, $tagsCount );
-        $localeArray = array_slice( $itemsArray, $tagsCount * 3, $tagsCount );
-
-        $idString = implode( '|#', $idArray );
-        $keywordString = implode( '|#', $keywordArray );
-        $parentString = implode( '|#', $parentArray );
-        $localeString = implode( '|#', $localeArray );
 
         $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $idString, $keywordString, $parentString, $localeString );
         $contentObjectAttribute->setContent( $eZTags );
@@ -495,8 +522,12 @@ class eZTagsType extends eZDataType
         $parentString = $attributeNode->getElementsByTagName( 'parent-string' )->item( 0 )->textContent;
         $localeString = $attributeNode->getElementsByTagName( 'locale-string' )->item( 0 )->textContent;
 
-        $eZTags = eZTags::createFromStrings( $objectAttribute, $idString, $keywordString, $parentString, $localeString );
-        $objectAttribute->setContent( $eZTags );
+        $validationResult = $this->validateObjectAttribute( $objectAttribute, $idString, $keywordString, $parentString, $localeString );
+        if ( $validationResult == eZInputValidator::STATE_ACCEPTED )
+        {
+            $eZTags = eZTags::createFromStrings( $objectAttribute, $idString, $keywordString, $parentString, $localeString );
+            $objectAttribute->setContent( $eZTags );
+        }
     }
 
     /**
