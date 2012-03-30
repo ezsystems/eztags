@@ -55,7 +55,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $tagID
+     * @param int $tagID
      *
      * @return eZTagsAttributeLinkObject[]
      */
@@ -74,10 +74,10 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $objectAttributeID
-     * @param integer $objectAttributeVersion
-     * @param integer $objectID
-     * @param integer $keywordID
+     * @param int $objectAttributeID
+     * @param int $objectAttributeVersion
+     * @param int $objectID
+     * @param int $keywordID
      *
      * @return eZTagsAttributeLinkObject if found, false otherwise
      */
@@ -101,8 +101,8 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $objectAttributeID
-     * @param integer|null $objectAttributeVersion
+     * @param int $objectAttributeID
+     * @param int|null $objectAttributeVersion
      */
     static function removeByAttribute( $objectAttributeID, $objectAttributeVersion = null )
     {

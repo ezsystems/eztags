@@ -69,7 +69,7 @@ class eZTagsKeyword extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $tagID
+     * @param int $tagID
      * @param string $locale
      * @param bool $includeDrafts
      *
@@ -89,7 +89,7 @@ class eZTagsKeyword extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $tagID
+     * @param int $tagID
      *
      * @return eZTagsKeyword[]
      */
@@ -108,9 +108,9 @@ class eZTagsKeyword extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $tagID
+     * @param int $tagID
      *
-     * @return integer
+     * @return int
      */
     static function fetchCountByTagID( $tagID )
     {

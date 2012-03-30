@@ -10,7 +10,7 @@ class eZTagsFunctionCollection
      * Fetches eZTagsObject object for the provided tag ID
      *
      * @static
-     * @param integer $tagID
+     * @param int $tagID
      * @param mixed $language
      * @return array
      */
@@ -66,11 +66,11 @@ class eZTagsFunctionCollection
      * Fetches subtree of tags by specified parameters
      *
      * @static
-     * @param integer $parentTagID
+     * @param int $parentTagID
      * @param array $sortBy
-     * @param integer $offset
-     * @param integer $limit
-     * @param integer $depth
+     * @param int $offset
+     * @param int $limit
+     * @param int $depth
      * @param string $depthOperator
      * @param bool $includeSynonyms
      * @param mixed $language
@@ -111,12 +111,12 @@ class eZTagsFunctionCollection
      * Fetches subtree tag count by specified parameters
      *
      * @static
-     * @param integer $parentTagID
-     * @param integer $depth
+     * @param int $parentTagID
+     * @param int $depth
      * @param string $depthOperator
      * @param bool $includeSynonyms
      * @param mixed $language
-     * @return integer
+     * @return int
      */
     static public function fetchTagTreeCount( $parentTagID, $depth, $depthOperator, $includeSynonyms, $language = false )
     {
@@ -150,8 +150,8 @@ class eZTagsFunctionCollection
      * Fetches latest modified tags by specified parameters
      *
      * @static
-     * @param integer|bool $parentTagID
-     * @param integer $limit
+     * @param int|bool $parentTagID
+     * @param int $limit
      * @param mixed $language
      * @return array
      */

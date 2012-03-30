@@ -193,7 +193,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param bool $mainTranslation
      *
-     * @return integer
+     * @return int
      */
     function getChildrenCount( $mainTranslation = false )
     {
@@ -235,7 +235,7 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns the count of objects related to this tag
      *
-     * @return integer
+     * @return int
      */
     function getRelatedObjectsCount()
     {
@@ -279,7 +279,7 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns count of eZContentClassAttribute objects (represented as subtree limitation count)
      *
-     * @return integer
+     * @return int
      */
     function getSubTreeLimitationsCount()
     {
@@ -347,7 +347,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param bool $mainTranslation
      *
-     * @return integer
+     * @return int
      */
     function getSynonymsCount( $mainTranslation = false )
     {
@@ -357,7 +357,7 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Tells whether tag object is a synonym of another tag object
      *
-     * @return boolean
+     * @return bool
      */
     function isSynonym()
     {
@@ -473,7 +473,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param bool $mainTranslation
      *
-     * @return integer
+     * @return int
      */
     function getPathCount( $mainTranslation = false )
     {
@@ -558,7 +558,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $id
+     * @param int $id
      * @param mixed $locale
      *
      * @return eZTagsObject
@@ -581,7 +581,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return eZTagsObject
      */
@@ -664,7 +664,7 @@ class eZTagsObject extends eZPersistentObject
      * @param bool $mainTranslation
      * @param mixed $locale
      *
-     * @return integer
+     * @return int
      */
     static function fetchListCount( $params, $mainTranslation = false, $locale = false )
     {
@@ -773,7 +773,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $parentID
+     * @param int $parentID
      * @param bool $mainTranslation
      *
      * @return eZTagsObject[]
@@ -788,10 +788,10 @@ class eZTagsObject extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $parentID
+     * @param int $parentID
      * @param bool $mainTranslation
      *
-     * @return integer
+     * @return int
      */
     static function childrenCountByParentID( $parentID, $mainTranslation = false )
     {
@@ -803,7 +803,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $mainTagID
+     * @param int $mainTagID
      * @param bool $mainTranslation
      *
      * @return eZTagsObject[]
@@ -818,10 +818,10 @@ class eZTagsObject extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $mainTagID
+     * @param int $mainTagID
      * @param bool $mainTranslation
      *
-     * @return integer
+     * @return int
      */
     static function synonymsCount( $mainTagID, $mainTranslation = false )
     {
@@ -931,7 +931,7 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Transfers all objects related to this tag, to another tag
      *
-     * @param eZTagsObject|integer $destination
+     * @param eZTagsObject|int $destination
      */
     function transferObjectsToAnotherTag( $destination )
     {
@@ -988,9 +988,9 @@ class eZTagsObject extends eZPersistentObject
      *
      * @static
      *
-     * @param integer $tagID
+     * @param int $tagID
      * @param string $keyword
-     * @param integer $parentID
+     * @param int $parentID
      *
      * @return bool
      */
@@ -1020,7 +1020,7 @@ class eZTagsObject extends eZPersistentObject
      * @static
      *
      * @param array $params
-     * @param integer $tagID
+     * @param int $tagID
      *
      * @return eZTagsObject[]
      */
@@ -1134,9 +1134,9 @@ class eZTagsObject extends eZPersistentObject
      * @static
      *
      * @param array $params
-     * @param integer $tagID
+     * @param int $tagID
      *
-     * @return integer
+     * @return int
      */
     static function subTreeCountByTagID( $params = array(), $tagID = 0 )
     {
@@ -1276,7 +1276,7 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns count of tag translations
      *
-     * @return integer
+     * @return int
      */
     function getTranslationsCount()
     {
@@ -1301,7 +1301,7 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns translation of the tag for provided language ID
      *
-     * @param integer $languageID
+     * @param int $languageID
      *
      * @return eZTagsKeyword
      */

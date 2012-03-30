@@ -102,7 +102,7 @@ class eZTagsTemplateFunctions
      *
      * @static
      *
-     * @param integer $tagID
+     * @param int $tagID
      *
      * @return string
      */
@@ -123,7 +123,7 @@ class eZTagsTemplateFunctions
      *
      * @static
      *
-     * @param integer $limit
+     * @param int $limit
      *
      * @return eZTagsObject[]
      */
