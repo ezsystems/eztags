@@ -28,7 +28,7 @@ class eZTagsType extends eZDataType
     }
 
     /**
-     * Sets the default values in class attribute
+     * Initializes the content class attribute
      *
      * @param eZContentClassAttribute $classAttribute
      */
@@ -50,7 +50,7 @@ class eZTagsType extends eZDataType
     }
 
     /**
-     * Sets the default value
+     * Initializes content object attribute based on another attribute
      *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @param eZContentObjectVersion $currentVersion
@@ -77,64 +77,54 @@ class eZTagsType extends eZDataType
     function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
 
-        if ( $http->hasPostVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) &&
-             $http->hasPostVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) &&
-             $http->hasPostVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) &&
-             $http->hasPostVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        $data = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttributeID, '' ) );
+        $data2 = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttributeID, '' ) );
+        $data3 = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttributeID, '' ) );
+        $data4 = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttributeID, '' ) );
+
+        // we cannot use empty() here as there can be cases where $data or $data2 can be "0",
+        // which evaluates to false with empty(), which is wrong for our use case
+        if ( strlen( $data ) == 0 && strlen( $data2 ) == 0 && strlen( $data3 ) == 0 && strlen( $data4 ) == 0 )
         {
-            $data = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) );
-            $data2 = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) );
-            $data3 = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) );
-            $data4 = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) ) );
-
-            // we cannot use empty() here as there can be cases where $data or $data2 can be "0",
-            // which evaluates to false with empty(), which is wrong for our use case
-            if ( strlen( $data ) == 0 && strlen( $data2 ) == 0 && strlen( $data3 ) == 0 && strlen( $data4 ) == 0 )
+            if ( $contentObjectAttribute->validateIsRequired() )
             {
-                if ( $contentObjectAttribute->validateIsRequired() )
-                {
-                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'At least one tag is required to be added.' ) );
-                    return eZInputValidator::STATE_INVALID;
-                }
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'At least one tag is required to be added.' ) );
+                return eZInputValidator::STATE_INVALID;
             }
-            // see comment above
-            else if ( strlen( $data ) == 0 || strlen( $data2 ) == 0 || strlen( $data3 ) == 0 || strlen( $data4 ) == 0 )
+        }
+        // see comment above
+        else if ( strlen( $data ) == 0 || strlen( $data2 ) == 0 || strlen( $data3 ) == 0 || strlen( $data4 ) == 0 )
+        {
+            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
+            return eZInputValidator::STATE_INVALID;
+        }
+        else
+        {
+            $dataArray = explode( '|#', $data );
+            $data2Array = explode( '|#', $data2 );
+            $data3Array = explode( '|#', $data3 );
+            $data4Array = explode( '|#', $data4 );
+            if ( count( $data2Array ) != count( $dataArray ) || count( $data3Array ) != count( $dataArray ) || count( $data4Array ) != count( $dataArray ) )
             {
                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
-            else
-            {
-                $dataArray = explode( '|#', $data );
-                $data2Array = explode( '|#', $data2 );
-                $data3Array = explode( '|#', $data3 );
-                $data4Array = explode( '|#', $data4 );
-                if ( count( $data2Array ) != count( $dataArray ) || count( $data3Array ) != count( $dataArray ) || count( $data4Array ) != count( $dataArray ) )
-                {
-                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
-                    return eZInputValidator::STATE_INVALID;
-                }
 
-                $maxTags = (int) $classAttribute->attribute( self::MAX_TAGS_FIELD );
-                if ( $maxTags > 0 && ( count( $dataArray ) > $maxTags || count( $data2Array ) > $maxTags || count( $data3Array ) > $maxTags || count( $data4Array ) > $maxTags ) )
-                {
-                    $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Up to %1 tags are allowed to be added.', null, array( '%1' => $maxTags ) ) );
-                    return eZInputValidator::STATE_INVALID;
-                }
+            $maxTags = (int) $classAttribute->attribute( self::MAX_TAGS_FIELD );
+            if ( $maxTags > 0 && ( count( $dataArray ) > $maxTags || count( $data2Array ) > $maxTags || count( $data3Array ) > $maxTags || count( $data4Array ) > $maxTags ) )
+            {
+                $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Up to %1 tags are allowed to be added.', null, array( '%1' => $maxTags ) ) );
+                return eZInputValidator::STATE_INVALID;
             }
-        }
-        else if ( $contentObjectAttribute->validateIsRequired() )
-        {
-            $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'At least one tag is required to be added.' ) );
-            return eZInputValidator::STATE_INVALID;
         }
 
         return eZInputValidator::STATE_ACCEPTED;
     }
 
     /**
-     * Fetches the http post var keyword input and stores it in the data instance
+     * Fetches the HTTP POST input and stores it in the data instance
      *
      * @param eZHTTPTool $http
      * @param string $base
@@ -144,18 +134,12 @@ class eZTagsType extends eZDataType
      */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        if ( !$http->hasPostVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) ||
-             !$http->hasPostVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) ) ||
-             !$http->hasPostVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) ||
-             !$http->hasPostVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) ) )
-        {
-            return false;
-        }
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
 
-        $data = $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-        $data2 = $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttribute->attribute( 'id' ) );
-        $data3 = $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) );
-        $data4 = $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) );
+        $data = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttributeID, '' ) );
+        $data2 = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttributeID, '' ) );
+        $data3 = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttributeID, '' ) );
+        $data4 = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttributeID, '' ) );
 
         $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $data3, $data, $data2, $data4 );
         $contentObjectAttribute->setContent( $eZTags );
@@ -187,30 +171,21 @@ class eZTagsType extends eZDataType
      */
     function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
-        $maxTagsName = $base . self::MAX_TAGS_VARIABLE . $attribute->attribute( 'id' );
-        if ( !$http->hasPostVariable( $maxTagsName ) || ( !is_numeric( $http->postVariable( $maxTagsName ) ) && trim( $http->postVariable( $maxTagsName ) ) != '' ) )
-        {
+        $classAttributeID = $attribute->attribute( 'id' );
+
+        $maxTags = trim( $http->postVariable( $base . self::MAX_TAGS_VARIABLE . $classAttributeID, '' ) );
+        if ( ( !is_numeric( $maxTags ) && !empty( $maxTags ) ) || (int) $maxTags < 0 )
             return eZInputValidator::STATE_INVALID;
-        }
 
-        $subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
-        if ( !$http->hasPostVariable( $subTreeLimitName ) || (int) $http->postVariable( $subTreeLimitName ) < 0 )
-        {
+        $subTreeLimit = (int) $http->postVariable( $base . self::SUBTREE_LIMIT_VARIABLE . $classAttributeID, -1 );
+        if ( $subTreeLimit < 0 )
             return eZInputValidator::STATE_INVALID;
-        }
 
-        $subTreeLimit = (int) $http->postVariable( $subTreeLimitName );
-
-        $tag = eZTagsObject::fetchWithMainTranslation( $subTreeLimit );
-
-        if ( !$tag instanceof eZTagsObject && $subTreeLimit > 0 )
+        if ( $subTreeLimit > 0 )
         {
-            return eZInputValidator::STATE_INVALID;
-        }
-
-        if ( $subTreeLimit > 0 && $tag->attribute( 'main_tag_id' ) > 0 )
-        {
-            return eZInputValidator::STATE_INVALID;
+            $tag = eZTagsObject::fetchWithMainTranslation( $subTreeLimit );
+            if ( !$tag instanceof eZTagsObject || $tag->attribute( 'main_tag_id' ) > 0 )
+                return eZInputValidator::STATE_INVALID;
         }
 
         return eZInputValidator::STATE_ACCEPTED;
@@ -227,37 +202,17 @@ class eZTagsType extends eZDataType
      */
     function fetchClassAttributeHTTPInput( $http, $base, $attribute )
     {
-        $maxTagsName = $base . self::MAX_TAGS_VARIABLE . $attribute->attribute( 'id' );
-        if ( !$http->hasPostVariable( $maxTagsName ) || ( !is_numeric( $http->postVariable( $maxTagsName ) ) && trim( $http->postVariable( $maxTagsName ) ) != '' ) )
-        {
-            return false;
-        }
+        $classAttributeID = $attribute->attribute( 'id' );
 
-        $subTreeLimitName = $base . self::SUBTREE_LIMIT_VARIABLE . $attribute->attribute( 'id' );
-        if ( !$http->hasPostVariable( $subTreeLimitName ) || (int) $http->postVariable( $subTreeLimitName ) < 0 )
-        {
-            return false;
-        }
+        $subTreeLimit = (int) $http->postVariable( $base . self::SUBTREE_LIMIT_VARIABLE . $classAttributeID, -1 );
+        $showDropdown = (int) $http->hasPostVariable( $base . self::SHOW_DROPDOWN_VARIABLE . $classAttributeID );
+        $hideRootTag = (int) $http->hasPostVariable( $base . self::HIDE_ROOT_TAG_VARIABLE . $classAttributeID );
+        $maxTags = (int) trim( $http->postVariable( $base . self::MAX_TAGS_VARIABLE . $classAttributeID, '' ) );
 
-        $data = (int) $http->postVariable( $subTreeLimitName );
-        $data2 = 0;
-        if ( $http->hasPostVariable( $base . self::SHOW_DROPDOWN_VARIABLE . $attribute->attribute( 'id' ) ) )
-        {
-            $data2 = 1;
-        }
-
-        $data3 = 0;
-        if ( $http->hasPostVariable( $base . self::HIDE_ROOT_TAG_VARIABLE . $attribute->attribute( 'id' ) ) )
-        {
-            $data3 = 1;
-        }
-
-        $data4 = (int) trim( $http->postVariable( $maxTagsName ) );
-
-        $attribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $data );
-        $attribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $data2 );
-        $attribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, $data3 );
-        $attribute->setAttribute( self::MAX_TAGS_FIELD, $data4 < 0 ? 0 : $data4 );
+        $attribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
+        $attribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $showDropdown );
+        $attribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, $hideRootTag );
+        $attribute->setAttribute( self::MAX_TAGS_FIELD, $maxTags );
 
         return true;
     }
@@ -437,11 +392,16 @@ class eZTagsType extends eZDataType
     {
         /** @var $eZTags eZTags */
         $eZTags = $contentObjectAttribute->content();
-        if ( $eZTags instanceof eZTags )
-            return $eZTags->attribute( 'id_string' ) . '|#' . $eZTags->attribute( 'keyword_string' ) .
-                '|#' . $eZTags->attribute( 'parent_string' ) . '|#' . $eZTags->attribute( 'locale_string' );
+        if ( !$eZTags instanceof eZTags )
+            return '';
 
-        return '';
+        $returnArray = array();
+        $returnArray[] = $eZTags->attribute( 'id_string' );
+        $returnArray[] = $eZTags->attribute( 'keyword_string' );
+        $returnArray[] = $eZTags->attribute( 'parent_string' );
+        $returnArray[] = $eZTags->attribute( 'locale_string' );
+
+        return implode( '|#', $returnArray );
     }
 
     /**
@@ -463,7 +423,7 @@ class eZTagsType extends eZDataType
             return false;
 
         $itemsArray = explode( '|#', trim( $string ) );
-        if ( !is_array( $itemsArray ) || !empty( $itemsArray ) || count( $itemsArray ) % 4 != 0 )
+        if ( !is_array( $itemsArray ) || empty( $itemsArray ) || count( $itemsArray ) % 4 != 0 )
             return false;
 
         $tagsCount = count( $itemsArray ) / 4;
