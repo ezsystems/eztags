@@ -88,7 +88,9 @@ class eZTagsType extends eZDataType
             $data3 = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttribute->attribute( 'id' ) ) );
             $data4 = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttribute->attribute( 'id' ) ) );
 
-            if ( empty( $data ) && empty( $data2 ) && empty( $data3 ) && empty( $data4 ) )
+            // we cannot use empty() here as there can be cases where $data or $data2 can be "0",
+            // which evaluates to false with empty(), which is wrong for our use case
+            if ( strlen( $data ) == 0 && strlen( $data2 ) == 0 && strlen( $data3 ) == 0 && strlen( $data4 ) == 0 )
             {
                 if ( $contentObjectAttribute->validateIsRequired() )
                 {
@@ -96,7 +98,8 @@ class eZTagsType extends eZDataType
                     return eZInputValidator::STATE_INVALID;
                 }
             }
-            else if ( empty( $data ) || empty( $data2 ) || empty( $data3 ) || empty( $data4 ) )
+            // see comment above
+            else if ( strlen( $data ) == 0 || strlen( $data2 ) == 0 || strlen( $data3 ) == 0 || strlen( $data4 ) == 0 )
             {
                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
                 return eZInputValidator::STATE_INVALID;
