@@ -98,18 +98,18 @@ class eZTagsType extends eZDataType
         }
         else
         {
-            $dataArray = explode( '|#', $keywordString );
-            $data2Array = explode( '|#', $parentString );
-            $data3Array = explode( '|#', $idString );
-            $data4Array = explode( '|#', $localeString );
-            if ( count( $data2Array ) != count( $dataArray ) || count( $data3Array ) != count( $dataArray ) || count( $data4Array ) != count( $dataArray ) )
+            $idArray = explode( '|#', $idString );
+            $keywordArray = explode( '|#', $keywordString );
+            $parentArray = explode( '|#', $parentString );
+            $localeArray = explode( '|#', $localeString );
+            if ( count( $keywordArray ) != count( $idArray ) || count( $parentArray ) != count( $idArray ) || count( $localeArray ) != count( $idArray ) )
             {
                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Attribute contains invalid data.' ) );
                 return eZInputValidator::STATE_INVALID;
             }
 
             $maxTags = (int) $classAttribute->attribute( self::MAX_TAGS_FIELD );
-            if ( $maxTags > 0 && ( count( $dataArray ) > $maxTags || count( $data2Array ) > $maxTags || count( $data3Array ) > $maxTags || count( $data4Array ) > $maxTags ) )
+            if ( $maxTags > 0 && ( count( $idArray ) > $maxTags || count( $keywordArray ) > $maxTags || count( $parentArray ) > $maxTags || count( $localeArray ) > $maxTags ) )
             {
                 $contentObjectAttribute->setValidationError( ezpI18n::tr( 'extension/eztags/datatypes', 'Up to %1 tags are allowed to be added.', null, array( '%1' => $maxTags ) ) );
                 return eZInputValidator::STATE_INVALID;
