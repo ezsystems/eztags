@@ -44,14 +44,28 @@ class eZTagsAttributeFilter
             }
         }
 
-        $returnArray['tables'] = ", eztags_attribute_link i1, eztags i2 ";
+        $returnArray['tables'] = ", eztags_attribute_link i1, eztags i2, eztags_keyword i3 ";
 
         $db = eZDB::instance();
         $dbString = $db->generateSQLINStatement( $tagIDsArray, 'i1.keyword_id', false, true, 'int' );
 
+        if ( isset( $params['language'] ) )
+        {
+            $language = $params['language'];
+            if ( !is_array( $language ) )
+                $language = array( $language );
+
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
         $returnArray['joins'] = " $dbString AND i1.object_id = ezcontentobject.id AND
                                   i1.objectattribute_version = ezcontentobject.current_version AND
-                                  i1.keyword_id = i2.id AND " . eZContentLanguage::languagesSQLFilter( 'i2' ) . " AND ";
+                                  i1.keyword_id = i2.id AND i2.id = i3.keyword_id
+                                  AND " . eZContentLanguage::languagesSQLFilter( 'i2' ) . " AND " .
+                                  eZContentLanguage::sqlFilter( 'i3', 'i2' ) . " AND ";
+
+        if ( isset( $params['language'] ) )
+            eZContentLanguage::clearPrioritizedLanguages();
 
         return $returnArray;
     }
