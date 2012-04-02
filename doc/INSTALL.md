@@ -11,7 +11,7 @@
 
 ## Upgrade
 
-If upgrading the extension, see [doc/UPGRADE](/ezsystems/eztags/tree/multilanguage/doc/UPGRADE)
+If upgrading the extension, see [upgrading instructions](/ezsystems/eztags/tree/multilanguage/doc/UPGRADE.md)
 
 ## Installation
 
