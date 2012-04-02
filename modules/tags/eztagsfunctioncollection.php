@@ -10,8 +10,10 @@ class eZTagsFunctionCollection
      * Fetches eZTagsObject object for the provided tag ID
      *
      * @static
+     *
      * @param int $tagID
      * @param mixed $language
+     *
      * @return array
      */
     static public function fetchTag( $tagID, $language = false )
@@ -38,8 +40,10 @@ class eZTagsFunctionCollection
      * Fetches all tags named with provided keyword
      *
      * @static
+     *
      * @param string $keyword
      * @param mixed $language
+     *
      * @return array
      */
     static public function fetchTagsByKeyword( $keyword, $language = false )
@@ -87,6 +91,7 @@ class eZTagsFunctionCollection
      * Fetches subtree of tags by specified parameters
      *
      * @static
+     *
      * @param int $parentTagID
      * @param array $sortBy
      * @param int $offset
@@ -95,6 +100,7 @@ class eZTagsFunctionCollection
      * @param string $depthOperator
      * @param bool $includeSynonyms
      * @param mixed $language
+     *
      * @return array
      */
     static public function fetchTagTree( $parentTagID, $sortBy, $offset, $limit, $depth, $depthOperator, $includeSynonyms, $language = false )
@@ -132,12 +138,14 @@ class eZTagsFunctionCollection
      * Fetches subtree tag count by specified parameters
      *
      * @static
+     *
      * @param int $parentTagID
      * @param int $depth
      * @param string $depthOperator
      * @param bool $includeSynonyms
      * @param mixed $language
-     * @return int
+     *
+     * @return array
      */
     static public function fetchTagTreeCount( $parentTagID, $depth, $depthOperator, $includeSynonyms, $language = false )
     {
@@ -171,9 +179,11 @@ class eZTagsFunctionCollection
      * Fetches latest modified tags by specified parameters
      *
      * @static
+     *
      * @param int|bool $parentTagID
      * @param int $limit
      * @param mixed $language
+     *
      * @return array
      */
     static public function fetchLatestTags( $parentTagID = false, $limit = 0, $language = false )
