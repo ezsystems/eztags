@@ -51,6 +51,27 @@ class eZTagsFunctionCollection
             eZContentLanguage::setPrioritizedLanguages( $language );
         }
 
+        if ( strpos( $keyword, '*' ) !== false )
+        {
+            $keyword = preg_replace(
+                array(
+                    '#%#m',
+                    '#(?<!\\\\)\\*#m',
+                    '#(?<!\\\\)\\\\\\*#m',
+                    '#\\\\\\\\#m'
+                ),
+                array(
+                    '\\%',
+                    '%',
+                    '*',
+                    '\\\\'
+                ),
+                $keyword
+            );
+
+            $keyword = array( 'like', $keyword );
+        }
+
         $result = eZTagsObject::fetchByKeyword( $keyword );
 
         if ( $language )
