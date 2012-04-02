@@ -35,10 +35,14 @@ $db->begin();
 $languageID = (int) $language->attribute( 'id' );
 $locale = $db->escapeString( $language->attribute( 'locale' ) );
 
-$db->query( "UPDATE eztags SET main_language_id = $languageID, language_mask = $languageID + 1" );
+$ini = eZINI::instance( 'eztags.ini' );
+$alwaysAvailable = $ini->variable( 'GeneralSettings', 'DefaultAlwaysAvailable' );
+$alwaysAvailable = $alwaysAvailable === 'true' ? 1 : 0;
+
+$db->query( "UPDATE eztags SET main_language_id = $languageID, language_mask = $languageID + $alwaysAvailable" );
 
 $db->query( "INSERT INTO eztags_keyword
-             SELECT id, $languageID + 1, keyword, '$locale', 1 FROM eztags" );
+             SELECT id, $languageID + $alwaysAvailable, keyword, '$locale', 1 FROM eztags" );
 
 $db->commit();
 $script->shutdown();

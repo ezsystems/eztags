@@ -12,11 +12,13 @@
     {/if}
 
     <div class="box-content">
+        {def $always_available = ezini( 'GeneralSettings', 'DefaultAlwaysAvailable', 'eztags.ini' )|eq( 'true' )}
+
         <form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat( 'tags/addsynonym/', $main_tag.id )|ezurl}>
             <div class="block tag-edit-keyword">
                 <label>{'Synonym name'|i18n( 'extension/eztags/tags/edit' )}</label>
                 <input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{cond( ezhttp_hasvariable( 'TagEditKeyword', 'post' ), ezhttp( 'TagEditKeyword', 'post' ), '' )|trim|wash}" />
-                <label><input type="checkbox" name="AlwaysAvailable" checked="checked" /> {'Use the main language if there is no prioritized translation.'|i18n( 'extension/eztags/tags/edit' )}</label>
+                <label><input type="checkbox" name="AlwaysAvailable" {if $always_available}checked="checked"{/if} /> {'Use the main language if there is no prioritized translation.'|i18n( 'extension/eztags/tags/edit' )}</label>
                 <input type="hidden" name="Locale" value="{$language.locale|wash}" />
             </div>
 
@@ -43,3 +45,5 @@ function confirmDiscard( question )
 }
 </script>
 {/literal}
+
+{undef $always_available}

@@ -473,15 +473,17 @@ class eZTags
         if ( $languageID === false )
             return;
 
-        // we'll set the tag as always available, hence 'language_mask' => $languageID + 1
-        // maybe allow configuration of this in future
+        $ini = eZINI::instance( 'eztags.ini' );
+        $alwaysAvailable = $ini->variable( 'GeneralSettings', 'DefaultAlwaysAvailable' );
+        $alwaysAvailable = $alwaysAvailable === 'true' ? 1 : 0;
+
         $tagObject = new eZTagsObject( array(
             'parent_id'        => $parentID,
             'main_tag_id'      => 0,
             'depth'            => $parentDepth + 1,
             'path_string'      => $parentPathString,
             'main_language_id' => $languageID,
-            'language_mask'    => $languageID + 1 ), $locale );
+            'language_mask'    => $languageID + $alwaysAvailable ), $locale );
         $tagObject->store();
 
         $tagObject->setAttribute( 'path_string', $tagObject->attribute( 'path_string' ) . $tagObject->attribute( 'id' ) . '/' );
@@ -490,7 +492,7 @@ class eZTags
 
         $tagKeywordObject = new eZTagsKeyword( array(
             'keyword_id'  => $tagObject->attribute( 'id' ),
-            'language_id' => $languageID + 1,
+            'language_id' => $languageID + $alwaysAvailable,
             'keyword'     => $keyword,
             'locale'      => $locale,
             'status'      => eZTagsKeyword::STATUS_PUBLISHED ) );
