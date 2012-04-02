@@ -63,7 +63,7 @@ class eZTags
      *
      * @return array
      */
-    function attributes()
+    public function attributes()
     {
         return array( 'tags',
                       'permission_array',
@@ -84,7 +84,7 @@ class eZTags
      *
      * @return bool
      */
-    function hasAttribute( $name )
+    public function hasAttribute( $name )
     {
         return in_array( $name, $this->attributes() );
     }
@@ -96,7 +96,7 @@ class eZTags
      *
      * @return mixed
      */
-    function attribute( $name )
+    public function attribute( $name )
     {
         if ( !$this->hasAttribute( $name ) )
         {
@@ -141,7 +141,7 @@ class eZTags
      *
      * @return eZTags The newly created eZTags object
      */
-    static function createFromStrings( eZContentObjectAttribute $attribute, $idString, $keywordString, $parentString, $localeString )
+    static public function createFromStrings( eZContentObjectAttribute $attribute, $idString, $keywordString, $parentString, $localeString )
     {
         $idArray = explode( '|#', $idString );
         $keywordArray = explode( '|#', $keywordString );
@@ -187,7 +187,7 @@ class eZTags
      *
      * @return eZTags The newly created eZTags object
      */
-    static function createFromAttribute( eZContentObjectAttribute $attribute, $locale = null )
+    static public function createFromAttribute( eZContentObjectAttribute $attribute, $locale = null )
     {
         $idArray = array();
         $keywordArray = array();
@@ -279,7 +279,7 @@ class eZTags
      *
      * @param eZContentObjectAttribute $attribute
      */
-    function store( eZContentObjectAttribute $attribute )
+    public function store( eZContentObjectAttribute $attribute )
     {
         $this->Attribute = $attribute;
 
@@ -369,7 +369,7 @@ class eZTags
      *
      * @return array
      */
-    function getPermissionArray()
+    private function getPermissionArray()
     {
         $permissionArray = array(
             'can_add'           => false,
@@ -444,7 +444,7 @@ class eZTags
      *
      * @return bool
      */
-    private static function canSave( $pathString, $allowedLocations )
+    static private function canSave( $pathString, $allowedLocations )
     {
         foreach ( $allowedLocations as $location )
         {
@@ -467,7 +467,7 @@ class eZTags
      * @param string $keyword
      * @param string $locale
      */
-    private static function createAndLinkTag( $attribute, $parentID, $parentPathString, $parentDepth, $keyword, $locale )
+    static private function createAndLinkTag( $attribute, $parentID, $parentPathString, $parentDepth, $keyword, $locale )
     {
         $languageID = eZContentLanguage::idByLocale( $locale );
         if ( $languageID === false )
@@ -516,7 +516,7 @@ class eZTags
      * @param string $keyword
      * @param string $locale
      */
-    private static function linkTag( eZContentObjectAttribute $attribute, $tagObject, $keyword, $locale )
+    static private function linkTag( eZContentObjectAttribute $attribute, $tagObject, $keyword, $locale )
     {
         $languageID = eZContentLanguage::idByLocale( $locale );
         if ( $languageID === false )
@@ -550,7 +550,7 @@ class eZTags
      *
      * @return eZTagsObject[]
      */
-    function tags()
+    public function tags()
     {
         if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
             return array();
@@ -563,7 +563,7 @@ class eZTags
      *
      * @return string
      */
-    function idString()
+    public function idString()
     {
         return implode( '|#', $this->IDArray );
     }
@@ -575,7 +575,7 @@ class eZTags
      *
      * @return string
      */
-    function keywordString( $separator = '|#' )
+    public function keywordString( $separator = '|#' )
     {
         return implode( $separator, $this->KeywordArray );
     }
@@ -585,7 +585,7 @@ class eZTags
      *
      * @return string
      */
-    function parentString()
+    public function parentString()
     {
         return implode( '|#', $this->ParentArray );
     }
@@ -595,7 +595,7 @@ class eZTags
      *
      * @return string
      */
-    function localeString()
+    public function localeString()
     {
         return implode( '|#', $this->LocaleArray );
     }

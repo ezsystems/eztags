@@ -14,7 +14,7 @@ class ezjscTags extends ezjscServerFunctions
      *
      * @return array
      */
-    public static function autocomplete( $args )
+    static public function autocomplete( $args )
     {
         $http = eZHTTPTool::instance();
         $returnArray = array( 'status' => 'success', 'message' => '', 'tags' => array() );
@@ -72,7 +72,7 @@ class ezjscTags extends ezjscServerFunctions
      *
      * @return array
      */
-    public static function suggest( $args )
+    static public function suggest( $args )
     {
         $returnArray = array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
@@ -161,7 +161,7 @@ class ezjscTags extends ezjscServerFunctions
      *
      * @return array
      */
-    public static function tagtranslations( $args )
+    static public function tagtranslations( $args )
     {
         $returnArray = array( 'status' => 'success', 'message' => '', 'translations' => false );
 
@@ -196,7 +196,7 @@ class ezjscTags extends ezjscServerFunctions
      *
      * @return array
      */
-    private static function getTopPrioritiziedLanguages( $locale )
+    static private function getTopPrioritiziedLanguages( $locale )
     {
         $prioritizedLocales = eZContentLanguage::prioritizedLanguageCodes();
         if ( !is_array( $prioritizedLocales ) )

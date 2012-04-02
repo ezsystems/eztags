@@ -12,7 +12,7 @@ class eZTagsAttributeFilter
      *
      * @return array
      */
-    function createSqlParts( $params )
+    public function createSqlParts( $params )
     {
         $returnArray = array( 'tables' => '', 'joins'  => '', 'columns' => '' );
 

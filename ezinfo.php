@@ -2,7 +2,7 @@
 
 class eztagsInfo
 {
-    static function info()
+    static public function info()
     {
         return array( 'Name'      => '<a href="http://projects.ez.no/eztags">eZ Tags</a> extension',
                       'Version'   => '//autogentag//',

@@ -35,7 +35,7 @@ class eZTagsKeyword extends eZPersistentObject
      *
      * @return array
      */
-    static function definition()
+    static public function definition()
     {
         return array( 'fields'              => array( 'keyword_id'  => array( 'name'     => 'KeywordID',
                                                                               'datatype' => 'integer',
@@ -75,7 +75,7 @@ class eZTagsKeyword extends eZPersistentObject
      *
      * @return eZTagsKeyword
      */
-    static function fetch( $tagID, $locale, $includeDrafts = false )
+    static public function fetch( $tagID, $locale, $includeDrafts = false )
     {
         $fetchParams = array( 'keyword_id' => $tagID, 'locale' => $locale );
         if ( !$includeDrafts )
@@ -93,7 +93,7 @@ class eZTagsKeyword extends eZPersistentObject
      *
      * @return eZTagsKeyword[]
      */
-    static function fetchByTagID( $tagID )
+    static public function fetchByTagID( $tagID )
     {
         $tagKeywordList = parent::fetchObjectList( self::definition(), null, array( 'keyword_id' => $tagID ) );
 
@@ -112,7 +112,7 @@ class eZTagsKeyword extends eZPersistentObject
      *
      * @return int
      */
-    static function fetchCountByTagID( $tagID )
+    static public function fetchCountByTagID( $tagID )
     {
         return parent::count( self::definition(), array( 'keyword_id' => (int) $tagID ) );
     }
@@ -122,8 +122,9 @@ class eZTagsKeyword extends eZPersistentObject
      *
      * @return array
      */
-    function languageName()
+    public function languageName()
     {
+        /** @var eZContentLanguage $language */
         $language = eZContentLanguage::fetchByLocale( $this->attribute( 'locale' ) );
 
         if ( $language instanceof eZContentLanguage )

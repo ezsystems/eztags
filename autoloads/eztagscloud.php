@@ -10,7 +10,7 @@ class eZTagsCloud
      *
      * @return array
      */
-    function operatorList()
+    public function operatorList()
     {
         return array( 'eztagscloud' );
     }
@@ -21,7 +21,7 @@ class eZTagsCloud
      *
      * @return bool
      */
-    function namedParameterPerOperator()
+    public function namedParameterPerOperator()
     {
         return true;
     }
@@ -33,7 +33,7 @@ class eZTagsCloud
      *
      * @return array
      */
-    function namedParameterList()
+    public function namedParameterList()
     {
         return array( 'eztagscloud' => array( 'params' => array( 'type'     => 'array',
                                                                  'required' => false,
@@ -51,7 +51,7 @@ class eZTagsCloud
      * @param mixed $operatorValue
      * @param array $namedParameters
      */
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    public function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         switch ( $operatorName )
         {

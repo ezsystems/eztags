@@ -10,7 +10,7 @@ class eZTagsTemplateFunctions
      *
      * @return array
      */
-    function operatorList()
+    public function operatorList()
     {
         return array( 'eztags_parent_string', 'latest_tags', 'user_limitations', 'tag_icon' );
     }
@@ -21,7 +21,7 @@ class eZTagsTemplateFunctions
      *
      * @return bool
      */
-    function namedParameterPerOperator()
+    public function namedParameterPerOperator()
     {
         return true;
     }
@@ -33,7 +33,7 @@ class eZTagsTemplateFunctions
      *
      * @return array
      */
-    function namedParameterList()
+    public function namedParameterList()
     {
         return array( 'eztags_parent_string' => array( 'tag_id' => array( 'type'     => 'integer',
                                                                           'required' => true,
@@ -66,7 +66,7 @@ class eZTagsTemplateFunctions
      * @param mixed $operatorValue
      * @param array $namedParameters
      */
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    public function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         switch ( $operatorName )
         {
@@ -106,7 +106,7 @@ class eZTagsTemplateFunctions
      *
      * @return string
      */
-    static function generateParentString( $tagID )
+    static public function generateParentString( $tagID )
     {
         $tag = eZTagsObject::fetchWithMainTranslation( $tagID );
         if ( !$tag instanceof eZTagsObject )
@@ -127,7 +127,7 @@ class eZTagsTemplateFunctions
      *
      * @return eZTagsObject[]
      */
-    static function fetchLatestTags( $limit )
+    static public function fetchLatestTags( $limit )
     {
         return eZTagsFunctionCollection::fetchLatestTags( 0, $limit );
     }
@@ -145,7 +145,7 @@ class eZTagsTemplateFunctions
      *
      * @return array
      */
-    static function getSimplifiedUserAccess( $module, $function )
+    static public function getSimplifiedUserAccess( $module, $function )
     {
         $user = eZUser::currentUser();
         $userAccess = $user->hasAccessTo( $module, $function );
@@ -180,7 +180,7 @@ class eZTagsTemplateFunctions
      *
      * @return string
      */
-    static function getTagIcon( $icon, $size = 'small' )
+    static public function getTagIcon( $icon, $size = 'small' )
     {
         return eZURLOperator::eZImage( null, 'tag_icons/' . $size . '/' . $icon, 'ezimage' );
     }

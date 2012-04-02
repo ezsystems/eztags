@@ -85,7 +85,7 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
      *
      * @return array
      */
-    public static function getFieldNameList( eZContentClassAttribute $classAttribute, $exclusiveTypeFilter = array() )
+    static public function getFieldNameList( eZContentClassAttribute $classAttribute, $exclusiveTypeFilter = array() )
     {
         $fieldsList = array();
 

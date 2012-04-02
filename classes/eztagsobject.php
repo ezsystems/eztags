@@ -32,7 +32,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return array
      */
-    static function definition()
+    static public function definition()
     {
         return array( 'fields'              => array( 'id'               => array( 'name'     => 'ID',
                                                                                    'datatype' => 'integer',
@@ -106,7 +106,7 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Updates path string of the tag and all of it's children and synonyms.
      */
-    function updatePathString()
+    public function updatePathString()
     {
         $parentTag = $this->getParent( true );
         $pathStringPrefix = $parentTag instanceof self ? $parentTag->attribute( 'path_string' ) : '/';
@@ -129,7 +129,7 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Updates depth of the tag and all of it's children and synonyms.
      */
-    function updateDepth()
+    public function updateDepth()
     {
         $parentTag = $this->getParent( true );
         $depth = $parentTag instanceof self ? $parentTag->attribute( 'depth' ) + 1 : 1;
@@ -156,7 +156,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return bool
      */
-    function hasParent( $mainTranslation = false )
+    public function hasParent( $mainTranslation = false )
     {
         return $this->getParent( $mainTranslation ) instanceof self;
     }
@@ -168,7 +168,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject
      */
-    function getParent( $mainTranslation = false )
+    public function getParent( $mainTranslation = false )
     {
         if ( $mainTranslation )
             return self::fetchWithMainTranslation( $this->attribute( 'parent_id' ) );
@@ -183,7 +183,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    function getChildren( $mainTranslation = false )
+    public function getChildren( $mainTranslation = false )
     {
         return self::fetchByParentID( $this->attribute( 'id' ), $mainTranslation );
     }
@@ -195,7 +195,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    function getChildrenCount( $mainTranslation = false )
+    public function getChildrenCount( $mainTranslation = false )
     {
         return self::childrenCountByParentID( $this->attribute( 'id' ), $mainTranslation );
     }
@@ -205,7 +205,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZContentObject[]
      */
-    function getRelatedObjects()
+    public function getRelatedObjects()
     {
         // Not an easy task to fetch published objects with API and take care of current_version, status
         // and attribute version, so just use SQL to fetch all related object ids in one go
@@ -235,7 +235,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    function getRelatedObjectsCount()
+    public function getRelatedObjectsCount()
     {
         // Not an easy task to fetch published objects with API and take care of current_version, status
         // and attribute version, so just use SQL to fetch the object count in one go
@@ -259,7 +259,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZContentClassAttribute[]
      */
-    function getSubTreeLimitations()
+    public function getSubTreeLimitations()
     {
         if ( $this->attribute( 'main_tag_id' ) != 0 )
             return array();
@@ -275,7 +275,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    function getSubTreeLimitationsCount()
+    public function getSubTreeLimitationsCount()
     {
         if ( $this->attribute( 'main_tag_id' ) != 0 )
             return 0;
@@ -291,7 +291,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return bool
      */
-    function isInsideSubTreeLimit()
+    public function isInsideSubTreeLimit()
     {
         $path = $this->getPath( true, true );
 
@@ -314,7 +314,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject
      */
-    function getMainTag( $mainTranslation = false )
+    public function getMainTag( $mainTranslation = false )
     {
         if ( $mainTranslation )
             return self::fetchWithMainTranslation( $this->attribute( 'main_tag_id' ) );
@@ -329,7 +329,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    function getSynonyms( $mainTranslation = false )
+    public function getSynonyms( $mainTranslation = false )
     {
         return self::fetchSynonyms( $this->attribute( 'id' ), $mainTranslation );
     }
@@ -341,7 +341,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    function getSynonymsCount( $mainTranslation = false )
+    public function getSynonymsCount( $mainTranslation = false )
     {
         return self::synonymsCount( $this->attribute( 'id' ), $mainTranslation );
     }
@@ -351,7 +351,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return bool
      */
-    function isSynonym()
+    public function isSynonym()
     {
         return $this->attribute( 'main_tag_id' ) > 0;
     }
@@ -361,7 +361,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsAttributeLinkObject[]
      */
-    function getTagAttributeLinks()
+    public function getTagAttributeLinks()
     {
         return eZTagsAttributeLinkObject::fetchByTagID( $this->attribute( 'id' ) );
     }
@@ -371,7 +371,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return string
      */
-    function getIcon()
+    public function getIcon()
     {
         $ini = eZINI::instance( 'eztags.ini' );
         /** @var array $iconMap */
@@ -406,7 +406,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return string
      */
-    function getUrl()
+    public function getUrl()
     {
         $path = $this->getPath();
         $fullPathCount = $this->getPathCount( true );
@@ -445,7 +445,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    function getPath( $reverseSort = false, $mainTranslation = false )
+    public function getPath( $reverseSort = false, $mainTranslation = false )
     {
         $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
 
@@ -467,7 +467,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    function getPathCount( $mainTranslation = false )
+    public function getPathCount( $mainTranslation = false )
     {
         $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
 
@@ -484,7 +484,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return string
      */
-    function getParentString()
+    public function getParentString()
     {
         $keywordsArray = array();
 
@@ -508,7 +508,7 @@ class eZTagsObject extends eZPersistentObject
      * Updates modified timestamp on current tag and all of its parents
      * Expensive to run through API, so SQL takes care of it
      */
-    function updateModified()
+    public function updateModified()
     {
         $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
 
@@ -526,7 +526,7 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Registers all objects related to this tag to search engine for processing
      */
-    function registerSearchObjects()
+    public function registerSearchObjects()
     {
         $eZTagsINI = eZINI::instance( 'eztags.ini' );
 
@@ -555,7 +555,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject
      */
-    static function fetch( $id, $locale = false )
+    static public function fetch( $id, $locale = false )
     {
         if ( is_string( $locale ) )
             $tags = self::fetchList( array( 'id' => $id ), null, null, false, $locale );
@@ -577,7 +577,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject
      */
-    static function fetchWithMainTranslation( $id )
+    static public function fetchWithMainTranslation( $id )
     {
         $tags = self::fetchList( array( 'id' => $id ), null, null, true );
 
@@ -600,7 +600,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    static function fetchList( $params, $limits = null, $sorts = null, $mainTranslation = false, $locale = false )
+    static public function fetchList( $params, $limits = null, $sorts = null, $mainTranslation = false, $locale = false )
     {
         $customConds = self::fetchCustomCondsSQL( $params, $mainTranslation, $locale );
 
@@ -658,7 +658,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    static function fetchListCount( $params, $mainTranslation = false, $locale = false )
+    static public function fetchListCount( $params, $mainTranslation = false, $locale = false )
     {
         $customConds = self::fetchCustomCondsSQL( $params, $mainTranslation, $locale );
 
@@ -696,7 +696,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return string
      */
-    static function fetchCustomCondsSQL( $params, $mainTranslation = false, $locale = false )
+    static public function fetchCustomCondsSQL( $params, $mainTranslation = false, $locale = false )
     {
         $customConds = is_array( $params ) && !empty( $params ) ? " AND " : " WHERE ";
         $customConds .= " eztags.id = eztags_keyword.keyword_id ";
@@ -727,7 +727,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return array
      */
-    static function fetchLimitations()
+    static public function fetchLimitations()
     {
         $tags = self::fetchList( array( 'parent_id' => 0, 'main_tag_id' => 0 ), null, null, true );
 
@@ -750,7 +750,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return string
      */
-    static function generateRemoteID()
+    static public function generateRemoteID()
     {
         // eZRemoteIdUtility introduced in eZ Publish version 4.5
         if ( method_exists( 'eZRemoteIdUtility', 'generate' ) )
@@ -769,7 +769,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    static function fetchByParentID( $parentID, $mainTranslation = false )
+    static public function fetchByParentID( $parentID, $mainTranslation = false )
     {
         return self::fetchList( array( 'parent_id' => $parentID, 'main_tag_id' => 0 ), null, null, $mainTranslation );
     }
@@ -784,7 +784,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    static function childrenCountByParentID( $parentID, $mainTranslation = false )
+    static public function childrenCountByParentID( $parentID, $mainTranslation = false )
     {
         return self::fetchListCount( array( 'parent_id' => $parentID, 'main_tag_id' => 0 ), $mainTranslation );
     }
@@ -799,7 +799,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    static function fetchSynonyms( $mainTagID, $mainTranslation = false )
+    static public function fetchSynonyms( $mainTagID, $mainTranslation = false )
     {
         return self::fetchList( array( 'main_tag_id' => $mainTagID ), null, null, $mainTranslation );
     }
@@ -814,7 +814,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    static function synonymsCount( $mainTagID, $mainTranslation = false )
+    static public function synonymsCount( $mainTagID, $mainTranslation = false )
     {
         return self::fetchListCount( array( 'main_tag_id' => $mainTagID ), $mainTranslation );
     }
@@ -829,7 +829,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    static function fetchByKeyword( $keyword, $mainTranslation = false )
+    static public function fetchByKeyword( $keyword, $mainTranslation = false )
     {
         return self::fetchList( array( 'keyword' => $keyword ), null, null, $mainTranslation );
     }
@@ -844,7 +844,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    static function fetchByPathString( $pathString, $mainTranslation = false )
+    static public function fetchByPathString( $pathString, $mainTranslation = false )
     {
         return self::fetchList( array( 'path_string' => array( 'like', $pathString . '%' ),
                                        'main_tag_id' => 0 ), null, null, $mainTranslation );
@@ -860,7 +860,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject|null
      */
-    static function fetchByRemoteID( $remoteID, $mainTranslation = false )
+    static public function fetchByRemoteID( $remoteID, $mainTranslation = false )
     {
         $tagsList = self::fetchList( array( 'remote_id' => $remoteID ), null, null, $mainTranslation );
 
@@ -873,7 +873,7 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Recursively deletes all tags below this tag, including self
      */
-    function recursivelyDeleteTag()
+    public function recursivelyDeleteTag()
     {
         foreach ( $this->getChildren( true ) as $child )
         {
@@ -895,7 +895,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param eZTagsObject $targetTag
      */
-    function moveChildrenBelowAnotherTag( $targetTag )
+    public function moveChildrenBelowAnotherTag( $targetTag )
     {
         if ( !$targetTag instanceof self )
             return;
@@ -924,7 +924,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param eZTagsObject|int $destination
      */
-    function transferObjectsToAnotherTag( $destination )
+    public function transferObjectsToAnotherTag( $destination )
     {
         if ( !$destination instanceof self )
         {
@@ -959,7 +959,7 @@ class eZTagsObject extends eZPersistentObject
      * @param mixed $conditions
      * @param mixed $extraConditions
      */
-    function remove( $conditions = null, $extraConditions = null )
+    public function remove( $conditions = null, $extraConditions = null )
     {
         foreach ( $this->getTagAttributeLinks() as $tagAttributeLink )
         {
@@ -985,7 +985,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return bool
      */
-    static function exists( $tagID, $keyword, $parentID )
+    static public function exists( $tagID, $keyword, $parentID )
     {
         $db = eZDB::instance();
         $sql = "SELECT COUNT(*) AS row_count FROM eztags, eztags_keyword
@@ -1015,7 +1015,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    static function subTreeByTagID( $params = array(), $tagID = 0 )
+    static public function subTreeByTagID( $params = array(), $tagID = 0 )
     {
         if ( !is_numeric( $tagID ) || (int) $tagID < 0 )
             return false;
@@ -1129,7 +1129,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    static function subTreeCountByTagID( $params = array(), $tagID = 0 )
+    static public function subTreeCountByTagID( $params = array(), $tagID = 0 )
     {
         if ( !is_numeric( $tagID ) || (int) $tagID < 0 )
             return 0;
@@ -1199,7 +1199,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return array
      */
-    static function generateModuleResultPath( $tag = false, $urlToGenerate = null, $textPart = false, $mainTranslation = true )
+    static public function generateModuleResultPath( $tag = false, $urlToGenerate = null, $textPart = false, $mainTranslation = true )
     {
         $moduleResultPath = array();
 
@@ -1250,7 +1250,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsKeyword
      */
-    function translationByLocale( $locale )
+    public function translationByLocale( $locale )
     {
         return eZTagsKeyword::fetch( $this->attribute( 'id' ), $locale );
     }
@@ -1260,7 +1260,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsKeyword[]
      */
-    function getTranslations()
+    public function getTranslations()
     {
         return eZTagsKeyword::fetchByTagID( $this->attribute( 'id' ) );
     }
@@ -1270,7 +1270,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    function getTranslationsCount()
+    public function getTranslationsCount()
     {
         return eZTagsKeyword::fetchCountByTagID( $this->attribute( 'id' ) );
     }
@@ -1280,7 +1280,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsKeyword
      */
-    function getMainTranslation()
+    public function getMainTranslation()
     {
         /** @var eZContentLanguage $language */
         $language = eZContentLanguage::fetch( $this->attribute( 'main_language_id' ) );
@@ -1297,7 +1297,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsKeyword
      */
-    function translationByLanguageID( $languageID )
+    public function translationByLanguageID( $languageID )
     {
         /** @var eZContentLanguage $language */
         $language = eZContentLanguage::fetch( $languageID );
@@ -1314,7 +1314,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return string
      */
-    function getKeyword( $locale = false )
+    public function getKeyword( $locale = false )
     {
         if ( $this->attribute( 'id' ) == null )
             return $this->Keyword;
@@ -1331,7 +1331,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return array
      */
-    function languageNameArray()
+    public function languageNameArray()
     {
         $languageNameArray = array();
         $translations = $this->getTranslations();
@@ -1352,7 +1352,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return string
      */
-    function getCurrentLanguage()
+    public function getCurrentLanguage()
     {
         return $this->CurrentLanguage;
     }
@@ -1362,7 +1362,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return array
      */
-    function getAvailableLanguages()
+    public function getAvailableLanguages()
     {
         $languages = eZContentLanguage::decodeLanguageMask( $this->attribute( 'language_mask' ), true );
         return $languages['language_list'];
@@ -1375,7 +1375,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return bool
      */
-    function hasTranslation( $locale )
+    public function hasTranslation( $locale )
     {
         $availableLanguages = $this->getAvailableLanguages();
         return in_array( $locale, $availableLanguages );
@@ -1388,9 +1388,10 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return bool
      */
-    function updateMainTranslation( $locale )
+    public function updateMainTranslation( $locale )
     {
         $trans = $this->translationByLocale( $locale );
+        /** @var eZContentLanguage $language */
         $language = eZContentLanguage::fetchByLocale( $locale );
         if ( !$trans instanceof eZTagsKeyword || !$language instanceof eZContentLanguage )
             return false;
@@ -1425,7 +1426,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param mixed $mask
      */
-    function updateLanguageMask( $mask = false )
+    public function updateLanguageMask( $mask = false )
     {
         if ( $mask === false )
         {
@@ -1447,7 +1448,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return bool
      */
-    function isAlwaysAvailable()
+    public function isAlwaysAvailable()
     {
         $zerothBit = (int) $this->attribute( 'language_mask' ) & 1;
         return $zerothBit > 0 ? true : false;
@@ -1458,7 +1459,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param bool $alwaysAvailable
      */
-    function setAlwaysAvailable( $alwaysAvailable )
+    public function setAlwaysAvailable( $alwaysAvailable )
     {
         $languageMask = (int) $this->attribute( 'language_mask' ) & ~1;
         $zerothBit = $alwaysAvailable ? 1 : 0;
@@ -1497,7 +1498,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param eZTagsObject $rootTag
      */
-    static function recursiveTagDelete( $rootTag )
+    static public function recursiveTagDelete( $rootTag )
     {
         if ( !$rootTag instanceof self )
             return;
@@ -1516,7 +1517,7 @@ class eZTagsObject extends eZPersistentObject
      * @param eZTagsObject $tag
      * @param eZTagsObject $targetTag
      */
-    static function moveChildren( $tag, $targetTag )
+    static public function moveChildren( $tag, $targetTag )
     {
         if ( !$tag instanceof self )
             return;

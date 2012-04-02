@@ -21,7 +21,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      *
      * @return array
      */
-    static function definition()
+    static public function definition()
     {
         return array( 'fields'        => array( 'id'                      => array( 'name'     => 'ID',
                                                                                     'datatype' => 'integer',
@@ -59,7 +59,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      *
      * @return eZTagsAttributeLinkObject[]
      */
-    static function fetchByTagID( $tagID )
+    static public function fetchByTagID( $tagID )
     {
         $objects = parent::fetchObjectList( self::definition(), null, array( 'keyword_id' => $tagID ) );
 
@@ -81,7 +81,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      *
      * @return eZTagsAttributeLinkObject if found, false otherwise
      */
-    static function fetchByObjectAttributeAndKeywordID( $objectAttributeID, $objectAttributeVersion, $objectID, $keywordID )
+    static public function fetchByObjectAttributeAndKeywordID( $objectAttributeID, $objectAttributeVersion, $objectID, $keywordID )
     {
         $objects = parent::fetchObjectList( self::definition(), null,
                                                         array( 'objectattribute_id'      => $objectAttributeID,
@@ -104,7 +104,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      * @param int $objectAttributeID
      * @param int|null $objectAttributeVersion
      */
-    static function removeByAttribute( $objectAttributeID, $objectAttributeVersion = null )
+    static public function removeByAttribute( $objectAttributeID, $objectAttributeVersion = null )
     {
         if ( !is_numeric( $objectAttributeID ) )
             return;

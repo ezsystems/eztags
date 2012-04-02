@@ -15,7 +15,7 @@ class ezjscoreTagsChildren extends ezjscServerFunctions
      *
      * @return string
      */
-    public static function tagsChildren( $args )
+    static public function tagsChildren( $args )
     {
         if ( !isset( $args[0] ) || !is_numeric( $args[0] ) )
             return json_encode( array( 'count' => 0, 'offset' => false, 'data' => array() ) );
