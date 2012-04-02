@@ -88,10 +88,10 @@ class eZTagsTemplateFunctions
                     $operatorValue = self::getTagIcon( $namedParameters['first'], $namedParameters['second'] );
                 else
                 {
-                    if ( empty( $namedParameters['first'] ) )
-                        $operatorValue = self::getTagIcon( $operatorValue );
-                    else
-                        $operatorValue = self::getTagIcon( $operatorValue, $namedParameters['first'] );
+                    $operatorValue = self::getTagIcon(
+                        $operatorValue,
+                        empty( $namedParameters['first'] ) ? 'small' : $namedParameters['first']
+                    );
                 }
             } break;
         }
