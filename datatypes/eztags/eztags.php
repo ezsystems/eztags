@@ -66,6 +66,7 @@ class eZTags
     public function attributes()
     {
         return array( 'tags',
+                      'tags_count',
                       'permission_array',
                       'tag_ids',
                       'keywords',
@@ -106,6 +107,8 @@ class eZTags
 
         if ( $name == 'tags' )
             return $this->tags();
+        else if ( $name == 'tags_count' )
+            return $this->tagsCount();
         else if ( $name == 'permission_array' )
             return $this->getPermissionArray();
         else if ( $name == 'tag_ids' )
@@ -556,6 +559,19 @@ class eZTags
             return array();
 
         return eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) );
+    }
+
+    /**
+     * Returns the count of tags within this instance
+     *
+     * @return int
+     */
+    public function tagsCount()
+    {
+        if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
+            return 0;
+
+        return eZTagsObject::fetchListCount( array( 'id' => array( $this->IDArray ) ) );
     }
 
     /**
