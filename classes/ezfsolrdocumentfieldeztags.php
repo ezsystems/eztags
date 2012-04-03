@@ -33,24 +33,17 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
         /** @var eZTags $objectAttributeContent */
         $objectAttributeContent = $contentObjectAttribute->content();
 
-        $keywordString = '';
-        $textString = '';
         $tagIDs = array();
         $keywords = array();
+        $indexSynonyms = eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled';
 
-        if ( eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled' )
+        $tags = $objectAttributeContent->attribute( 'tags' );
+        if ( is_array( $tags ) )
         {
-            $keywordString = $objectAttributeContent->keywordString( ', ' );
-            $textString = $objectAttributeContent->keywordString( ' ' );
-            $tagIDs = $objectAttributeContent->attribute( 'tag_ids' );
-            $keywords = $objectAttributeContent->attribute( 'keywords' );
-        }
-        else
-        {
-            $tags = $objectAttributeContent->tags();
+            /** @var eZTagsObject $tag */
             foreach ( $tags as $tag )
             {
-                if ( $tag->isSynonym() )
+                if ( !$indexSynonyms && $tag->isSynonym() )
                     $tag = $tag->getMainTag();
 
                 if ( $tag instanceof eZTagsObject )
@@ -59,15 +52,14 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
                     $keywords[] = $tag->attribute( 'keyword' );
                 }
             }
-
-            $keywords = array_unique( $keywords );
-            $keywordString = implode( ', ', $keywords );
-            $textString = implode( ' ', $keywords );
         }
 
-        $data[$keywordFieldName] = $keywordString;
-        $data[$textFieldName] = $textString;
-        $data[$tagIDsFieldName] = $tagIDs;
+        if ( !empty( $tagIDs ) )
+        {
+            $data[$keywordFieldName] = implode( ', ', $keywords );
+            $data[$textFieldName] = implode( ' ', $keywords );
+            $data[$tagIDsFieldName] = $tagIDs;
+        }
 
         $data['ezf_df_tag_ids'] = $tagIDs;
         $data['ezf_df_tags'] = $keywords;
