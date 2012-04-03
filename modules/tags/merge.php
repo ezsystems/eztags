@@ -1,5 +1,8 @@
 <?php
 
+/** @var eZModule $Module */
+/** @var array $Params */
+
 $http = eZHTTPTool::instance();
 
 $tagID = (int) $Params['TagID'];
@@ -28,7 +31,7 @@ if ( $tag->isInsideSubTreeLimit() )
 
 if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
 {
-    $mainTagID = $http->hasPostVariable( 'MainTagID' ) ? (int) $http->postVariable( 'MainTagID' ) : 0;
+    $mainTagID = (int) $http->postVariable( 'MainTagID', 0 );
     $mainTag = eZTagsObject::fetchWithMainTranslation( $mainTagID );
     if ( !$mainTag instanceof eZTagsObject )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
@@ -38,6 +41,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $mergeAllowed )
         $db = eZDB::instance();
         $db->begin();
 
+        $oldParentTag = false;
         if ( $tag->attribute( 'parent_id' ) != $mainTag->attribute( 'parent_id' ) )
         {
             $oldParentTag = $tag->getParent( true );

@@ -1,12 +1,15 @@
 <?php
 
+/** @var eZModule $Module */
+/** @var array $Params */
+
 $http = eZHTTPTool::instance();
 
 $tagID = (int) $Params['TagID'];
 $locale = (string) $Params['Locale'];
 
 if ( empty( $locale ) )
-    $locale = $http->hasPostVariable( 'Locale' ) ? $http->postVariable( 'Locale' ) : false;
+    $locale = $http->postVariable( 'Locale', false );
 
 if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
@@ -53,6 +56,7 @@ if ( $locale === false )
     return;
 }
 
+/** @var eZContentLanguage $language */
 $language = eZContentLanguage::fetchByLocale( $locale );
 if ( !$language instanceof eZContentLanguage )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -89,13 +93,16 @@ if ( $tag->isInsideSubTreeLimit() )
 
 if ( $http->hasPostVariable( 'SaveButton' ) )
 {
-    $newKeyword = $http->hasPostVariable( 'TagEditKeyword' ) ? trim( $http->postVariable( 'TagEditKeyword' ) ) : '';
+    $newKeyword = trim( $http->postVariable( 'TagEditKeyword', '' ) );
     if ( empty( $newKeyword ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
 
+    $newParentID = 0;
+    $newParentTag = false;
+
     if ( empty( $error ) )
     {
-        $newParentID = $http->hasPostVariable( 'TagEditParentID' ) ? (int) $http->postVariable( 'TagEditParentID' ) : 0;
+        $newParentID = (int) $http->postVariable( 'TagEditParentID', 0 );
         $newParentTag = eZTagsObject::fetchWithMainTranslation( $newParentID );
         if ( !$newParentTag instanceof eZTagsObject && $newParentID > 0 )
             $error = ezpI18n::tr( 'extension/eztags/errors', 'Selected target tag is invalid.' );
@@ -118,6 +125,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         if ( $oldParentDepth != $newParentDepth )
             $updateDepth = true;
 
+        $oldParentTag = false;
         if ( $tag->attribute( 'parent_id' ) != $newParentID )
         {
             $oldParentTag = $tag->getParent( true );
@@ -149,11 +157,15 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         /* Extended Hook */
         if ( class_exists( 'ezpEvent', false ) )
         {
-            ezpEvent::getInstance()->filter( 'tag/edit', array(
-                'tag'          => $tag,
-                'oldParentTag' => $oldParentTag,
-                'newParentTag' => $newParentTag,
-                'move'         => $updatePathString ) );
+            ezpEvent::getInstance()->filter(
+                'tag/edit',
+                array(
+                    'tag'          => $tag,
+                    'oldParentTag' => $oldParentTag,
+                    'newParentTag' => $newParentTag,
+                    'move'         => $updatePathString
+                )
+            );
         }
 
         if ( $updatePathString )

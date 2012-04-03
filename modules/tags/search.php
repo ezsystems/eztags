@@ -10,13 +10,10 @@ $limit = (int) eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'Sea
 
 $viewParameters = array( 'offset' => $offset );
 
-$tagsSearchText = '';
-if ( $http->hasVariable( 'TagsSearchText' ) )
-    $tagsSearchText = trim( urldecode( $http->variable( 'TagsSearchText' ) ) );
+$tagsSearchText = trim( urldecode( $http->variable( 'TagsSearchText', '' ) ) );
 
-$tagsSearchSubTree = 0;
-if ( $http->hasVariable( 'TagsSearchSubTree' ) && (int) $http->variable( 'TagsSearchSubTree' ) > 0 )
-    $tagsSearchSubTree = (int) $http->variable( 'TagsSearchSubTree' );
+$tagsSearchSubTree = (int) $http->variable( 'TagsSearchSubTree', 0 );
+$tagsSearchSubTree = $tagsSearchSubTree > 0 ? $tagsSearchSubTree : 0;
 
 $tagsIncludeSynonyms = $http->hasVariable( 'TagsIncludeSynonyms' );
 

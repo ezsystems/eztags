@@ -1,5 +1,8 @@
 <?php
 
+/** @var eZModule $Module */
+/** @var array $Params */
+
 $http = eZHTTPTool::instance();
 
 $tagID = (int) $Params['TagID'];

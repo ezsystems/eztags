@@ -1,12 +1,15 @@
 <?php
 
+/** @var eZModule $Module */
+/** @var array $Params */
+
 $http = eZHTTPTool::instance();
 
 $mainTagID = (int) $Params['MainTagID'];
-$locale = (string) $Params['Locale'];
 
+$locale = (string) $Params['Locale'];
 if ( empty( $locale ) )
-    $locale = $http->hasPostVariable( 'Locale' ) ? $http->postVariable( 'Locale' ) : false;
+    $locale = $http->postVariable( 'Locale', false );
 
 $mainTag = eZTagsObject::fetchWithMainTranslation( $mainTagID );
 if ( !$mainTag instanceof eZTagsObject )
@@ -42,6 +45,7 @@ if ( $locale === false )
     return;
 }
 
+/** @var eZContentLanguage $language */
 $language = eZContentLanguage::fetchByLocale( $locale );
 if ( !$language instanceof eZContentLanguage )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -50,7 +54,7 @@ $error = '';
 
 if ( $http->hasPostVariable( 'SaveButton' ) )
 {
-    $newKeyword = $http->hasPostVariable( 'TagEditKeyword' ) ? trim( $http->postVariable( 'TagEditKeyword' ) ) : '';
+    $newKeyword = trim( $http->postVariable( 'TagEditKeyword', '' ) );
     if ( empty( $newKeyword ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
 

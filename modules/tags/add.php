@@ -1,18 +1,17 @@
 <?php
 
+/** @var eZModule $Module */
+/** @var array $Params */
+
 $http = eZHTTPTool::instance();
 
-$parentTagID = (int) $Params['ParentTagID'];
-$locale = (string) $Params['Locale'];
-
-if ( $http->hasPostVariable( 'TagEditParentID' ) )
-    $parentTagID = (int) $http->postVariable( 'TagEditParentID' );
-
-if ( empty( $locale ) )
-    $locale = $http->hasPostVariable( 'Locale' ) ? $http->postVariable( 'Locale' ) : false;
-
+$parentTagID = (int) $http->postVariable( 'TagEditParentID', $Params['ParentTagID'] );
 if ( $parentTagID < 0 )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+
+$locale = (string) $Params['Locale'];
+if ( empty( $locale ) )
+    $locale = $http->postVariable( 'Locale', false );
 
 $parentTag = false;
 if ( $parentTagID > 0 )
@@ -29,15 +28,17 @@ if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
     if ( $parentTag instanceof eZTagsObject )
         return $Module->redirectToView( 'id', array( $parentTag->attribute( 'id' ) ) );
-    else
-        return $Module->redirectToView( 'dashboard', array() );
+
+    return $Module->redirectToView( 'dashboard', array() );
 }
 
 $userLimitations = eZTagsTemplateFunctions::getSimplifiedUserAccess( 'tags', 'add' );
 $hasAccess = false;
 
 if ( !isset( $userLimitations['simplifiedLimitations']['Tag'] ) )
+{
     $hasAccess = true;
+}
 else
 {
     $parentTagPathString = $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/';
@@ -78,6 +79,7 @@ if ( $locale === false )
     return;
 }
 
+/** @var eZContentLanguage $language */
 $language = eZContentLanguage::fetchByLocale( $locale );
 if ( !$language instanceof eZContentLanguage )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -86,7 +88,7 @@ $error = '';
 
 if ( $http->hasPostVariable('SaveButton' ) )
 {
-    $newKeyword = $http->hasPostVariable( 'TagEditKeyword' ) ? trim( $http->postVariable( 'TagEditKeyword' ) ) : '';
+    $newKeyword = trim( $http->postVariable( 'TagEditKeyword', '' ) );
     if ( empty( $newKeyword ) )
         $error = ezpI18n::tr( 'extension/eztags/errors', 'Name cannot be empty.' );
 

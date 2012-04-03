@@ -1,5 +1,8 @@
 <?php
 
+/** @var eZModule $Module */
+/** @var array $Params */
+
 $http = eZHTTPTool::instance();
 $keywordArray = $Params['Parameters'];
 
@@ -10,10 +13,10 @@ $parentID = 0;
 for ( $i = 0; $i < count( $keywordArray ) - 1; $i++ )
 {
     $tags = eZTagsObject::fetchList( array( 'parent_id' => $parentID, 'main_tag_id' => 0, 'keyword' => urldecode( trim( $keywordArray[$i] ) ) ) );
-    if ( is_array( $tags ) && !empty( $tags ) )
-        $parentID = $tags[0]->attribute( 'id' );
-    else
+    if ( !is_array( $tags ) || empty( $tags ) )
         return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
+
+    $parentID = $tags[0]->attribute( 'id' );
 }
 
 $tags = eZTagsObject::fetchList( array( 'parent_id' => $parentID, 'keyword' => urldecode( trim( $keywordArray[count( $keywordArray ) - 1] ) ) ) );

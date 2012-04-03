@@ -1,5 +1,8 @@
 <?php
 
+/** @var eZModule $Module */
+/** @var array $Params */
+
 $http = eZHTTPTool::instance();
 
 $tagID = (int) $Params['TagID'];
@@ -41,8 +44,8 @@ if ( $http->hasPostVariable( 'YesButton' ) && $deleteAllowed )
 
     if ( $parentTag instanceof eZTagsObject )
         return $Module->redirectToView( 'id', array( $parentTag->attribute( 'id' ) ) );
-    else
-        return $Module->redirectToView( 'dashboard', array() );
+
+    return $Module->redirectToView( 'dashboard', array() );
 }
 
 $tpl = eZTemplate::factory();

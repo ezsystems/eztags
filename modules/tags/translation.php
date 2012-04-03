@@ -1,14 +1,14 @@
 <?php
 
+/** @var eZModule $Module */
+
 $http = eZHTTPTool::instance();
 
-$tagID = $http->hasPostVariable( 'TagID' ) ? (int) $http->postVariable( 'TagID' ) : 0;
+$tagID = (int) $http->postVariable( 'TagID', 0 );
 
 $tag = eZTagsObject::fetchWithMainTranslation( $tagID );
 if ( !$tag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-
-$db = eZDB::instance();
 
 if ( $http->hasPostVariable( 'RemoveTranslationButton' ) )
 {
@@ -16,7 +16,9 @@ if ( $http->hasPostVariable( 'RemoveTranslationButton' ) )
     {
         $mainTranslation = $tag->getMainTranslation();
 
+        $db = eZDB::instance();
         $db->begin();
+
         foreach ( $http->postVariable( 'Locale' ) as $locale )
         {
             $translation = $tag->translationByLocale( $locale );
@@ -25,7 +27,9 @@ if ( $http->hasPostVariable( 'RemoveTranslationButton' ) )
         }
 
         $tag->updateLanguageMask();
+        $tag->registerSearchObjects();
         $tag->updateModified();
+
         $db->commit();
     }
 }
@@ -33,17 +37,25 @@ else if ( $http->hasPostVariable( 'UpdateMainTranslationButton' ) )
 {
     if ( $http->hasPostVariable( 'MainLocale' ) )
     {
+        $db = eZDB::instance();
         $db->begin();
+
         $tag->updateMainTranslation( $http->postVariable( 'MainLocale' ) );
+        $tag->registerSearchObjects();
         $tag->updateModified();
+
         $db->commit();
     }
 }
 else if ( $http->hasPostVariable( 'UpdateAlwaysAvailableButton' ) )
 {
+    $db = eZDB::instance();
     $db->begin();
+
     $alwaysAvailable = $http->hasPostVariable( 'AlwaysAvailable' );
     $tag->setAlwaysAvailable( $alwaysAvailable );
+    $tag->registerSearchObjects();
+
     $db->commit();
 }
 

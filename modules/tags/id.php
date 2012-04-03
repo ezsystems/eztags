@@ -1,5 +1,8 @@
 <?php
 
+/** @var eZModule $Module */
+/** @var array $Params */
+
 $tagID = (int) $Params['TagID'];
 $locale = (string) $Params['Locale'];
 $locale = !empty( $locale ) ? $locale : false;
