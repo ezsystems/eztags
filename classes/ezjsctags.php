@@ -17,18 +17,22 @@ class ezjscTags extends ezjscServerFunctions
     static public function autocomplete( $args )
     {
         $http = eZHTTPTool::instance();
-        $returnArray = array( 'status' => 'success', 'message' => '', 'tags' => array() );
+        $returnArray = array(
+            'status' => 'success',
+            'message' => '',
+            'tags' => array()
+        );
 
-        $searchString = $http->hasPostVariable( 'search_string' ) ? trim( $http->postVariable( 'search_string' ) ) : '';
+        $searchString = trim( $http->postVariable( 'search_string' ), '' );
         if ( empty( $searchString ) )
             return $returnArray;
 
-        $locale = $http->hasPostVariable( 'locale' ) ? $http->postVariable( 'locale' ) : '';
+        $locale = $http->postVariable( 'locale', '' );
         if ( empty( $locale ) )
             return $returnArray;
 
-        $subTreeLimit = $http->hasPostVariable( 'subtree_limit' ) ? (int) $http->postVariable( 'subtree_limit' ) : 0;
-        $hideRootTag = $http->hasPostVariable( 'hide_root_tag' ) && $http->postVariable( 'hide_root_tag' ) == '1' ? true : false;
+        $subTreeLimit = (int) $http->postVariable( 'subtree_limit', 0 );
+        $hideRootTag = (bool) $http->postVariable( 'hide_root_tag', '0' );
 
         $params = array( 'keyword' => array( 'like', $searchString . '%' ) );
         if ( $subTreeLimit > 0 )
@@ -74,7 +78,11 @@ class ezjscTags extends ezjscServerFunctions
      */
     static public function suggest( $args )
     {
-        $returnArray = array( 'status' => 'success', 'message' => '', 'tags' => array() );
+        $returnArray = array(
+            'status' => 'success',
+            'message' => '',
+            'tags' => array()
+        );
 
         $searchEngine = eZINI::instance()->variable( 'SearchSettings', 'SearchEngine' );
         if ( !class_exists( 'eZSolr' ) || $searchEngine != 'ezsolr' )
@@ -82,27 +90,37 @@ class ezjscTags extends ezjscServerFunctions
 
         $http = eZHTTPTool::instance();
 
-        $tagIDs = $http->hasPostVariable( 'tag_ids' ) ? $http->postVariable( 'tag_ids' ) : '';
+        $tagIDs = $http->postVariable( 'tag_ids', '' );
         if ( empty( $tagIDs ) )
             return $returnArray;
 
-        $locale = $http->hasPostVariable( 'locale' ) ? $http->postVariable( 'locale' ) : '';
+        $locale = $http->postVariable( 'locale', '' );
         if ( empty( $locale ) )
             return $returnArray;
 
         $tagIDs = explode( '|#', $tagIDs );
         $tagIDs = array_values( array_unique( $tagIDs ) );
 
-        $subTreeLimit = $http->hasPostVariable( 'subtree_limit' ) ? (int) $http->postVariable( 'subtree_limit' ) : 0;
-        $hideRootTag = $http->hasPostVariable( 'hide_root_tag' ) && $http->postVariable( 'hide_root_tag' ) == '1' ? true : false;
+        $subTreeLimit = (int) $http->postVariable( 'subtree_limit', 0 );
+        $hideRootTag = (bool) $http->postVariable( 'hide_root_tag', '0' );
 
         $solrSearch = new eZSolr();
-        $params = array( 'SearchOffset'   => 0,
-                         'SearchLimit'    => 0,
-                         'Facet'          => array( array( 'field' => 'ezf_df_tag_ids', 'limit' => 5 + count( $tagIDs ), 'mincount' => 1 ) ),
-                         'Filter'         => array( 'ezf_df_tag_ids' => implode( ' OR ', $tagIDs ) ),
-                         'QueryHandler'   => 'ezpublish',
-                         'AsObjects'      => false );
+        $params = array(
+            'SearchOffset'   => 0,
+            'SearchLimit'    => 0,
+            'Facet'          => array(
+                array(
+                    'field' => 'ezf_df_tag_ids',
+                    'limit' => 5 + count( $tagIDs ),
+                    'mincount' => 1
+                )
+            ),
+            'Filter'         => array(
+                'ezf_df_tag_ids' => implode( ' OR ', $tagIDs )
+            ),
+            'QueryHandler'   => 'ezpublish',
+            'AsObjects'      => false
+        );
 
         $searchResult = $solrSearch->search( '', $params );
         if ( !isset( $searchResult['SearchExtras'] ) || !$searchResult['SearchExtras'] instanceof ezfSearchResultInfo )
@@ -112,8 +130,7 @@ class ezjscTags extends ezjscServerFunctions
         if ( !is_array( $facetResult ) || empty( $facetResult[0]['nameList'] ) )
             return $returnArray;
 
-        $facetResult = $facetResult[0]['nameList'];
-        $facetResult = array_values( $facetResult );
+        $facetResult = array_values( $facetResult[0]['nameList'] );
 
         $tagsToSuggest = array();
         foreach ( $facetResult as $result )
@@ -163,11 +180,15 @@ class ezjscTags extends ezjscServerFunctions
      */
     static public function tagtranslations( $args )
     {
-        $returnArray = array( 'status' => 'success', 'message' => '', 'translations' => false );
+        $returnArray = array(
+            'status' => 'success',
+            'message' => '',
+            'translations' => false
+        );
 
         $http = eZHTTPTool::instance();
 
-        $tagID = $http->hasPostVariable( 'tag_id' ) ? (int) $http->postVariable( 'tag_id' ) : 0;
+        $tagID = (int) $http->postVariable( 'tag_id', 0 );
         $tag = eZTagsObject::fetchWithMainTranslation( $tagID );
         if ( !$tag instanceof eZTagsObject )
             return $returnArray;
@@ -181,7 +202,8 @@ class ezjscTags extends ezjscServerFunctions
         {
             $returnArray['translations'][] = array(
                 'locale'      => $translation->attribute( 'locale' ),
-                'translation' => $translation->attribute( 'keyword' ) );
+                'translation' => $translation->attribute( 'keyword' )
+            );
         }
 
         return $returnArray;
