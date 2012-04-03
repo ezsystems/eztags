@@ -111,7 +111,7 @@ else
 
 $moduleINI = eZINI::instance( 'module.ini' );
 $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
-array_push( $globalModuleRepositories, 'extension/eztags/modules' );
+$globalModuleRepositories[] = 'extension/eztags/modules';
 eZModule::setGlobalPathList( $globalModuleRepositories );
 
 $module = eZModule::exists( 'tags' );
