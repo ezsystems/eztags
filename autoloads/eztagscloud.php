@@ -359,6 +359,12 @@ class eZTagsCloud
         return $tagSortArray;
     }
 
+    /**
+     * Normalizes the count of tags to be able to be displayed properly on the page
+     *
+     * @param array $tagsArray
+     * @param array $tagCounts
+     */
     private function normalizeTagCounts( &$tagsArray, $tagCounts )
     {
         $maxFontSize = 200;
