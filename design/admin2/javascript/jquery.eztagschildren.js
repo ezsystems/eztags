@@ -101,10 +101,40 @@
             totalRecords: 'count',
             recordOffset: 'offset'
         }
-
+/*
         var dataTablePaginator = new YAHOO.widget.Paginator({
             rowsPerPage: settings.rowsPerPage,
             containers: $(document).find( '#eztags-tag-children-paging' )[0]
+        });
+*/
+        var dataTablePaginator = new YAHOO.widget.Paginator({
+            rowsPerPage: settings.rowsPerPage,
+            containers: [ 'bpg' ],
+            firstPageLinkLabel: settings.i18n.first_page,
+            lastPageLinkLabel: settings.i18n.last_page,
+            previousPageLinkLabel: settings.i18n.previous_page,
+            nextPageLinkLabel: settings.i18n.next_page,
+            template: '<div class="yui-pg-backward"> {FirstPageLink} {PreviousPageLink} </div>' +
+            '{PageLinks}' +
+            '<div class="yui-pg-forward"> {NextPageLink} {LastPageLink} </div>'
+        });
+
+        dataTablePaginator.subscribe( 'render', function () {
+            var prevPageLink, prevPageLink, prevPageLinkNode, nextPageLinkNode, tpg;
+
+            tpg = YAHOO.util.Dom.get( 'tpg' );
+
+            // Instantiate the UI Component
+            prevPageLink = new YAHOO.widget.Paginator.ui.PreviousPageLink( this );
+            nextPageLink = new YAHOO.widget.Paginator.ui.NextPageLink( this );
+
+            // render the UI Component
+            prevPageLinkNode = prevPageLink.render( tpg );
+            nextPageLinkNode = nextPageLink.render( tpg );
+
+            // Append the generated node into the container
+            tpg.appendChild( prevPageLinkNode );
+            tpg.appendChild( nextPageLinkNode );
         });
 
         var sortedBy = {

@@ -19,8 +19,11 @@
     <div class="box-content">
         {def $locales = fetch( 'content', 'translation_list' )}
 
+        <div id="action-controls-container">
+            <div id="tpg"></div>
+        </div>
         <div id="eztags-tag-children-table"></div>
-        <div id="eztags-tag-children-paging"></div>
+        <div id="bpg"></div>
 
         {def $yui2_base_path = ezini( 'eZJSCore', 'LocalScriptBasePath', 'ezjscore.ini' )}
         {set $yui2_base_path = concat( '/extension/ezjscore/design/standard/', $yui2_base_path['yui2'] )}
@@ -41,10 +44,14 @@
             *}{rdelim};
 
             var i18n = {ldelim}{*
-                *}'id': '{"ID"|i18n( "extension/eztags/tags/view" )}',{*
-                *}'tag_name': '{"Tag name"|i18n( "extension/eztags/tags/view" )}',{*
-                *}'translations': '{"Tag translations"|i18n( "extension/eztags/tags/view" )}',{*
-                *}'modified': '{"Modified"|i18n( "extension/eztags/tags/view" )}'{*
+                *}'id': '{"ID"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'tag_name': '{"Tag name"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'translations': '{"Tag translations"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'modified': '{"Modified"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'first_page': '&laquo;&nbsp;{"first"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'last_page': '{"last"|i18n( "extension/eztags/tags/view" )|wash(javascript)}&nbsp;&raquo;',{*
+                *}'previous_page': '&lsaquo;&nbsp;{"prev"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'next_page': '{"next"|i18n( "extension/eztags/tags/view" )|wash(javascript)}&nbsp;&rsaquo;'{*
             *}{rdelim};
 
             jQuery(document).ready(function($) {ldelim}

@@ -32,6 +32,14 @@
         <translation>Dodaj kao novu</translation>
     </message>
     <message>
+        <source>Click to add this tag</source>
+        <translation>Kliknite za dodavanje ove oznake</translation>
+    </message>
+    <message>
+        <source>Remove tag</source>
+        <translation>Ukloni oznaku</translation>
+    </message>
+    <message>
         <source>At least one tag is required to be added.</source>
         <translation>Potrebno je dodati barem jednu oznaku.</translation>
     </message>
@@ -584,6 +592,22 @@
     <message>
         <source>Tag ID</source>
         <translation>ID oznake</translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation>prva</translation>
+    </message>
+    <message>
+        <source>last</source>
+        <translation>zadnja</translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation>sljedeća</translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation>prethodna</translation>
     </message>
 </context>
 <context>

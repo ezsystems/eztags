@@ -32,6 +32,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Click to add this tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>At least one tag is required to be added.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -583,6 +591,22 @@
     </message>
     <message>
         <source>Tag ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>last</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>prev</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
