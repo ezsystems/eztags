@@ -112,11 +112,11 @@ class eZTagsCloud
                 {
                     case 'keyword':
                     {
-                        $orderBySql .= 'eztags.keyword ' . ( $direction ? 'ASC' : 'DESC');
+                        $orderBySql .= 'eztags.keyword ' . ( $direction ? 'ASC' : 'DESC' );
                     }break;
                     case 'count':
                     {
-                        $orderBySql .= 'keyword_count ' . ( $direction ? 'ASC' : 'DESC');
+                        $orderBySql .= 'keyword_count ' . ( $direction ? 'ASC' : 'DESC' );
                     }break;
                 }
             }
