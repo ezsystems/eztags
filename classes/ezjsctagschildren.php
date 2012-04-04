@@ -1,9 +1,9 @@
 <?php
 
 /**
- * ezjscoreTagsChildren class implements eZ JS Core server functions for eztags children list
+ * ezjscTagsChildren class implements eZ JS Core server functions for eztags children list
  */
-class ezjscoreTagsChildren extends ezjscServerFunctions
+class ezjscTagsChildren extends ezjscServerFunctions
 {
     /**
      * Returns the JSON encoded string of children tags for supplied GET params

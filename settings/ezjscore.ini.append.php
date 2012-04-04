@@ -1,14 +1,12 @@
 <?php /* #?ini charset="utf-8"?
 
 [ezjscServer]
-FunctionList[]=ezjsctagssuggest
+FunctionList[]=ezjsctags
 FunctionList[]=ezjsctagschildren
 
-[ezjscServer_ezjsctagssuggest]
-Class=ezjscoreTagsSuggest
-TemplateFunction=false
+[ezjscServer_ezjsctags]
+Class=ezjscTags
 
 [ezjscServer_ezjsctagschildren]
-Class=ezjscoreTagsChildren
-TemplateFunction=false
+Class=ezjscTagsChildren
 */ ?>
