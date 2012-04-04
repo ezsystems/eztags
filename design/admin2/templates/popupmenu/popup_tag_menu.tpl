@@ -27,7 +27,7 @@ menuArray['TagMenu']['elements'] = {ldelim}{rdelim};
 {if $tags_make_synonym_access}
     menuArray['TagMenu']['elements']['make-synonym-tag'] = {ldelim} 'url': {"/tags/makesynonym/%tagID%"|ezurl} {rdelim};
 {/if}
-{if $tags_make_synonym_access}
+{if $tags_hide_access}
     menuArray['TagMenu']['elements']['hide-tag'] = {ldelim} 'url': {"/tags/hide/%tagID%"|ezurl} {rdelim};
 {/if}
 
