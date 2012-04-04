@@ -7,10 +7,12 @@ CREATE TABLE `eztags` (
   `path_string` varchar(255) NOT NULL default '',
   `modified` int(11) NOT NULL default '0',
   `remote_id` varchar(100) NOT NULL default '',
+  `hidden` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY ( `id` ),
   UNIQUE KEY `eztags_remote_id` (`remote_id`),
   KEY `eztags_keyword` ( `keyword` ),
-  KEY `eztags_keyword_id` ( `keyword`, `id` )
+  KEY `eztags_keyword_id` ( `keyword`, `id` ),
+  KEY `eztags_hidden` (`hidden`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `eztags_attribute_link` (
