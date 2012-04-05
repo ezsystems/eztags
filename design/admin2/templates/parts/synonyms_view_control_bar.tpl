@@ -3,7 +3,7 @@
         <div class="block">
             {if fetch( user, has_access_to, hash( module, tags, function, editsynonym ) )}
                 <form name="editsynonym" id="editsynonym" style="float:left; margin-right:10px;" enctype="multipart/form-data" method="post" action={concat( 'tags/editsynonym/', $tag.id )|ezurl}>
-                    <input class="button" type="submit" name="SubmitButton" value="{"Edit synonym"|i18n( "extension/eztags/tags/view" )}" />
+                    <input class="defaultbutton" type="submit" name="SubmitButton" value="{"Edit synonym"|i18n( "extension/eztags/tags/view" )}" />
                 </form>
             {/if}
             {if fetch( user, has_access_to, hash( module, tags, function, deletesynonym ) )}
