@@ -34,7 +34,10 @@
     };
 
     var initDataTable = function( base, settings, dataTable, dataSource ) {
-        var customMenu = function( cell, record, column, data ) {
+
+        /* Custom display formatters definition */
+
+        var tagMenu = function( cell, record, column, data ) {
             var translationArray = [];
 
             $(record.getData('translations')).each(function(i, e) {
@@ -57,11 +60,11 @@
             a.appendTo( cell );
         }
 
-        var customCheckbox = function(cell, record, column, data) {
+        var tagCheckbox = function(cell, record, column, data) {
             cell.innerHTML = '<input type="checkbox" name="SelectedIDArray[]" value="' + record.getData( 'id' ) + '" />';
         }
 
-        var translationView = function(cell, record, column, data) {
+        var tagTranslations = function(cell, record, column, data) {
             var html = '';
 
             $(data).each(function(i, e) {
@@ -79,33 +82,7 @@
             cell.innerHTML = html;
         }
 
-        var timeStampYuiParser = function ( oData ) {
-            if ( oData != null )
-                return new Date( oData * 1000 );
-            else
-                return null;
-        };
-
-        var dataTableColumns = [
-            { key: 'checkbox', label:'', sortable: false, resizeable: false, formatter: customCheckbox },
-            { key: 'crank', label:'', sortable: false, resizeable: false, formatter: customMenu },
-            { key: 'id', label: settings.i18n.id, sortable: true, resizeable: true, formatter: 'text' },
-            { key: 'keyword', label: settings.i18n.tag_name, sortable: true, resizeable: true, formatter: tagName },
-            { key: 'translations', label: settings.i18n.translations, sortable: false, resizeable: true, formatter: translationView },
-            { key: 'modified', label: settings.i18n.modified, sortable: true, resizeable: true, formatter: 'date' }
-        ];
-
-        var dataSourceFields = [
-            { key: 'id', parser: 'number' },
-            { key: 'keyword', parser: 'string' },
-            { key: 'modified', parser: timeStampYuiParser },
-            { key: 'translations' }
-        ];
-
-        var dataSourceMetaFields = {
-            totalRecords: 'count',
-            recordOffset: 'offset'
-        }
+        /* Paginator definition */
 
         var dataTablePaginator = new YAHOO.widget.Paginator({
             rowsPerPage: settings.rowsPerPage,
@@ -137,6 +114,8 @@
             tpg.appendChild( nextPageLinkNode );
         });
 
+        /* Selection button */
+
         var selectItemsButtonAction = function( type, args, item ) {
             $( '#eztags-tag-children-table' ).find( ':checkbox' ).prop( 'checked', item.value );
         }
@@ -161,6 +140,8 @@
             menu: selectItemsButtonActions,
             container: 'action-controls'
         });
+
+        /* Create new tag button */
 
         var createNewButtonAction = function( type, args ) {
             var item = args[1];
@@ -192,26 +173,54 @@
             createNewButtonMenu.setItemGroupTitle( groupName, i );
         }
 
-        var sortedBy = {
-            key: 'keyword',
-            dir: YAHOO.widget.DataTable.CLASS_ASC
-        }
+        /* Data source definition */
+
+        var timeStampYuiParser = function ( oData ) {
+            if ( oData != null )
+                return new Date( oData * 1000 );
+            else
+                return null;
+        };
+
+        var dataSourceFields = [
+            { key: 'id', parser: 'number' },
+            { key: 'keyword', parser: 'string' },
+            { key: 'modified', parser: timeStampYuiParser },
+            { key: 'translations' }
+        ];
 
         var dataSource = new YAHOO.util.XHRDataSource( settings.dataSourceURI, {
             responseType: YAHOO.util.DataSource.TYPE_JSON,
             responseSchema: {
                 resultsList: 'data',
                 fields: dataSourceFields,
-                metaFields: dataSourceMetaFields
+                metaFields: {
+                    totalRecords: 'count',
+                    recordOffset: 'offset'
+                }
             }
         });
+
+        /* Data table definition */
+
+        var dataTableColumns = [
+            { key: 'checkbox', label:'', sortable: false, resizeable: false, formatter: tagCheckbox },
+            { key: 'crank', label:'', sortable: false, resizeable: false, formatter: tagMenu },
+            { key: 'id', label: settings.i18n.id, sortable: true, resizeable: true, formatter: 'text' },
+            { key: 'keyword', label: settings.i18n.tag_name, sortable: true, resizeable: true, formatter: tagName },
+            { key: 'translations', label: settings.i18n.translations, sortable: false, resizeable: true, formatter: tagTranslations },
+            { key: 'modified', label: settings.i18n.modified, sortable: true, resizeable: true, formatter: 'date' }
+        ];
 
         var dataTable = new YAHOO.widget.DataTable( base, dataTableColumns, dataSource, {
             dateOptions: { format: '%d.%m.%Y %H:%M' },
             generateRequest: buildRequest,
             dynamicData: true,
             initialLoad: false,
-            sortedBy: sortedBy,
+            sortedBy: {
+                key: 'keyword',
+                dir: YAHOO.widget.DataTable.CLASS_ASC
+            },
             paginator: dataTablePaginator,
         });
 
