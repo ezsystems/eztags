@@ -68,9 +68,15 @@
             var html = '';
 
             $(data).each(function(i, e) {
-                html += '<a href="' + settings.editUrl + '/' + record.getData('id') + '/' + e + '">';
+                console.log(i);
+                console.log(e);
+                if( settings.permissions.edit )
+                    html += '<a href="' + settings.editUrl + '/' + record.getData('id') + '/' + e + '">';
+
                 html += '<img src="' + settings.icons[e] + '" width="18" height="12" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
-                html += '</a>'
+
+                if( settings.permissions.edit )
+                    html += '</a>'
             });
 
             cell.innerHTML = html;
@@ -159,7 +165,7 @@
             container: 'action-controls'
         });
 
-        if ( !settings.hasAddAccess ) {
+        if ( !settings.permissions.add ) {
             createNewButton.set( 'disabled', true );
         }
 

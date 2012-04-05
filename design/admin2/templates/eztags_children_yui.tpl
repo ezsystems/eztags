@@ -28,7 +28,6 @@
 
         {def $yui2_base_path = ezini( 'eZJSCore', 'LocalScriptBasePath', 'ezjscore.ini' )}
         {set $yui2_base_path = concat( '/extension/ezjscore/design/standard/', $yui2_base_path['yui2'] )}
-        {def $has_add_access = fetch( user, has_access_to, hash( module, tags, function, add ) )}
 
         <script type="text/javascript">
             var languages = {ldelim}{*
@@ -73,7 +72,12 @@
                 *}'more_actions': '{"More actions"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
                 *}'remove_selected': '{"Remove selected tags"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
                 *}'move_selected': '{"Move selected tags"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
-                *}'no_actions': '{"Use the checkboxes to select one or more tags."|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'no_actions': '{"Use the checkboxes to select one or more tags."|i18n( "extension/eztags/tags/view" )|wash(javascript)}'{*
+            *}{rdelim};
+
+            var permissions = {ldelim}{*
+                *}'add': {if fetch( user, has_access_to, hash( module, tags, function, add ) )}true{else}false{/if},{*
+                *}'edit': {if fetch( user, has_access_to, hash( module, tags, function, edit ) )}true{else}false{/if}{*
             *}{rdelim};
 
             jQuery(document).ready(function($) {ldelim}
@@ -85,7 +89,7 @@
                     viewUrl: {'/tags/id/'|ezurl},
                     addUrl: {concat( '/tags/add/', $parent_tag_id )|ezurl},
                     editUrl: {'/tags/edit/'|ezurl},
-                    hasAddAccess: {if $has_add_access}true{else}false{/if},
+                    permissions: permissions,
                     icons: icons,
                     i18n: i18n,
                     createOptions: createOptions
