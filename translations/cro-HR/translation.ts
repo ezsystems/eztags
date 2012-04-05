@@ -625,6 +625,22 @@
         <source>Select</source>
         <translation>Odabir</translation>
     </message>
+    <message>
+        <source>Remove selected tags</source>
+        <translation>Ukloni odabrane oznake</translation>
+    </message>
+    <message>
+        <source>Move selected tags</source>
+        <translation>Premjesti odabrane oznake</translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation>Više akcija</translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more tags.</source>
+        <translation>Koristite kućice za označavanje za odabir jedne ili više oznaka.</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/warnings</name>

@@ -69,7 +69,11 @@
                 *}'select_none': '{"Select none"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
                 *}'select_toggle': '{"Invert selection"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
                 *}'select': '{"Select"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
-                *}'add_child': '{"Add tag"|i18n( "extension/eztags/tags/view" )|wash(javascript)}'{*
+                *}'add_child': '{"Add tag"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'more_actions': '{"More actions"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'remove_selected': '{"Remove selected tags"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'move_selected': '{"Move selected tags"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'no_actions': '{"Use the checkboxes to select one or more tags."|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
             *}{rdelim};
 
             jQuery(document).ready(function($) {ldelim}

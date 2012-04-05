@@ -173,6 +173,51 @@
             createNewButtonMenu.setItemGroupTitle( groupName, i );
         }
 
+        /* More actions button */
+
+        var moreActionsButtonAction = function( type, args, item ) {
+            if ( $( '#eztags-tag-children-table  input[name=SelectedIDArray[]]:checked' ).length == 0 )
+                return;
+/*
+            if (item.value == 0) {
+                $('form[name=children]').append($('<input type="hidden" name="RemoveButton" />')).submit();
+            } else {
+                $('form[name=children]').append($('<input type="hidden" name="MoveButton" />')).submit();
+            }
+*/
+        }
+
+        var moreActionsButtonActions = [
+            { text: settings.i18n.remove_selected, id: "ezopt-menu-remove", value: 0, onclick: { fn: moreActionsButtonAction }, disabled: false },
+            { text: settings.i18n.move_selected, id: "ezopt-menu-move", value: 1, onclick: { fn: moreActionsButtonAction }, disabled: false }
+        ];
+
+        var noMoreActionsButtonActions = [
+            { text: settings.i18n.no_actions, disabled: true }
+        ];
+
+        var moreActionsButton = new YAHOO.widget.Button({
+            type: 'menu',
+            id: 'ezbtn-more',
+            label: settings.i18n.more_actions,
+            name: 'more-actions-button',
+            menu: noMoreActionsButtonActions,
+            container: 'action-controls'
+        });
+
+        //  enable 'more actions' when rows are checked
+        moreActionsButton.getMenu().subscribe( 'beforeShow', function () {
+            if ( $( '#eztags-tag-children-table  input[name=SelectedIDArray[]]:checked' ).length == 0 ) {
+                this.clearContent();
+                this.addItems( noMoreActionsButtonActions );
+                this.render();
+            } else {
+                this.clearContent();
+                this.addItems( moreActionsButtonActions );
+                this.render();
+            }
+        });
+
         /* Data source definition */
 
         var timeStampYuiParser = function ( oData ) {

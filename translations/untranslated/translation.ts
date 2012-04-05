@@ -625,6 +625,22 @@
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Remove selected tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move selected tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more tags.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/warnings</name>
