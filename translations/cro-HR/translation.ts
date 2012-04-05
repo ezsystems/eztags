@@ -554,8 +554,8 @@
         <translation>Izbriši sinonim</translation>
     </message>
     <message>
-        <source>Add child tag</source>
-        <translation>Dodaj podređenu oznaku</translation>
+        <source>Add tag</source>
+        <translation>Dodaj oznaku</translation>
     </message>
     <message>
         <source>Edit tag</source>
@@ -608,6 +608,22 @@
     <message>
         <source>prev</source>
         <translation>prethodna</translation>
+    </message>
+    <message>
+        <source>Select all visible</source>
+        <translation>Odaberi sve vidljive</translation>
+    </message>
+    <message>
+        <source>Select none</source>
+        <translation>Počisti odabir</translation>
+    </message>
+    <message>
+        <source>Invert selection</source>
+        <translation>Obrni odabir</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation>Odabir</translation>
     </message>
 </context>
 <context>

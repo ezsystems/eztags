@@ -546,7 +546,7 @@
         <translation>Borrar sinónimo</translation>
     </message>
     <message>
-        <source>Add child tag</source>
+        <source>Add tag</source>
         <translation>Anadir tag hijo</translation>
     </message>
     <message>

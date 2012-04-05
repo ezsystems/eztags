@@ -1,14 +1,9 @@
 <div class="controlbar">
     <div class="button-left">
         <div class="block">
-            {if fetch( user, has_access_to, hash( module, tags, function, add ) )}
-                <form name="tagadd" id="tagadd" style="float:left; margin-right:10px;" enctype="multipart/form-data" method="post" action={concat( 'tags/add/', $tag.id )|ezurl}>
-                    <input class="defaultbutton" type="submit" name="SubmitButton" value="{"Add child tag"|i18n( "extension/eztags/tags/view" )}" />
-                </form>
-            {/if}
             {if fetch( user, has_access_to, hash( module, tags, function, edit ) )}
                 <form name="tagedit" id="tagedit" style="float:left; margin-right:10px;" enctype="multipart/form-data" method="post" action={concat( 'tags/edit/', $tag.id )|ezurl}>
-                    <input class="button" type="submit" name="SubmitButton" value="{"Edit tag"|i18n( "extension/eztags/tags/view" )}" />
+                    <input class="defaultbutton" type="submit" name="SubmitButton" value="{"Edit tag"|i18n( "extension/eztags/tags/view" )}" />
                 </form>
             {/if}
             {if fetch( user, has_access_to, hash( module, tags, function, delete ) )}

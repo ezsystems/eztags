@@ -546,7 +546,7 @@
         <translation>Supprimer le synonyme</translation>
     </message>
     <message>
-        <source>Add child tag</source>
+        <source>Add tag</source>
         <translation>Créer un mot clé enfant</translation>
     </message>
     <message>

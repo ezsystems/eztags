@@ -546,7 +546,7 @@
         <translation>Elimina sinonimo</translation>
     </message>
     <message>
-        <source>Add child tag</source>
+        <source>Add tag</source>
         <translation>Aggiungi tag figlio</translation>
     </message>
     <message>

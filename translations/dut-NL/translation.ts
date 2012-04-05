@@ -546,7 +546,7 @@
         <translation>Synoniem verwijderen</translation>
     </message>
     <message>
-        <source>Add child tag</source>
+        <source>Add tag</source>
         <translation>Onderliggend label toevoegen</translation>
     </message>
     <message>
