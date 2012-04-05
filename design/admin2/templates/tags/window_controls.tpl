@@ -47,9 +47,11 @@
         </li>
     {/if}
 
-    <li id="node-tab-tags-search" class="last{if $tab_index|eq('search')} selected{/if}">
-        <a href={concat( $tag_url, '/(tab)/search' )|ezurl}>{'Tags search'|i18n( 'extension/eztags/tags/search' )}</a>
-    </li>
+    {if fetch( user, has_access_to, hash( module, tags, function, search ) )}
+        <li id="node-tab-tags-search" class="last{if $tab_index|eq('search')} selected{/if}">
+            <a href={concat( $tag_url, '/(tab)/search' )|ezurl}>{'Tags search'|i18n( 'extension/eztags/tags/search' )}</a>
+        </li>
+    {/if}
 </ul>
 <div class="float-break"></div>
 
