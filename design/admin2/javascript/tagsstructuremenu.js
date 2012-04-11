@@ -69,7 +69,7 @@ function TagsStructureMenu( params, attribute_id )
 
     this.generateEntry = function( item, lastli, isRootTag )
     {
-        item.keyword = String(item.keyword).replace(/&/g,'&amp;').replace(/'/g,"\\'").replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        item.keyword = String(item.keyword).replace(/&/g,'&amp;').replace(/'/g,"&#39;").replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
         var liclass = '';
         if ( lastli )
