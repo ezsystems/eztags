@@ -658,6 +658,10 @@
         <translation>Više akcija</translation>
     </message>
     <message>
+        <source>You do not have permissions for any of available actions</source>
+        <translation>Nemate dozvole za nijednu dostupnu akciju</translation>
+    </message>
+    <message>
         <source>Use the checkboxes to select one or more tags.</source>
         <translation>Koristite kućice za označavanje za odabir jedne ili više oznaka.</translation>
     </message>

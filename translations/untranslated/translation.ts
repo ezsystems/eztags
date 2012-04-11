@@ -658,6 +658,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>You do not have permissions for any of available actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Use the checkboxes to select one or more tags.</source>
         <translation type="unfinished"></translation>
     </message>
