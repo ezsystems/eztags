@@ -181,6 +181,10 @@
         <translation>Edytuj tag</translation>
     </message>
     <message>
+        <source>Move tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Edit synonym</source>
         <translation>Edytuj synonim</translation>
     </message>

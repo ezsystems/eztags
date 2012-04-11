@@ -7,7 +7,7 @@
     <div class="box-content">
         <form name="tagdeleteform" id="tagdeleteform" enctype="multipart/form-data" method="post" action={'/tags/deletetags'|ezurl}>
             <div class="block">
-                <p>{'Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.'|i18n( 'extension/eztags/tags/edit', , hash( '%keyword', $tag.keyword|wash ) )}</p>
+                <p>{'Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.'|i18n( 'extension/eztags/tags/edit' )}</p>
             </div>
 
             <table class="list" cellspacing="0">

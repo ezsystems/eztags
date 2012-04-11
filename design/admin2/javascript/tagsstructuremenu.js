@@ -10,7 +10,8 @@ function TagsStructureMenu( params, attribute_id )
     this.perm           = params.perm;
     this.expiry         = params.expiry;
     this.modal          = params.modal;
-    this.hideTagID      = jQuery( '#hide_tag_id_' + this.attribute_id ).val();
+    this.hideTagIDVal   = jQuery( '#hide_tag_id_' + this.attribute_id ).val();
+    this.hideTagID      = typeof this.hideTagIDVal == 'string' ? this.hideTagIDVal.split(';') : [];
     this.context        = params.context;
     this.showTips       = params.showTips;
     this.autoOpen       = params.autoOpen;
@@ -77,7 +78,7 @@ function TagsStructureMenu( params, attribute_id )
         {
             liclass += ' currentnode';
         }
-        if ( item.id == this.hideTagID )
+        if ( jQuery.inArray( item.id.toString(), this.hideTagID ) >= 0 )
         {
             liclass += ' disabled';
         }

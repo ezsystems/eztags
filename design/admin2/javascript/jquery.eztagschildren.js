@@ -68,8 +68,6 @@
             var html = '';
 
             $(data).each(function(i, e) {
-                console.log(i);
-                console.log(e);
                 if( settings.permissions.edit )
                     html += '<a href="' + settings.urls.edit + '/' + record.getData('id') + '/' + e + '">';
 
@@ -187,6 +185,9 @@
 
             if ( item.value == 0 && settings.permissions.delete ) {
                 $('form[id="eztags-children-actions"]').prop( 'action', settings.urls.deletetags ).submit();
+            }
+            else if ( item.value == 1 && settings.permissions.edit ) {
+                $('form[id="eztags-children-actions"]').prop( 'action', settings.urls.movetags ).submit();
             }
         }
 

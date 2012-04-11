@@ -181,6 +181,10 @@
         <translation>Uredi oznaku</translation>
     </message>
     <message>
+        <source>Move tags</source>
+        <translation>Premjesti oznake</translation>
+    </message>
+    <message>
         <source>Edit synonym</source>
         <translation>Uredi sinonim</translation>
     </message>

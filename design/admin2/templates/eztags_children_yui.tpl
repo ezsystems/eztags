@@ -89,7 +89,8 @@
                 *}'view': "{'/tags/id/'|ezurl(no)}",{*
                 *}'add': "{concat( '/tags/add/', $parent_tag_id )|ezurl(no)}",{*
                 *}'edit': "{'/tags/edit/'|ezurl(no)}",{*
-                *}'deletetags': "{'/tags/deletetags'|ezurl(no)}"{*
+                *}'deletetags': "{'/tags/deletetags'|ezurl(no)}",{*
+                *}'movetags': "{'/tags/movetags'|ezurl(no)}"{*
             *}{rdelim};
 
             jQuery(document).ready(function($) {ldelim}

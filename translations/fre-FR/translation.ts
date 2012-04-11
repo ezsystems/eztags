@@ -181,6 +181,10 @@
         <translation>Modifier le mot clé</translation>
     </message>
     <message>
+        <source>Move tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Edit synonym</source>
         <translation>Modifier le synonyme</translation>
     </message>

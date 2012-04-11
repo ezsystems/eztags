@@ -49,6 +49,12 @@ $ViewList['edit'] = array(
     'default_navigation_part' => 'eztagsnavigationpart',
     'params'                  => array( 'TagID', 'Locale' ) );
 
+$ViewList['movetags'] = array(
+    'functions'               => array( 'edit' ),
+    'script'                  => 'movetags.php',
+    'default_navigation_part' => 'eztagsnavigationpart',
+    'params'                  => array() );
+
 $ViewList['translation'] = array(
     'functions'               => array( 'edit' ),
     'script'                  => 'translation.php',
