@@ -57,7 +57,7 @@ if ( !$hasAccess )
 
 if ( $locale === false )
 {
-    $languages = eZContentLanguage::fetchList();
+    $languages = eZContentLanguage::prioritizedLanguages();
     if ( !is_array( $languages ) || empty( $languages ) )
         return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 

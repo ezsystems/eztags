@@ -17,8 +17,8 @@
                     <legend>{'Add translation'|i18n('extension/eztags/tags/edit')}</legend>
                     <p>{'Select the translation you want to add'|i18n('extension/eztags/tags/edit')}:</p>
                     <div class="indent">
-                        {foreach $languages as $language}
-                            <label><input name="Locale" type="radio" value="{$language.locale|wash}"> {$language.name|wash}</label>
+                        {foreach $languages as $index => $language}
+                            <label><input name="Locale" type="radio" value="{$language.locale|wash}" {if $index|eq(0)}checked="checked"{/if} > {$language.name|wash}</label>
                         {/foreach}
                    </div>
                 </fieldset>
