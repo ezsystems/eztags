@@ -23,7 +23,9 @@
             <div id="action-controls"></div>
             <div id="tpg"></div>
         </div>
-        <div id="eztags-tag-children-table"></div>
+        <form id="eztags-children-actions" method="post" enctype="multipart/form-data">
+            <div id="eztags-tag-children-table"></div>
+        </form>
         <div id="bpg"></div>
 
         {def $yui2_base_path = ezini( 'eZJSCore', 'LocalScriptBasePath', 'ezjscore.ini' )}
@@ -77,19 +79,25 @@
 
             var permissions = {ldelim}{*
                 *}'add': {if fetch( user, has_access_to, hash( module, tags, function, add ) )}true{else}false{/if},{*
-                *}'edit': {if fetch( user, has_access_to, hash( module, tags, function, edit ) )}true{else}false{/if}{*
+                *}'edit': {if fetch( user, has_access_to, hash( module, tags, function, edit ) )}true{else}false{/if},{*
+                *}'delete': {if fetch( user, has_access_to, hash( module, tags, function, delete ) )}true{else}false{/if}{*
+            *}{rdelim};
+
+            var urls = {ldelim}{*
+                *}'data': "{concat( '/ezjscore/call/ezjsctagschildren::tagsChildren::', $parent_tag_id, '?' )|ezurl(no)}",{*
+                *}'view': "{'/tags/id/'|ezurl(no)}",{*
+                *}'add': "{concat( '/tags/add/', $parent_tag_id )|ezurl(no)}",{*
+                *}'edit': "{'/tags/edit/'|ezurl(no)}",{*
+                *}'deletetags': "{'/tags/deletetags'|ezurl(no)}"{*
             *}{rdelim};
 
             jQuery(document).ready(function($) {ldelim}
                 $('#eztags-tag-children-table').eZTagsChildren({ldelim}
                     YUI2BasePath: "{$yui2_base_path}",
-                    dataSourceURI: "{concat( '/ezjscore/call/ezjsctagschildren::tagsChildren::', $parent_tag_id, '?' )|ezurl(no)}",
                     rowsPerPage: 10,
                     languages: languages,
-                    viewUrl: {'/tags/id/'|ezurl},
-                    addUrl: {concat( '/tags/add/', $parent_tag_id )|ezurl},
-                    editUrl: {'/tags/edit/'|ezurl},
                     permissions: permissions,
+                    urls: urls,
                     icons: icons,
                     i18n: i18n,
                     createOptions: createOptions

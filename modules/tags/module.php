@@ -67,6 +67,12 @@ $ViewList['delete'] = array(
     'default_navigation_part' => 'eztagsnavigationpart',
     'params'                  => array( 'TagID' ) );
 
+$ViewList['deletetags'] = array(
+    'functions'               => array( 'delete' ),
+    'script'                  => 'deletetags.php',
+    'default_navigation_part' => 'eztagsnavigationpart',
+    'params'                  => array() );
+
 $ViewList['deletesynonym'] = array(
     'functions'               => array( 'deletesynonym' ),
     'script'                  => 'deletesynonym.php',

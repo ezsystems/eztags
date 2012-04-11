@@ -189,6 +189,10 @@
         <translation>Izbriši oznaku</translation>
     </message>
     <message>
+        <source>Delete tags</source>
+        <translation>Izbriši oznake</translation>
+    </message>
+    <message>
         <source>Merge tag</source>
         <translation>Spoji oznaku</translation>
     </message>
@@ -219,6 +223,22 @@
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
         <translation>Jeste li sigurni da želite izbrisati oznaku &quot;%keyword&quot;? Sve podređene oznake i sinonimi će također biti izbrisani i uklonjeni iz postojećih objekata.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation>Jeste li sigurni da želite izbrisati odabrane oznake? Sve podređene oznake i sinonimi će također biti izbrisani i uklonjeni iz postojećih objekata.</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Oznaka</translation>
+    </message>
+    <message>
+        <source>Related objects count</source>
+        <translation>Broj povezanih objekata</translation>
+    </message>
+    <message>
+        <source>Children count</source>
+        <translation>Broj podređenih oznaka</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>

@@ -181,6 +181,10 @@
         <translation>Usuń tag</translation>
     </message>
     <message>
+        <source>Delete tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Merge tag</source>
         <translation>Połącz tag</translation>
     </message>
@@ -211,6 +215,22 @@
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
         <translation>Czy na pewno chcesz skasować tag &quot;%keyword&quot;? Wszystkie tagi podrzędne i synonimy zostaną również skasowane oraz usunięte z istniejących obiektów.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Related objects count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Children count</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>

@@ -71,7 +71,7 @@
                 console.log(i);
                 console.log(e);
                 if( settings.permissions.edit )
-                    html += '<a href="' + settings.editUrl + '/' + record.getData('id') + '/' + e + '">';
+                    html += '<a href="' + settings.urls.edit + '/' + record.getData('id') + '/' + e + '">';
 
                 html += '<img src="' + settings.icons[e] + '" width="18" height="12" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
 
@@ -83,7 +83,7 @@
         }
 
         var tagName = function(cell, record, column, data) {
-            var html = '<a href="' + settings.viewUrl + '/' + record.getData('id') + '">' + record.getData('keyword') + '</a>';
+            var html = '<a href="' + settings.urls.view + '/' + record.getData('id') + '">' + record.getData('keyword') + '</a>';
 
             cell.innerHTML = html;
         }
@@ -151,7 +151,7 @@
 
         var createNewButtonAction = function( type, args ) {
             var item = args[1];
-            var form = $( '<form action="' + settings.addUrl + '/' + item.value + '">' );
+            var form = $( '<form action="' + settings.urls.add + '/' + item.value + '">' );
             $('body').append( form );
             form.submit();
         }
@@ -184,19 +184,20 @@
         var moreActionsButtonAction = function( type, args, item ) {
             if ( $( '#eztags-tag-children-table  input[name=SelectedIDArray[]]:checked' ).length == 0 )
                 return;
-/*
-            if (item.value == 0) {
-                $('form[name=children]').append($('<input type="hidden" name="RemoveButton" />')).submit();
-            } else {
-                $('form[name=children]').append($('<input type="hidden" name="MoveButton" />')).submit();
+
+            if ( item.value == 0 && settings.permissions.delete ) {
+                $('form[id="eztags-children-actions"]').prop( 'action', settings.urls.deletetags ).submit();
             }
-*/
         }
 
-        var moreActionsButtonActions = [
-            { text: settings.i18n.remove_selected, id: "ezopt-menu-remove", value: 0, onclick: { fn: moreActionsButtonAction }, disabled: false },
-            { text: settings.i18n.move_selected, id: "ezopt-menu-move", value: 1, onclick: { fn: moreActionsButtonAction }, disabled: false }
-        ];
+        var moreActionsButtonActions = [];
+        if ( settings.permissions.delete ) {
+            moreActionsButtonActions.push( { text: settings.i18n.remove_selected, id: "ezopt-menu-remove", value: 0, onclick: { fn: moreActionsButtonAction }, disabled: false } );
+        }
+
+        if ( settings.permissions.edit ) {
+            moreActionsButtonActions.push( { text: settings.i18n.move_selected, id: "ezopt-menu-move", value: 1, onclick: { fn: moreActionsButtonAction }, disabled: false } );
+        }
 
         var noMoreActionsButtonActions = [
             { text: settings.i18n.no_actions, disabled: true }
@@ -240,7 +241,7 @@
             { key: 'translations' }
         ];
 
-        var dataSource = new YAHOO.util.XHRDataSource( settings.dataSourceURI, {
+        var dataSource = new YAHOO.util.XHRDataSource( settings.urls.data, {
             responseType: YAHOO.util.DataSource.TYPE_JSON,
             responseSchema: {
                 resultsList: 'data',
