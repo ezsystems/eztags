@@ -72,6 +72,7 @@
                 *}'select': '{"Select"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
                 *}'add_child': '{"Add tag"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
                 *}'more_actions': '{"More actions"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
+                *}'more_actions_denied': '{"You do not have permissions for any of available actions"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
                 *}'remove_selected': '{"Remove selected tags"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
                 *}'move_selected': '{"Move selected tags"|i18n( "extension/eztags/tags/view" )|wash(javascript)}',{*
                 *}'no_actions': '{"Use the checkboxes to select one or more tags."|i18n( "extension/eztags/tags/view" )|wash(javascript)}'{*

@@ -199,6 +199,10 @@
             moreActionsButtonActions.push( { text: settings.i18n.move_selected, id: "ezopt-menu-move", value: 1, onclick: { fn: moreActionsButtonAction }, disabled: false } );
         }
 
+        if ( moreActionsButtonActions.length == 0 ) {
+            moreActionsButtonActions.push( { text: settings.i18n.more_actions_denied, disabled: true } );
+        }
+
         var noMoreActionsButtonActions = [
             { text: settings.i18n.no_actions, disabled: true }
         ];
@@ -214,7 +218,7 @@
 
         //  enable 'more actions' when rows are checked
         moreActionsButton.getMenu().subscribe( 'beforeShow', function () {
-            if ( $( '#eztags-tag-children-table  input[name=SelectedIDArray[]]:checked' ).length == 0 ) {
+            if ( $( '#eztags-tag-children-table input[name=SelectedIDArray[]]:checked' ).length == 0 ) {
                 this.clearContent();
                 this.addItems( noMoreActionsButtonActions );
                 this.render();
