@@ -214,22 +214,11 @@ class eZTagsObject extends eZPersistentObject
      */
     function getRelatedObjectsCount()
     {
-        // Not an easy task to fetch published objects with API and take care of current_version, status
-        // and attribute version, so just use SQL to fetch the object count in one go
-        $tagID = (int) $this->attribute( 'id' );
-
-        $db = eZDB::instance();
-        $result = $db->arrayQuery( "SELECT COUNT(DISTINCT o.id) AS count FROM eztags_attribute_link l
-                                   INNER JOIN ezcontentobject o ON l.object_id = o.id
-                                   AND l.objectattribute_version = o.current_version
-                                   AND o.status = " . eZContentObject::STATUS_PUBLISHED . "
-                                   WHERE l.keyword_id = $tagID" );
-
-        if ( is_array( $result ) && !empty( $result ) )
+        $related_object_array = self::getRelatedObjects ( $this->ID );
+        if ( !empty ( $related_object_array ) )
         {
-            return (int) $result[0]['count'];
+            return count($related_object_array);
         }
-
         return 0;
     }
 
