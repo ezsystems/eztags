@@ -65,13 +65,13 @@ class ezjscTagsChildren extends ezjscServerFunctions
         {
             $tagArray = array();
             $tagArray['id'] = $child->attribute( 'id' );
-            $tagArray['keyword'] = $child->attribute( 'keyword' );
+            $tagArray['keyword'] = htmlspecialchars( $child->attribute( 'keyword' ), ENT_QUOTES );
             $tagArray['modified'] = $child->attribute( 'modified' );
 
             $tagArray['translations'] = array();
             foreach ( $child->getTranslations() as $translation )
             {
-                $tagArray['translations'][] = $translation->attribute( 'locale' );
+                $tagArray['translations'][] = htmlspecialchars( $translation->attribute( 'locale' ), ENT_QUOTES );
             }
 
             $dataArray[] = $tagArray;

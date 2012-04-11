@@ -69,6 +69,8 @@ function TagsStructureMenu( params, attribute_id )
 
     this.generateEntry = function( item, lastli, isRootTag )
     {
+        item.keyword = String(item.keyword).replace(/&/g,'&amp;').replace(/'/g,"\\'").replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
         var liclass = '';
         if ( lastli )
         {
@@ -104,15 +106,16 @@ function TagsStructureMenu( params, attribute_id )
                     languagesString.push('{locale:"' + locale + '", name:"' + item.language_name_array[locale] + '"}');
 
                 languagesString = '[' + languagesString.join(',') + ']';
+                languagesString = languagesString.replace(/&/g,'&amp;').replace(/'/g,"\\'").replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
                 html += '<a class="nodeicon" href="#" onclick="ezpopmenu_showTopLevel( event, '
                     + ((isRootTag) ? '\'TagMenuSimple\'' : '\'TagMenu\'')
                     + ', {\'%tagID%\':'
                     + item.id
                     + ', \'%languages%\':'
-                    + languagesString.replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+                    + languagesString
                     + ' }, \''
-                    + String(item.keyword).replace(/'/g,"\\'").replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+                    + item.keyword
                     + '\', '
                     + -1
                     + ', '
