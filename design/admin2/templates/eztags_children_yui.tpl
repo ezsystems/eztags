@@ -19,6 +19,7 @@
     <div class="box-content">
         <div id="action-controls-container">
             <div id="action-controls"></div>
+            <div id="action-filter"></div>
             <div id="tpg"></div>
         </div>
         <form id="eztags-children-actions" method="post" enctype="multipart/form-data">

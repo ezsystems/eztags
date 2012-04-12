@@ -6,6 +6,8 @@
             if ( oState.pagination )
                 oState.pagination.recordOffset = 0;
 
+            dataTable.filterString = $( '#action-filter-input' ).val();
+
             var request = dataTable.get( 'generateRequest' )( oState, dataTable );
 
             dataSource.sendRequest(request, {
@@ -30,7 +32,12 @@
             sortByString += '&sortdirection=' + sortDirection;
         }
 
-        return pagingString + sortByString;
+        var filterString = '';
+        if ( oSelf.filterString ) {
+            filterString = '&filter=' + encodeURIComponent( oSelf.filterString );
+        }
+
+        return pagingString + sortByString + filterString;
     };
 
     var initDataTable = function( base, settings, dataTable, dataSource ) {
@@ -243,6 +250,24 @@
             }
         });
 
+        /* Filter box definition */
+
+        var filterTextBox = new YAHOO.util.Element( document.createElement( 'input' ) );
+        filterTextBox.set( 'type', 'text' );
+        filterTextBox.set( 'size', '40' );
+        filterTextBox.set( 'id', 'action-filter-input' );
+        filterTextBox.addClass( 'action-filter-input' );
+
+        filterTextBox.subscribe('keydown', function( e ){
+            if ( e.keyCode != 13 )
+                return;
+
+            makeRequest( dataTable, dataSource );
+        });
+
+        var filterContainer = new YAHOO.util.Element( document.getElementById( 'action-filter' ) );
+        filterContainer.appendChild( filterTextBox );
+
         /* Data source definition */
 
         var timeStampYuiParser = function ( oData ) {
@@ -266,7 +291,8 @@
                 fields: dataSourceFields,
                 metaFields: {
                     totalRecords: 'count',
-                    recordOffset: 'offset'
+                    recordOffset: 'offset',
+                    filterString: 'filter'
                 }
             }
         });
@@ -297,6 +323,7 @@
         dataTable.handleDataReturnPayload = function( oRequest, oResponse, oPayload ) {
             oPayload.totalRecords = oResponse.meta.totalRecords;
             oPayload.pagination.recordOffset = oResponse.meta.recordOffset;
+            dataTable.filterString = oResponse.meta.filterString;
             return oPayload;
         };
 

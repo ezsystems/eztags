@@ -17,10 +17,11 @@ class ezjscTagsChildren extends ezjscServerFunctions
      */
     static public function tagsChildren( $args )
     {
-        if ( !isset( $args[0] ) || !is_numeric( $args[0] ) )
-            return json_encode( array( 'count' => 0, 'offset' => false, 'data' => array() ) );
-
         $http = eZHTTPTool::instance();
+        $filter = urldecode( trim( $http->getVariable( 'filter', '' ) ) );
+
+        if ( !isset( $args[0] ) || !is_numeric( $args[0] ) )
+            return json_encode( array( 'count' => 0, 'offset' => false, 'filter' => $filter, 'data' => array() ) );
 
         $offset = false;
         $limit = false;
@@ -50,15 +51,15 @@ class ezjscTagsChildren extends ezjscServerFunctions
             $sorts = array( $sortBy => $sortDirection );
         }
 
-        $children = eZTagsObject::fetchList(
-            array( 'parent_id' => (int) $args[0], 'main_tag_id' => 0 ),
-            $limits, $sorts );
+        $fetchParams = array( 'parent_id' => (int) $args[0], 'main_tag_id' => 0 );
+        if ( !empty( $filter ) )
+            $fetchParams['keyword'] = array( 'like', '%' . $filter . '%' );
 
-        $childrenCount = eZTagsObject::fetchListCount(
-            array( 'parent_id' => (int) $args[0], 'main_tag_id' => 0 ) );
+        $children = eZTagsObject::fetchList( $fetchParams, $limits, $sorts );
+        $childrenCount = eZTagsObject::fetchListCount( $fetchParams );
 
         if ( !is_array( $children ) || empty( $children ) )
-            return json_encode( array( 'count' => 0, 'offset' => false, 'data' => array() ) );
+            return json_encode( array( 'count' => 0, 'offset' => false, 'filter' => $filter, 'data' => array() ) );
 
         $dataArray = array();
         foreach ( $children as $child )
@@ -77,7 +78,14 @@ class ezjscTagsChildren extends ezjscServerFunctions
             $dataArray[] = $tagArray;
         }
 
-        return json_encode( array( 'count' => $childrenCount, 'offset' => $offset, 'data' => $dataArray ) );
+        return json_encode(
+            array(
+                'count'  => $childrenCount,
+                'offset' => $offset,
+                'filter' => $filter,
+                'data'   => $dataArray
+            )
+        );
     }
 }
 
