@@ -1,4 +1,4 @@
-(function($) {
+(function( $ ) {
     var makeRequest = function( dataTable, dataSource ) {
         if ( dataTable != null && dataSource != null ) {
             var oState = dataTable.getState();
@@ -8,7 +8,7 @@
 
             var request = dataTable.get( 'generateRequest' )( oState, dataTable );
 
-            dataSource.sendRequest( request, {
+            dataSource.sendRequest(request, {
                 success: dataTable.onDataReturnSetRows,
                 failure: dataTable.onDataReturnSetRows,
                 argument: oState,
@@ -40,17 +40,20 @@
         var tagMenu = function( cell, record, column, data ) {
             var translationArray = [];
 
-            $(record.getData('translations')).each(function(i, e) {
-                translationArray.push( {
-                    'locale': e,
-                    'name': settings.languages[e] } );
+            $(record.getData( 'translations' )).each(function( i, e ) {
+                translationArray.push({
+                    locale: e,
+                    name: settings.languages[e].name
+                });
             });
 
             var a = new YAHOO.util.Element( document.createElement( 'a' ) );
             a.on('click', function(e) {
                 ezpopmenu_showTopLevel(e, 'TagMenu', {
                     '%tagID%': record.getData( 'id' ),
-                    '%languages%': translationArray }, record.getData('keyword'), -1, -1 );
+                    '%languages%': translationArray
+                },
+                record.getData( 'keyword' ), -1, -1 );
             });
 
             var div = new YAHOO.util.Element( document.createElement( 'div' ) );
@@ -60,18 +63,18 @@
             a.appendTo( cell );
         }
 
-        var tagCheckbox = function(cell, record, column, data) {
+        var tagCheckbox = function( cell, record, column, data ) {
             cell.innerHTML = '<input type="checkbox" name="SelectedIDArray[]" value="' + record.getData( 'id' ) + '" />';
         }
 
-        var tagTranslations = function(cell, record, column, data) {
+        var tagTranslations = function( cell, record, column, data ) {
             var html = '';
 
             $(data).each(function(i, e) {
                 if( settings.permissions.edit )
-                    html += '<a href="' + settings.urls.edit + '/' + record.getData('id') + '/' + e + '">';
+                    html += '<a href="' + settings.urls.edit + '/' + record.getData( 'id' ) + '/' + e + '">';
 
-                html += '<img src="' + settings.icons[e] + '" width="18" height="12" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
+                html += '<img src="' + settings.languages[e].flag + '" width="18" height="12" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
 
                 if( settings.permissions.edit )
                     html += '</a>'
@@ -80,8 +83,8 @@
             cell.innerHTML = html;
         }
 
-        var tagName = function(cell, record, column, data) {
-            var html = '<a href="' + settings.urls.view + '/' + record.getData('id') + '">' + record.getData('keyword') + '</a>';
+        var tagName = function( cell, record, column, data ) {
+            var html = '<a href="' + settings.urls.view + '/' + record.getData( 'id' ) + '">' + record.getData( 'keyword' ) + '</a>';
 
             cell.innerHTML = html;
         }
@@ -95,12 +98,10 @@
             lastPageLinkLabel: settings.i18n.last_page,
             previousPageLinkLabel: settings.i18n.previous_page,
             nextPageLinkLabel: settings.i18n.next_page,
-            template: '<div class="yui-pg-backward"> {FirstPageLink} {PreviousPageLink} </div>' +
-            '{PageLinks}' +
-            '<div class="yui-pg-forward"> {NextPageLink} {LastPageLink} </div>'
+            template: '<div class="yui-pg-backward">{FirstPageLink}{PreviousPageLink}</div>{PageLinks}<div class="yui-pg-forward">{NextPageLink}{LastPageLink}</div>'
         });
 
-        dataTablePaginator.subscribe( 'render', function () {
+        dataTablePaginator.subscribe('render', function () {
             var prevPageLink, prevPageLink, prevPageLinkNode, nextPageLinkNode, tpg;
 
             tpg = YAHOO.util.Dom.get( 'tpg' );
@@ -148,10 +149,14 @@
         /* Create new tag button */
 
         var createNewButtonAction = function( type, args ) {
-            var item = args[1];
-            var form = $( '<form action="' + settings.urls.add + '/' + item.value + '">' );
-            $('body').append( form );
-            form.submit();
+            $('form[id=eztags-children-actions]').prop( 'action', settings.urls.add + '/' + args[1].value ).submit();
+        }
+
+        var createNewButtonOptions = [];
+        for ( var l in languages ) {
+            if ( languages.hasOwnProperty( l ) ) {
+                createNewButtonOptions.push( { text: languages[l].name, value: l } );
+            }
         }
 
         var createNewButton = new YAHOO.widget.Button({
@@ -159,7 +164,7 @@
             id: 'ezbtn-new',
             label: settings.i18n.add_child,
             name: 'create-new-button',
-            menu: settings.createOptions,
+            menu: createNewButtonOptions,
             container: 'action-controls'
         });
 
@@ -170,38 +175,46 @@
         var createNewButtonMenu  = createNewButton.getMenu();
         createNewButtonMenu.cfg.setProperty( 'scrollincrement', 5 );
         createNewButtonMenu.subscribe( 'click', createNewButtonAction );
-
-        var createNewButtonGroupsLength = createGroups.length;
-        for ( var i = 0, l = createNewButtonGroupsLength; i < l; i++ ) {
-            var groupName = createGroups[i];
-            createNewButtonMenu.setItemGroupTitle( groupName, i );
-        }
+        createNewButtonMenu.setItemGroupTitle( settings.i18n.add_child_group, 0 );
 
         /* More actions button */
 
         var moreActionsButtonAction = function( type, args, item ) {
-            if ( $( '#eztags-tag-children-table  input[name=SelectedIDArray[]]:checked' ).length == 0 )
+            if ( $( '#eztags-tag-children-table input[name=SelectedIDArray[]]:checked' ).length == 0 )
                 return;
 
             if ( item.value == 0 && settings.permissions.delete ) {
-                $('form[id="eztags-children-actions"]').prop( 'action', settings.urls.deletetags ).submit();
+                $( 'form[id=eztags-children-actions]' ).prop( 'action', settings.urls.deletetags ).submit();
             }
             else if ( item.value == 1 && settings.permissions.edit ) {
-                $('form[id="eztags-children-actions"]').prop( 'action', settings.urls.movetags ).submit();
+                $( 'form[id=eztags-children-actions]' ).prop( 'action', settings.urls.movetags ).submit();
             }
         }
 
         var moreActionsButtonActions = [];
         if ( settings.permissions.delete ) {
-            moreActionsButtonActions.push( { text: settings.i18n.remove_selected, id: "ezopt-menu-remove", value: 0, onclick: { fn: moreActionsButtonAction }, disabled: false } );
+            moreActionsButtonActions.push({
+                text: settings.i18n.remove_selected, id: 'ezopt-menu-remove',
+                value: 0,
+                onclick: { fn: moreActionsButtonAction },
+                disabled: false
+            });
         }
 
         if ( settings.permissions.edit ) {
-            moreActionsButtonActions.push( { text: settings.i18n.move_selected, id: "ezopt-menu-move", value: 1, onclick: { fn: moreActionsButtonAction }, disabled: false } );
+            moreActionsButtonActions.push({
+                text: settings.i18n.move_selected, id: 'ezopt-menu-move',
+                value: 1,
+                onclick: { fn: moreActionsButtonAction },
+                disabled: false
+            });
         }
 
         if ( moreActionsButtonActions.length == 0 ) {
-            moreActionsButtonActions.push( { text: settings.i18n.more_actions_denied, disabled: true } );
+            moreActionsButtonActions.push({
+                text: settings.i18n.more_actions_denied,
+                disabled: true
+            });
         }
 
         var noMoreActionsButtonActions = [
@@ -218,7 +231,7 @@
         });
 
         //  enable 'more actions' when rows are checked
-        moreActionsButton.getMenu().subscribe( 'beforeShow', function () {
+        moreActionsButton.getMenu().subscribe('beforeShow', function () {
             if ( $( '#eztags-tag-children-table input[name=SelectedIDArray[]]:checked' ).length == 0 ) {
                 this.clearContent();
                 this.addItems( noMoreActionsButtonActions );
@@ -246,7 +259,7 @@
             { key: 'translations' }
         ];
 
-        var dataSource = new YAHOO.util.XHRDataSource( settings.urls.data, {
+        var dataSource = new YAHOO.util.XHRDataSource(settings.urls.data, {
             responseType: YAHOO.util.DataSource.TYPE_JSON,
             responseSchema: {
                 resultsList: 'data',
@@ -269,7 +282,7 @@
             { key: 'modified', label: settings.i18n.modified, sortable: true, resizeable: true, formatter: 'date' }
         ];
 
-        var dataTable = new YAHOO.widget.DataTable( base, dataTableColumns, dataSource, {
+        var dataTable = new YAHOO.widget.DataTable(base, dataTableColumns, dataSource, {
             dateOptions: { format: '%d.%m.%Y %H:%M' },
             generateRequest: buildRequest,
             dynamicData: true,
@@ -290,15 +303,15 @@
         makeRequest( dataTable, dataSource );
     };
 
-    $.fn.eZTagsChildren = function(settings) {
+    $.fn.eZTagsChildren = function( settings ) {
         var defaults = {
             rowsPerPage: 10
         };
-        settings = $.extend(defaults, settings);
+        settings = $.extend( defaults, settings );
         var base = this[0];
 
         var yuiLoader = new YAHOO.util.YUILoader({
-            base: settings.YUI2BasePath,
+            base: settings.urls.yui2,
             loadOptional: true
         });
         yuiLoader.require( [ 'connection', 'datasource', 'datatable', 'paginator', 'dragdrop', 'button' ] );
