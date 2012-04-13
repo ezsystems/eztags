@@ -40,7 +40,7 @@
         return pagingString + sortByString + filterString;
     };
 
-    var initDataTable = function( base, settings, dataTable, dataSource ) {
+    var initDataTable = function( base, settings ) {
 
         /* Custom display formatters definition */
 
