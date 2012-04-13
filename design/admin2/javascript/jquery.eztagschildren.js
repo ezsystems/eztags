@@ -81,7 +81,7 @@
                 if( settings.permissions.edit )
                     html += '<a href="' + settings.urls.edit + '/' + record.getData( 'id' ) + '/' + e + '">';
 
-                html += '<img src="' + settings.languages[e].flag + '" width="18" height="12" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
+                html += '<img src="' + settings.languages[e].flag + '" width="18" height="12" style="margin-right: 4px;" alt="' + settings.languages[e].name + '" title="' + settings.languages[e].name + '"/>';
 
                 if( settings.permissions.edit )
                     html += '</a>'
