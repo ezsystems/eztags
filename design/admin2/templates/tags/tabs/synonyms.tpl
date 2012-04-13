@@ -1,5 +1,5 @@
 {if $tag.synonyms_count|gt( 0 )}
-    <table class="list" cellpadding="0" border="0">
+    <table class="list" cellpadding="0">
         <tbody>
             <tr>
                 <th class="tight">&nbsp;</th>

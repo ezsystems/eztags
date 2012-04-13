@@ -9,17 +9,14 @@
 
 <div class="context-block">
     <div class="box-header">
-        <div class="button-left">
-            <h2 class="context-title">
-                {if is_set($tag)}<a href={$tag.depth|gt(1)|choose( '/tags/dashboard'|ezurl, concat( '/tags/id/', $tag.parent.id )|ezurl )} title="{'Up one level.'|i18n(  'extension/eztags/tags/view'  )}"><img src={'up-16x16-grey.png'|ezimage} alt="{'Up one level.'|i18n( 'extension/eztags/tags/view' )}" title="{'Up one level.'|i18n( 'extension/eztags/tags/view' )}" /></a>&nbsp;{/if}{'Children tags (%children_count)'|i18n( 'extension/eztags/tags/view',, hash( '%children_count', $children_count ) )}
-            </h2>
-        </div>
-        <div class="button-right button-header"></div>
+        <h2 class="context-title">
+            {if is_set($tag)}<a href={$tag.depth|gt(1)|choose( '/tags/dashboard'|ezurl, concat( '/tags/id/', $tag.parent.id )|ezurl )} title="{'Up one level.'|i18n(  'extension/eztags/tags/view'  )}"><img src={'up-16x16-grey.png'|ezimage} alt="{'Up one level.'|i18n( 'extension/eztags/tags/view' )}" title="{'Up one level.'|i18n( 'extension/eztags/tags/view' )}" /></a>&nbsp;{/if}{'Children tags (%children_count)'|i18n( 'extension/eztags/tags/view',, hash( '%children_count', $children_count ) )}
+        </h2>
         <div class="float-break"></div>
     </div>
 
-    {if $children_count|gt(0)}
-        <div class="box-content">
+    <div class="box-content">
+        {if $children_count|gt(0)}
             <div class="context-toolbar">
                 <div class="button-left">
                     <p class="table-preferences">
@@ -44,11 +41,10 @@
                         {/switch}
                     </p>
                 </div>
-                <div class="button-right"></div>
                 <div class="float-break"></div>
             </div>
 
-            <table class="list" cellspacing="0" border="0">
+            <table class="list" cellspacing="0">
                 <tbody>
                     <tr>
                         <th class="tight">&nbsp;</th>
@@ -76,12 +72,10 @@
                          view_parameters=$view_parameters
                          item_limit=$number_of_items}
             </div>
-        </div>
-    {else}
-        <div class="block">
+        {else}
             <p>{'The current tag does not contain any children.'|i18n( 'extension/eztags/tags/view' )}</p>
-        </div>
-    {/if}
+        {/if}
+    </div>
 </div>
 
 {undef}

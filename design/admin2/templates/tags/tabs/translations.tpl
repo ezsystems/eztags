@@ -3,7 +3,7 @@
 <form name="translationsform" method="post" action={'tags/translation'|ezurl}>
     <input type="hidden" name="TagID" value="{$tag.id}" />
 
-    <table class="list" cellpadding="0" border="0">
+    <table class="list" cellpadding="0">
         <tbody>
             <tr>
                 {if $has_edit_access}
