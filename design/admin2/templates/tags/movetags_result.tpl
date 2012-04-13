@@ -30,7 +30,11 @@
 
         <div class="controlbar">
             <div class="block">
-                <input class="defaultbutton" type="button" name="OkButton" value="OK"  onclick="window.location = '{concat( '/tags/id/', $parent_tag_id )|ezurl(no)}';" />
+                {if $parent_tag_id|gt( 0 )}
+                    <input class="defaultbutton" type="button" name="OkButton" value="OK"  onclick="window.location = '{concat( '/tags/id/', $parent_tag_id )|ezurl(no)}';" />
+                {else}
+                    <input class="defaultbutton" type="button" name="OkButton" value="OK"  onclick="window.location = '{'/tags/dashboard'|ezurl(no)}';" />
+                {/if}
             </div>
         </div>
     </div>
