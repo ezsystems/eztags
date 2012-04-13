@@ -190,7 +190,7 @@
             if ( $( '#eztags-tag-children-table input[name=SelectedIDArray[]]:checked' ).length == 0 )
                 return;
 
-            if ( item.value == 0 && settings.permissions.delete ) {
+            if ( item.value == 0 && settings.permissions.remove ) {
                 $( 'form[id=eztags-children-actions]' ).prop( 'action', settings.urls.deletetags ).submit();
             }
             else if ( item.value == 1 && settings.permissions.edit ) {
@@ -199,7 +199,7 @@
         }
 
         var moreActionsButtonActions = [];
-        if ( settings.permissions.delete ) {
+        if ( settings.permissions.remove ) {
             moreActionsButtonActions.push({
                 text: settings.i18n.remove_selected, id: 'ezopt-menu-remove',
                 value: 0,
@@ -331,15 +331,21 @@
         filterTextBox.set( 'id', 'action-filter-input' );
         filterTextBox.addClass( 'action-filter-input' );
 
-        filterTextBox.subscribe('keydown', function( e ){
-            if ( e.keyCode != 13 )
-                return;
-
-            makeRequest( dataTable, dataSource );
-        });
-
         var filterContainer = new YAHOO.util.Element( document.getElementById( 'action-filter' ) );
         filterContainer.appendChild( filterTextBox );
+
+        // stupid IE
+        var eventToBind = $.browser.msie ? 'keydown' : 'input';
+        var filterTimeoutHandler;
+
+        $( '#action-filter-input' ).bind(eventToBind, function(){
+            if ( filterTimeoutHandler )
+                clearTimeout( filterTimeoutHandler );
+
+            filterTimeoutHandler = setTimeout( function() {
+                makeRequest( dataTable, dataSource );
+            }, 400 );
+        });
 
         /* Data source definition */
 

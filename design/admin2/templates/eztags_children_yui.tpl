@@ -70,7 +70,7 @@
             var permissions = {ldelim}{*
                 *}add: {if fetch( user, has_access_to, hash( module, tags, function, add ) )}true{else}false{/if},{*
                 *}edit: {if fetch( user, has_access_to, hash( module, tags, function, edit ) )}true{else}false{/if},{*
-                *}delete: {if fetch( user, has_access_to, hash( module, tags, function, delete ) )}true{else}false{/if}{*
+                *}remove: {if fetch( user, has_access_to, hash( module, tags, function, delete ) )}true{else}false{/if}{*
             *}{rdelim};
 
             var urls = {ldelim}{*
