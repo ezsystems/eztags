@@ -5,7 +5,7 @@
 
 $http = eZHTTPTool::instance();
 
-$tagIDs = $http->sessionVariable( 'eZTagsMoveIDArray', $http->postVariable( 'SelectedIDArray' ), array() );
+$tagIDs = $http->sessionVariable( 'eZTagsMoveIDArray', $http->postVariable( 'SelectedIDArray', array() ) );
 if ( !is_array( $tagIDs ) || empty( $tagIDs ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
@@ -37,6 +37,8 @@ if ( empty( $error ) && $http->hasPostVariable( 'SaveButton' ) )
 {
     $db = eZDB::instance();
 
+    $unmovableTags = array();
+
     foreach ( $tagsList as $tag )
     {
         if ( $tag->attribute( 'main_tag_id' ) != 0 )
@@ -47,11 +49,22 @@ if ( empty( $error ) && $http->hasPostVariable( 'SaveButton' ) )
 
         // @todo: check for subtree limits
 
-        // @todo: fix
-        /*
-        if ( eZTagsObject::exists( $tag->attribute( 'id' ), $tag->attribute( 'keyword' ), $newParentID ) )
-            continue;
-        */
+        $tagKeywords = array_map( function( $translation )
+            {
+                /** @var eZTagsKeyword $translation */
+                return $translation->attribute( 'keyword' );
+            },
+            $tag->getTranslations()
+        );
+
+        foreach ( $tagKeywords as $tagKeyword )
+        {
+            if ( eZTagsObject::exists( $tag->attribute( 'id' ), $tagKeyword, $newParentID ) )
+            {
+                $unmovableTags[] = $tag;
+                continue 2;
+            }
+        }
 
         $db->begin();
 
@@ -104,10 +117,24 @@ if ( empty( $error ) && $http->hasPostVariable( 'SaveButton' ) )
 
     $http->removeSessionVariable( 'eZTagsMoveIDArray' );
 
-    if ( $parentTagID > 0 )
-        return $Module->redirectToView( 'id', array( $parentTagID ) );
+    if ( empty( $unmovableTags ) )
+    {
+        if ( $parentTagID > 0 )
+            return $Module->redirectToView( 'id', array( $parentTagID ) );
 
-    return $Module->redirectToView( 'dashboard', array() );
+        return $Module->redirectToView( 'dashboard', array() );
+    }
+
+    $tpl = eZTemplate::factory();
+    $tpl->setVariable( 'unmovable_tags', $unmovableTags );
+    $tpl->setVariable( 'parent_tag_id', $parentTagID );
+
+    $Result = array();
+    $Result['content']    = $tpl->fetch( 'design:tags/movetags_result.tpl' );
+    $Result['ui_context'] = 'edit';
+    $Result['path']       = eZTagsObject::generateModuleResultPath( false, null,
+                                                                    ezpI18n::tr( 'extension/eztags/tags/edit', 'Move tags' ) );
+    return;
 }
 
 $tpl = eZTemplate::factory();

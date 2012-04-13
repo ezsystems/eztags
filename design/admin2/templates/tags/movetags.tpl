@@ -11,6 +11,29 @@
     {/if}
 
     <div class="box-content">
+        <div class="block">
+            <p>{'Are you sure you want to move selected tags?'|i18n( 'extension/eztags/tags/edit' )}</p>
+        </div>
+
+        <div class="block">
+            <table class="list" cellspacing="0">
+                <tr>
+                    <th colspan="2">{'Tag'|i18n( 'extension/eztags/tags/edit' )}</th>
+                    <th>{'Related objects count'|i18n( 'extension/eztags/tags/edit' )}</th>
+                    <th>{'Children count'|i18n( 'extension/eztags/tags/edit' )}</th>
+                </tr>
+
+                {foreach $tags as $tag sequence array( 'bglight', 'bgdark' ) as $sequence}
+                    <tr class="{$sequence}">
+                        <td class="tight"><img class="transparent-png-icon" src="{$tag.icon|tag_icon}" alt="{$tag.keyword|wash}" /></td>
+                        <td>{eztags_parent_string( $tag.id )|wash}</td>
+                        <td>{$tag.related_objects_count|wash}</td>
+                        <td>{$tag.children_count|wash}</td>
+                    </tr>
+                {/foreach}
+            </table>
+        </div>
+
         <form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={'/tags/movetags'|ezurl}>
             <div class="block tag-edit-parent">
                 {if ezhttp_hasvariable( 'TagEditParentID', 'post' )}

@@ -111,6 +111,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>The following tags could not be moved because they contain translations that already exist in one of the tags in selected location.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Go back</source>
         <translation type="unfinished"></translation>
     </message>
@@ -230,6 +234,10 @@
     </message>
     <message>
         <source>Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to move selected tags?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

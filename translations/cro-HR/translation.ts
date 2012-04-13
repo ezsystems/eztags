@@ -111,6 +111,10 @@
         <translation>Oznaka/sinonim s tim prijevodom već postoji na odabranoj lokaciji.</translation>
     </message>
     <message>
+        <source>The following tags could not be moved because they contain translations that already exist in one of the tags in selected location.</source>
+        <translation>Sljedeće oznake nisu premještene jer imaju prijevode koji već postoje u nekoj od oznaka na odabranoj lokaciji.</translation>
+    </message>
+    <message>
         <source>Go back</source>
         <translation>Vrati se nazad</translation>
     </message>
@@ -231,6 +235,10 @@
     <message>
         <source>Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.</source>
         <translation>Jeste li sigurni da želite izbrisati odabrane oznake? Sve podređene oznake i sinonimi će također biti izbrisani i uklonjeni iz postojećih objekata.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to move selected tags?</source>
+        <translation>Jeste li sigurni da želite premjestiti odabrane oznake?</translation>
     </message>
     <message>
         <source>Tag</source>
