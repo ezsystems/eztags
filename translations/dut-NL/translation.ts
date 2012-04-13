@@ -586,6 +586,10 @@
         <translation>Onderliggend label toevoegen</translation>
     </message>
     <message>
+        <source>Add child tag</source>
+        <translation>Onderliggend label toevoegen</translation>
+    </message>
+    <message>
         <source>Edit tag</source>
         <translation>Label bewerken</translation>
     </message>

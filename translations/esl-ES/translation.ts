@@ -586,6 +586,10 @@
         <translation>Anadir tag hijo</translation>
     </message>
     <message>
+        <source>Add child tag</source>
+        <translation>Anadir tag hijo</translation>
+    </message>
+    <message>
         <source>Edit tag</source>
         <translation>Editar tag</translation>
     </message>

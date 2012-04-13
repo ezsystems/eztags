@@ -586,6 +586,10 @@
         <translation>Dodaj tag podrzędny</translation>
     </message>
     <message>
+        <source>Add child tag</source>
+        <translation>Dodaj tag podrzędny</translation>
+    </message>
+    <message>
         <source>Edit tag</source>
         <translation>Edytuj tag</translation>
     </message>

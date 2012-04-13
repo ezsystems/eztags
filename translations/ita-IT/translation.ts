@@ -586,6 +586,10 @@
         <translation>Aggiungi tag figlio</translation>
     </message>
     <message>
+        <source>Add child tag</source>
+        <translation>Aggiungi tag figlio</translation>
+    </message>
+    <message>
         <source>Edit tag</source>
         <translation>Modifica tag</translation>
     </message>

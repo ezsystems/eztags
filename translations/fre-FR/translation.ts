@@ -586,6 +586,10 @@
         <translation>Créer un mot clé enfant</translation>
     </message>
     <message>
+        <source>Add child tag</source>
+        <translation>Créer un mot clé enfant</translation>
+    </message>
+    <message>
         <source>Edit tag</source>
         <translation>Modifier le mot clé</translation>
     </message>

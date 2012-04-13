@@ -586,6 +586,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Add child tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Edit tag</source>
         <translation type="unfinished"></translation>
     </message>

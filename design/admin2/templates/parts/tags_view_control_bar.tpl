@@ -1,9 +1,16 @@
+{def $show_legacy_children_list = ezini( 'GeneralSettings', 'ShowOldStyleChildrenList', 'eztags.ini' )|eq( 'enabled' )}
+
 <div class="controlbar">
     <div class="button-left">
         <div class="block">
+            {if and( $show_legacy_children_list, fetch( user, has_access_to, hash( module, tags, function, add ) ) )}
+                <form name="tagadd" id="tagadd" style="float:left; margin-right:10px;" enctype="multipart/form-data" method="post" action={concat( 'tags/add/', $tag.id )|ezurl}>
+                    <input class="defaultbutton" type="submit" name="SubmitButton" value="{"Add child tag"|i18n( "extension/eztags/tags/view" )}" />
+                </form>
+            {/if}
             {if fetch( user, has_access_to, hash( module, tags, function, edit ) )}
                 <form name="tagedit" id="tagedit" style="float:left; margin-right:10px;" enctype="multipart/form-data" method="post" action={concat( 'tags/edit/', $tag.id )|ezurl}>
-                    <input class="defaultbutton" type="submit" name="SubmitButton" value="{"Edit tag"|i18n( "extension/eztags/tags/view" )}" />
+                    <input class="{if $show_legacy_children_list|not}default{/if}button" type="submit" name="SubmitButton" value="{"Edit tag"|i18n( "extension/eztags/tags/view" )}" />
                 </form>
             {/if}
             {if fetch( user, has_access_to, hash( module, tags, function, delete ) )}
@@ -30,3 +37,5 @@
     </div>
     <div class="float-break"></div>
 </div>
+
+{undef $show_legacy_children_list}

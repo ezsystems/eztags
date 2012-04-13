@@ -586,6 +586,10 @@
         <translation>Dodaj oznaku</translation>
     </message>
     <message>
+        <source>Add child tag</source>
+        <translation>Dodaj podređenu oznaku</translation>
+    </message>
+    <message>
         <source>Edit tag</source>
         <translation>Uredi oznaku</translation>
     </message>
