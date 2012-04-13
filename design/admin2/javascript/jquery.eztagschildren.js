@@ -250,7 +250,80 @@
             }
         });
 
-        /* Filter box definition */
+        /* Table options button & dialog */
+
+        // Shows dialog, creating one when necessary
+        var colLayoutHasChanged = true;
+        var showTableOptionsDialog = function( e ) {
+            YAHOO.util.Event.stopEvent( e );
+
+            if ( colLayoutHasChanged ) {
+                // Populate Dialog
+                var tableOptionsHTML = '<fieldset>';
+                tableOptionsHTML += '<legend>' + settings.i18n.number_of_items + '</legend><div class="block">';
+
+                var rowsPerPageDefinition = [
+                    { id: 1, count: 10 },
+                    { id: 2, count: 25 },
+                    { id: 3, count: 50 }
+                ];
+
+                for ( var i = 0, l = rowsPerPageDefinition.length; i < l ; i++ ) {
+                    var rowDefinition = rowsPerPageDefinition[i];
+                    tableOptionsHTML += '<div class="table-options-row"><span class="table-options-key">'+ rowDefinition.count + '</span>';
+                    tableOptionsHTML += '<span class="table-options-value"><input id="table-option-row-btn-' + rowDefinition.id + '" type="radio" name="TableOptionValue" value="' + rowDefinition.count + '"' + ( settings.rowsPerPage == rowDefinition.count ? ' checked="checked"' : '' ) + ' /></span></div>';
+
+                    YAHOO.util.Event.on('table-option-row-btn-' + rowDefinition.id, 'click', function( e, a ) {
+                        dataTablePaginator.setRowsPerPage( a.count );
+                        $.ez.setPreference( 'admin_eztags_list_limit', a.id );
+                    }, rowDefinition);
+                }
+
+                tableOptionsHTML += '</div></fieldset>';
+
+                tableOptionsDialog.setBody( tableOptionsHTML );
+                colLayoutHasChanged = false;
+            }
+
+            tableOptionsDialog.show();
+        };
+
+        var hideTableOptionsDialog = function( e ) {
+            this.hide();
+        };
+
+        var tableOptionsButton = new YAHOO.widget.Button({
+            label: settings.i18n.table_options,
+            id: 'ezbtn-options',
+            container: 'action-controls',
+            onclick: { fn: showTableOptionsDialog, obj: this, scope: true }
+        });
+
+        var tableOptionsDialog = new YAHOO.widget.SimpleDialog('to-dialog-container', {
+            width: '25em',
+            visible: false,
+            modal: true,
+            buttons: [{
+                text: settings.i18n.close_table_options,
+                handler: function( e ){
+                    this.hide();
+                }
+            }],
+            fixedcenter: 'contained',
+            constrainToViewport: true
+        });
+
+        var escKeyListener = new YAHOO.util.KeyListener(
+            document,
+            { keys: 27 },
+            { fn: tableOptionsDialog.hide, scope: tableOptionsDialog, correctScope: true }
+        );
+
+        tableOptionsDialog.cfg.queueProperty( 'keylisteners', escKeyListener );
+        tableOptionsDialog.setHeader( settings.i18n.table_options );
+        tableOptionsDialog.render();
+
+        /* Filter box */
 
         var filterTextBox = new YAHOO.util.Element( document.createElement( 'input' ) );
         filterTextBox.set( 'type', 'text' );
@@ -324,6 +397,7 @@
             oPayload.totalRecords = oResponse.meta.totalRecords;
             oPayload.pagination.recordOffset = oResponse.meta.recordOffset;
             dataTable.filterString = oResponse.meta.filterString;
+            $( '#eztags-children-count' ).html( oResponse.meta.totalRecords );
             return oPayload;
         };
 
@@ -341,7 +415,7 @@
             base: settings.urls.yui2,
             loadOptional: true
         });
-        yuiLoader.require( [ 'connection', 'datasource', 'datatable', 'paginator', 'dragdrop', 'button' ] );
+        yuiLoader.require( [ 'connection', 'datasource', 'datatable', 'paginator', 'dragdrop', 'button', 'container' ] );
         yuiLoader.onSuccess = function() {
             initDataTable( base, settings );
         };

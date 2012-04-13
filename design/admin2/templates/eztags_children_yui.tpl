@@ -3,13 +3,14 @@
     {set $parent_tag_id = $tag.id}
 {/if}
 
-{def $children_count = fetch( tags, list_count, hash( parent_tag_id, $parent_tag_id ) )}
+{def $item_type = ezpreference( 'admin_eztags_list_limit' )}
+{def $number_of_items = min( $item_type, 3 )|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
     <div class="box-header">
         <div class="button-left">
             <h2 class="context-title">
-                {if is_set( $tag )}<a href={$tag.depth|gt( 1 )|choose( '/tags/dashboard'|ezurl, concat( '/tags/id/', $tag.parent.id )|ezurl )} title="{'Up one level.'|i18n(  'extension/eztags/tags/view'  )}"><img src={'up-16x16-grey.png'|ezimage} alt="{'Up one level.'|i18n( 'extension/eztags/tags/view' )}" title="{'Up one level.'|i18n( 'extension/eztags/tags/view' )}" /></a>&nbsp;{/if}{'Children tags (%children_count)'|i18n( 'extension/eztags/tags/view',, hash( '%children_count', $children_count ) )}
+                {if is_set( $tag )}<a href={$tag.depth|gt( 1 )|choose( '/tags/dashboard'|ezurl, concat( '/tags/id/', $tag.parent.id )|ezurl )} title="{'Up one level.'|i18n(  'extension/eztags/tags/view'  )}"><img src={'up-16x16-grey.png'|ezimage} alt="{'Up one level.'|i18n( 'extension/eztags/tags/view' )}" title="{'Up one level.'|i18n( 'extension/eztags/tags/view' )}" /></a>&nbsp;{/if}{'Children tags'|i18n( 'extension/eztags/tags/view' )} (<span id="eztags-children-count">0</span>)
             </h2>
         </div>
         <div class="button-right button-header"></div>
@@ -26,6 +27,8 @@
             <div id="eztags-tag-children-table"></div>
         </form>
         <div id="bpg"></div>
+
+        <div id="to-dialog-container"></div>
 
         {def $languages = fetch( content, prioritized_languages )}
         <script type="text/javascript">
@@ -58,7 +61,10 @@
                 *}more_actions_denied: "{'You do not have permissions for any of available actions'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}remove_selected: "{'Remove selected tags'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}move_selected: "{'Move selected tags'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
-                *}no_actions: "{'Use the checkboxes to select one or more tags.'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}"{*
+                *}no_actions: "{'Use the checkboxes to select one or more tags.'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
+                *}table_options: "{'Table options'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
+                *}close_table_options: "{'Close'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
+                *}number_of_items: "{'Number of tags per page'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}"{*
             *}{rdelim};
 
             var permissions = {ldelim}{*
@@ -79,7 +85,7 @@
 
             jQuery(document).ready(function($) {ldelim}
                 $('#eztags-tag-children-table').eZTagsChildren({ldelim}
-                    rowsPerPage: 10,
+                    rowsPerPage: {$number_of_items},
                     languages: languages,
                     permissions: permissions,
                     urls: urls,

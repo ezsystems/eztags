@@ -546,6 +546,10 @@
         <translation>Mot clés enfants (%children_count)</translation>
     </message>
     <message>
+        <source>Children tags</source>
+        <translation>Mot clés enfants</translation>
+    </message>
+    <message>
         <source>Show %1 tags per page.</source>
         <translation>Montrer %1 mot clés par page.</translation>
     </message>
@@ -667,6 +671,18 @@
     </message>
     <message>
         <source>Use the checkboxes to select one or more tags.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of tags per page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

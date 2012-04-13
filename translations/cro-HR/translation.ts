@@ -546,6 +546,10 @@
         <translation>Podređene oznake (%children_count)</translation>
     </message>
     <message>
+        <source>Children tags</source>
+        <translation>Podređene oznake</translation>
+    </message>
+    <message>
         <source>Show %1 tags per page.</source>
         <translation>Prikaži %1 oznaka po stranici.</translation>
     </message>
@@ -668,6 +672,18 @@
     <message>
         <source>Use the checkboxes to select one or more tags.</source>
         <translation>Koristite kućice za označavanje za odabir jedne ili više oznaka.</translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation>Postavke tablice</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Zatvori</translation>
+    </message>
+    <message>
+        <source>Number of tags per page</source>
+        <translation>Broj prikazanih oznaka po stranici</translation>
     </message>
 </context>
 <context>
