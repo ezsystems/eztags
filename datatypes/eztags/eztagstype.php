@@ -567,8 +567,10 @@ class eZTagsType extends eZDataType
      */
     public function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
     {
-        $info = array( 'edit' => array( 'grouped_input' => true ) );
-        return eZDataType::objectDisplayInformation( $objectAttribute, $info );
+        return eZDataType::objectDisplayInformation(
+            $objectAttribute,
+            array( 'edit' => array( 'grouped_input' => true ) )
+        );
     }
 }
 
