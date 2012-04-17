@@ -153,10 +153,22 @@ class eZTagsType extends eZDataType
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
 
-        $keywordString = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttributeID, '' ) );
-        $parentString = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttributeID, '' ) );
-        $idString = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttributeID, '' ) );
-        $localeString = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttributeID, '' ) );
+        if ( !$http->hasPostVariable( $base . '_eztags_data_text_' . $contentObjectAttributeID ) )
+            return false;
+
+        if ( !$http->hasPostVariable( $base . '_eztags_data_text2_' . $contentObjectAttributeID ) )
+            return false;
+
+        if ( !$http->hasPostVariable( $base . '_eztags_data_text3_' . $contentObjectAttributeID ) )
+            return false;
+
+        if ( !$http->hasPostVariable( $base . '_eztags_data_text4_' . $contentObjectAttributeID ) )
+            return false;
+
+        $keywordString = trim( $http->postVariable( $base . '_eztags_data_text_' . $contentObjectAttributeID ) );
+        $parentString = trim( $http->postVariable( $base . '_eztags_data_text2_' . $contentObjectAttributeID ) );
+        $idString = trim( $http->postVariable( $base . '_eztags_data_text3_' . $contentObjectAttributeID ) );
+        $localeString = trim( $http->postVariable( $base . '_eztags_data_text4_' . $contentObjectAttributeID ) );
 
         $eZTags = eZTags::createFromStrings( $contentObjectAttribute, $idString, $keywordString, $parentString, $localeString );
         $contentObjectAttribute->setContent( $eZTags );
@@ -222,9 +234,13 @@ class eZTagsType extends eZDataType
         $classAttributeID = $attribute->attribute( 'id' );
 
         $subTreeLimit = (int) $http->postVariable( $base . self::SUBTREE_LIMIT_VARIABLE . $classAttributeID, -1 );
+        $maxTags = (int) trim( $http->postVariable( $base . self::MAX_TAGS_VARIABLE . $classAttributeID, -1 ) );
+
+        if ( $subTreeLimit < 0 || $maxTags < 0 )
+            return false;
+
         $showDropdown = (int) $http->hasPostVariable( $base . self::SHOW_DROPDOWN_VARIABLE . $classAttributeID );
         $hideRootTag = (int) $http->hasPostVariable( $base . self::HIDE_ROOT_TAG_VARIABLE . $classAttributeID );
-        $maxTags = (int) trim( $http->postVariable( $base . self::MAX_TAGS_VARIABLE . $classAttributeID, '' ) );
 
         $attribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
         $attribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $showDropdown );
