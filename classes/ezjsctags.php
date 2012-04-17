@@ -17,54 +17,17 @@ class ezjscTags extends ezjscServerFunctions
     static public function autocomplete( $args )
     {
         $http = eZHTTPTool::instance();
-        $returnArray = array(
-            'status' => 'success',
-            'message' => '',
-            'tags' => array()
-        );
 
         $searchString = trim( $http->postVariable( 'search_string' ), '' );
         if ( empty( $searchString ) )
-            return $returnArray;
+            return array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
-        $locale = $http->postVariable( 'locale', '' );
-        if ( empty( $locale ) )
-            return $returnArray;
-
-        $subTreeLimit = (int) $http->postVariable( 'subtree_limit', 0 );
-        $hideRootTag = (bool) $http->postVariable( 'hide_root_tag', '0' );
-
-        $params = array( 'keyword' => array( 'like', $searchString . '%' ) );
-        if ( $subTreeLimit > 0 )
-        {
-            if ( $hideRootTag )
-                $params['id'] = array( '<>', $subTreeLimit );
-
-            $params['path_string'] = array( 'like', '%/' . $subTreeLimit . '/%' );
-        }
-
-        $prioritizedLocales = self::getTopPrioritiziedLanguages( $locale );
-        eZContentLanguage::setPrioritizedLanguages( $prioritizedLocales );
-
-        $tags = eZTagsObject::fetchList( $params );
-
-        eZContentLanguage::clearPrioritizedLanguages();
-
-        if ( !is_array( $tags ) || empty( $tags ) )
-            return $returnArray;
-
-        foreach ( $tags as $tag )
-        {
-            $returnArrayChild = array();
-            $returnArrayChild['tag_parent_id']   = $tag->attribute( 'parent_id' );
-            $returnArrayChild['tag_parent_name'] = $tag->hasParent( true ) ? $tag->getParent( true )->attribute( 'keyword' ) : '';
-            $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
-            $returnArrayChild['tag_id']          = $tag->attribute( 'id' );
-            $returnArrayChild['tag_locale']      = $tag->attribute( 'current_language' );
-            $returnArray['tags'][]               = $returnArrayChild;
-        }
-
-        return $returnArray;
+        return self::generateOutput(
+            array( 'keyword' => array( 'like', $searchString . '%' ) ),
+            $http->postVariable( 'subtree_limit', 0 ),
+            $http->postVariable( 'hide_root_tag', '0' ),
+            $http->postVariable( 'locale', '' )
+        );
     }
 
     /**
@@ -78,31 +41,17 @@ class ezjscTags extends ezjscServerFunctions
      */
     static public function suggest( $args )
     {
-        $returnArray = array(
-            'status' => 'success',
-            'message' => '',
-            'tags' => array()
-        );
+        $http = eZHTTPTool::instance();
 
         $searchEngine = eZINI::instance()->variable( 'SearchSettings', 'SearchEngine' );
         if ( !class_exists( 'eZSolr' ) || $searchEngine != 'ezsolr' )
-            return $returnArray;
-
-        $http = eZHTTPTool::instance();
+            return array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
         $tagIDs = $http->postVariable( 'tag_ids', '' );
         if ( empty( $tagIDs ) )
-            return $returnArray;
+            return array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
-        $locale = $http->postVariable( 'locale', '' );
-        if ( empty( $locale ) )
-            return $returnArray;
-
-        $tagIDs = explode( '|#', $tagIDs );
-        $tagIDs = array_values( array_unique( $tagIDs ) );
-
-        $subTreeLimit = (int) $http->postVariable( 'subtree_limit', 0 );
-        $hideRootTag = (bool) $http->postVariable( 'hide_root_tag', '0' );
+        $tagIDs = array_values( array_unique( explode( '|#', $tagIDs ) ) );
 
         $solrSearch = new eZSolr();
         $params = array(
@@ -124,11 +73,11 @@ class ezjscTags extends ezjscServerFunctions
 
         $searchResult = $solrSearch->search( '', $params );
         if ( !isset( $searchResult['SearchExtras'] ) || !$searchResult['SearchExtras'] instanceof ezfSearchResultInfo )
-            return $returnArray;
+            return array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
         $facetResult = $searchResult['SearchExtras']->attribute( 'facet_fields' );
         if ( !is_array( $facetResult ) || empty( $facetResult[0]['nameList'] ) )
-            return $returnArray;
+            return array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
         $facetResult = array_values( $facetResult[0]['nameList'] );
 
@@ -139,34 +88,12 @@ class ezjscTags extends ezjscServerFunctions
                 $tagsToSuggest[] = $result;
         }
 
-        $prioritizedLocales = self::getTopPrioritiziedLanguages( $locale );
-        eZContentLanguage::setPrioritizedLanguages( $prioritizedLocales );
-
-        $tagsToSuggest = eZTagsObject::fetchList( array( 'id' => array( $tagsToSuggest ) ) );
-
-        eZContentLanguage::clearPrioritizedLanguages();
-
-        if ( !is_array( $tagsToSuggest ) || empty( $tagsToSuggest ) )
-            return $returnArray;
-
-        foreach ( $tagsToSuggest as $tag )
-        {
-            if ( !$subTreeLimit > 0 || ( $subTreeLimit > 0 && strpos( $tag->attribute( 'path_string' ), '/' . $subTreeLimit . '/' ) !== false ) )
-            {
-                if ( !$hideRootTag || ( $hideRootTag && $tag->attribute( 'id' ) != $subTreeLimit ) )
-                {
-                    $returnArrayChild = array();
-                    $returnArrayChild['tag_parent_id']   = $tag->attribute( 'parent_id' );
-                    $returnArrayChild['tag_parent_name'] = $tag->hasParent( true ) ? $tag->getParent( true )->attribute( 'keyword' ) : '';
-                    $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
-                    $returnArrayChild['tag_id']          = $tag->attribute( 'id' );
-                    $returnArrayChild['tag_locale']      = $tag->attribute( 'current_language' );
-                    $returnArray['tags'][]               = $returnArrayChild;
-                }
-            }
-        }
-
-        return $returnArray;
+        return self::generateOutput(
+            array( 'id' => array( $tagsToSuggest ) ),
+            $http->postVariable( 'subtree_limit', 0 ),
+            $http->postVariable( 'hide_root_tag', '0' ),
+            $http->postVariable( 'locale', '' )
+        );
     }
 
     /**
@@ -233,6 +160,65 @@ class ezjscTags extends ezjscServerFunctions
 
         array_unshift( $prioritizedLocales, $locale );
         return $prioritizedLocales;
+    }
+
+    /**
+     * Generates output for use with autocomplete and suggest methods
+     *
+     * @static
+     *
+     * @param array $params
+     * @param int $subTreeLimit
+     * @param bool $hideRootTag
+     * @param string $locale
+     *
+     * @return array
+     */
+    static private function generateOutput( array $params, $subTreeLimit, $hideRootTag, $locale )
+    {
+        $subTreeLimit = (int) $subTreeLimit;
+        $hideRootTag = (bool) $hideRootTag;
+        $locale = (string) $locale;
+
+        if ( empty( $locale ) )
+             return array( 'status' => 'success', 'message' => '', 'tags' => array() );
+
+        if ( $subTreeLimit > 0 )
+        {
+            if ( $hideRootTag )
+                $params['id'] = array( '<>', $subTreeLimit );
+
+            $params['path_string'] = array( 'like', '%/' . $subTreeLimit . '/%' );
+        }
+
+        $prioritizedLocales = self::getTopPrioritiziedLanguages( $locale );
+        eZContentLanguage::setPrioritizedLanguages( $prioritizedLocales );
+
+        $tags = eZTagsObject::fetchList( $params );
+
+        eZContentLanguage::clearPrioritizedLanguages();
+
+        if ( !is_array( $tags ) || empty( $tags ) )
+             return array( 'status' => 'success', 'message' => '', 'tags' => array() );
+
+        $returnArray = array(
+            'status' => 'success',
+            'message' => '',
+            'tags' => array()
+        );
+
+        foreach ( $tags as $tag )
+        {
+            $returnArrayChild = array();
+            $returnArrayChild['tag_parent_id']   = $tag->attribute( 'parent_id' );
+            $returnArrayChild['tag_parent_name'] = $tag->hasParent( true ) ? $tag->getParent( true )->attribute( 'keyword' ) : '';
+            $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
+            $returnArrayChild['tag_id']          = $tag->attribute( 'id' );
+            $returnArrayChild['tag_locale']      = $tag->attribute( 'current_language' );
+            $returnArray['tags'][]               = $returnArrayChild;
+        }
+
+        return $returnArray;
     }
 }
 
