@@ -23,7 +23,7 @@ class ezjscTags extends ezjscServerFunctions
             return array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
         return self::generateOutput(
-            array( 'keyword' => array( 'like', $searchString . '%' ) ),
+            array( 'eztags_keyword.keyword' => array( 'like', $searchString . '%' ) ),
             $http->postVariable( 'subtree_limit', 0 ),
             $http->postVariable( 'hide_root_tag', '0' ),
             $http->postVariable( 'locale', '' )
@@ -137,32 +137,6 @@ class ezjscTags extends ezjscServerFunctions
     }
 
     /**
-     * Returns the current top prioritized languages without specified $locale
-     *
-     * @static
-     *
-     * @param string $locale
-     *
-     * @return array
-     */
-    static private function getTopPrioritiziedLanguages( $locale )
-    {
-        $prioritizedLocales = eZContentLanguage::prioritizedLanguageCodes();
-        if ( !is_array( $prioritizedLocales ) )
-        {
-            $prioritizedLocales = array( $locale );
-            return $prioritizedLocales;
-        }
-
-        $key = array_search( $locale, $prioritizedLocales );
-        if ( $key !== false )
-            unset( $prioritizedLocales[$key] );
-
-        array_unshift( $prioritizedLocales, $locale );
-        return $prioritizedLocales;
-    }
-
-    /**
      * Generates output for use with autocomplete and suggest methods
      *
      * @static
@@ -191,15 +165,51 @@ class ezjscTags extends ezjscServerFunctions
             $params['path_string'] = array( 'like', '%/' . $subTreeLimit . '/%' );
         }
 
-        $prioritizedLocales = self::getTopPrioritiziedLanguages( $locale );
-        eZContentLanguage::setPrioritizedLanguages( $prioritizedLocales );
+        // first fetch tags that exist in selected locale
+        $tags = eZTagsObject::fetchList( $params, null, null, false, $locale );
+        if ( !is_array( $tags ) )
+            $tags = array();
 
-        $tags = eZTagsObject::fetchList( $params );
+        $tagsIDsToExclude = array_map(
+            function ( $tag )
+            {
+                /** @var eZTagsObject $tag */
+                return (int) $tag->attribute( 'id' );
+            },
+            $tags
+        );
 
-        eZContentLanguage::clearPrioritizedLanguages();
+        // then fetch the rest of tags, but exclude already fetched ones
+        // fetch with main translation to be consistent with eztags attribute content
 
-        if ( !is_array( $tags ) || empty( $tags ) )
-             return array( 'status' => 'success', 'message' => '', 'tags' => array() );
+        $customConds = eZTagsObject::fetchCustomCondsSQL( $params, true );
+        if ( !empty( $tagsIDsToExclude ) )
+            $customConds .= " AND " . eZDB::instance()->generateSQLINStatement( $tagsIDsToExclude, 'eztags.id', true, true, 'int' ) . " ";
+
+        $tagsRest = eZPersistentObject::fetchObjectList(
+            eZTagsObject::definition(), array(), $params,
+            null, null, true, false,
+            array(
+                'DISTINCT eztags.*',
+                array(
+                    'operation' => 'eztags_keyword.keyword',
+                    'name'      => 'keyword'
+                ),
+                array(
+                    'operation' => 'eztags_keyword.locale',
+                    'name'      => 'locale'
+                )
+            ),
+            array( 'eztags_keyword' ),
+            $customConds
+        );
+
+        if ( !is_array( $tagsRest ) )
+            $tagsRest = array();
+
+        // finally, return both set of tags as one list
+
+        $tags = array_merge( $tags, $tagsRest );
 
         $returnArray = array(
             'status' => 'success',
