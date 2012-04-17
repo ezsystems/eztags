@@ -895,11 +895,8 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param eZTagsObject $targetTag
      */
-    public function moveChildrenBelowAnotherTag( $targetTag )
+    public function moveChildrenBelowAnotherTag( eZTagsObject $targetTag )
     {
-        if ( !$targetTag instanceof self )
-            return;
-
         $currentTime = time();
         $children = $this->getChildren( true );
         foreach ( $children as $child )

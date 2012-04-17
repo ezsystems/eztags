@@ -49,7 +49,7 @@ class eZTags
      * @param array $parentArray
      * @param array $localeArray
      */
-    private function __construct( $attribute, $idArray = array(), $keywordArray = array(), $parentArray = array(), $localeArray = array() )
+    private function __construct( eZContentObjectAttribute $attribute, array $idArray, array $keywordArray, array $parentArray, array $localeArray )
     {
         $this->IDArray = $idArray;
         $this->KeywordArray = $keywordArray;
@@ -198,7 +198,7 @@ class eZTags
         $localeArray = array();
 
         if ( !is_numeric( $attribute->attribute( 'id' ) ) || !is_numeric( $attribute->attribute( 'version' ) ) )
-            return new self( $attribute );
+            return new self( $attribute, $idArray, $keywordArray, $parentArray, $localeArray );
 
         if ( $locale === null || !is_string( $locale ) )
             $locale = $attribute->attribute( 'language_code' );
@@ -447,7 +447,7 @@ class eZTags
      *
      * @return bool
      */
-    static private function canSave( $pathString, $allowedLocations )
+    static private function canSave( $pathString, array $allowedLocations )
     {
         foreach ( $allowedLocations as $location )
         {
@@ -470,7 +470,7 @@ class eZTags
      * @param string $keyword
      * @param string $locale
      */
-    static private function createAndLinkTag( $attribute, $parentID, $parentPathString, $parentDepth, $keyword, $locale )
+    static private function createAndLinkTag( eZContentObjectAttribute $attribute, $parentID, $parentPathString, $parentDepth, $keyword, $locale )
     {
         $languageID = eZContentLanguage::idByLocale( $locale );
         if ( $languageID === false )
@@ -519,7 +519,7 @@ class eZTags
      * @param string $keyword
      * @param string $locale
      */
-    static private function linkTag( eZContentObjectAttribute $attribute, $tagObject, $keyword, $locale )
+    static private function linkTag( eZContentObjectAttribute $attribute, eZTagsObject $tagObject, $keyword, $locale )
     {
         $languageID = eZContentLanguage::idByLocale( $locale );
         if ( $languageID === false )
