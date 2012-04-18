@@ -122,10 +122,6 @@
 <context>
     <name>extension/eztags/node/view</name>
     <message>
-        <source>Class attribute ID</source>
-        <translation>ID atributa klase</translation>
-    </message>
-    <message>
         <source>eZ Tags</source>
         <translation>eZ Tags</translation>
     </message>

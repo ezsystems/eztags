@@ -122,10 +122,6 @@
 <context>
     <name>extension/eztags/node/view</name>
     <message>
-        <source>Class attribute ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>eZ Tags</source>
         <translation type="unfinished"></translation>
     </message>
