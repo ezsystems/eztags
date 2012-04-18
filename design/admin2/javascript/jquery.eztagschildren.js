@@ -397,6 +397,8 @@
                 dir: YAHOO.widget.DataTable.CLASS_ASC
             },
             paginator: dataTablePaginator,
+            MSG_LOADING: settings.i18n.loading,
+            MSG_EMPTY: settings.i18n.no_tags
         });
 
         dataTable.handleDataReturnPayload = function( oRequest, oResponse, oPayload ) {

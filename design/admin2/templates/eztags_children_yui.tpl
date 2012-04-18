@@ -60,7 +60,9 @@
                 *}no_actions: "{'Use the checkboxes to select one or more tags.'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}table_options: "{'Table options'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}close_table_options: "{'Close'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
-                *}number_of_items: "{'Number of tags per page'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}"{*
+                *}number_of_items: "{'Number of tags per page'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
+                *}loading: "{'Loading...'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
+                *}no_tags: "{'No tags found.'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}"{*
             *}{rdelim};
 
             var permissions = {ldelim}{*

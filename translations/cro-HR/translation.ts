@@ -693,6 +693,14 @@
         <source>Number of tags per page</source>
         <translation>Broj prikazanih oznaka po stranici</translation>
     </message>
+    <message>
+        <source>Loading...</source>
+        <translation>Učitavanje...</translation>
+    </message>
+    <message>
+        <source>No tags found.</source>
+        <translation>Nema oznaka.</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/warnings</name>
