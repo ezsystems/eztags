@@ -121,7 +121,7 @@
     </message>
     <message>
         <source>There are no tags to suggest</source>
-        <translation>Il n&apos;y a ancun mot clé suggéré</translation>
+        <translation>Il n&apos;y a aucun mot clé suggéré</translation>
     </message>
     <message>
         <source>Add new</source>
