@@ -28,6 +28,19 @@ $FunctionList['tags_by_keyword'] = array( 'name'            => 'tags_by_keyword'
                                                                              'required' => false,
                                                                              'default'  => false ) ) );
 
+$FunctionList['tag_by_remote_id'] = array( 'name'            => 'tag_by_remote_id',
+                                           'operation_types' => array( 'read' ),
+                                           'call_method'     => array( 'class'  => 'eZTagsFunctionCollection',
+                                                                       'method' => 'fetchTagByRemoteID' ),
+                                           'parameter_type'  => 'standard',
+                                           'parameters'      => array( array( 'name'     => 'remote_id',
+                                                                              'type'     => 'string',
+                                                                              'required' => true ),
+                                                                       array( 'name'     => 'language',
+                                                                              'type'     => 'string',
+                                                                              'required' => false,
+                                                                              'default'  => false ) ) );
+
 $FunctionList['list'] = array( 'name'            => 'list',
                                'operation_types' => array( 'read' ),
                                'call_method'     => array( 'class'  => 'eZTagsFunctionCollection',

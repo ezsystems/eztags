@@ -88,6 +88,36 @@ class eZTagsFunctionCollection
     }
 
     /**
+     * Fetches tag identified with provided remote ID
+     *
+     * @static
+     *
+     * @param string $remoteID
+     * @param mixed $language
+     *
+     * @return array
+     */
+    static public function fetchTagByRemoteID( $remoteID, $language = false )
+    {
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+                $language = array( $language );
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
+        $result = eZTagsObject::fetchByRemoteID( $remoteID );
+
+        if ( $language )
+            eZContentLanguage::clearPrioritizedLanguages();
+
+        if ( $result instanceof eZTagsObject )
+            return array( 'result' => $result );
+
+        return array( 'result' => false );
+    }
+
+    /**
      * Fetches subtree of tags by specified parameters
      *
      * @static
