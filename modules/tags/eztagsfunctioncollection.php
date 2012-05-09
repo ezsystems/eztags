@@ -13,35 +13,14 @@ class eZTagsFunctionCollection
      * @param integer $tag_id
      * @return array
      */
-    static public function fetchTag( $tag_id, $remote_id = false )
+    static public function fetchTag( $tag_id )
     {
-    	if ( $tag_id === false && $remote_id !== false )
-        {
-            $tag = eZTagsObject::fetchByRemoteID( $remote_id );
-        }
-        else
-        {
-            $tag = eZTagsObject::fetch( $tag_id );
-        }
+        $result = eZTagsObject::fetch( $tag_id );
 
-        if ( $tag === null )
-        {
-            $result = array( 'error' => array( 'error_type' => 'kernel',
-                                               'error_code' => eZError::KERNEL_NOT_FOUND ) );
-        }
+        if( $result instanceof eZTagsObject )
+            return array( 'result' => $result );
         else
-        {
-        	if( $tag instanceof eZTagsObject )
-        	{
-        		$result = array( 'result' => $tag );
-        	}
-        	else
-        	{
-        		$result = array( 'result' => false );
-        	}
-        }
-
-        return $result;
+            return array( 'result' => false );
     }
 
     /**

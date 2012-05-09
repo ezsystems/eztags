@@ -9,12 +9,7 @@ $FunctionList['tag'] = array( 'name'            => 'tag',
                               'parameter_type'  => 'standard',
                               'parameters'      => array( array( 'name'     => 'tag_id',
                                                                  'type'     => 'integer',
-                                                                 'required' => false,
-                                                                 'default'  => false ),
-														  array( 'name'     => 'remote_id',
-                                                                 'type'     => 'string',
-                                                                 'required' => false,
-                                                                 'default'  => false ) ) );
+                                                                 'required' => true ) ) );
 
 $FunctionList['tags_by_keyword'] = array( 'name'            => 'tags_by_keyword',
                                           'operation_types' => array( 'read' ),
