@@ -41,6 +41,23 @@ class eZTagsFunctionCollection
     }
 
     /**
+     * Fetches tag identified with provided remote_id
+     *
+     * @static
+     * @param string $remote_id
+     * @return array
+     */
+    static public function fetchTagByRemoteID( $remote_id )
+    {
+        $result = eZTagsObject::fetchByRemoteID( $remote_id );
+
+        if( $result instanceof eZTagsObject )
+            return array( 'result' => $result );
+        else
+            return array( 'result' => false );
+    }
+
+    /**
      * Fetches subtree of tags by specified parameters
      *
      * @static
