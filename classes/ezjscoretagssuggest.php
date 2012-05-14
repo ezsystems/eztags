@@ -63,6 +63,11 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
         $tags = array();
         $siteINI = eZINI::instance( 'site.ini' );
 
+        $returnArray = array();
+        $returnArray['status']  = 'success';
+        $returnArray['message'] = '';
+        $returnArray['tags']    = array();
+
         if ( $siteINI->variable( 'SearchSettings', 'SearchEngine' ) == 'ezsolr' && class_exists( 'eZSolr' ) )
         {
             $tagsCount = 1;
@@ -99,10 +104,16 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
                                  'FieldsToReturn' => null );
                 $searchResult = $solrSearch->search( '', $params );
                 $facetResult = $searchResult['SearchExtras']->attribute( 'facet_fields' );
-                $facetResult = $facetResult[0]['nameList'];
+
+                $searchError = $searchResult['SearchExtras']->attribute( 'error' );
+                if ( !empty( $searchError ) || !is_array( $facetResult ) || !is_array( $facetResult[0]['nameList'] ) )
+                {
+                    eZDebug::writeWarning( 'There was an error fetching tag suggestions from Solr. Maybe server is not running or using unpatched schema?', __METHOD__ );
+                    return $returnArray;
+                }
 
                 $tags = array();
-                foreach ( $facetResult as $facetValue )
+                foreach ( $facetResult[0]['nameList'] as $facetValue )
                 {
                     if ( !in_array( strtolower( $facetValue ), $filteredTagsArray ) )
                     {
@@ -116,11 +127,6 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
                 }
             }
         }
-
-        $returnArray = array();
-        $returnArray['status']  = 'success';
-        $returnArray['message'] = '';
-        $returnArray['tags']    = array();
 
         foreach ( $tags as $tag )
         {
