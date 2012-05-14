@@ -73,11 +73,17 @@ class ezjscTags extends ezjscServerFunctions
 
         $searchResult = $solrSearch->search( '', $params );
         if ( !isset( $searchResult['SearchExtras'] ) || !$searchResult['SearchExtras'] instanceof ezfSearchResultInfo )
+        {
+            eZDebug::writeWarning( 'There was an error fetching tag suggestions from Solr. Maybe server is not running or using unpatched schema?', __METHOD__ );
             return array( 'status' => 'success', 'message' => '', 'tags' => array() );
+        }
 
         $facetResult = $searchResult['SearchExtras']->attribute( 'facet_fields' );
-        if ( !is_array( $facetResult ) || empty( $facetResult[0]['nameList'] ) )
+        if ( !is_array( $facetResult ) || !is_array( $facetResult[0]['nameList'] ) )
+        {
+            eZDebug::writeWarning( 'There was an error fetching tag suggestions from Solr. Maybe server is not running or using unpatched schema?', __METHOD__ );
             return array( 'status' => 'success', 'message' => '', 'tags' => array() );
+        }
 
         $facetResult = array_values( $facetResult[0]['nameList'] );
 
