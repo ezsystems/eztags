@@ -68,7 +68,7 @@ class eZTagsFunctionCollection
                          'Offset' => $offset,
                          'Limit'  => $limit,
                          'IncludeSynonyms' => $includeSynonyms,
-                         'ShowHidden' => $showHidden );
+                         'IgnoreVisibility' => $showHidden );
 
         if ( $depth !== false )
         {
@@ -98,7 +98,7 @@ class eZTagsFunctionCollection
 
         $showHidden = eZTagsObject::showHiddenTagsEnabled();
         $params = array( 'IncludeSynonyms' => $includeSynonyms,
-                         'ShowHidden' => $showHidden );
+                         'IgnoreVisibility' => $showHidden );
 
         if ( $depth !== false )
         {

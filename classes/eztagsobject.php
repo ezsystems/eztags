@@ -728,7 +728,7 @@ class eZTagsObject extends eZPersistentObject
         $depth           = ( isset( $params['Depth'] ) )                                   ? $params['Depth']                  : false;
         $depthOperator   = ( isset( $params['DepthOperator'] ) )                           ? $params['DepthOperator']          : false;
         $includeSynonyms = ( isset( $params['IncludeSynonyms'] ) )                         ? (bool) $params['IncludeSynonyms'] : false;
-        $showHidden      = ( isset( $params['ShowHidden'] ) )                              ? (bool) $params['ShowHidden']      : true;
+        $showHidden      = ( isset( $params['IgnoreVisibility'] ) )                        ? (bool) $params['IgnoreVisibility']: true;
 
         $fetchParams = array();
 
@@ -841,7 +841,7 @@ class eZTagsObject extends eZPersistentObject
         $depth           = ( isset( $params['Depth'] ) )                                   ? $params['Depth']                  : false;
         $depthOperator   = ( isset( $params['DepthOperator'] ) )                           ? $params['DepthOperator']          : false;
         $includeSynonyms = ( isset( $params['IncludeSynonyms'] ) )                         ? (bool) $params['IncludeSynonyms'] : false;
-        $showHidden      = ( isset( $params['ShowHidden'] ) )                              ? (bool) $params['ShowHidden']      : true;
+        $showHidden      = ( isset( $params['IgnoreVisibility'] ) )                        ? (bool) $params['IgnoreVisibility']: true;
 
         $fetchParams = array();
 
