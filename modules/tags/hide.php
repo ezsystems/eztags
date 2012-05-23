@@ -18,13 +18,13 @@ if ( !( $tag instanceof eZTagsObject ) )
 
 if( !trim( $action ) )
 {
-    if( $tag->isVisible() )
-    {
-        $action = 'hide';
-    }
-    elseif( $tag->isHidden() )
+    if( $tag->isHidden() )
     {
         $action = 'unhide';
+    }
+    else
+    {
+        $action = 'hide';
     }
 }
 
