@@ -13,13 +13,11 @@ class eZTagsFunctionCollection
      * @param integer $tag_id
      * @return array
      */
-    static public function fetchTag( $tag_id )
+    static public function fetchTag( $tag_id, $ignoreVisibility )
     {
-        $result = eZTagsObject::fetch( $tag_id );
+        $result = eZTagsObject::fetch( $tag_id, $ignoreVisibility );
 
-        $showHidden = eZTagsObject::showHiddenTagsEnabled();
-
-        if( $result instanceof eZTagsObject && ( $showHidden || $result->isVisible() ) )
+        if( $result instanceof eZTagsObject )
             return array( 'result' => $result );
         else
             return array( 'result' => false );
@@ -32,11 +30,9 @@ class eZTagsFunctionCollection
      * @param string $keyword
      * @return array
      */
-    static public function fetchTagsByKeyword( $keyword )
+    static public function fetchTagsByKeyword( $keyword, $ignoreVisibility )
     {
-        $showHidden = eZTagsObject::showHiddenTagsEnabled();
-
-        $result = eZTagsObject::fetchByKeyword( $keyword, $showHidden );
+        $result = eZTagsObject::fetchByKeyword( $keyword, $ignoreVisibility );
 
         if( is_array( $result ) && !empty( $result ) )
             return array( 'result' => $result );
@@ -57,7 +53,7 @@ class eZTagsFunctionCollection
      * @param bool $includeSynonyms
      * @return array
      */
-    static public function fetchTagTree( $parentTagID, $sortBy, $offset, $limit, $depth, $depthOperator, $includeSynonyms )
+    static public function fetchTagTree( $parentTagID, $sortBy, $offset, $limit, $depth, $depthOperator, $includeSynonyms, $ignoreVisibility )
     {
         if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
             return array( 'result' => false );
@@ -67,8 +63,12 @@ class eZTagsFunctionCollection
         $params = array( 'SortBy' => $sortBy,
                          'Offset' => $offset,
                          'Limit'  => $limit,
-                         'IncludeSynonyms' => $includeSynonyms,
-                         'IgnoreVisibility' => $showHidden );
+                         'IncludeSynonyms' => $includeSynonyms );
+
+        if( $ignoreVisibility !== null )
+        {
+            $params['IgnoreVisibility'] = $ignoreVisibility;
+        }
 
         if ( $depth !== false )
         {
@@ -91,14 +91,18 @@ class eZTagsFunctionCollection
      * @param bool $includeSynonyms
      * @return integer
      */
-    static public function fetchTagTreeCount( $parentTagID, $depth, $depthOperator, $includeSynonyms )
+    static public function fetchTagTreeCount( $parentTagID, $depth, $depthOperator, $includeSynonyms, $ignoreVisibility )
     {
         if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
             return array( 'result' => 0 );
 
         $showHidden = eZTagsObject::showHiddenTagsEnabled();
-        $params = array( 'IncludeSynonyms' => $includeSynonyms,
-                         'IgnoreVisibility' => $showHidden );
+        $params = array( 'IncludeSynonyms' => $includeSynonyms );
+
+        if( $ignoreVisibility !== null )
+        {
+            $params['IgnoreVisibility'] = $ignoreVisibility;
+        }
 
         if ( $depth !== false )
         {
@@ -119,15 +123,19 @@ class eZTagsFunctionCollection
      * @param integer $limit
      * @return array
      */
-    static public function fetchLatestTags( $parentTagID = false, $limit = 0 )
+    static public function fetchLatestTags( $parentTagID = false, $limit = 0, $ignoreVisibility )
     {
         $filterArray = array( 'main_tag_id' => 0 );
 
         if ( $parentTagID !== false )
             $filterArray['parent_id'] = (int) $parentTagID;
 
-        $showHidden = eZTagsObject::showHiddenTagsEnabled();
-        if( !$showHidden )
+        if( $ignoreVisibility === null )
+        {
+            $ignoreVisibility = eZTagsObject::showHiddenTagsEnabled();
+        }
+
+        if( !$ignoreVisibility )
             $filterArray['hidden'] = 0;
 
         $result = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null,

@@ -9,7 +9,11 @@ $FunctionList['tag'] = array( 'name'            => 'tag',
                               'parameter_type'  => 'standard',
                               'parameters'      => array( array( 'name'     => 'tag_id',
                                                                  'type'     => 'integer',
-                                                                 'required' => true ) ) );
+                                                                 'required' => true ),
+                                                          array( 'name'     => 'ignore_visibility',
+                                                                 'type'     => 'bool',
+                                                                 'required' => false,
+                                                                 'default'  => null ) ) );
 
 $FunctionList['tags_by_keyword'] = array( 'name'            => 'tags_by_keyword',
                                           'operation_types' => array( 'read' ),
@@ -18,7 +22,11 @@ $FunctionList['tags_by_keyword'] = array( 'name'            => 'tags_by_keyword'
                                           'parameter_type'  => 'standard',
                                           'parameters'      => array( array( 'name'     => 'keyword',
                                                                              'type'     => 'string',
-                                                                             'required' => true ) ) );
+                                                                             'required' => true ),
+                                                                      array( 'name'     => 'ignore_visibility',
+                                                                             'type'     => 'bool',
+                                                                             'required' => false,
+                                                                             'default'  => null ) ) );
 
 $FunctionList['list'] = array( 'name'            => 'list',
                                'operation_types' => array( 'read' ),
@@ -51,7 +59,11 @@ $FunctionList['list'] = array( 'name'            => 'list',
                                                            array( 'name'     => 'include_synonyms',
                                                                   'type'     => 'bool',
                                                                   'required' => false,
-                                                                  'default'  => false ) ) );
+                                                                  'default'  => false ),
+                                                           array( 'name'     => 'ignore_visibility',
+                                                                  'type'     => 'bool',
+                                                                  'required' => false,
+                                                                  'default'  => null ) ) );
 
 $FunctionList['list_count'] = array( 'name'            => 'list_count',
                                      'operation_types' => array( 'read' ),
@@ -72,7 +84,11 @@ $FunctionList['list_count'] = array( 'name'            => 'list_count',
                                                                  array( 'name'     => 'include_synonyms',
                                                                         'type'     => 'bool',
                                                                         'required' => false,
-                                                                        'default'  => false ) ) );
+                                                                        'default'  => false ),
+                                                                 array( 'name'     => 'ignore_visibility',
+                                                                        'type'     => 'bool',
+                                                                        'required' => false,
+                                                                        'default'  => null ) ) );
 
 $FunctionList['tree'] = array( 'name'            => 'tree',
                                'operation_types' => array( 'read' ),
@@ -105,7 +121,11 @@ $FunctionList['tree'] = array( 'name'            => 'tree',
                                                            array( 'name'     => 'include_synonyms',
                                                                   'type'     => 'bool',
                                                                   'required' => false,
-                                                                  'default'  => false ) ) );
+                                                                  'default'  => false ),
+                                                           array( 'name'     => 'ignore_visibility',
+                                                                  'type'     => 'bool',
+                                                                  'required' => false,
+                                                                  'default'  => null ) ) );
 
 $FunctionList['tree_count'] = array( 'name'            => 'tree_count',
                                      'operation_types' => array( 'read' ),
@@ -126,7 +146,11 @@ $FunctionList['tree_count'] = array( 'name'            => 'tree_count',
                                                                  array( 'name'     => 'include_synonyms',
                                                                         'type'     => 'bool',
                                                                         'required' => false,
-                                                                        'default'  => false ) ) );
+                                                                        'default'  => false ),
+                                                                 array( 'name'     => 'ignore_visibility',
+                                                                        'type'     => 'bool',
+                                                                        'required' => false,
+                                                                        'default'  => null ) ) );
 
 $FunctionList['latest_tags'] = array( 'name'            => 'latest_tags',
                                       'operation_types' => array( 'read' ),
@@ -140,6 +164,10 @@ $FunctionList['latest_tags'] = array( 'name'            => 'latest_tags',
                                                                   array( 'name'     => 'limit',
                                                                          'type'     => 'integer',
                                                                          'required' => false,
-                                                                         'default'  => 0 ) ) );
+                                                                         'default'  => 0 ),
+                                                                  array( 'name'     => 'ignore_visibility',
+                                                                         'type'     => 'bool',
+                                                                         'required' => false,
+                                                                         'default'  => null ) ) );
 
 ?>
