@@ -56,16 +56,12 @@ foreach( $synonyms as $synonym )
 }
 
 //hide descendant tags
-$subtags = $tag->fetchByPathString( $tag->attribute( 'path_string' ) );
-foreach( $subtags as $subtag )
-{
-    if( $subtag != $tag )
-    {
-        $subtag->setInvisible( $doHide );
-        $subtag->updateModified();
-        $subtag->store();
-    }
-}
+$bitwiseOperator = $doHide ? '|' : '& ~';
+$sql = 'UPDATE eztags
+			SET hidden = hidden' . $bitwiseOperator . eZTagsObject::VISIBILITY_INVISIBLE .',
+				modified = ' . time() . '
+			WHERE path_string LIKE "' . $tag->attribute( 'path_string' ) . '%"';
+$db->query( $sql );
 
 $db->commit();
 
