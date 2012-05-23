@@ -4,8 +4,6 @@ $http = eZHTTPTool::instance();
 
 $tagID = (int) $Params['TagID'];
 $action = $Params['Action'];
-$deleteAllowed = true;
-$error = '';
 
 if ( $tagID <= 0 )
 {
