@@ -985,6 +985,17 @@ class eZTagsObject extends eZPersistentObject
         }
     }
 
+    /**
+     * Indicates wether hidden tags should shown
+     * as set in eztags.ini
+     * @return boolean
+     */
+    public static function showHiddenTagsEnabled()
+    {
+        $eztagsINI = eZINI::instance( 'eztags.ini' );
+        return !$eztagsINI->hasVariable( 'VisibilitySettings', 'ShowHiddenTags' ) || $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+    }
+
 }
 
 ?>

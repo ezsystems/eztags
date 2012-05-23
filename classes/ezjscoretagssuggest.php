@@ -32,8 +32,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
             $params['path_string'] = array( 'like', '%/' . $subTreeLimit . '/%' );
         }
 
-        $eztagsINI = eZINI::instance( 'eztags.ini' );
-        $showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+        $showHidden = eZTagsObject::showHiddenTagsEnabled();
         if( !$showHidden )
         {
             $params['hidden'] = 0;
@@ -70,8 +69,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
     {
         $tags = array();
         $siteINI = eZINI::instance( 'site.ini' );
-        $eztagsINI = eZINI::instance( 'eztags.ini' );
-        $showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+        $showHidden = eZTagsObject::showHiddenTagsEnabled();
 
         if ( $siteINI->variable( 'SearchSettings', 'SearchEngine' ) == 'ezsolr' && class_exists( 'eZSolr' ) )
         {

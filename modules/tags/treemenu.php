@@ -101,7 +101,7 @@ $tagID = (int) $Params['TagID'];
 $siteINI = eZINI::instance();
 $eztagsINI = eZINI::instance( 'eztags.ini' );
 
-$showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+$showHidden = eZTagsObject::showHiddenTagsEnabled();
 
 $tag = eZTagsObject::fetch( $tagID );
 

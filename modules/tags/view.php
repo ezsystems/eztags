@@ -9,7 +9,7 @@ if ( !( is_array( $keywordArray ) && !empty( $keywordArray ) ) )
 }
 
 $eztagsINI = eZINI::instance( 'eztags.ini' );
-$showHidden = $eztagsINI->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+$showHidden = eZTagsObject::showHiddenTagsEnabled();
 
 $parentID = 0;
 for ( $i = 0; $i < count( $keywordArray ) - 1; $i++ )
