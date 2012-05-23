@@ -17,7 +17,6 @@ class eZTagsFunctionCollection
     {
         $result = eZTagsObject::fetch( $tag_id );
 
-        $eztagsINI = eZINI::instance( 'eztags.ini' );
         $showHidden = eZTagsObject::showHiddenTagsEnabled();
 
         if( $result instanceof eZTagsObject && ( $showHidden || $result->isVisible() ) )
@@ -35,7 +34,6 @@ class eZTagsFunctionCollection
      */
     static public function fetchTagsByKeyword( $keyword )
     {
-        $eztagsINI = eZINI::instance( 'eztags.ini' );
         $showHidden = eZTagsObject::showHiddenTagsEnabled();
 
         $result = eZTagsObject::fetchByKeyword( $keyword, $showHidden );
@@ -64,7 +62,6 @@ class eZTagsFunctionCollection
         if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
             return array( 'result' => false );
 
-        $eztagsINI = eZINI::instance( 'eztags.ini' );
         $showHidden = eZTagsObject::showHiddenTagsEnabled();
 
         $params = array( 'SortBy' => $sortBy,
@@ -99,7 +96,6 @@ class eZTagsFunctionCollection
         if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
             return array( 'result' => 0 );
 
-        $eztagsINI = eZINI::instance( 'eztags.ini' );
         $showHidden = eZTagsObject::showHiddenTagsEnabled();
         $params = array( 'IncludeSynonyms' => $includeSynonyms,
                          'ShowHidden' => $showHidden );
@@ -130,7 +126,6 @@ class eZTagsFunctionCollection
         if ( $parentTagID !== false )
             $filterArray['parent_id'] = (int) $parentTagID;
 
-        $eztagsINI = eZINI::instance( 'eztags.ini' );
         $showHidden = eZTagsObject::showHiddenTagsEnabled();
         if( !$showHidden )
             $filterArray['hidden'] = 0;

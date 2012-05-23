@@ -395,7 +395,7 @@ class eZTags
 
         $filter = array( 'id' => array( $this->IDArray ) );
         $ini = eZINI::instance( 'eztags.ini' );
-        if( $ini->variable( 'VisibilitySettings', 'ShowHiddenTags' ) !== 'enabled' )
+        if( !ezTagsObject::showHiddenTagsEnabled() )
         {
             $filter['hidden'] = 0;
         }
