@@ -9,8 +9,8 @@
 			maxHeight:350,
 			ajaxResults: false,
 			suggestTimeout: 500,
-			ezjscAutocomplete:'ezjsctagssuggest::autocomplete',
-			ezjscSuggest:'ezjsctagssuggest::suggest'
+			ezjscAutocomplete:'ezjsctags::autocomplete',
+			ezjscSuggest:'ezjsctags::suggest'
 		};
 		settings = $.extend(defaults, settings);
 
