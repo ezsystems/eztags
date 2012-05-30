@@ -25,6 +25,8 @@
 				names = $(this).find('.tagnames'),
 				parent_ids = $(this).find('.tagpids'),
 				tids = $(this).find('.tagids'),
+				tlocales = $(this).find('.tlocales'),
+				current_locale = $(this).find('.eztags_locale').val(),
 				parentSelectorButton = $(this).find('input[type="button"]'),
 				subtree_limit = $(this).find('.eztags_subtree_limit').val(),
 				hide_root_tag = $(this).find('.eztags_hide_root_tag').val(),
@@ -49,7 +51,7 @@
 				var tag_parent_ids_array = parent_ids.val().split('|#');
 				var tag_ids_array = tids.val().split('|#');
 				$.each(tag_names_array, function(index, value) {
-					addTagToList({'tag_name': value.replace(/^\s+|\s+$/g, ''), 'tag_parent_id': tag_parent_ids_array[index].replace(/^\s+|\s+$/g, ''), 'tag_id': tag_ids_array[index].replace(/^\s+|\s+$/g, '')}, tags_listed, removeTagFromList, '&times;');
+					addTagToList({'tag_name': value.replace(/^\s+|\s+$/g, ''), 'tag_parent_id': tag_parent_ids_array[index].replace(/^\s+|\s+$/g, ''), 'tag_id': tag_ids_array[index].replace(/^\s+|\s+$/g, ''), 'locale': current_locale}, tags_listed, removeTagFromList, '&times;');
 				});
 			}
 
@@ -76,7 +78,7 @@
 
 			function addTagToList( item, list, callback, icon )
 			{
-				var tag = $('<li' + (!icon ? ' title="Add this tag"' : '') + '>' + item.tag_name + (icon ? '<a href="#" title="Remove tag">' + icon + '</a>' : '') + '</li>').data('tag', {'tag_parent_id': item.tag_parent_id, 'tag_name': item.tag_name, 'tag_id': item.tag_id});
+				var tag = $('<li' + (!icon ? ' title="Add this tag"' : '') + '>' + item.tag_name + (icon ? '<a href="#" title="Remove tag">' + icon + '</a>' : '') + '</li>').data('tag', {'tag_parent_id': item.tag_parent_id, 'tag_name': item.tag_name, 'tag_id': item.tag_id, 'locale' : item.tag_locale});
 				if (icon) tag.find('a').click(function(e) {callback(tag); return false;})
 				else tag.click(function(e) {callback(tag); return false;});
 				list.append(tag);
@@ -105,15 +107,18 @@
 				var tag_names = '';
 				var tag_parent_ids = '';
 				var tag_tag_ids = '';
+				var tag_locales = '';
 				tags_listed.find('li').each(function(i)
 					{
 						tag_names += (tag_names == '' ? '' : '|#') + $(this).data('tag').tag_name;
 						tag_parent_ids += (tag_parent_ids == '' ? '' : '|#') + $(this).data('tag').tag_parent_id;
 						tag_tag_ids += (tag_tag_ids == '' ? '' : '|#') + $(this).data('tag').tag_id;
+						tag_locales += (tag_locales == '' ? '' : '|#') + $(this).data('tag').locale;
 					});
 				names.val(tag_names);
 				parent_ids.val(tag_parent_ids);
 				tids.val(tag_tag_ids);
+				tlocales.val(tag_locales);
 				if (!tag_names && !tag_parent_ids && !tag_tag_ids) tags_listed.parent('div.tags-list').addClass('no-results');
 				runSuggest();
 			}
@@ -262,7 +267,7 @@
 			function runAutocomplete()
 			{
 				if ( obj.val() || isFilter )
-					$.ez(settings.ezjscAutocomplete, {'search_string': obj.val(), 'subtree_limit': subtree_limit, 'hide_root_tag': hide_root_tag}, function(data)
+					$.ez(settings.ezjscAutocomplete, {'search_string': obj.val(), 'subtree_limit': subtree_limit, 'hide_root_tag': hide_root_tag, 'locale' : current_locale}, function(data)
 					{
 						if (typeof data === 'string') data = JSON.parse(data);
 						buildAutocomplete(data.content.tags);
