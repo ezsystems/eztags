@@ -2,102 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="de_DE" sourcelanguage="en">
 <context>
-    <name>design/admin/parts/user/menu</name>
-    <message>
-        <source>Change the left menu width to small size.</source>
-        <translation>Linke Menübreite auf kleine Größe ändern.</translation>
-    </message>
-    <message>
-        <source>Small</source>
-        <translation>Klein</translation>
-    </message>
-    <message>
-        <source>Medium</source>
-        <translation>Mittel</translation>
-    </message>
-    <message>
-        <source>Change the left menu width to large size.</source>
-        <translation>Linke Menübreite auf große Größe ändern.</translation>
-    </message>
-    <message>
-        <source>Large</source>
-        <translation>Groß</translation>
-    </message>
-    <message>
-        <source>Change the left menu width to medium size.</source>
-        <translation>Linke Menübreite auf mittlere Größe ändern.</translation>
-    </message>
-</context>
-<context>
-    <name>design/ezwebin/article/comments</name>
-    <message>
-        <source>%login_link_startLog in%login_link_end to comment.</source>
-        <translation>%login_link_startAnmelden%login_link_end um zu kommentieren.</translation>
-    </message>
-</context>
-<context>
-    <name>design/ezwebin/full/article</name>
-    <message>
-        <source>Comments</source>
-        <translation>Kommentare</translation>
-    </message>
-    <message>
-        <source>New comment</source>
-        <translation>Neues Kommentar</translation>
-    </message>
-    <message>
-        <source>%login_link_startLog in%login_link_end or %create_link_startcreate a user account%create_link_end to comment.</source>
-        <translation>%login_link_startAnmelden%login_link_end oder %create_link_startregistrieren%create_link_end um zu kommentieren.</translation>
-    </message>
-    <message>
-        <source>Tip a friend</source>
-        <translation>Einem Freund empfehlen</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/class/datatype</name>
-    <message>
-        <source>Limit by tags subtree</source>
-        <translation>Auf Schlagwortunterebene begrenzen</translation>
-    </message>
-    <message>
-        <source>Hide root subtree limit tag when editing object</source>
-        <translation>Übergeordnetes Schlagwort beim Bearbeiten von Objekt verstecken</translation>
-    </message>
-    <message>
-        <source>Show dropdown instead of autocomplete</source>
-        <translation>Menü statt automatische Vervollständigung zeigen</translation>
-    </message>
-    <message>
-        <source>Maximum number of allowed tags</source>
-        <translation>Maximale Anzahl erlaubter Schlagwörter</translation>
-    </message>
-    <message>
-        <source>(0 = unlimited)</source>
-        <translation>(0 = unlimitiert)</translation>
-    </message>
-    <message>
-        <source>Unlimited</source>
-        <translation>Unlimitiert</translation>
-    </message>
-    <message>
-        <source>Select subtree</source>
-        <translation>Unterverzweigung auswählen</translation>
-    </message>
-    <message>
-        <source>No limit</source>
-        <translation>Kein Limit</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation>Ja</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation>Nein</translation>
-    </message>
-</context>
-<context>
     <name>extension/eztags/datatypes</name>
     <message>
         <source>Tags</source>
@@ -127,6 +31,66 @@
         <source>Add new</source>
         <translation>Hinzufügen</translation>
     </message>
+    <message>
+        <source>Click to add this tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one tag is required to be added.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attribute contains invalid data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up to %1 tags are allowed to be added.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limit by tags subtree</source>
+        <translation>Auf Schlagwortunterebene begrenzen</translation>
+    </message>
+    <message>
+        <source>Select subtree</source>
+        <translation>Unterverzweigung auswählen</translation>
+    </message>
+    <message>
+        <source>Hide root subtree limit tag when editing object</source>
+        <translation>Übergeordnetes Schlagwort beim Bearbeiten von Objekt verstecken</translation>
+    </message>
+    <message>
+        <source>Show dropdown instead of autocomplete</source>
+        <translation>Menü statt automatische Vervollständigung zeigen</translation>
+    </message>
+    <message>
+        <source>Maximum number of allowed tags</source>
+        <translation>Maximale Anzahl erlaubter Schlagwörter</translation>
+    </message>
+    <message>
+        <source>(0 = unlimited)</source>
+        <translation>(0 = unlimitiert)</translation>
+    </message>
+    <message>
+        <source>No limit</source>
+        <translation>Kein Limit</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>Unlimited</source>
+        <translation>Unlimitiert</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/errors</name>
@@ -143,8 +107,12 @@
         <translation>Name kann nicht leer sein.</translation>
     </message>
     <message>
-        <source>Tag/synonym with that name already exists in selected location.</source>
-        <translation>Schlagwort/Synonym mit diesem Namen existiert bereits am ausgewählten Ort.</translation>
+        <source>Tag/synonym with that translation already exists in selected location.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following tags could not be moved because they contain translations that already exist in one of the tags in selected location.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Go back</source>
@@ -152,46 +120,18 @@
     </message>
 </context>
 <context>
-    <name>extension/eztags/tags/dashboard</name>
+    <name>extension/eztags/node/view</name>
     <message>
-        <source>Latest tags</source>
-        <translation>Neueste Schlagwörter</translation>
+        <source>eZ Tags</source>
+        <translation>eZ Tags</translation>
     </message>
     <message>
-        <source>ID</source>
-        <translation>ID</translation>
+        <source>Show eZ Tags attributes overview.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tag name</source>
-        <translation>Schlagwort Name</translation>
-    </message>
-    <message>
-        <source>Parent tag name</source>
-        <translation>Name des Übergeordneten Schlagworts</translation>
-    </message>
-    <message>
-        <source>Modified</source>
-        <translation>Bearbeitet</translation>
-    </message>
-    <message>
-        <source>No parent</source>
-        <translation>Kein übergeorndetes Schlagwort</translation>
-    </message>
-    <message>
-        <source>Up one level.</source>
-        <translation>Eine Ebene nach oben.</translation>
-    </message>
-    <message>
-        <source>Children tags (%children_count)</source>
-        <translation>Untergeorndete Schlagwörter (%children_count)</translation>
-    </message>
-    <message>
-        <source>Show %1 tags per page.</source>
-        <translation>%1 Schlagwörter pro Seite anzeigen.</translation>
-    </message>
-    <message>
-        <source>The current tag does not contain any children.</source>
-        <translation>Das aktuelle Schlagwort hat keine untergeordneten Schlagwörter.</translation>
+        <source>No tags</source>
+        <translation>Keine Schlagwörter</translation>
     </message>
 </context>
 <context>
@@ -233,14 +173,6 @@
         <translation>Übergeordetes Schlagwort auswählen</translation>
     </message>
     <message>
-        <source>Add child tag</source>
-        <translation>Untergeordnetes Schlagwort hinzufügen</translation>
-    </message>
-    <message>
-        <source>Add synonym</source>
-        <translation>Synonym hinzufügen</translation>
-    </message>
-    <message>
         <source>Convert to synonym</source>
         <translation>In Synonym konvertieren</translation>
     </message>
@@ -249,12 +181,20 @@
         <translation>Schlagwort bearbeiten</translation>
     </message>
     <message>
+        <source>Move tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Edit synonym</source>
         <translation>Synonym bearbeiten</translation>
     </message>
     <message>
         <source>Delete tag</source>
         <translation>Schlagwort löschen</translation>
+    </message>
+    <message>
+        <source>Delete tags</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Merge tag</source>
@@ -287,6 +227,26 @@
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
         <translation>Sind Sie sicher, dass Sie das &quot;%keyword&quot; Schlagwort löschen möchten? Alle untergeordneten Schlagwörter und Synonyme werden ebenfalls gelöscht und aus bestehenden Objekten entfernt.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to move selected tags?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Schlagwort</translation>
+    </message>
+    <message>
+        <source>Related objects count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Children count</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>
@@ -331,6 +291,42 @@
     <message>
         <source>number of objects related to synonyms</source>
         <translation>Anzahl der Objekte, die Synonymen zugeordnet sind</translation>
+    </message>
+    <message>
+        <source>Set as main translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the translation you want to add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the translation you want to edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Bearbeiten</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the main language if there is no prioritized translation.</source>
+        <translation>Hauptsprache benutzen wenn keine prioritisierte Übersetzung existiert.</translation>
     </message>
 </context>
 <context>
@@ -387,10 +383,6 @@
         <translation>Schlagwort ID</translation>
     </message>
     <message>
-        <source>Top Level Tags</source>
-        <translation>Schlagwörter in oberster Ebene</translation>
-    </message>
-    <message>
         <source>Dynamic tree not allowed for this siteaccess</source>
         <translation>Dynamischer Baum für diesen siteaccess nicht erlaubt</translation>
     </message>
@@ -406,11 +398,43 @@
         <source>Tags structure</source>
         <translation>Schlagwortstruktur</translation>
     </message>
+    <message>
+        <source>Add child tag</source>
+        <translation>Untergeordnetes Schlagwort hinzufügen</translation>
+    </message>
+    <message>
+        <source>Edit tag</source>
+        <translation>Schlagwort bearbeiten</translation>
+    </message>
+    <message>
+        <source>Delete tag</source>
+        <translation>Schlagwort löschen</translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Schlagwort zusammenfügen</translation>
+    </message>
+    <message>
+        <source>Add synonym</source>
+        <translation>Synonym hinzufügen</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>In Synonym konvertieren</translation>
+    </message>
+    <message>
+        <source>New translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top level tags</source>
+        <translation>Schlagwörter in oberster Ebene</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>
     <message>
-        <source>Tags Dashboard</source>
+        <source>Tags dashboard</source>
         <translation>Schlagwort Dashboard</translation>
     </message>
     <message>
@@ -687,13 +711,6 @@
     <message>
         <source>Manual search index regeneration is required for changes to be seen in search. Enable DelayedIndexing in site.ini to reindex automatically.</source>
         <translation>Manuelle Erstellung des Suchindex ist notwendig, um Änderungen in der Suche zu sehen. Für automatische Indizierung schalten Sie DelayedIndexing in site.ini ein.</translation>
-    </message>
-</context>
-<context>
-    <name>kernel/classes/datatypes</name>
-    <message>
-        <source>Input required.</source>
-        <translation>Eingabe erforderlich.</translation>
     </message>
 </context>
 </TS>
