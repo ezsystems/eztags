@@ -63,7 +63,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         if ( class_exists( 'ezpEvent', false ) )
         {
             ezpEvent::getInstance()->filter( 'tag/add', array( 'tag' => $tag, 'parentTag' => $tag->getParent() ) );
-            ezpEvent::getInstance()->filter( 'tag/addsynonym', array( 'tag' => $tag, 'mainTag' => $mainTag ) );
+            ezpEvent::getInstance()->filter( 'tag/makesynonym', array( 'tag' => $tag, 'mainTag' => $mainTag ) );
         }
 
 
