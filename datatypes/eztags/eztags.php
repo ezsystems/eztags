@@ -295,6 +295,10 @@ class eZTags
                     $db->query( "UPDATE eztags SET modified = $currentTime WHERE " . $db->generateSQLINStatement( $pathArray, 'id', false, true, 'int' ) );
 
                     $tagsToLink[] = $tagID;
+
+                    if ( class_exists( 'ezpEvent', false ) )
+                        ezpEvent::getInstance()->filter( 'tag/add', array( 'tag' => eZTagsObject::fetch( $tagID ), 'parentTag' => $parentTag ) );
+
                 }
             }
         }

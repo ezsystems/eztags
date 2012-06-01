@@ -118,6 +118,10 @@ else
 
             $db->commit();
 
+            /* Extended Hook */
+            if ( class_exists( 'ezpEvent', false ) )
+                ezpEvent::getInstance()->filter( 'tag/makesynonym', array( 'tag' => $tag, 'mainTag' => $mainTag ) );
+
             return $Module->redirectToView( 'id', array( $tagID ) );
         }
     }
