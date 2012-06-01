@@ -65,6 +65,13 @@ $db->query( $sql );
 
 $db->commit();
 
+/* Extended Hook */
+if ( class_exists( 'ezpEvent', false ) )
+{
+    $eventName = $doHide ? 'tag/hide' : 'tag/show';
+    ezpEvent::getInstance()->filter( $eventName, $tag );
+}
+
 
 $redirectURI = $http->hasPostVariable( 'RedirectURI' ) ? $http->postVariable( 'RedirectURI' ) : $http->sessionVariable( 'LastAccessesURI', '/' );
 $Module->redirectTo( $redirectURI );
