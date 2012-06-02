@@ -33,23 +33,23 @@
     </message>
     <message>
         <source>Click to add this tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicken um Schlagwort hinzuzufügen</translation>
     </message>
     <message>
         <source>Remove tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Schlagwort entfernen</translation>
     </message>
     <message>
         <source>At least one tag is required to be added.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mindestens ein Schlagwort muss hinzugefügt werden.</translation>
     </message>
     <message>
         <source>Attribute contains invalid data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attribut beinhaltet ungültige Daten.</translation>
     </message>
     <message>
         <source>Up to %1 tags are allowed to be added.</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximal %1 Schlagwörter dürfen hinzugefügt werden.</translation>
     </message>
     <message>
         <source>Limit by tags subtree</source>
@@ -108,11 +108,11 @@
     </message>
     <message>
         <source>Tag/synonym with that translation already exists in selected location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es existiert bereits ein Schlagwort/Synonym mit dieser Übersetzung am ausgewählten Ort.</translation>
     </message>
     <message>
         <source>The following tags could not be moved because they contain translations that already exist in one of the tags in selected location.</source>
-        <translation type="unfinished"></translation>
+        <translation>Folgende Schlagwörter konnten nicht verschoben werden, weil sie bereits Übersetzungen beinhalten die in einem der Schlagwörter vom ausgewählten Ort vorkommen.</translation>
     </message>
     <message>
         <source>Go back</source>
@@ -127,7 +127,7 @@
     </message>
     <message>
         <source>Show eZ Tags attributes overview.</source>
-        <translation type="unfinished"></translation>
+        <translation>eZ Tags Attribut-Übersicht anzeigen</translation>
     </message>
     <message>
         <source>No tags</source>
@@ -182,7 +182,7 @@
     </message>
     <message>
         <source>Move tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Schlagwörter verschieben</translation>
     </message>
     <message>
         <source>Edit synonym</source>
@@ -194,7 +194,7 @@
     </message>
     <message>
         <source>Delete tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Schlagwörter löschen</translation>
     </message>
     <message>
         <source>Merge tag</source>
@@ -230,11 +230,11 @@
     </message>
     <message>
         <source>Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sind Sie sicher, dass Sie die ausgewählten Schlagwörter löschen wollen? Alle untergeordneten Schlagwörter und Synonyme werden ebenfalls von existieren Objekten gelöscht.</translation>
     </message>
     <message>
         <source>Are you sure you want to move selected tags?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sind Sie sicher, dass sie die ausgewählten Schlagwörter verschieben wollen?</translation>
     </message>
     <message>
         <source>Tag</source>
@@ -242,11 +242,11 @@
     </message>
     <message>
         <source>Related objects count</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl der verwandten Objekte</translation>
     </message>
     <message>
         <source>Children count</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl der untergeordneten Objekte</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>
@@ -294,27 +294,27 @@
     </message>
     <message>
         <source>Set as main translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Als Haupt-Übersetzung verwenden</translation>
     </message>
     <message>
         <source>Add translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Übersetzung hinzufügen</translation>
     </message>
     <message>
         <source>Select the translation you want to add</source>
-        <translation type="unfinished"></translation>
+        <translation>Übersetzung, die Sie hinzufügen wollen auswählen</translation>
     </message>
     <message>
         <source>Edit translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Übersetzung bearbeiten</translation>
     </message>
     <message>
         <source>Select the translation you want to edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen Sie die Übersetzung aus, die sie bearbeiten wollen</translation>
     </message>
     <message>
         <source>Main translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Haupt-Übersetzung</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -322,7 +322,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Use the main language if there is no prioritized translation.</source>
@@ -424,7 +424,7 @@
     </message>
     <message>
         <source>New translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Übersetzung</translation>
     </message>
     <message>
         <source>Top level tags</source>
