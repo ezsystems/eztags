@@ -41,7 +41,7 @@ if ( $locale === false )
         return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
     if ( count( $languages ) == 1 )
-        return $Module->redirectToView( 'edit', array( $tag->attribute( 'id' ), $languages[0]->attribute( 'locale' ) ) );
+        return $Module->redirectToView( 'edit', array( $tag->attribute( 'id' ), current( $languages )->attribute( 'locale' ) ) );
 
     $tpl = eZTemplate::factory();
 
