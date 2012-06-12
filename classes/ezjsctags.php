@@ -163,6 +163,8 @@ class ezjscTags extends ezjscServerFunctions
         if ( empty( $locale ) )
              return array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
+        // @TODO Fix synonyms not showing up in autocomplete
+         // when subtree limit is defined in class attribute
         if ( $subTreeLimit > 0 )
         {
             if ( $hideRootTag )
