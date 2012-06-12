@@ -127,6 +127,7 @@ $uri->increase();
 
 $currentUser = eZUser::currentUser();
 $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
+$tagsReadResult = $currentUser->hasAccessTo( 'tags', 'read' );
 $hasAccessToSite = false;
 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
 {
@@ -158,7 +159,7 @@ else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
     $hasAccessToSite = true;
 }
 
-if ( !$hasAccessToSite )
+if ( !$hasAccessToSite || $tagsReadResult['accessWord'] == 'no' )
 {
     exitWithInternalError();
     return;
