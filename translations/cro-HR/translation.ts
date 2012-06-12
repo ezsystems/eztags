@@ -91,6 +91,30 @@
         <source>Unlimited</source>
         <translation>Neograničeno</translation>
     </message>
+    <message>
+        <source>Translate tag</source>
+        <translation>Prevedi oznaku</translation>
+    </message>
+    <message>
+        <source>Existing translations</source>
+        <translation>Postojeći prijevodi</translation>
+    </message>
+    <message>
+        <source>No existing translations</source>
+        <translation>Nema prijevoda</translation>
+    </message>
+    <message>
+        <source>Add translation</source>
+        <translation>Dodaj prijevod</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Odustani</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/errors</name>
