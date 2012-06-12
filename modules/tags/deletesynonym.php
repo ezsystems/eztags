@@ -59,6 +59,7 @@ if ( $http->hasPostVariable( 'YesButton' ) )
                 $tagAttributeLink->remove();
             }
         }
+
         /* Extended Hook */
         if ( class_exists( 'ezpEvent', false ) )
             ezpEvent::getInstance()->filter( 'tag/transferobjects', array( 'tag' => $tag, 'newTag' => $tag->getMainTag() ) );
@@ -74,7 +75,6 @@ if ( $http->hasPostVariable( 'YesButton' ) )
     /* Extended Hook */
     if ( class_exists( 'ezpEvent', false ) )
         ezpEvent::getInstance()->filter( 'tag/delete', $tag );
-
 
     $tag->remove();
 

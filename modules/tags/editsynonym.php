@@ -48,11 +48,13 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
         $tag->store();
 
         /* Extended Hook */
-        if ( class_exists( 'ezpEvent', false ) ) {
+        if ( class_exists( 'ezpEvent', false ) )
+        {
+            $tagParent = $tag->getParent();
             ezpEvent::getInstance()->filter( 'tag/edit', array(
                 'tag'          => $tag,
-                'oldParentTag' => $tag->getParent(),
-                'newParentTag' => $tag->getParent(),
+                'oldParentTag' => $tagParent,
+                'newParentTag' => $tagParent,
                 'move'         => false ) );
         }
 

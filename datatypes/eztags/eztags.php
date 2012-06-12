@@ -298,7 +298,6 @@ class eZTags
 
                     if ( class_exists( 'ezpEvent', false ) )
                         ezpEvent::getInstance()->filter( 'tag/add', array( 'tag' => eZTagsObject::fetch( $tagID ), 'parentTag' => $parentTag ) );
-
                 }
             }
         }
