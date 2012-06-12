@@ -312,8 +312,8 @@ class eZTags
                 $results = $db->arrayQuery( "SELECT eztags.id
                                              FROM eztags, eztags_keyword
                                              WHERE eztags.id = eztags_keyword.keyword_id AND
-                                                 eztags.parent_id = " . $this->ParentArray[$key] . " AND
-                                                 eztags_keyword.keyword LIKE '" . $this->KeywordArray[$key] . "'",
+                                                 eztags.parent_id = " . (int) $this->ParentArray[$key] . " AND
+                                                 eztags_keyword.keyword LIKE '" . $db->escapeString( $this->KeywordArray[$key] ) . "'",
                                             array( 'offset' => 0, 'limit' => 1 ) );
 
                 if ( is_array( $results ) && !empty( $results ) )
