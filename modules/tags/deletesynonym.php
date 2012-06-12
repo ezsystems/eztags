@@ -29,7 +29,27 @@ if ( $http->hasPostVariable( 'YesButton' ) )
     $tag->registerSearchObjects();
 
     if ( $http->hasPostVariable( 'TransferObjectsToMainTag' ) )
+    {
+        /* Extended Hook */
+        if ( class_exists( 'ezpEvent', false ) )
+        {
+            ezpEvent::getInstance()->filter(
+                'tag/transferobjects',
+                array(
+                    'tag' => $tag,
+                    'newTag' => $tag->getMainTag()
+                )
+            );
+        }
+
         $tag->transferObjectsToAnotherTag( $tag->attribute( 'main_tag_id' ) );
+    }
+
+    /* Extended Hook */
+    if ( class_exists( 'ezpEvent', false ) )
+    {
+        ezpEvent::getInstance()->filter( 'tag/delete', $tag );
+    }
 
     $tag->remove();
 

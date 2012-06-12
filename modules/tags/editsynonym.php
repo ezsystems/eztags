@@ -115,6 +115,21 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
 
         $db->commit();
 
+        /* Extended Hook */
+        if ( class_exists( 'ezpEvent', false ) )
+        {
+            $tagParent = $tag->getParent( true );
+            ezpEvent::getInstance()->filter(
+                'tag/edit',
+                array(
+                    'tag'          => $tag,
+                    'oldParentTag' => $tagParent,
+                    'newParentTag' => $tagParent,
+                    'move'         => false
+                )
+            );
+        }
+
         return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
     }
 }

@@ -507,6 +507,17 @@ class eZTags
             'objectattribute_version' => $attribute->attribute( 'version' ),
             'object_id'               => $attribute->attribute( 'contentobject_id' ) ) );
         $linkObject->store();
+
+        if ( class_exists( 'ezpEvent', false ) )
+        {
+            ezpEvent::getInstance()->filter(
+                'tag/add',
+                array(
+                    'tag' => $tagObject,
+                    'parentTag' => $tagObject->getParent( true )
+                )
+            );
+        }
     }
 
     /**
