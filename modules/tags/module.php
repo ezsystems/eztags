@@ -104,15 +104,6 @@ $ViewList['search'] = array(
     'params'                  => array(),
     'unordered_params'        => array( 'offset' => 'Offset' ) );
 
-$ClassID = array(
-    'name'      => 'Class',
-    'values'    => array(),
-    'path'      => 'classes/',
-    'file'      => 'ezcontentclass.php',
-    'class'     => 'eZContentClass',
-    'function'  => 'fetchList',
-    'parameter' => array( 0, false, false, array( 'name' => 'asc' ) ) );
-
 $TagID = array(
     'name'      => 'Tag',
     'values'    => array(),
@@ -124,7 +115,7 @@ $TagID = array(
     'parameter' => array() );
 
 $FunctionList = array();
-$FunctionList['read']          = array( 'Class' => $ClassID );
+$FunctionList['read']          = array();
 $FunctionList['dashboard']     = array();
 $FunctionList['id']            = array();
 $FunctionList['view']          = array();
