@@ -9,10 +9,12 @@ CREATE TABLE `eztags` (
   `remote_id` varchar(100) NOT NULL default '',
   `main_language_id` int(11) NOT NULL default '0',
   `language_mask` int(11) NOT NULL default '0',
+  `hidden` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY ( `id` ),
   KEY `eztags_keyword` ( `keyword` ),
   KEY `eztags_keyword_id` ( `keyword`, `id` ),
-  UNIQUE KEY `eztags_remote_id` ( `remote_id` )
+  UNIQUE KEY `eztags_remote_id` ( `remote_id` ),
+  KEY `eztags_hidden` (`hidden`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `eztags_attribute_link` (
