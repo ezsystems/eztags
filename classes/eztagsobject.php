@@ -8,6 +8,9 @@
  */
 class eZTagsObject extends eZPersistentObject
 {
+    const VISIBILITY_HIDDEN = 1;
+    const VISIBILITY_INVISIBLE = 2;
+
     /**
      * Constructor
      *
@@ -73,7 +76,11 @@ class eZTagsObject extends eZPersistentObject
                                                       'language_mask'    => array( 'name'     => 'LanguageMask',
                                                                                    'datatype' => 'integer',
                                                                                    'default'  => 0,
-                                                                                   'required' => false ) ),
+                                                                                   'required' => false ),
+                                                      'hidden'           => array( 'name' => "Hidden",
+                                                                                   'datatype' => 'integer',
+                                                                                   'default' => 0,
+                                                                                   'required' => false ), ),
                       'function_attributes' => array( 'parent'                    => 'getParent',
                                                       'children'                  => 'getChildren',
                                                       'children_count'            => 'getChildrenCount',
@@ -85,6 +92,9 @@ class eZTagsObject extends eZPersistentObject
                                                       'synonyms'                  => 'getSynonyms',
                                                       'synonyms_count'            => 'getSynonymsCount',
                                                       'is_synonym'                => 'isSynonym',
+                                                      'is_visible'                => 'isVisible',
+                                                      'is_hidden'                 => 'isHidden',
+                                                      'is_invisible'              => 'isInvisible',
                                                       'icon'                      => 'getIcon',
                                                       'url'                       => 'getUrl',
                                                       'path'                      => 'getPath',
@@ -354,6 +364,65 @@ class eZTagsObject extends eZPersistentObject
     public function isSynonym()
     {
         return $this->attribute( 'main_tag_id' ) > 0;
+    }
+
+    /**
+     * Tells wether tag object is visible
+     * @return boolean
+     */
+    function isVisible()
+    {
+        return !$this->isHidden() && !$this->isInvisible();
+    }
+
+
+    /**
+     * Tells wether tag object is hidden
+     * @return boolean
+     */
+    function isHidden()
+    {
+        return ( intval( $this->attribute( 'hidden' ) ) & self::VISIBILITY_HIDDEN ) === self::VISIBILITY_HIDDEN;
+    }
+
+
+    /**
+     * Tells wether tag object is invisible (under a hidden tag)
+     * @return boolean
+     */
+    function isInvisible()
+    {
+        return ( intval( $this->attribute( 'hidden' ) ) & self::VISIBILITY_INVISIBLE ) === self::VISIBILITY_INVISIBLE;
+    }
+
+    /**
+     * Hide/unhide tag. Keeps eventual invisibility
+     */
+    function setHidden( $hidden )
+    {
+        if( $hidden )
+        {
+            $this->setAttribute( 'hidden', intval( $this->attribute( 'hidden' ) ) | self::VISIBILITY_HIDDEN );
+        }
+        else
+        {
+            $this->setAttribute( 'hidden', intval( $this->attribute( 'hidden' ) ) & ~self::VISIBILITY_HIDDEN );
+        }
+    }
+
+    /**
+     * Set visible / invisible. Keeps eventual hide
+     */
+    function setInvisible( $invisible )
+    {
+        if( $invisible )
+        {
+            $this->setAttribute( 'hidden', intval( $this->attribute( 'hidden' ) ) | self::VISIBILITY_INVISIBLE );
+        }
+        else
+        {
+            $this->setAttribute( 'hidden', intval( $this->attribute( 'hidden' ) ) & ~self::VISIBILITY_INVISIBLE );
+        }
     }
 
     /**
