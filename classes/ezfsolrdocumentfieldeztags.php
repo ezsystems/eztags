@@ -35,7 +35,9 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
 
         $tagIDs = array();
         $keywords = array();
-        $indexSynonyms = eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled';
+        $ini = eZINI::instance( 'eztags.ini' );
+        $indexSynonyms = $ini->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled';
+        $indexHidden = $ini->variable( 'SearchSettings', 'IndexHidden' ) === 'enabled';
 
         $tags = $objectAttributeContent->attribute( 'tags' );
         if ( is_array( $tags ) )
@@ -46,7 +48,7 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
                 if ( !$indexSynonyms && $tag->isSynonym() )
                     $tag = $tag->getMainTag();
 
-                if ( $tag instanceof eZTagsObject )
+                if ( $tag instanceof eZTagsObject && ( $indexHidden || $tag->isVisible() ) )
                 {
                     $tagIDs[] = (int) $tag->attribute( 'id' );
                     $keywords[] = $tag->attribute( 'keyword' );

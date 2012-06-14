@@ -344,7 +344,9 @@ class eZTagsType extends eZDataType
         if ( !$eZTags instanceof eZTags )
             return '';
 
-        $indexSynonyms = eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled';
+        $ini = eZINI::instance( 'eztags.ini' );
+        $indexSynonyms = $ini->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled';
+        $indexHidden = $ini->variable( 'SearchSettings', 'IndexHidden' ) === 'enabled';
 
         $keywords = array();
         $tags = $eZTags->attribute( 'tags' );
@@ -355,7 +357,7 @@ class eZTagsType extends eZDataType
             if ( !$indexSynonyms && $tag->isSynonym() )
                 $tag = $tag->getMainTag();
 
-            if ( $tag instanceof eZTagsObject )
+            if ( $tag instanceof eZTagsObject && ( $indexHidden || $tag->isVisible() ) )
                 $keywords[] = $tag->attribute( 'keyword' );
         }
 
