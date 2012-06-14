@@ -786,6 +786,12 @@ class eZTagsObject extends eZPersistentObject
             $customConds .= " AND " . eZContentLanguage::sqlFilter( 'eztags_keyword', 'eztags' ) . " ";
         }
 
+        $ignoreVisibility = eZINI::instance( 'eztags.ini' )->variable( 'VisibilitySettings', 'ShowHiddenTags' ) === 'enabled';
+        if( !$ignoreVisibility )
+        {
+            $customConds .= " AND eztags.hidden = 0 ";
+        }
+
         return $customConds;
     }
 
