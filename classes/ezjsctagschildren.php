@@ -68,6 +68,7 @@ class ezjscTagsChildren extends ezjscServerFunctions
             $tagArray['id'] = $child->attribute( 'id' );
             $tagArray['keyword'] = htmlspecialchars( $child->attribute( 'keyword' ), ENT_QUOTES );
             $tagArray['modified'] = $child->attribute( 'modified' );
+            $tagArray['hidden'] = $child->attribute( 'hidden' );
 
             $tagArray['translations'] = array();
             foreach ( $child->getTranslations() as $translation )

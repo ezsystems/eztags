@@ -43,6 +43,10 @@
                 *}tag_name: "{'Tag name'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}translations: "{'Tag translations'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}modified: "{'Modified'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
+                *}visibility: "{'Visibility'|i18n( "extension/eztags/tags/edit" )|wash( javascript )}",{*
+                *}hidden: "{'Hidden'|i18n( "extension/eztags/tags/edit" )|wash( javascript )}",{*
+                *}visible: "{'Visible'|i18n( "extension/eztags/tags/edit" )|wash( javascript )}",{*
+                *}invisible: "{'Hidden by superior'|i18n( "extension/eztags/tags/edit" )|wash( javascript )}",{*
                 *}first_page: "&laquo;&nbsp;{'first'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}last_page: "{'last'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}&nbsp;&raquo;",{*
                 *}previous_page: "&lsaquo;&nbsp;{'prev'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*

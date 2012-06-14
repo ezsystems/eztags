@@ -7,6 +7,11 @@
             {else}
                 {'Synonym'|i18n( 'extension/eztags/tags/view' )}: {$tag.keyword|wash} ({'Main tag'|i18n( 'extension/eztags/tags/view' )}: <a href={concat( 'tags/id/', $tag.main_tag_id )|ezurl}>{$tag.main_tag.keyword|wash}</a>)
             {/if}
+            {if $tag.is_hidden}
+                ({'Hidden'|i18n('extension/eztags/tags/edit')})
+            {elseif $tag.is_invisible}
+                ({'Hidden by superior'|i18n('extension/eztags/tags/edit')})
+            {/if}
         </h1>
         <div class="header-mainline"></div>
     </div>

@@ -96,6 +96,19 @@
             cell.innerHTML = html;
         }
 
+        var tagVisibility = function( cell, record, column, data ) {
+            var html = '';
+            if( record.getData( 'hidden' ) & 1 === 1 ) {
+                html = settings.i18n.hidden;
+            } else if( record.getData( 'hidden' ) & 2 === 2 ) {
+                html = settings.i18n.invisible;
+            } else {
+                html = settings.i18n.visible;
+            }
+
+            cell.innerHTML = html;
+        }
+
         /* Paginator definition */
 
         var dataTablePaginator = new YAHOO.widget.Paginator({
@@ -360,7 +373,8 @@
             { key: 'id', parser: 'number' },
             { key: 'keyword', parser: 'string' },
             { key: 'modified', parser: timeStampYuiParser },
-            { key: 'translations' }
+            { key: 'translations' },
+            { key: 'hidden' }
         ];
 
         var dataSource = new YAHOO.util.XHRDataSource(settings.urls.data, {
@@ -384,6 +398,7 @@
             { key: 'id', label: settings.i18n.id, sortable: true, resizeable: true, formatter: 'text' },
             { key: 'keyword', label: settings.i18n.tag_name, sortable: true, resizeable: true, formatter: tagName },
             { key: 'translations', label: settings.i18n.translations, sortable: false, resizeable: true, formatter: tagTranslations },
+            { key: 'hidden', label: settings.i18n.visibility, sortable: true, resizeable: true, formatter: tagVisibility },
             { key: 'modified', label: settings.i18n.modified, sortable: true, resizeable: true, formatter: 'date' }
         ];
 
