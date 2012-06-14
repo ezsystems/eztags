@@ -143,13 +143,23 @@ function TagsStructureMenu( params, attribute_id )
             html += ' title="' + params.tag_id_string + ': ' + item.id + ', ' + params.parent_tag_id_string + ': ' + item.parent_id + '"';
         }
 
+        var visibilityClass = 'node-name-normal';
+        if ( item.hidden & 1 === 1 )
+        {
+            visibilityClass = 'node-name-hidden';
+        }
+        else if ( item.hidden & 2 === 2 )
+        {
+            visibilityClass = 'node-name-hiddenbyparent';
+        }
+
         if ( !this.modal )
         {
-            html += '><span class="node-name-normal' + ( ( item.subtree_limitations_count > 0 ) ? ' disabled' : '' ) + '">' + item.keyword;
+            html += '><span class="' + visibilityClass + ( ( item.subtree_limitations_count > 0 ) ? ' disabled' : '' ) + '">' + item.keyword;
         }
         else
         {
-            html += '><span class="node-name-normal">' + item.keyword;
+            html += '><span class="' + visibilityClass + '">' + item.keyword;
         }
 
         if( item.synonyms_count > 0 )

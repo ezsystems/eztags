@@ -75,6 +75,7 @@ foreach ( $children as $child )
 
     eZURI::transformURI( $childResponse['url'] );
     $childResponse['modified']                  = (int) $child->attribute( 'modified' );
+    $childResponse['hidden']                    = $child->attribute( 'hidden' );
     $response['children'][]                     = $childResponse;
 }
 

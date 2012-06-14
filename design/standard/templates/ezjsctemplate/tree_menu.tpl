@@ -15,7 +15,8 @@ var treeMenu_{$attribute_id};
             *}"keyword":"{$root_tag.keyword|wash(javascript)}",{*
             *}"url":{concat('tags/id/', $root_tag.id)|ezurl},{*
             *}"icon":"{$root_tag.icon|tag_icon}",{*
-            *}"modified":{$root_tag.modified}{rdelim};
+            *}"modified":{$root_tag.modified},{*
+            *}"hidden":{$root_tag.hidden}{rdelim};
     {else}
         var rootTag = {ldelim}{*
             *}"id":0,{*
@@ -24,7 +25,8 @@ var treeMenu_{$attribute_id};
             *}"keyword":"{"Top level tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
             *}"url":{'tags/dashboard'|ezurl},{*
             *}"icon":"{ezini( 'Icons', 'Default', 'eztags.ini' )|tag_icon}",{*
-            *}"modified":currentDate{rdelim};
+            *}"modified":currentDate,{*
+            *}"hidden":0{rdelim};
     {/if}
 
     document.writeln( '<ul class="content_tree_menu">' );
