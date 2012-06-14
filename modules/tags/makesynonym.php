@@ -66,11 +66,23 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
         {
             $synonym->setAttribute( 'parent_id', $mainTag->attribute( 'parent_id' ) );
             $synonym->setAttribute( 'main_tag_id', $mainTag->attribute( 'id' ) );
+            if( !$mainTag->isVisible() )
+            {
+                $synonym->setInvisible( true );
+            }
             $synonym->store();
         }
 
         $tag->setAttribute( 'parent_id', $mainTag->attribute( 'parent_id' ) );
         $tag->setAttribute( 'main_tag_id', $mainTag->attribute( 'id' ) );
+
+        //synonyms can't be hidden, they can only be invisible if their main tag's hidden
+        $tag->setHidden( false );
+        if( !$mainTag->isVisible() )
+        {
+            $tag->setInvisible( true );
+        }
+
         $tag->store();
 
         if ( $updatePathString )

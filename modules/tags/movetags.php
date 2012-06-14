@@ -72,6 +72,7 @@ if ( empty( $error ) && $http->hasPostVariable( 'SaveButton' ) )
 
         $oldParentDepth = $tag->attribute( 'depth' ) - 1;
         $newParentDepth = $newParentTag instanceof eZTagsObject ? $newParentTag->attribute( 'depth' ) : 0;
+        $newParentVisible = $newParentTag instanceof eZTagsObject ? $newParentTag->isVisible() : true;
 
         if ( $oldParentDepth != $newParentDepth )
             $updateDepth = true;
@@ -84,10 +85,18 @@ if ( empty( $error ) && $http->hasPostVariable( 'SaveButton' ) )
         foreach ( $synonyms as $synonym )
         {
             $synonym->setAttribute( 'parent_id', $newParentID );
+            if( !$newParentVisible )
+            {
+                $synonym->setInvisible( true );
+            }
             $synonym->store();
         }
 
         $tag->setAttribute( 'parent_id', $newParentID );
+        if( !$newParentVisible )
+        {
+            $tag->setInvisible( true );
+        }
         $tag->store();
 
         /* Extended Hook */

@@ -487,6 +487,12 @@ class eZTags
             'path_string'      => $parentPathString,
             'main_language_id' => $languageID,
             'language_mask'    => $languageID + $alwaysAvailable ), $locale );
+
+        $parentTag = $tagObject->getParent( true );
+        if( $parentTag instanceof eZTagsObject && !$parentTag->isVisible() )
+        {
+            $tagObject->setInvisible( true );
+        }
         $tagObject->store();
 
         $tagObject->setAttribute( 'path_string', $tagObject->attribute( 'path_string' ) . $tagObject->attribute( 'id' ) . '/' );
@@ -514,7 +520,7 @@ class eZTags
                 'tag/add',
                 array(
                     'tag' => $tagObject,
-                    'parentTag' => $tagObject->getParent( true )
+                    'parentTag' => $parentTag
                 )
             );
         }

@@ -108,6 +108,11 @@ if ( $http->hasPostVariable('SaveButton' ) )
                                         'path_string'      => $parentTag instanceof eZTagsObject ? $parentTag->attribute( 'path_string' ) : '/',
                                         'main_language_id' => $language->attribute( 'id' ),
                                         'language_mask'    => $languageMask ), $language->attribute( 'locale' ) );
+
+        if( $parentTag instanceof eZTagsObject && !$parentTag->isVisible() )
+        {
+            $tag->setInvisible( true );
+        }
         $tag->store();
 
         $translation = new eZTagsKeyword( array( 'keyword_id'  => $tag->attribute( 'id' ),
