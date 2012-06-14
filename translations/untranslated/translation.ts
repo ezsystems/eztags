@@ -352,6 +352,34 @@
         <source>Use the main language if there is no prioritized translation.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Hide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unhide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide/Unhide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visibility</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hidden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hidden by superior</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/search</name>

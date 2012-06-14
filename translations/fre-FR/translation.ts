@@ -352,6 +352,34 @@
         <source>Use the main language if there is no prioritized translation.</source>
         <translation>Utiliser la langue principale s&apos;il n&apos;existe pas de traduction prioritaire.</translation>
     </message>
+    <message>
+        <source>Hide</source>
+        <translation>Cacher</translation>
+    </message>
+    <message>
+        <source>Unhide</source>
+        <translation>Révéler</translation>
+    </message>
+    <message>
+        <source>Hide/Unhide</source>
+        <translation>Cacher / Révéler</translation>
+    </message>
+    <message>
+        <source>Visibility</source>
+        <translation>Visibilité</translation>
+    </message>
+    <message>
+        <source>Visible</source>
+        <translation>Visible</translation>
+    </message>
+    <message>
+        <source>Hidden</source>
+        <translation>Caché</translation>
+    </message>
+    <message>
+        <source>Hidden by superior</source>
+        <translation>Caché par un tag supérieur</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/search</name>
