@@ -144,11 +144,11 @@ function TagsStructureMenu( params, attribute_id )
         }
 
         var visibilityClass = 'node-name-normal';
-        if ( item.hidden & 1 === 1 )
+        if ( parseInt( item.hidden ) & 1 )
         {
             visibilityClass = 'node-name-hidden';
         }
-        else if ( item.hidden & 2 === 2 )
+        else if ( parseInt( item.hidden ) & 2 )
         {
             visibilityClass = 'node-name-hiddenbyparent';
         }

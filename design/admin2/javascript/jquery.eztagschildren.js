@@ -98,9 +98,9 @@
 
         var tagVisibility = function( cell, record, column, data ) {
             var html = '';
-            if( record.getData( 'hidden' ) & 1 === 1 ) {
+            if( parseInt( record.getData( 'hidden' ) ) & 1 ) {
                 html = settings.i18n.hidden;
-            } else if( record.getData( 'hidden' ) & 2 === 2 ) {
+            } else if( parseInt( record.getData( 'hidden' ) ) & 2 ) {
                 html = settings.i18n.invisible;
             } else {
                 html = settings.i18n.visible;
