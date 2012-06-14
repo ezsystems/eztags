@@ -66,10 +66,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
         {
             $synonym->setAttribute( 'parent_id', $mainTag->attribute( 'parent_id' ) );
             $synonym->setAttribute( 'main_tag_id', $mainTag->attribute( 'id' ) );
-            if( !$mainTag->isVisible() )
-            {
-                $synonym->setInvisible( true );
-            }
+            $synonym->setInvisible( !$mainTag->isVisible() );
             $synonym->store();
         }
 
@@ -78,10 +75,7 @@ if ( $http->hasPostVariable( 'SaveButton' ) && $convertAllowed )
 
         //synonyms can't be hidden, they can only be invisible if their main tag's hidden
         $tag->setHidden( false );
-        if( !$mainTag->isVisible() )
-        {
-            $tag->setInvisible( true );
-        }
+        $tag->setInvisible( !$mainTag->isVisible() );
 
         $tag->store();
 

@@ -81,23 +81,17 @@ if ( empty( $error ) && $http->hasPostVariable( 'SaveButton' ) )
         if ( $oldParentTag instanceof eZTagsObject )
             $oldParentTag->updateModified();
 
+        $tag->setAttribute( 'parent_id', $newParentID );
+        $tag->setInvisible( !$newParentVisible );
+        $tag->store();
+
         $synonyms = $tag->getSynonyms( true );
         foreach ( $synonyms as $synonym )
         {
             $synonym->setAttribute( 'parent_id', $newParentID );
-            if( !$newParentVisible )
-            {
-                $synonym->setInvisible( true );
-            }
+            $synonym->setInvisible( !$tag->isVisible() );
             $synonym->store();
         }
-
-        $tag->setAttribute( 'parent_id', $newParentID );
-        if( !$newParentVisible )
-        {
-            $tag->setInvisible( true );
-        }
-        $tag->store();
 
         /* Extended Hook */
         if ( class_exists( 'ezpEvent', false ) )

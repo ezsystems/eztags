@@ -133,19 +133,13 @@ if ( $http->hasPostVariable( 'SaveButton' ) )
             if ( $oldParentTag instanceof eZTagsObject )
                 $oldParentTag->updateModified();
 
-            if( !$newParentVisible )
-            {
-                $tag->setInvisible( true );
-            }
+            $tag->setInvisible( !$newParentVisible );
 
             $synonyms = $tag->getSynonyms( true );
             foreach ( $synonyms as $synonym )
             {
                 $synonym->setAttribute( 'parent_id', $newParentID );
-                if( !$newParentVisible )
-                {
-                    $synonym->setInvisible( true );
-                }
+                $synonym->setInvisible( !$tag->isVisible() );
                 $synonym->store();
             }
 
