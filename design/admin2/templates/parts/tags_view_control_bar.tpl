@@ -31,6 +31,19 @@
                     <input class="button" type="submit" name="SubmitButton" value="{"Convert to synonym"|i18n( "extension/eztags/tags/edit" )}" />
                 </form>
             {/if}
+            {if fetch( user, has_access_to, hash( module, tags, function, hide ) )}
+                {if $tag.is_hidden}
+                <form name="taghide" id="taghide" style="float:left;" enctype="multipart/form-data" method="post" action={concat( 'tags/hide/', $tag.id, '/unhide' )|ezurl}>
+                    <input class="button" type="submit" name="SubmitButton" value="{"Unhide"|i18n( "extension/eztags/tags/edit" )}" />
+                </form>
+                {elseif $tag.is_visible}
+                <form name="taghide" id="taghide" style="float:left;" enctype="multipart/form-data" method="post" action={concat( 'tags/hide/', $tag.id, '/hide' )|ezurl}>
+                    <input class="button" type="submit" name="SubmitButton" value="{"Hide"|i18n( "extension/eztags/tags/edit" )}" />
+                </form>
+                {else}
+                <input class="button-disabled" type="submit" name="SubmitButton" value="{"Unhide"|i18n( "extension/eztags/tags/edit" )}" disabled="disabled" />
+                {/if}
+            {/if}
         </div>
         <div class="float-break"></div>
     </div></div>

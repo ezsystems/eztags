@@ -54,6 +54,7 @@
                         <th class="tight">&nbsp;</th>
                         <th>{"ID"|i18n( "extension/eztags/tags/dashboard" )}</th>
                         <th>{"Tag name"|i18n( "extension/eztags/tags/dashboard" )}</th>
+                        <th>{"Visibility"|i18n( "extension/eztags/tags/edit" )}</th>
                         <th>{"Modified"|i18n( "extension/eztags/tags/dashboard" )}</th>
                         <th class="tight">&nbsp;</th>
                     </tr>
@@ -62,6 +63,15 @@
                             <td><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $child_tag.icon )|ezimage} alt="{$child_tag.keyword|wash}" /></td>                        
                             <td>{$child_tag.id}</td>
                             <td><a href={concat( '/tags/id/', $child_tag.id )|ezurl}>{$child_tag.keyword|wash}{cond( $child_tag.synonyms_count|gt(0), concat( ' (+', $child_tag.synonyms_count, ')' ), '' )}</a></td>
+                            <td>
+                                {if $child_tag.is_visible}
+                                    {"Visible"|i18n( "extension/eztags/tags/edit" )}
+                                {elseif $child_tag.is_hidden}
+                                    {"Hidden"|i18n( "extension/eztags/tags/edit" )}
+                                {else}
+                                    {"Hidden by superior"|i18n( "extension/eztags/tags/edit" )}
+                                {/if}
+                            </td>
                             <td>{$child_tag.modified|datetime( 'custom', '%d.%m.%Y %H:%i' )}</td>
                             <td><a href={concat( '/tags/edit/', $child_tag.id )|ezurl}><img src={'edit.gif'|ezimage} alt="Edit" /></a></td>
                         </tr>

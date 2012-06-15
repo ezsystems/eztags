@@ -31,6 +31,13 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
             $params['path_string'] = array( 'like', '%/' . $subTreeLimit . '/%' );
         }
+
+        $showHidden = eZTagsObject::showHiddenTagsEnabled();
+        if( !$showHidden )
+        {
+            $params['hidden'] = 0;
+        }
+
         $tags = eZTagsObject::fetchList( $params );
 
         $returnArray = array();
@@ -62,6 +69,7 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
     {
         $tags = array();
         $siteINI = eZINI::instance( 'site.ini' );
+        $showHidden = eZTagsObject::showHiddenTagsEnabled();
 
         $returnArray = array();
         $returnArray['status']  = 'success';
@@ -134,12 +142,15 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
             {
                 if ( !$hideRootTag || ( $hideRootTag && $tag->attribute( 'id' ) != $subTreeLimit ) )
                 {
-                    $returnArrayChild = array();
-                    $returnArrayChild['tag_parent_id']   = (int) $tag->attribute( 'parent_id' );
-                    $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->attribute( 'keyword' ) : '';
-                    $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
-                    $returnArrayChild['tag_id']          = (int) $tag->attribute( 'id' );
-                    $returnArray['tags'][]               = $returnArrayChild;
+                    if( $showHidden || $tag->isVisible() )
+                    {
+                        $returnArrayChild = array();
+                        $returnArrayChild['tag_parent_id']   = (int) $tag->attribute( 'parent_id' );
+                        $returnArrayChild['tag_parent_name'] = ( $tag->hasParent() ) ? $tag->getParent()->attribute( 'keyword' ) : '';
+                        $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
+                        $returnArrayChild['tag_id']          = (int) $tag->attribute( 'id' );
+                        $returnArray['tags'][]               = $returnArrayChild;
+                    }
                 }
             }
         }

@@ -351,22 +351,31 @@ class eZTagsType extends eZDataType
         $eztags = new eZTags();
         $eztags->createFromAttribute( $attribute );
 
-        if( $ini->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled' )
-            return $eztags->keywordString( ', ' );
+        $indexSynonyms = $ini->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled';
+        $indexHidden = $ini->variable( 'SearchSettings', 'IndexHidden' ) === 'enabled';
 
-        $keywords = array();
-        $tags = $eztags->attribute( 'tags' );
-        foreach( $tags as $tag )
+        if( $indexSynonyms && $indexHidden )
         {
-            if( $tag->isSynonym() )
-            {
-                $tag = $tag->attribute( 'main_tag' );
-            }
-
-            $keywords[] = $tag->attribute( 'keyword' );
+            return $eztags->keywordString( ', ' );
         }
+        else
+        {
+            $keywords = array();
+            $tags = $eztags->attribute( 'tags' );
+            foreach( $tags as $tag )
+            {
+                if( $tag->isSynonym() )
+                {
+                    $tag = $tag->attribute( 'main_tag' );
+                }
 
-        return implode( ', ', array_unique( $keywords ) );
+                if( $indexHidden || $tag->isVisible() )
+                {
+                    $keywords[] = $tag->attribute( 'keyword' );
+                }
+            }
+            return implode( ', ', array_unique( $keywords ) );
+        }
     }
 
     /**

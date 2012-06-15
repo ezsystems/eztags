@@ -285,8 +285,8 @@ class eZTags
 
                 if ( self::canSave( $pathString, $allowedLocations ) )
                 {
-                    $db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, depth, path_string, modified, remote_id ) VALUES ( " .
-                                 $t['parent_id'] . ", 0, '" . $db->escapeString( trim( $t['keyword'] ) ) . "', $depth, '$pathString', 0, '" . eZTagsObject::generateRemoteID() . "' )" );
+                    $db->query( "INSERT INTO eztags ( parent_id, main_tag_id, keyword, depth, path_string, modified, remote_id, hidden ) VALUES ( " .
+                                 $t['parent_id'] . ", 0, '" . $db->escapeString( trim( $t['keyword'] ) ) . "', $depth, '$pathString', 0, '" . eZTagsObject::generateRemoteID() . "', 0 )" );
                     $tagID = (int) $db->lastSerialID( 'eztags', 'id' );
                     $db->query( "UPDATE eztags SET path_string = CONCAT(path_string, CAST($tagID AS CHAR), '/') WHERE id = $tagID" );
 
@@ -396,7 +396,14 @@ class eZTags
         if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
             return array();
 
-        return eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) );
+        $filter = array( 'id' => array( $this->IDArray ) );
+        $ini = eZINI::instance( 'eztags.ini' );
+        if( !eZTagsObject::showHiddenTagsEnabled() )
+        {
+            $filter['hidden'] = 0;
+        }
+
+        return eZTagsObject::fetchList( $filter );
     }
 
     /**
