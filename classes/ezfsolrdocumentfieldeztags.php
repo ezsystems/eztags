@@ -49,11 +49,13 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
                 if ( $tag instanceof eZTagsObject )
                 {
                     //get keyword in content's locale
-                    $keyword = $tag->getKeyword( false, $contentObjectAttribute->attribute( 'language_code' ) );
+                    $keyword = $tag->getKeyword( $contentObjectAttribute->attribute( 'language_code' ) );
                     if( !$keyword )
                     {
                         //fall back to main language
-                        $keyword = $tag->getKeyword( true );
+                        $mainLanguage = eZContentLanguage::fetch( $tag->attribute( 'main_language_id') );
+                        if( $mainLanguage instanceof eZContentLanguage )
+                            $keyword = $tag->getKeyword( $mainLanguage->attribute( 'locale' ) );
                     }
 
                     if( $keyword )

@@ -1307,23 +1307,16 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns the tag keyword, locale aware
      *
-     * @param bool $mainTranslation
      * @param mixed $locale
      *
      * @return string
      */
-    public function getKeyword( $mainTranslation = false, $locale = false )
+    public function getKeyword( $locale = false )
     {
         if ( $this->attribute( 'id' ) == null )
             return $this->Keyword;
 
-        if( $mainTranslation )
-            $translation = $this->getMainTranslation();
-        elseif( $locale !== false )
-            $translation = $this->translationByLocale( $locale );
-        else
-            $translation = $this->translationByLocale( $this->CurrentLanguage );
-
+        $translation = $this->translationByLocale( $locale === false ? $this->CurrentLanguage : $locale );
         if ( $translation instanceof eZTagsKeyword )
             return $translation->attribute( 'keyword' );
 
