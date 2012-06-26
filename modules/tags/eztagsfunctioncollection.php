@@ -70,7 +70,7 @@ class eZTagsFunctionCollection
      * @param bool $includeSynonyms
      * @return array
      */
-    static public function fetchTagTree( $parentTagID, $sortBy, $offset, $limit, $depth, $depthOperator, $includeSynonyms )
+    static public function fetchTagTree( $parentTagID, $sortBy, $offset, $limit, $depth, $depthOperator, $includeSynonyms, $keyword = false )
     {
         if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
             return array( 'result' => false );
@@ -84,6 +84,11 @@ class eZTagsFunctionCollection
         {
             $params['Depth'] = $depth;
             $params['DepthOperator'] = $depthOperator;
+        }
+        
+        if ( $keyword !== false )
+        {
+            $params['Keyword'] = $keyword;
         }
 
         $tags = eZTagsObject::subTreeByTagID( $params, $parentTagID );
@@ -101,7 +106,7 @@ class eZTagsFunctionCollection
      * @param bool $includeSynonyms
      * @return integer
      */
-    static public function fetchTagTreeCount( $parentTagID, $depth, $depthOperator, $includeSynonyms )
+    static public function fetchTagTreeCount( $parentTagID, $depth, $depthOperator, $includeSynonyms, $keyword = false )
     {
         if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
             return array( 'result' => 0 );
@@ -112,6 +117,11 @@ class eZTagsFunctionCollection
         {
             $params['Depth'] = $depth;
             $params['DepthOperator'] = $depthOperator;
+        }
+        
+        if ( $keyword !== false )
+        {
+            $params['Keyword'] = $keyword;
         }
 
         $tagsCount = eZTagsObject::subTreeCountByTagID( $params, $parentTagID );
