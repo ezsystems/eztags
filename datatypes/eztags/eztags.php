@@ -74,6 +74,7 @@ class eZTags
                       'locales',
                       'id_string',
                       'keyword_string',
+                      'meta_keyword_string',
                       'parent_string',
                       'locale_string' );
     }
@@ -123,6 +124,8 @@ class eZTags
             return $this->idString();
         else if ( $name == 'keyword_string' )
             return $this->keywordString();
+        else if ( $name == 'meta_keyword_string' )
+            return $this->metaKeywordString();
         else if ( $name == 'parent_string' )
             return $this->parentString();
         else if ( $name == 'locale_string' )
@@ -605,6 +608,25 @@ class eZTags
     public function keywordString( $separator = '|#' )
     {
         return implode( $separator, $this->KeywordArray );
+    }
+
+    /**
+     * Returns the keywords as a string
+     *
+     * @return string
+     */
+    public function metaKeywordString()
+    {
+        $tagKeywords = array_map(
+        function( $tag )
+            {
+                /** @var eZTagsObject $tag */
+                return $tag->attribute( 'keyword' );
+            },
+            $this->tags()
+        );
+
+        return !empty( $tagKeywords ) ? implode( ', ', $tagKeywords ) : '';
     }
 
     /**
