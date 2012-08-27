@@ -361,6 +361,7 @@ class eZTagsType extends eZDataType
                 if ( !$keyword )
                 {
                     //fall back to main language
+                    /** @var eZContentLanguage $mainLanguage */
                     $mainLanguage = eZContentLanguage::fetch( $tag->attribute( 'main_language_id') );
                     if ( $mainLanguage instanceof eZContentLanguage )
                         $keyword = $tag->getKeyword( $mainLanguage->attribute( 'locale' ) );
