@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <software>
     <metadata>
-        <name>eZ Tags</name>
+        <name>eZ Tags LS</name>
         <version>//autogentag//</version>
         <copyright>Copyright (C) 2010-2012 Netgen d.o.o., 1999-2012 eZ Systems AS</copyright>
         <license>//EZP_LICENSE//</license>
