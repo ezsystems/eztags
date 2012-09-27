@@ -366,12 +366,12 @@
         var dataSource = new YAHOO.util.XHRDataSource(settings.urls.data, {
             responseType: YAHOO.util.DataSource.TYPE_JSON,
             responseSchema: {
-                resultsList: 'data',
+                resultsList: 'content.data',
                 fields: dataSourceFields,
                 metaFields: {
-                    totalRecords: 'count',
-                    recordOffset: 'offset',
-                    filterString: 'filter'
+                    totalRecords: 'content.count',
+                    recordOffset: 'content.offset',
+                    filterString: 'content.filter'
                 }
             }
         });

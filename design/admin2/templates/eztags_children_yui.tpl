@@ -73,7 +73,7 @@
 
             var urls = {ldelim}{*
                 *}yui2: {ezini( 'eZJSCore', 'LocalScriptBasePath', 'ezjscore.ini' )['yui2']|ezdesign},{*
-                *}data: {concat( '/ezjscore/call/ezjsctagschildren::tagsChildren::', $parent_tag_id, '?' )|ezurl},{*
+                *}data: {concat( '/ezjscore/call/ezjsctagschildren::tagsChildren::', $parent_tag_id, '?ContentType=json&' )|ezurl},{*
                 *}view: {'/tags/id/'|ezurl},{*
                 *}add: {concat( '/tags/add/', $parent_tag_id )|ezurl},{*
                 *}edit: {'/tags/edit/'|ezurl},{*
