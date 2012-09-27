@@ -9,4 +9,4 @@ Class=ezjscTags
 
 [ezjscServer_ezjsctagschildren]
 Class=ezjscTagsChildren
-*/ ?>
+*/

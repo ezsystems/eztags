@@ -3,4 +3,4 @@
 [TagsAttributeFilter]
 ClassName=eZTagsAttributeFilter
 MethodName=createSqlParts
-*/ ?>
+*/

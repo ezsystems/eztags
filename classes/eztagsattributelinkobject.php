@@ -13,7 +13,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      */
     function __construct( $row )
     {
-        parent::__construct( $row );
+        parent::eZPersistentObject( $row );
     }
 
     /**
@@ -116,5 +116,3 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
         parent::removeObject( self::definition(), $conditions );
     }
 }
-
-?>

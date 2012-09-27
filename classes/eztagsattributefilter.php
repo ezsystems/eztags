@@ -34,6 +34,7 @@ class eZTagsAttributeFilter
 
         if ( !isset( $params['include_synonyms'] ) || ( isset( $params['include_synonyms'] ) && (bool) $params['include_synonyms'] == true ) )
         {
+            /** @var eZTagsObject[] $tags */
             $tags = eZTagsObject::fetchList( array( 'main_tag_id' => array( $tagIDsArray ) ) );
             if ( is_array( $tags ) )
             {
@@ -70,5 +71,3 @@ class eZTagsAttributeFilter
         return $returnArray;
     }
 }
-
-?>

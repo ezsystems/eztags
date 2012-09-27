@@ -46,5 +46,3 @@ $db->query( "INSERT INTO eztags_keyword
 
 $db->commit();
 $script->shutdown();
-
-?>

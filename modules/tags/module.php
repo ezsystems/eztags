@@ -128,5 +128,3 @@ $FunctionList['deletesynonym'] = array();
 $FunctionList['makesynonym']   = array();
 $FunctionList['merge']         = array();
 $FunctionList['search']        = array();
-
-?>

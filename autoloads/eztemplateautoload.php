@@ -14,5 +14,3 @@ $eZTemplateOperatorArray[] = array( 'script'         => 'extension/eztags/autolo
 $eZTemplateOperatorArray[] = array( 'script'         => 'extension/eztags/autoloads/eztagscloud.php',
                                     'class'          => 'eZTagsCloud',
                                     'operator_names' => array( 'eztagscloud' ) );
-
-?>

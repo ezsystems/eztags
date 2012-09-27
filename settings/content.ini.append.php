@@ -3,4 +3,4 @@
 [DataTypeSettings]
 ExtensionDirectories[]=eztags
 AvailableDataTypes[]=eztags
-*/ ?>
+*/

@@ -90,5 +90,3 @@ $Result = array();
 $Result['content']    = $tpl->fetch( 'design:tags/merge.tpl' );
 $Result['ui_context'] = 'edit';
 $Result['path']       = eZTagsObject::generateModuleResultPath( $tag );
-
-?>

@@ -12,6 +12,7 @@ if ( !is_array( $keywordArray ) || empty( $keywordArray ) )
 $parentID = 0;
 for ( $i = 0; $i < count( $keywordArray ) - 1; $i++ )
 {
+    /** @var eZTagsObject[] $tags */
     $tags = eZTagsObject::fetchList( array( 'parent_id' => $parentID, 'main_tag_id' => 0, 'keyword' => urldecode( trim( $keywordArray[$i] ) ) ) );
     if ( !is_array( $tags ) || empty( $tags ) )
         return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -42,5 +43,3 @@ if ( $http->hasSessionVariable( 'eZTagsShowReindexMessage' ) )
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:tags/view.tpl' );
 $Result['path']    = eZTagsObject::generateModuleResultPath( $tags[0], true, false, false );
-
-?>

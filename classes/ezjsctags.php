@@ -127,6 +127,8 @@ class ezjscTags extends ezjscServerFunctions
             return $returnArray;
 
         $returnArray['translations'] = array();
+
+        /** @var eZTagsKeyword[] $tagTranslations */
         $tagTranslations = $tag->getTranslations();
         if ( !is_array( $tagTranslations ) || empty( $tagTranslations ) )
             return $returnArray;
@@ -174,6 +176,7 @@ class ezjscTags extends ezjscServerFunctions
         }
 
         // first fetch tags that exist in selected locale
+        /** @var eZTagsObject[] $tags */
         $tags = eZTagsObject::fetchList( $params, null, null, false, $locale );
         if ( !is_array( $tags ) )
             $tags = array();
@@ -239,5 +242,3 @@ class ezjscTags extends ezjscServerFunctions
         return $returnArray;
     }
 }
-
-?>

@@ -405,6 +405,7 @@ class eZTags
         {
             $permissionArray['allowed_locations_tags'] = array();
 
+            /** @var eZTagsObject[] $userLimitations */
             $userLimitations = eZTagsObject::fetchList( array( 'id' => array( $userLimitations ) ), null, null, true );
             if ( is_array( $userLimitations ) && !empty( $userLimitations ) )
             {
@@ -417,6 +418,7 @@ class eZTags
         }
         else if ( $limitTag instanceof eZTagsObject )
         {
+            /** @var eZTagsObject[] $userLimitations */
             $userLimitations = eZTagsObject::fetchList( array( 'id' => array( $userLimitations ) ), null, null, true );
             if ( is_array( $userLimitations ) && !empty( $userLimitations ) )
             {
@@ -649,5 +651,3 @@ class eZTags
         return implode( '|#', $this->LocaleArray );
     }
 }
-
-?>

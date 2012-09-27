@@ -23,4 +23,4 @@ Shown[navigation]=true
 Shown[browse]=true
 
 PolicyList[]=tags/read
-*/ ?>
+*/

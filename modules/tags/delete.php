@@ -59,5 +59,3 @@ $Result['content']    = $tpl->fetch( 'design:tags/delete.tpl' );
 $Result['ui_context'] = 'edit';
 $Result['path']       = eZTagsObject::generateModuleResultPath( false, null,
                                                                 ezpI18n::tr( 'extension/eztags/tags/edit', 'Delete tag' ) );
-
-?>

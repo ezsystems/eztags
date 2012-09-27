@@ -10,5 +10,3 @@ class eztagsInfo
                       'License'   => '//EZP_LICENSE//' );
     }
 }
-
-?>

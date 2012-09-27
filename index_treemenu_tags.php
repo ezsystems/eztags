@@ -170,5 +170,3 @@ $moduleResult = $module->run( $function_name, $uri->elements( false ) );
 
 eZExecution::cleanup();
 eZExecution::setCleanExit();
-
-?>

@@ -60,5 +60,3 @@ else if ( $http->hasPostVariable( 'UpdateAlwaysAvailableButton' ) )
 }
 
 return $Module->redirectToView( 'id', array( $tag->attribute( 'id' ) ) );
-
-?>

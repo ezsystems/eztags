@@ -107,5 +107,3 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
         return $fieldsList;
     }
 }
-
-?>

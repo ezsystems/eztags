@@ -68,5 +68,3 @@ $Result = array();
 $Result['content'] = $tpl->fetch( 'design:tags/search.tpl' );
 $Result['path']    = eZTagsObject::generateModuleResultPath( false, null,
                                                              ezpI18n::tr( 'extension/eztags/tags/search', 'Tags search' ) );
-
-?>

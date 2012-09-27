@@ -67,5 +67,3 @@ $Result['content']    = $tpl->fetch( 'design:tags/deletesynonym.tpl' );
 $Result['ui_context'] = 'edit';
 $Result['path']       = eZTagsObject::generateModuleResultPath( false, null,
                                                                 ezpI18n::tr( 'extension/eztags/tags/edit', 'Delete synonym' ) );
-
-?>

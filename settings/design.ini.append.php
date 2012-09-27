@@ -26,4 +26,4 @@ BackendCSSFileList[]=contentstructure-tree.css
 FrontendCSSFileList[]=jqmodal.css
 FrontendCSSFileList[]=tagssuggest.css
 FrontendCSSFileList[]=contentstructure-tree.css
-*/ ?>
+*/

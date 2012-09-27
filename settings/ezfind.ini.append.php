@@ -3,4 +3,4 @@
 [SolrFieldMapSettings]
 DatatypeMap[eztags]=lckeyword
 CustomMap[eztags]=ezfSolrDocumentFieldeZTags
-*/ ?>
+*/

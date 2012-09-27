@@ -9,6 +9,7 @@ $tagIDs = $http->sessionVariable( 'eZTagsMoveIDArray', $http->postVariable( 'Sel
 if ( !is_array( $tagIDs ) || empty( $tagIDs ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
 
+/** @var eZTagsObject[] $tagsList */
 $tagsList = eZTagsObject::fetchList( array( 'id' => array( $tagIDs ) ), null, null, true );
 if ( !is_array( $tagsList ) || empty( $tagsList ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
@@ -146,5 +147,3 @@ $Result['content']    = $tpl->fetch( 'design:tags/movetags.tpl' );
 $Result['ui_context'] = 'edit';
 $Result['path']       = eZTagsObject::generateModuleResultPath( false, null,
                                                                 ezpI18n::tr( 'extension/eztags/tags/edit', 'Move tags' ) );
-
-?>

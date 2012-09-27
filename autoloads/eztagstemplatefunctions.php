@@ -185,5 +185,3 @@ class eZTagsTemplateFunctions
         return eZURLOperator::eZImage( null, 'tag_icons/' . $size . '/' . $icon, 'ezimage' );
     }
 }
-
-?>

@@ -193,5 +193,3 @@ $cli->warning( "For changes to take effect, please clear the caches, reindex you
 
 eZUser::logoutCurrent();
 $script->shutdown( 0 );
-
-?>

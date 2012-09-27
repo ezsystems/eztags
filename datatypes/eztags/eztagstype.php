@@ -24,7 +24,7 @@ class eZTagsType extends eZDataType
      */
     function __construct()
     {
-        parent::__construct( self::DATA_TYPE_STRING, ezpI18n::tr( 'extension/eztags/datatypes', 'Tags' ), array( 'serialize_supported' => true ) );
+        parent::eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'extension/eztags/datatypes', 'Tags' ), array( 'serialize_supported' => true ) );
     }
 
     /**
@@ -587,5 +587,3 @@ class eZTagsType extends eZDataType
 }
 
 eZDataType::register( eZTagsType::DATA_TYPE_STRING, 'eZTagsType' );
-
-?>

@@ -12,4 +12,4 @@ Description=
 NavigationPartName=ezcontentnavigationpart
 HeaderTemplate=eztags_header.tpl
 Template=eztags.tpl
-*/ ?>
+*/

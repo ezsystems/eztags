@@ -19,7 +19,7 @@ class eZTagsObject extends eZPersistentObject
         if ( !isset( $row['remote_id'] ) || !$row['remote_id'] )
             $row['remote_id'] = self::generateRemoteID();
 
-        parent::__construct( $row );
+        parent::eZPersistentObject( $row );
 
         if ( isset( $row['locale'] ) && $row['locale'] != null )
             $this->CurrentLanguage = $row['locale'];
@@ -293,6 +293,7 @@ class eZTagsObject extends eZPersistentObject
      */
     public function isInsideSubTreeLimit()
     {
+        /** @var eZTagsObject[] $path */
         $path = $this->getPath( true, true );
 
         if ( is_array( $path ) && !empty( $path ) )
@@ -387,6 +388,7 @@ class eZTagsObject extends eZPersistentObject
         if ( array_key_exists( $tagID, $iconMap ) && !empty( $iconMap[$tagID] ) )
             return $iconMap[$tagID];
 
+        /** @var eZTagsObject[] $path */
         $path = $tag->getPath( true, true );
         if ( is_array( $path ) && !empty( $path ) )
         {
@@ -408,6 +410,7 @@ class eZTagsObject extends eZPersistentObject
      */
     public function getUrl()
     {
+        /** @var eZTagsObject[] $path */
         $path = $this->getPath();
         $fullPathCount = $this->getPathCount( true );
         $urlPrefix = trim( eZINI::instance( 'eztags.ini' )->variable( 'GeneralSettings', 'URLPrefix' ) );
@@ -488,6 +491,7 @@ class eZTagsObject extends eZPersistentObject
     {
         $keywordsArray = array();
 
+        /** @var eZTagsObject[] $path */
         $path = $this->getPath( false, true );
         if ( is_array( $path ) && !empty( $path ) )
         {
@@ -729,6 +733,7 @@ class eZTagsObject extends eZPersistentObject
      */
     static public function fetchLimitations()
     {
+        /** @var eZTagsObject[] $tags */
         $tags = self::fetchList( array( 'parent_id' => 0, 'main_tag_id' => 0 ), null, null, true );
 
         if ( !is_array( $tags ) )
@@ -1213,6 +1218,7 @@ class eZTagsObject extends eZPersistentObject
                                          'text'   => $tag->attribute( 'keyword' ),
                                          'url'    => false );
 
+            /** @var eZTagsObject[] $path */
             $path = $tag->getPath( true, $mainTranslation );
             if ( is_array( $path ) && !empty( $path ) )
             {
@@ -1527,5 +1533,3 @@ class eZTagsObject extends eZPersistentObject
      */
     private $CurrentLanguage = false;
 }
-
-?>

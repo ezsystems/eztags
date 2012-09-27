@@ -194,5 +194,3 @@ $Result = array();
 $Result['content']    = $tpl->fetch( 'design:tags/edit.tpl' );
 $Result['ui_context'] = 'edit';
 $Result['path']       = eZTagsObject::generateModuleResultPath( $tag );
-
-?>

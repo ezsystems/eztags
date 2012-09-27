@@ -247,5 +247,3 @@ class eZTagsFunctionCollection
         return array( 'result' => false );
     }
 }
-
-?>

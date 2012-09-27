@@ -27,7 +27,7 @@ class eZTagsKeyword extends eZPersistentObject
      */
     function __construct( $row )
     {
-        parent::__construct( $row );
+        parent::eZPersistentObject( $row );
     }
 
     /**
@@ -133,5 +133,3 @@ class eZTagsKeyword extends eZPersistentObject
         return false;
     }
 }
-
-?>

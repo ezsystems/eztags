@@ -177,6 +177,7 @@ class eZTagsCloud
             $tagsCountList[$row['id']] = $row['keyword_count'];
         }
 
+        /** @var eZTagsObject[] $tagObjects */
         $tagObjects = eZTagsObject::fetchList( array( 'id' => array( array_keys( $tagsCountList ) ) ) );
         if ( !is_array( $tagObjects ) || empty( $tagObjects ) )
             return array();
@@ -269,6 +270,7 @@ class eZTagsCloud
 
         $tagsCountList = $facetResult[0]['countList'];
 
+        /** @var eZTagsObject[] $tags */
         $tags = eZTagsObject::fetchList( array( 'id' => array( array_keys( $tagsCountList ) ) ) );
         if ( !is_array( $tags ) || empty( $tags ) )
             return array();
@@ -385,5 +387,3 @@ class eZTagsCloud
         }
     }
 }
-
-?>

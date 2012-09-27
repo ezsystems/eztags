@@ -41,5 +41,3 @@ while ( $firstLevelTags = eZTagsObject::fetchList( array( 'parent_id' => 0, 'mai
 }
 
 $script->shutdown();
-
-?>

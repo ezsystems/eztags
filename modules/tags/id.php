@@ -35,5 +35,3 @@ if ( $http->hasSessionVariable( 'eZTagsShowReindexMessage' ) )
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:tags/view.tpl' );
 $Result['path']    = eZTagsObject::generateModuleResultPath( $tag, false );
-
-?>

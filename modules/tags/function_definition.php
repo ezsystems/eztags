@@ -166,5 +166,3 @@ $FunctionList['latest_tags'] = array( 'name'        => 'latest_tags',
                                                                      'type'     => 'string',
                                                                      'required' => false,
                                                                      'default'  => false ) ) );
-
-?>

@@ -3,4 +3,4 @@
 [ModuleSettings]
 ExtensionRepositories[]=eztags
 ModuleList[]=tags
-*/ ?>
+*/
