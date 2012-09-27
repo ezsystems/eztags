@@ -1,5 +1,17 @@
 # eZ Tags extension changelog
 
+## 2.0
+
+* Multilanguage support for tags!
+* Whole core is updated to work with multilingual tags. That means fetches, attribute filter, modules... Everything!
+* New administration interface! Specially created to behave & look exactly like the rest of admin interface of eZ Publish
+* eZ Tags cloud over Solr! You can now use Solr to create a cloud of your tags
+* New attribute, `related_objects_count` is available in eZ Tags attribute content in templates
+* New `tag_icon` template operator available to simplify fetching of tag icons
+* Added a dedicated Solr indexing handler that indexes much more data from eZ Tags attributes
+* New translations
+* Various bug fixes and optimizations
+
 ## 1.2.2 (12.01.2012)
 
 * Fix regression in ezpEvent hooks that could cause fatal errors in certain situations
