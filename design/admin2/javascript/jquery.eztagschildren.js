@@ -42,7 +42,7 @@
 
     var initDataTable = function( base, settings ) {
 
-        /* Custom display formatters definition */
+        /* Custom display formatter definition */
 
         var tagMenu = function( cell, record, column, data ) {
             var translationArray = [];
@@ -68,11 +68,11 @@
             div.appendTo( a );
 
             a.appendTo( cell );
-        }
+        };
 
         var tagCheckbox = function( cell, record, column, data ) {
             cell.innerHTML = '<input type="checkbox" name="SelectedIDArray[]" value="' + record.getData( 'id' ) + '" />';
-        }
+        };
 
         var tagTranslations = function( cell, record, column, data ) {
             var html = '';
@@ -88,13 +88,11 @@
             });
 
             cell.innerHTML = html;
-        }
+        };
 
         var tagName = function( cell, record, column, data ) {
-            var html = '<a href="' + settings.urls.view + '/' + record.getData( 'id' ) + '">' + record.getData( 'keyword' ) + '</a>';
-
-            cell.innerHTML = html;
-        }
+            cell.innerHTML = '<a href="' + settings.urls.view + '/' + record.getData( 'id' ) + '">' + record.getData( 'keyword' ) + '</a>';
+        };
 
         /* Paginator definition */
 
@@ -109,7 +107,7 @@
         });
 
         dataTablePaginator.subscribe('render', function () {
-            var prevPageLink, prevPageLink, prevPageLinkNode, nextPageLinkNode, tpg;
+            var prevPageLink, nextPageLink, prevPageLinkNode, nextPageLinkNode, tpg;
 
             tpg = YAHOO.util.Dom.get( 'tpg' );
 
@@ -130,13 +128,13 @@
 
         var selectItemsButtonAction = function( type, args, item ) {
             $( '#eztags-tag-children-table' ).find( ':checkbox' ).prop( 'checked', item.value );
-        }
+        };
 
         var selectItemsButtonInvert = function( type, args, item ) {
             var checks = $( '#eztags-tag-children-table' ).find( ':checkbox' ).each(function(){
                 this.checked = !this.checked;
             });
-        }
+        };
 
         var selectItemsButtonActions = [
             { text: settings.i18n.select_visible, id: 'ezopt-menu-check', value: 1, onclick: { fn: selectItemsButtonAction } },
@@ -157,7 +155,7 @@
 
         var createNewButtonAction = function( type, args ) {
             $('form[id=eztags-children-actions]').prop( 'action', settings.urls.add + '/' + args[1].value ).submit();
-        }
+        };
 
         var createNewButtonOptions = [];
         for ( var l in languages ) {
@@ -196,7 +194,7 @@
             else if ( item.value == 1 && settings.permissions.edit ) {
                 $( 'form[id=eztags-children-actions]' ).prop( 'action', settings.urls.movetags ).submit();
             }
-        }
+        };
 
         var moreActionsButtonActions = [];
         if ( settings.permissions.remove ) {
