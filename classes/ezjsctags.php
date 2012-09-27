@@ -94,10 +94,13 @@ class ezjscTags extends ezjscServerFunctions
                 $tagsToSuggest[] = $result;
         }
 
+        if ( empty( $tagsToSuggest ) )
+            return array( 'status' => 'success', 'message' => '', 'tags' => array() );
+
         return self::generateOutput(
             array( 'id' => array( $tagsToSuggest ) ),
-            $http->postVariable( 'subtree_limit', 0 ),
-            $http->postVariable( 'hide_root_tag', '0' ),
+            0,
+            false,
             $http->postVariable( 'locale', '' )
         );
     }
@@ -166,7 +169,7 @@ class ezjscTags extends ezjscServerFunctions
              return array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
         // @TODO Fix synonyms not showing up in autocomplete
-         // when subtree limit is defined in class attribute
+        // when subtree limit is defined in class attribute
         if ( $subTreeLimit > 0 )
         {
             if ( $hideRootTag )
