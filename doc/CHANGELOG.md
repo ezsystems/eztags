@@ -8,6 +8,7 @@
 * eZ Tags cloud over Solr! You can now use Solr to create a cloud of your tags
 * New attribute, `related_objects_count` is available in eZ Tags attribute content in templates
 * New `tag_icon` template operator available to simplify fetching of tag icons
+* tags/tag fetch now supports fetching an array of tags, just transfer the array of IDs to tag_id parameter
 * Added a dedicated Solr indexing handler that indexes much more data from eZ Tags attributes
 * New translations
 * Various bug fixes and optimizations

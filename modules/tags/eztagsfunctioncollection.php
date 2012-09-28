@@ -25,12 +25,20 @@ class eZTagsFunctionCollection
             eZContentLanguage::setPrioritizedLanguages( $language );
         }
 
-        $result = eZTagsObject::fetch( $tagID );
+        $result = false;
+        if ( is_numeric( $tagID ) )
+        {
+            $result = eZTagsObject::fetch( $tagID );
+        }
+        else if ( is_array( $tagID ) && !empty( $tagID ) )
+        {
+            $result = eZTagsObject::fetchList( array( 'id' => array( $tagID ) ) );
+        }
 
         if ( $language )
             eZContentLanguage::clearPrioritizedLanguages();
 
-        if ( $result instanceof eZTagsObject )
+        if ( $result instanceof eZTagsObject || ( is_array( $result ) && !empty( $result ) ) )
             return array( 'result' => $result );
 
         return array( 'result' => false );
