@@ -74,8 +74,9 @@ For anonymous users to be able to see tags on your site, grant access to `view` 
 
 ### OPTIONAL: Configure eZ Find schema for eZ Tags extension
 
-eZ Find is used for tag suggestions, tags cloud over Solr and fetching of related tags. If you wish to use those functionalities,
-you'll need to patch your eZ Find schema with eZ Tags specific Solr fields below.
+eZ Find is used for tag suggestions, tags cloud over Solr and fetching of related tags. eZ Find is NOT REQUIRED to be enabled if you
+will not use these features. However, if you wish to use them, you'll need to activate eZ Find and patch the `schema.xml` file inside
+eZ Find extension with lines below.
 
 Edit the file `extension/ezfind/java/solr/conf/schema.xml`, add the following inside `<fields>` element and then restart Tomcat/Jetty:
 
