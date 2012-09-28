@@ -230,7 +230,8 @@ class eZTagsCloud
         if( isset( $params['offset'] ) && is_numeric( $params['offset'] ) )
             $offset = (int) $params['offset'];
 
-        $limit = PHP_INT_MAX;
+        // It seems that Solr doesn't like PHP_INT_MAX constant on 64bit operating systems
+        $limit = 1000000;
         if( isset( $params['limit'] ) && is_numeric( $params['limit'] ) )
             $limit = (int) $params['limit'];
 
@@ -251,7 +252,8 @@ class eZTagsCloud
         $solrSearch = new eZSolr();
         $solrParams = array(
             'SearchOffset'   => 0,
-            'SearchLimit'    => PHP_INT_MAX,
+            // It seems that Solr doesn't like PHP_INT_MAX constant on 64bit operating systems
+            'SearchLimit'    => 1000000,
             'Facet'          => array(
                 array( 'field' => 'ezf_df_tag_ids' )
             ),
