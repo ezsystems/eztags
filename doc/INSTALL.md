@@ -7,7 +7,7 @@
 
 ## Optional extensions
 
-   * eZ Find (used for tags suggestion and related tags feature)
+   * eZ Find (used for tags suggestion, related tags feature and tag cloud over Solr)
 
 ## Upgrade
 
