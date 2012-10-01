@@ -7,6 +7,13 @@
 class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
 {
     /**
+     * If true, synonyms will be indexed, otherwise, main tag will be indexed instead
+     *
+     * @var bool
+     */
+    private $indexSynonyms = true;
+
+    /**
      * Returns the data from content object attribute which is sent to Solr backend
      *
      * @return array
@@ -16,8 +23,7 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
         $data = array();
 
         /** @var eZContentClassAttribute $contentClassAttribute */
-        $contentObjectAttribute = $this->ContentObjectAttribute;
-        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
+        $contentClassAttribute = $this->ContentObjectAttribute->contentClassAttribute();
 
         $keywordFieldName = parent::generateAttributeFieldName( $contentClassAttribute, 'lckeyword' );
         $textFieldName = parent::generateAttributeFieldName( $contentClassAttribute, 'text' );
@@ -27,43 +33,27 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
         $data[$textFieldName] = '';
         $data[$tagIDsFieldName] = array();
 
-        if ( !$contentObjectAttribute->hasContent() )
+        if ( !$this->ContentObjectAttribute->hasContent() )
             return $data;
 
-        /** @var eZTags $objectAttributeContent */
-        $objectAttributeContent = $contentObjectAttribute->content();
+        $objectAttributeContent = $this->ContentObjectAttribute->content();
+        if ( !$objectAttributeContent instanceof eZTags )
+            return $data;
 
         $tagIDs = array();
         $keywords = array();
-        $indexSynonyms = eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled';
+
+        $this->indexSynonyms = eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled';
+        $indexParentTags = eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexParentTags' ) === 'enabled';
 
         $tags = $objectAttributeContent->attribute( 'tags' );
         if ( is_array( $tags ) )
         {
-            /** @var eZTagsObject $tag */
             foreach ( $tags as $tag )
             {
-                if ( !$indexSynonyms && $tag->isSynonym() )
-                    $tag = $tag->getMainTag();
-
                 if ( $tag instanceof eZTagsObject )
                 {
-                    //get keyword in content's locale
-                    $keyword = $tag->getKeyword( $contentObjectAttribute->attribute( 'language_code' ) );
-                    if ( !$keyword )
-                    {
-                        //fall back to main language
-                        /** @var eZContentLanguage $mainLanguage */
-                        $mainLanguage = eZContentLanguage::fetch( $tag->attribute( 'main_language_id') );
-                        if ( $mainLanguage instanceof eZContentLanguage )
-                            $keyword = $tag->getKeyword( $mainLanguage->attribute( 'locale' ) );
-                    }
-
-                    if ( $keyword )
-                    {
-                        $tagIDs[] = (int) $tag->attribute( 'id' );
-                        $keywords[] = $keyword;
-                    }
+                    $this->processTag( $tag, $tagIDs, $keywords, $indexParentTags );
                 }
             }
         }
@@ -105,5 +95,48 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
             $fieldsList[] = parent::generateSubattributeFieldName( $classAttribute, 'tag_ids', 'sint' );
 
         return $fieldsList;
+    }
+
+    /**
+     * Extracts data to be indexed from the tag
+     *
+     * @param eZTagsObject $tag
+     * @param array $tagIDs
+     * @param array $keywords
+     * @param bool $indexParentTags
+     */
+    private function processTag( eZTagsObject $tag, array &$tagIDs, array &$keywords, $indexParentTags = false )
+    {
+        if ( !$this->indexSynonyms && $tag->isSynonym() )
+            $tag = $tag->getMainTag();
+
+        //get keyword in content's locale
+        $keyword = $tag->getKeyword( $this->ContentObjectAttribute->attribute( 'language_code' ) );
+        if ( !$keyword )
+        {
+            //fall back to main language
+            /** @var eZContentLanguage $mainLanguage */
+            $mainLanguage = eZContentLanguage::fetch( $tag->attribute( 'main_language_id') );
+            if ( $mainLanguage instanceof eZContentLanguage )
+                $keyword = $tag->getKeyword( $mainLanguage->attribute( 'locale' ) );
+        }
+
+        if ( $keyword )
+        {
+            $tagIDs[] = (int) $tag->attribute( 'id' );
+            $keywords[] = $keyword;
+        }
+
+        if ( $indexParentTags )
+        {
+            $parentTags = $tag->getPath( true );
+            foreach ( $parentTags as $parentTag )
+            {
+                if ( $parentTag instanceof eZTagsObject )
+                {
+                    $this->processTag( $parentTag, $tagIDs, $keywords );
+                }
+            }
+        }
     }
 }
