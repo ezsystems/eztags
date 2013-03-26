@@ -737,4 +737,11 @@
         <translation>Aby zobaczyć zmiany w wyszukiwaniu , wymagana jest ręczna regeneracja indeksu wyszukiwania. Ustaw opcję DelayedIndexing na enabled w pliku site.ini w celu uzyskania automatycznego indeksowania.</translation>
     </message>
 </context>
+<context>
+    <name>extension/eztags/tagcloud</name>
+    <message>
+        <source>objects tagged with '%keyword'</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>
