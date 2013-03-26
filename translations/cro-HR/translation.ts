@@ -737,4 +737,11 @@
         <translation>Ručno regeneriranje indeksa pretraživača je potrebno da bi se promjene vidjele kod pretrage. Uključite DelayedIndexing u site.ini datoteci za automatsko reindeksiranje.</translation>
     </message>
 </context>
+<context>
+    <name>extension/eztags/tagcloud</name>
+    <message>
+        <source>objects tagged with '%keyword'</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

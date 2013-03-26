@@ -737,4 +737,11 @@
         <translation>Manuelle Erstellung des Suchindex ist notwendig, um Änderungen in der Suche zu sehen. Für automatische Indizierung schalten Sie DelayedIndexing in site.ini ein.</translation>
     </message>
 </context>
+<context>
+    <name>extension/eztags/tagcloud</name>
+    <message>
+        <source>objects tagged with '%keyword'</source>
+        <translation>Objekte mit '%keyword' verschlagwortet</translation>
+    </message>
+</context>
 </TS>

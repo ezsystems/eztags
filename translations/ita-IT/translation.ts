@@ -737,4 +737,11 @@
         <translation>La rigenerazione della ricerca manuale viene richiesta per le modifiche da mostrare nella ricerca. Abilita il DelayedIndexing nel site.ini per reindicizzare automaticamente.</translation>
     </message>
 </context>
+<context>
+    <name>extension/eztags/tagcloud</name>
+    <message>
+        <source>objects tagged with '%keyword'</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>
