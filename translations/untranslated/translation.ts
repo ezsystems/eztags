@@ -737,4 +737,11 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>extension/eztags/tagcloud</name>
+    <message>
+        <source>objects tagged with '%keyword'</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

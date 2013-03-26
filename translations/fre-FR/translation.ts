@@ -737,4 +737,11 @@
         <translation>La réindexation est obligatoire pour voir les changements dans le moteur de recherche. Activer &quot;DelayedIndexing&quot; dans le ficier site.ini pour réindexer automatiquement.</translation>
     </message>
 </context>
+<context>
+    <name>extension/eztags/tagcloud</name>
+    <message>
+        <source>objects tagged with '%keyword'</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>
