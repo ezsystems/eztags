@@ -93,15 +93,15 @@
     </message>
     <message>
         <source>Translate tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Übersetze Schlüsselwort</translation>
     </message>
     <message>
         <source>Existing translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Existierende Übersetzungen</translation>
     </message>
     <message>
         <source>No existing translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine existierenden Übersetzungen</translation>
     </message>
     <message>
         <source>Add translation</source>
