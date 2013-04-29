@@ -1,5 +1,5 @@
 {ezcss_require( array( 'tagssuggest.css', 'jqmodal.css', 'contentstructure-tree.css' ) )}
-{ezscript_require( array( 'ezjsc::jquery', 'ezjsc::jqueryio', 'jqmodal.js', 'jquery.tagssuggest.js', 'tagssuggest-init.js' ) )}
+{ezscript_require( array( 'ezjsc::jquery', 'ezjsc::jqueryio', 'jquery-migrate-1.1.1.min.js', 'jqmodal.js', 'jquery.tagssuggest.js', 'tagssuggest-init.js' ) )}
 
 {def $has_add_access = false()}
 {def $root_tag = fetch( tags, tag, hash( tag_id, $attribute.contentclass_attribute.data_int1 ) )}

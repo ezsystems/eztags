@@ -136,8 +136,7 @@
 
 			function bindParentSelectorTreeEvents()
 			{
-				$('#' + parentSelector.attr('id') + ' .contentstructure a:not([class^=openclose])').live('click', function(e)
-				{
+				$(document).on('click', '#' + parentSelector.attr('id') + ' .contentstructure a:not([class^=openclose])', function() {
 					addTagToList({'tag_name': obj.val().replace(/^\s+|\s+$/g, ''), 'tag_parent_id': $(this).attr('rel'), 'tag_id': '0'}, tags_listed, removeTagFromList, '&times;');
 					updateValues();
 					clearTagSearchField();
@@ -357,7 +356,7 @@
 
 			// Opera doesn't seem to assign a keyCode for the down
 			// key on the keyup event. why?
-			if ($.browser.opera) {
+			if (navigator.userAgent.match(/opera/)) {
 				obj.keydown(function(e) {
 					if (e.keyCode === 40) { // up key
 						return keyListener(e);

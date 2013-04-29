@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
 		return (parent ? parent + ' / ' : '') + tag.parent().find('span').html();
 	}
 
-	$('.contentstructure a:not([class^="openclose"])').live('click', function(e) {
+	$(document).on('click', '.contentstructure a:not([class^="openclose"])', function() {
 		if ($(this).parents('li.disabled').length) return false;
 		var tag = $(this);
 		parent_keyword.html(getParentTagHierarchy(tag, 0));
