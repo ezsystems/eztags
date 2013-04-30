@@ -171,7 +171,7 @@
             },
             bindParentSelectorTreeEvents = function(options) {
                 var parentSelector = options.w.siblings('.parent-selector-tree:eq(0)');
-                $('#' + parentSelector.attr('id') + ' .contentstructure a:not([class^=openclose])').live('click', function(e) {
+                $(document).on('click', '#' + parentSelector.attr('id') + ' .contentstructure a:not([class^=openclose])', function(e) {
                     addTagToList({'tag_name': $.trim(options.w.find('.tagssuggestfield').val()), 'tag_parent_id': $(this).attr('rel'), 'tag_id': '0', 'tag_locale': options.locale}, options.w.find('.tags-listed ul'), removeTagFromList, true, options);
                     showHideInputElements(options);
                     updateValues(options);
@@ -291,7 +291,7 @@
                     var parent = getParentTagHierarchy(tag.parents('div:first').prev('a'), ++i);
                     return (parent ? parent + ' / ' : '') + tag.parent().find('span').html();
                 }
-                $('.contentstructure a:not([class^="openclose"])').live('click', function(e) {
+                $(document).on('click', '.contentstructure a:not([class^="openclose"])', function(e) {
                     var tag = $(this);
                     if (tag.parents('li.disabled').length) return false;
                     parent_keyword.html(getParentTagHierarchy(tag, 0));

@@ -333,7 +333,7 @@
         filterContainer.appendChild( filterTextBox );
 
         // stupid IE
-        var eventToBind = $.browser.msie ? 'keydown' : 'input';
+        var eventToBind = navigator.userAgent.match( /MSIE/ ) ? 'keydown' : 'input';
         var filterTimeoutHandler;
 
         $( '#action-filter-input' ).bind(eventToBind, function(){
