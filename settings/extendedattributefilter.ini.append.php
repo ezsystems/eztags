@@ -3,4 +3,8 @@
 [TagsAttributeFilter]
 ClassName=eZTagsAttributeFilter
 MethodName=createSqlParts
-*/
+
+[TagsAttributeAndFilter]
+ClassName=eZTagsAttributeFilter
+MethodName=createAndFilterSqlParts
+ */
