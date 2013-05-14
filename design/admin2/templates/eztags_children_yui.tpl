@@ -43,10 +43,10 @@
                 *}tag_name: "{'Tag name'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}translations: "{'Tag translations'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}modified: "{'Modified'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
-                *}first_page: "&laquo;&nbsp;{'first'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
-                *}last_page: "{'last'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}&nbsp;&raquo;",{*
-                *}previous_page: "&lsaquo;&nbsp;{'prev'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
-                *}next_page: "{'next'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}&nbsp;&rsaquo;",{*
+                *}first_page: "&laquo;",{*
+                *}last_page: "&raquo;",{*
+                *}previous_page: "&lsaquo;",{*
+                *}next_page: "&rsaquo;",{*
                 *}select_visible: "{'Select all visible'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}select_none: "{'Select none'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
                 *}select_toggle: "{'Invert selection'|i18n( 'extension/eztags/tags/view' )|wash( javascript )}",{*
