@@ -45,6 +45,7 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
 
         $this->indexSynonyms = eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexSynonyms' ) === 'enabled';
         $indexParentTags = eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IndexParentTags' ) === 'enabled';
+        $includeSynonyms = eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'IncludeSynonyms' ) === 'enabled';
 
         $tags = $objectAttributeContent->attribute( 'tags' );
         if ( is_array( $tags ) )
@@ -53,7 +54,7 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
             {
                 if ( $tag instanceof eZTagsObject )
                 {
-                    $this->processTag( $tag, $tagIDs, $keywords, $indexParentTags );
+                    $this->processTag( $tag, $tagIDs, $keywords, $indexParentTags, $includeSynonyms );
                 }
             }
         }
@@ -104,8 +105,9 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
      * @param array $tagIDs
      * @param array $keywords
      * @param bool $indexParentTags
+     * @param bool $includeSynonyms
      */
-    private function processTag( eZTagsObject $tag, array &$tagIDs, array &$keywords, $indexParentTags = false )
+    private function processTag( eZTagsObject $tag, array &$tagIDs, array &$keywords, $indexParentTags = false, $includeSynonyms = false )
     {
         if ( !$this->indexSynonyms && $tag->isSynonym() )
             $tag = $tag->getMainTag();
@@ -135,6 +137,17 @@ class ezfSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
                 if ( $parentTag instanceof eZTagsObject )
                 {
                     $this->processTag( $parentTag, $tagIDs, $keywords );
+                }
+            }
+        }
+
+        if ( $this->indexSynonyms && $includeSynonyms )
+        {
+            foreach ( $tag->getSynonyms() as $synonym )
+            {
+                if ( $synonym instanceof eZTagsObject )
+                {
+                    $this->processTag( $synonym, $tagIDs, $keywords );
                 }
             }
         }
