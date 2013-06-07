@@ -1,0 +1,16 @@
+{
+    "name": "ezsystems/eztags-ls",
+    "description": "eZ Tags is an extension for eZ Publish, providing more functionality for tagging content objects than ezkeyword datatype included in eZ Publish kernel.",
+    "type": "ezpublish-legacy-extension",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "eZ Publish dev-team & eZ Community",
+            "homepage": "https://github.com/ezsystems/eztags/contributors"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ezsystems/ezpublish-legacy-installer": "*"
+    }
+}
