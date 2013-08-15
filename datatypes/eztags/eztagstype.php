@@ -545,6 +545,4 @@ class eZTagsType extends eZDataType
     }
 }
 
-eZDataType::register( eZTagsType::DATA_TYPE_STRING, 'eZTagsType' );
-
 ?>
