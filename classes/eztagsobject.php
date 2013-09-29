@@ -158,8 +158,8 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns first level children tags
      *
-	 * @param integer $offset
-	 * @param integer $limit
+     * @param integer $offset
+     * @param integer $limit
      * @return array	 
      */
     function getChildren($offset = 0, $limit = null)
@@ -491,8 +491,8 @@ class eZTagsObject extends eZPersistentObject
      *
      * @static
      * @param integer $parentID
-	 * @param integer $offset
-	 * @param integer $limit
+     * @param integer $offset
+     * @param integer $limit
      * @return array
      */
     static function fetchByParentID( $parentID, $offset = 0, $limit = null )
