@@ -87,6 +87,7 @@ class eZTagsObject extends eZPersistentObject
                                                       'is_synonym'                => 'isSynonym',
                                                       'icon'                      => 'getIcon',
                                                       'url'                       => 'getUrl',
+                                                      'clean_url'                 => 'getCleanUrl',
                                                       'path'                      => 'getPath',
                                                       'path_count'                => 'getPathCount',
                                                       'keyword'                   => 'getKeyword',
@@ -406,9 +407,11 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns the URL of the tag, to be used in tags/view
      *
+     * @param bool $clean
+     *
      * @return string
      */
-    public function getUrl()
+    public function getUrl( $clean = false )
     {
         /** @var eZTagsObject[] $path */
         $path = $this->getPath();
@@ -428,16 +431,26 @@ class eZTagsObject extends eZPersistentObject
             {
                 foreach ( $path as $tag )
                 {
-                    $keywordArray[] = urlencode( $tag->attribute( 'keyword' ) );
+                    $keywordArray[] = $clean ? $tag->attribute( 'keyword' ) : urlencode( $tag->attribute( 'keyword' ) );
                 }
 
-                $keywordArray[] = urlencode( $this->attribute( 'keyword' ) );
+                $keywordArray[] = $clean ? $this->attribute( 'keyword' ) : urlencode( $this->attribute( 'keyword' ) );
 
-                return $urlPrefix . '/' . implode( '/', $keywordArray );
+                return $clean ? implode( '/', $keywordArray ) : $urlPrefix . '/' . implode( '/', $keywordArray );
             }
         }
 
-        return $urlPrefix . '/' . urlencode( $this->attribute( 'keyword' ) );
+        return $clean ? $this->attribute( 'keyword' ) : $urlPrefix . '/' . urlencode( $this->attribute( 'keyword' ) );
+    }
+
+    /**
+     * Returns the clean URL of the tag, without prefix and without URL encoding
+     *
+     * @return string
+     */
+    public function getCleanUrl()
+    {
+        return $this->getUrl( true );
     }
 
     /**
