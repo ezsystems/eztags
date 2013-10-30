@@ -889,6 +889,59 @@ class eZTagsObject extends eZPersistentObject
     }
 
     /**
+     * Fetches tag by URL
+     *
+     * @static
+     *
+     * @param string $url
+     * @param bool $mainTranslation
+     *
+     * @return eZTagsObject|null
+     */
+    static public function fetchByUrl( $url, $mainTranslation = false )
+    {
+        $urlArray = is_array( $url ) ? $url : explode( '/', ltrim( $url, '/' ) );
+        if ( !is_array( $urlArray ) || empty( $urlArray ) )
+            return null;
+
+        $parentID = 0;
+        for ( $i = 0; $i < count( $urlArray ) - 1; $i++ )
+        {
+            /** @var eZTagsObject[] $tags */
+            $tags = self::fetchList(
+                array(
+                    'parent_id' => $parentID,
+                    'main_tag_id' => 0,
+                    'keyword' => urldecode( trim( $urlArray[$i] ) )
+                ),
+                null,
+                null,
+                $mainTranslation
+            );
+
+            if ( !is_array( $tags ) || empty( $tags ) )
+                return null;
+
+            $parentID = $tags[0]->attribute( 'id' );
+        }
+
+        $tags = self::fetchList(
+            array(
+                'parent_id' => $parentID,
+                'keyword' => urldecode( trim( $urlArray[count( $urlArray ) - 1] ) )
+            ),
+            null,
+            null,
+            $mainTranslation
+        );
+
+        if ( !is_array( $tags ) || empty( $tags ) )
+            return null;
+
+        return $tags[0];
+    }
+
+    /**
      * Recursively deletes all tags below this tag, including self
      */
     public function recursivelyDeleteTag()
