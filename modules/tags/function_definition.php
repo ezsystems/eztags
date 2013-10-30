@@ -35,6 +35,17 @@ $FunctionList['tag_by_remote_id'] = array( 'name'        => 'tag_by_remote_id',
                                                                           'required' => false,
                                                                           'default'  => false ) ) );
 
+$FunctionList['tag_by_url'] = array( 'name'        => 'tag_by_url',
+                                     'call_method' => array( 'class'  => 'eZTagsFunctionCollection',
+                                                             'method' => 'fetchTagByUrl' ),
+                                     'parameters'  => array( array( 'name'     => 'url',
+                                                                    'type'     => 'string',
+                                                                    'required' => true ),
+                                                             array( 'name'     => 'language',
+                                                                    'type'     => 'string',
+                                                                    'required' => false,
+                                                                    'default'  => false ) ) );
+
 $FunctionList['list'] = array( 'name'        => 'list',
                                'call_method' => array( 'class'  => 'eZTagsFunctionCollection',
                                                        'method' => 'fetchTagTree' ),

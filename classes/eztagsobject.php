@@ -87,6 +87,7 @@ class eZTagsObject extends eZPersistentObject
                                                       'is_synonym'                => 'isSynonym',
                                                       'icon'                      => 'getIcon',
                                                       'url'                       => 'getUrl',
+                                                      'clean_url'                 => 'getCleanUrl',
                                                       'path'                      => 'getPath',
                                                       'path_count'                => 'getPathCount',
                                                       'keyword'                   => 'getKeyword',
@@ -406,9 +407,11 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns the URL of the tag, to be used in tags/view
      *
+     * @param bool $clean
+     *
      * @return string
      */
-    public function getUrl()
+    public function getUrl( $clean = false )
     {
         /** @var eZTagsObject[] $path */
         $path = $this->getPath();
@@ -428,16 +431,26 @@ class eZTagsObject extends eZPersistentObject
             {
                 foreach ( $path as $tag )
                 {
-                    $keywordArray[] = urlencode( $tag->attribute( 'keyword' ) );
+                    $keywordArray[] = $clean ? $tag->attribute( 'keyword' ) : urlencode( $tag->attribute( 'keyword' ) );
                 }
 
-                $keywordArray[] = urlencode( $this->attribute( 'keyword' ) );
+                $keywordArray[] = $clean ? $this->attribute( 'keyword' ) : urlencode( $this->attribute( 'keyword' ) );
 
-                return $urlPrefix . '/' . implode( '/', $keywordArray );
+                return $clean ? implode( '/', $keywordArray ) : $urlPrefix . '/' . implode( '/', $keywordArray );
             }
         }
 
-        return $urlPrefix . '/' . urlencode( $this->attribute( 'keyword' ) );
+        return $clean ? $this->attribute( 'keyword' ) : $urlPrefix . '/' . urlencode( $this->attribute( 'keyword' ) );
+    }
+
+    /**
+     * Returns the clean URL of the tag, without prefix and without URL encoding
+     *
+     * @return string
+     */
+    public function getCleanUrl()
+    {
+        return $this->getUrl( true );
     }
 
     /**
@@ -873,6 +886,59 @@ class eZTagsObject extends eZPersistentObject
             return $tagsList[0];
 
         return null;
+    }
+
+    /**
+     * Fetches tag by URL
+     *
+     * @static
+     *
+     * @param string $url
+     * @param bool $mainTranslation
+     *
+     * @return eZTagsObject|null
+     */
+    static public function fetchByUrl( $url, $mainTranslation = false )
+    {
+        $urlArray = is_array( $url ) ? $url : explode( '/', ltrim( $url, '/' ) );
+        if ( !is_array( $urlArray ) || empty( $urlArray ) )
+            return null;
+
+        $parentID = 0;
+        for ( $i = 0; $i < count( $urlArray ) - 1; $i++ )
+        {
+            /** @var eZTagsObject[] $tags */
+            $tags = self::fetchList(
+                array(
+                    'parent_id' => $parentID,
+                    'main_tag_id' => 0,
+                    'keyword' => urldecode( trim( $urlArray[$i] ) )
+                ),
+                null,
+                null,
+                $mainTranslation
+            );
+
+            if ( !is_array( $tags ) || empty( $tags ) )
+                return null;
+
+            $parentID = $tags[0]->attribute( 'id' );
+        }
+
+        $tags = self::fetchList(
+            array(
+                'parent_id' => $parentID,
+                'keyword' => urldecode( trim( $urlArray[count( $urlArray ) - 1] ) )
+            ),
+            null,
+            null,
+            $mainTranslation
+        );
+
+        if ( !is_array( $tags ) || empty( $tags ) )
+            return null;
+
+        return $tags[0];
     }
 
     /**
