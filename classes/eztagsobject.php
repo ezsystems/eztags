@@ -162,7 +162,7 @@ class eZTagsObject extends eZPersistentObject
      * @param integer $limit
      * @return array	 
      */
-    function getChildren($offset = 0, $limit = null)
+    function getChildren( $offset = 0, $limit = null )
     {
         return self::fetchByParentID( $this->attribute( 'id' ), $offset, $limit );
     }
@@ -497,8 +497,13 @@ class eZTagsObject extends eZPersistentObject
      */
     static function fetchByParentID( $parentID, $offset = 0, $limit = null )
     {
-        $aLimit = array('offset' => $offset, 'length' => $limit );
-        return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, array( 'parent_id' => $parentID, 'main_tag_id' => 0 ), null, $aLimit );
+        return eZPersistentObject::fetchObjectList(
+            eZTagsObject::definition(),
+            null,
+            array( 'parent_id' => $parentID, 'main_tag_id' => 0 ),
+            null,
+            array( 'offset' => $offset, 'length' => $limit )
+        );
     }
 
     /**
