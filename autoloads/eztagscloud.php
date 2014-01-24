@@ -267,7 +267,7 @@ class eZTagsCloud
             'AsObjects'      => false
         );
 
-        $searchResult = $solrSearch->search( '', $solrParams );
+        $searchResult = $solrSearch->search( '*:*', $solrParams );
         if ( !isset( $searchResult['SearchExtras'] ) || !$searchResult['SearchExtras'] instanceof ezfSearchResultInfo )
             return array();
 
