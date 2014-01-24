@@ -260,7 +260,8 @@ class eZTagsCloud
             // It seems that Solr doesn't like PHP_INT_MAX constant on 64bit operating systems
             'SearchLimit'    => 1000000,
             'Facet'          => array(
-                array( 'field' => 'ezf_df_tag_ids' )
+                // We don't want to limit max facet result number since we limit it later anyways
+                array( 'field' => 'ezf_df_tag_ids', 'limit' => 1000000 )
             ),
             'Filter'         => $searchFilter,
             'QueryHandler'   => 'ezpublish',
