@@ -58,10 +58,15 @@ class eZTagsCloud
             case 'eztagscloud':
             {
                 $searchEngine = eZINI::instance()->variable( 'SearchSettings', 'SearchEngine' );
-                if ( class_exists( 'eZSolr' ) && $searchEngine == 'ezsolr' )
+                if ( class_exists( 'eZSolr' ) && $searchEngine == 'ezsolr'
+                    && eZINI::instance( 'eztags.ini' )->variable( 'GeneralSettings', 'TagCloudOverSolr' ) === 'enabled' )
+                {
                     $tagCloud = $this->solrTagCloud( $namedParameters['params'] );
+                }
                 else
+                {
                     $tagCloud = $this->tagCloud( $namedParameters['params'] );
+                }
 
                 $tpl = eZTemplate::factory();
                 $tpl->setVariable( 'tag_cloud', $tagCloud );
