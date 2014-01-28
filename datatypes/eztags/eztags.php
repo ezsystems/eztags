@@ -494,10 +494,6 @@ class eZTags
             'language_mask'    => $languageID + $alwaysAvailable ), $locale );
         $tagObject->store();
 
-        $tagObject->setAttribute( 'path_string', $tagObject->attribute( 'path_string' ) . $tagObject->attribute( 'id' ) . '/' );
-        $tagObject->store();
-        $tagObject->updateModified();
-
         $tagKeywordObject = new eZTagsKeyword( array(
             'keyword_id'  => $tagObject->attribute( 'id' ),
             'language_id' => $languageID + $alwaysAvailable,
@@ -505,6 +501,10 @@ class eZTags
             'locale'      => $locale,
             'status'      => eZTagsKeyword::STATUS_PUBLISHED ) );
         $tagKeywordObject->store();
+
+        $tagObject->setAttribute( 'path_string', $tagObject->attribute( 'path_string' ) . $tagObject->attribute( 'id' ) . '/' );
+        $tagObject->store();
+        $tagObject->updateModified();
 
         $linkObject = new eZTagsAttributeLinkObject( array(
             'keyword_id'              => $tagObject->attribute( 'id' ),
