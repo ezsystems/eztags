@@ -174,9 +174,9 @@ class eZTags
             if ( $word[0] != '' )
             {
                 $idArray[] = (int) $word[0];
-                $keywordArray[] = $db->escapeString( trim( $word[1] ) );
+                $keywordArray[] = trim( $word[1] );
                 $parentArray[] = (int) $word[2];
-                $localeArray[] = $db->escapeString( trim( $word[3] ) );
+                $localeArray[] = trim( $word[3] );
             }
         }
 
@@ -218,8 +218,8 @@ class eZTags
                                        eztags.id = eztags_keyword.keyword_id AND eztags_keyword.locale = '" .
                                        $db->escapeString( $locale ) . "' AND
                                        eztags_keyword.status = " . eZTagsKeyword::STATUS_PUBLISHED . " AND
-                                       eztags_attribute_link.objectattribute_id = " . $attribute->attribute( 'id' ) . " AND
-                                       eztags_attribute_link.objectattribute_version = " . $attribute->attribute( 'version' ) );
+                                       eztags_attribute_link.objectattribute_id = " . (int) $attribute->attribute( 'id' ) . " AND
+                                       eztags_attribute_link.objectattribute_version = " . (int) $attribute->attribute( 'version' ) );
 
         $wordArray = array();
         foreach ( $words as $w )
@@ -234,9 +234,9 @@ class eZTags
             if ( $word[0] != '' )
             {
                 $idArray[] = (int) $word[0];
-                $keywordArray[] = $db->escapeString( trim( $word[1] ) );
+                $keywordArray[] = trim( $word[1] );
                 $parentArray[] = (int) $word[2];
-                $localeArray[] = $db->escapeString( trim( $word[3] ) );
+                $localeArray[] = trim( $word[3] );
             }
         }
 
@@ -255,8 +255,8 @@ class eZTags
                                        eztags.id = eztags_keyword.keyword_id AND
                                        eztags.main_language_id + MOD( eztags.language_mask, 2 ) = eztags_keyword.language_id AND
                                        eztags_keyword.status = " . eZTagsKeyword::STATUS_PUBLISHED . " AND $dbString
-                                       eztags_attribute_link.objectattribute_id = " . $attribute->attribute( 'id' ) . " AND
-                                       eztags_attribute_link.objectattribute_version = " . $attribute->attribute( 'version' ) );
+                                       eztags_attribute_link.objectattribute_id = " . (int) $attribute->attribute( 'id' ) . " AND
+                                       eztags_attribute_link.objectattribute_version = " . (int) $attribute->attribute( 'version' ) );
 
         $wordArray = array();
         foreach ( $words as $w )
@@ -271,9 +271,9 @@ class eZTags
             if ( $word[0] != '' )
             {
                 $idArray[] = (int) $word[0];
-                $keywordArray[] = $db->escapeString( trim( $word[1] ) );
+                $keywordArray[] = trim( $word[1] );
                 $parentArray[] = (int) $word[2];
-                $localeArray[] = $db->escapeString( trim( $word[3] ) );
+                $localeArray[] = trim( $word[3] );
             }
         }
 
