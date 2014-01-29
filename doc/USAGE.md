@@ -178,4 +178,4 @@ Example usage:
 
 This example returns all content directly below the node with ID = 2 that has either tag with ID = 42, or tag with ID = 24 or one of their synonyms attached to it.
 
-The second extended attribute filter is differs only in name. So instead of `TagsAttributeFilter`, you would use `TagsAttributeAndFilter` to return all content that has both, tags with IDs 42 and 24 or their synonyms attached to it.
+The second extended attribute filter differs only in name. So instead of `TagsAttributeFilter`, you would use `TagsAttributeAndFilter` to return all content that has both, tags with IDs 42 and 24 or their synonyms attached to it.
