@@ -121,7 +121,7 @@ class eZTagsObject extends eZPersistentObject
             $s->store();
         }
 
-        foreach ( $this->getChildren( true ) as $c )
+        foreach ( $this->getChildren( 0, null, true ) as $c )
         {
             $c->updatePathString();
         }
@@ -144,7 +144,7 @@ class eZTagsObject extends eZPersistentObject
             $s->store();
         }
 
-        foreach ( $this->getChildren( true ) as $c )
+        foreach ( $this->getChildren( 0, null, true ) as $c )
         {
             $c->updateDepth();
         }
@@ -186,9 +186,9 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    public function getChildren( $mainTranslation = false, $offset = 0, $limit = null )
+    public function getChildren( $offset = 0, $limit = null, $mainTranslation = false )
     {
-        return self::fetchByParentID( $this->attribute( 'id' ), $mainTranslation, $offset, $limit );
+        return self::fetchByParentID( $this->attribute( 'id' ), $offset, $limit, $mainTranslation );
     }
 
     /**
@@ -791,7 +791,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return eZTagsObject[]
      */
-    static public function fetchByParentID( $parentID, $mainTranslation = false, $offset = 0, $limit = null )
+    static public function fetchByParentID( $parentID, $offset = 0, $limit = null, $mainTranslation = false )
     {
         return self::fetchList(
             array( 'parent_id' => $parentID, 'main_tag_id' => 0 ),
@@ -955,7 +955,7 @@ class eZTagsObject extends eZPersistentObject
      */
     public function recursivelyDeleteTag()
     {
-        foreach ( $this->getChildren( true ) as $child )
+        foreach ( $this->getChildren( 0, null, true ) as $child )
         {
             $child->recursivelyDeleteTag();
         }
@@ -978,7 +978,7 @@ class eZTagsObject extends eZPersistentObject
     public function moveChildrenBelowAnotherTag( eZTagsObject $targetTag )
     {
         $currentTime = time();
-        $children = $this->getChildren( true );
+        $children = $this->getChildren( 0, null, true );
         foreach ( $children as $child )
         {
             $childSynonyms = $child->getSynonyms( true );
