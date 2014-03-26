@@ -45,7 +45,9 @@ class eZTagsAttributeFilter
             }
         }
 
-        $returnArray['tables'] = ", eztags_attribute_link i1, eztags i2, eztags_keyword i3 ";
+        $returnArray['tables'] = " INNER JOIN eztags_attribute_link i1 ON (i1.object_id = ezcontentobject.id AND i1.objectattribute_version = ezcontentobject.current_version)
+                                   INNER JOIN eztags i2 ON (i1.keyword_id = i2.id)
+                                   INNER JOIN eztags_keyword i3 ON (i2.id = i3.keyword_id)";
 
         $db = eZDB::instance();
         $dbString = $db->generateSQLINStatement( $tagIDsArray, 'i1.keyword_id', false, true, 'int' );
@@ -59,9 +61,7 @@ class eZTagsAttributeFilter
             eZContentLanguage::setPrioritizedLanguages( $language );
         }
 
-        $returnArray['joins'] = " $dbString AND i1.object_id = ezcontentobject.id AND
-                                  i1.objectattribute_version = ezcontentobject.current_version AND
-                                  i1.keyword_id = i2.id AND i2.id = i3.keyword_id
+        $returnArray['joins'] = " $dbString
                                   AND " . eZContentLanguage::languagesSQLFilter( 'i2' ) . " AND " .
                                   eZContentLanguage::sqlFilter( 'i3', 'i2' ) . " AND ";
 
@@ -111,7 +111,9 @@ class eZTagsAttributeFilter
             }
         }
 
-        $returnArray['tables'] = ", eztags_attribute_link i1, eztags i2, eztags_keyword i3 ";
+        $returnArray['tables'] = " INNER JOIN eztags_attribute_link i1 ON (i1.object_id = ezcontentobject.id AND i1.objectattribute_version = ezcontentobject.current_version)
+                                   INNER JOIN eztags i2 ON (i1.keyword_id = i2.id)
+                                   INNER JOIN eztags_keyword i3 ON (i2.id = i3.keyword_id)";
 
         $dbStrings = array();
         foreach ( $tagIDsArray as $tagID )
@@ -142,9 +144,7 @@ class eZTagsAttributeFilter
             eZContentLanguage::setPrioritizedLanguages( $language );
         }
 
-        $returnArray['joins'] = " $dbString AND i1.object_id = ezcontentobject.id AND
-                                  i1.objectattribute_version = ezcontentobject.current_version AND
-                                  i1.keyword_id = i2.id AND i2.id = i3.keyword_id
+        $returnArray['joins'] = " $dbString
                                   AND " . eZContentLanguage::languagesSQLFilter( 'i2' ) . " AND " .
                                   eZContentLanguage::sqlFilter( 'i3', 'i2' ) . " AND ";
 
