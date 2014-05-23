@@ -5,6 +5,10 @@
     "license": "GPL-2.0",
     "authors": [
         {
+            "name": "Netgen",
+            "homepage": "http://www.netgenlabs.com"
+        },
+        {
             "name": "eZ Publish dev-team & eZ Community",
             "homepage": "https://github.com/ezsystems/eztags/contributors"
         }
