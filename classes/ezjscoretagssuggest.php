@@ -17,11 +17,14 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
     {
         $http = eZHTTPTool::instance();
 
-        $searchString = $http->postVariable( 'search_string' );
+        // Initialize transformation system
+        $trans = eZCharTransform::instance();
+
+        $searchString = $trans->transformByGroup( $http->postVariable( 'search_string' ), 'lowercase' );
         $subTreeLimit = $http->postVariable( 'subtree_limit' );
         $hideRootTag = $http->postVariable( 'hide_root_tag' ) == '1' ? true : false;
 
-        $params = array( 'keyword' => array( 'like', $searchString . '%' ) );
+        $params = array( 'LOWER( keyword )' => array( 'like', $searchString . '%' ) );
         if ( $subTreeLimit > 0 )
         {
             if ( $hideRootTag )
