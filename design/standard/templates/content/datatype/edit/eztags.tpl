@@ -25,7 +25,7 @@
 {/if}
 
 {default attribute_base=ContentObjectAttribute}
-<div class="tagssuggest{if $attribute.contentclass_attribute.data_int2} tagsfilter{/if}">
+<div class="tagssuggest{if $attribute.contentclass_attribute.data_int2} tagsfilter{/if}" id="tagssuggest_{$attribute.id}">
     <label>{'Selected tags'|i18n( 'extension/eztags/datatypes' )}:</label>
     <div class="tags-list tags-listed no-results">
         <p class="loading">{'Loading'|i18n( 'extension/eztags/datatypes' )}...</p>
@@ -60,4 +60,8 @@
 {if $has_add_access}
     {include uri='design:ezjsctemplate/modal_dialog.tpl' attribute_id=$attribute.id root_tag=$root_tag}
 {/if}
+
+<div class="block">
+    {include uri='design:ezjsctemplate/eztags_tree_menu.tpl' attribute_id=$attribute.id root_tag=$root_tag}
+</div>
 {/default}
