@@ -13,7 +13,7 @@ window.eztags_treemenu_url = '{'/tags/treemenu'|ezurl(no)}';
 <script type="text/javascript">
 function getTagTree_{$attribute_id}(node, cb) {ldelim}
     {literal}
-    var tagID = node.id;                                                  
+    var tagID = node.id;
     if(tagID == "#") {
         {/literal}
         tagID = {if $attribute.contentclass_attribute.data_int1|eq(0)}0{else}{$attribute.contentclass_attribute.data_int1}{/if};
@@ -32,13 +32,13 @@ function getTagTree_{$attribute_id}(node, cb) {ldelim}
              'parent' : d.children[child].parent_id == {$attribute.contentclass_attribute.data_int1} ? '#' : d.children[child].parent_id,
              {literal}
              'state' : { 'opened' : false, 'selected' : false }
-            };                                                                        
+            };
 
-            tagTree.push(tagTreeItem); 
+            tagTree.push(tagTreeItem);
         }
         cb(tagTree);
 
-    } ); 
+    } );
     {/literal}
 {rdelim}
 
@@ -54,10 +54,10 @@ $(function () {ldelim}
                         window.eztags_map[{$attribute_id}].obj.find('div.tags-listed ul li').each(function(){ldelim}
                             data.push( $(this).data('tag' ) );
                             window.eztags_map[{$attribute_id}].removeTagFromList($(this));
-                        {rdelim}); 
+                        {rdelim});
                         for(var x in data)
                         {ldelim}
-                            window.eztags_map[{$attribute_id}].addTagToList(data[x]);                        
+                            window.eztags_map[{$attribute_id}].addTagToList(data[x]);
                         {rdelim}
                     {rdelim}
              {rdelim});
@@ -72,18 +72,18 @@ $(function () {ldelim}
 
 
                 {literal}
-              })            
+              })
             .jstree(
-                                         {                                             
-                                            'core' : 
+                                         {
+                                            'core' :
                                             {
                                                 'multiple' : false,
                                                 {/literal}
                                                 'data' : getTagTree_{$attribute_id}
                                                 {literal}
-                                            } 
+                                            }
                                          }
-            ); 
+            );
 
 });
 
@@ -91,11 +91,4 @@ $(function () {ldelim}
 {/literal}
 </script>
 
-
-
 <div class="jstree_demo_div" id="tag-tree-selector-{$attribute_id}"></div>
-
-
-
-
-
