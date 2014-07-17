@@ -33,7 +33,6 @@
 				results = $('<div />'),
 				currentSelection, pageX, pageY;
 
-
 			bindParentSelectorTreeEvents();
 			parentSelectorButton.click(function() {openParentSelector();});
 
