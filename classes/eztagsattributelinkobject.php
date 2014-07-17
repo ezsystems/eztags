@@ -39,6 +39,10 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
                                                                                     'datatype' => 'integer',
                                                                                     'default'  => 0,
                                                                                     'required' => true ),
+                                                'priority'                => array( 'name'     => 'Priority',
+                                                                                    'datatype' => 'integer',
+                                                                                    'default'  => 0,
+                                                                                    'required' => true ),
                                                 'object_id'               => array( 'name'     => 'ObjectID',
                                                                                     'datatype' => 'integer',
                                                                                     'default'  => 0,
@@ -46,7 +50,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
                       'keys'          => array( 'id' ),
                       'increment_key' => 'id',
                       'class_name'    => 'eZTagsAttributeLinkObject',
-                      'sort'          => array( 'id' => 'asc' ),
+                      'sort'          => array( 'priority' => 'asc' ),
                       'name'          => 'eztags_attribute_link' );
     }
 
