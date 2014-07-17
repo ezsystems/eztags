@@ -64,24 +64,21 @@ $(function () {ldelim}
                 {/literal}
                   var item = {ldelim} 'tag_name': data.node.text, 'tag_parent_id': data.node.parent, 'tag_id': data.node.id {rdelim};
                   window.eztags_map[{$attribute_id}].addTagToList(item);
-
-
                 {literal}
               })
             .jstree(
-                                         {
-                                            'core' :
-                                            {
-                                                'multiple' : false,
-                                                {/literal}
-                                                'data' : getTagTree_{$attribute_id}
-                                                {literal}
-                                            }
-                                         }
+                 {
+                    'core' :
+                    {
+                        'multiple' : false,
+                        {/literal}
+                        'data' : getTagTree_{$attribute_id}
+                        {literal}
+                    }
+                 }
             );
 
 });
-
 
 {/literal}
 </script>
