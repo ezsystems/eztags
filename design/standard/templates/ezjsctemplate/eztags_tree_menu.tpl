@@ -42,11 +42,6 @@ function getTagTree_{$attribute_id}(node, cb) {ldelim}
     {/literal}
 {rdelim}
 
-
-
-
-
-
 $(function () {ldelim}
             $('#tagssuggest_{$attribute_id} ul').sortable({ldelim}
                     stop: function(event, ui){ldelim}
