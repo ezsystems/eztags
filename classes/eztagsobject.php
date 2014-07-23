@@ -1098,7 +1098,10 @@ class eZTagsObject extends eZPersistentObject
             return false;
 
         $tag = self::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof self && $tag->attribute( 'main_tag_id' ) != 0 )
+        if ( (int) $tagID > 0 && !$tag instanceof self )
+            return false;
+
+        if ( $tag instanceof self && $tag->attribute( 'main_tag_id' ) != 0 )
             return false;
 
         if ( !is_array( $params ) )
@@ -1212,7 +1215,10 @@ class eZTagsObject extends eZPersistentObject
             return 0;
 
         $tag = self::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof self && $tag->attribute( 'main_tag_id' ) != 0 )
+        if ( (int) $tagID > 0 && !$tag instanceof self )
+            return 0;
+
+        if ( $tag instanceof self && $tag->attribute( 'main_tag_id' ) != 0 )
             return 0;
 
         if ( !is_array( $params ) )
