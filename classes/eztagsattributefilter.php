@@ -42,12 +42,12 @@ class eZTagsAttributeFilter
                 }
             }
 
-            $returnArray['tables'] = " INNER JOIN eztags_attribute_link i1 ON (i1.object_id = ezcontentobject.id AND i1.objectattribute_version = ezcontentobject.current_version)";
+            $returnArray['tables'] = ", eztags_attribute_link i1";
 
             $db = eZDB::instance();
             $dbString = $db->generateSQLINStatement( $tagIDsArray, 'i1.keyword_id', false, true, 'int' );
 
-            $returnArray['joins'] = " $dbString AND ";
+            $returnArray['joins'] = "(i1.object_id = ezcontentobject.id AND i1.objectattribute_version = ezcontentobject.current_version) AND $dbString AND ";
         }
 
         return $returnArray;
