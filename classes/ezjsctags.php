@@ -22,8 +22,12 @@ class ezjscTags extends ezjscServerFunctions
         if ( empty( $searchString ) )
             return array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
+        // Initialize transformation system
+        $trans = eZCharTransform::instance();
+        $searchString = $trans->transformByGroup( $http->postVariable( 'search_string' ), 'lowercase' );
+
         return self::generateOutput(
-            array( 'eztags_keyword.keyword' => array( 'like', $searchString . '%' ) ),
+            array( 'LOWER( eztags_keyword.keyword )' => array( 'like', $searchString . '%' ) ),
             $http->postVariable( 'subtree_limit', 0 ),
             $http->postVariable( 'hide_root_tag', '0' ),
             $http->postVariable( 'locale', '' )
