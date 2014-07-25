@@ -160,7 +160,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param integer $offset
      * @param integer $limit
-     * @return array	 
+     * @return array
      */
     function getChildren( $offset = 0, $limit = null )
     {
