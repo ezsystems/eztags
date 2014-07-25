@@ -42,15 +42,15 @@ class eZTagsAttributeFilter
                 }
             }
 
-            $useJoins = eZINI::instance( 'eztags.ini' )->variable( 'BackwardsCompatibilitySettings', 'UseJoinsInExtendedAttributeFilter' );
-            $useJoins = in_array( $useJoins, array( 'yes', 'true', 'enabled' ) );
+            $useJoins = eZINI::instance( 'eztags.ini' )->variable( 'BackwardsCompatibilitySettings', 'UseJoinsInExtendedAttributeFilter' ) == 'enabled';
             $returnArray['tables'] = $useJoins
                 ? " INNER JOIN eztags_attribute_link i1 ON (i1.object_id = ezcontentobject.id AND i1.objectattribute_version = ezcontentobject.current_version)"
                 : ", eztags_attribute_link i1";
             
             $db = eZDB::instance();
             $dbString = $db->generateSQLINStatement( $tagIDsArray, 'i1.keyword_id', false, true, 'int' );
-            if( $useJoins === false ) {
+            if ( $useJoins === false )
+            {
                 $dbString .= ' AND (i1.object_id = ezcontentobject.id AND i1.objectattribute_version = ezcontentobject.current_version)';
             }
 
