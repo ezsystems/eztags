@@ -160,7 +160,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @param integer $offset
      * @param integer $limit
-     * @return array	 
+     * @return array
      */
     function getChildren( $offset = 0, $limit = null )
     {
@@ -707,7 +707,10 @@ class eZTagsObject extends eZPersistentObject
             return false;
 
         $tag = eZTagsObject::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->attribute( 'main_tag_id' ) != 0 )
+        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject )
+            return false;
+
+        if ( $tag instanceof eZTagsObject && $tag->attribute( 'main_tag_id' ) != 0 )
             return false;
 
         if ( !is_array( $params ) )
@@ -819,7 +822,10 @@ class eZTagsObject extends eZPersistentObject
             return 0;
 
         $tag = eZTagsObject::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject && $tag->attribute( 'main_tag_id' ) != 0 )
+        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject )
+            return 0;
+
+        if ( $tag instanceof eZTagsObject && $tag->attribute( 'main_tag_id' ) != 0 )
             return 0;
 
         if ( !is_array( $params ) )
