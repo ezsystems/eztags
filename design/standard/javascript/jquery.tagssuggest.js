@@ -83,7 +83,7 @@
                 });
                 for(var x in data)
                 {
-                    if(data[x].tag_id == item.tag_id)
+                    if(data[x].tag_id == item.tag_id && item.tag_id != 0)
                     {
                         added = true;
                     }
