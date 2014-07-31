@@ -76,11 +76,27 @@
 
 			function addTagToList( item, list, callback, icon )
 			{
-				var tag = $('<li' + (!icon ? ' title="Add this tag"' : '') + '>' + item.tag_name + (icon ? '<a href="#" title="Remove tag">' + icon + '</a>' : '') + '</li>').data('tag', {'tag_parent_id': item.tag_parent_id, 'tag_name': item.tag_name, 'tag_id': item.tag_id});
-				if (icon) tag.find('a').click(function(e) {callback(tag); return false;})
-				else tag.click(function(e) {callback(tag); return false;});
-				list.append(tag);
-				list.parent('div.tags-list').removeClass('no-results');
+			    var data = [];
+			    var added = false;
+			    list.find('li').each(function(){
+                    data.push( $(this).data('tag' ) );
+                });
+                for(var x in data)
+                {
+                    if(data[x].tag_id == item.tag_id && item.tag_id != 0)
+                    {
+                        added = true;
+                    }
+                }
+
+                if(!added)
+			    {
+				    var tag = $('<li' + (!icon ? ' title="Add this tag"' : '') + '>' + item.tag_name + (icon ? '<a href="#" title="Remove tag">' + icon + '</a>' : '') + '</li>').data('tag', {'tag_parent_id': item.tag_parent_id, 'tag_name': item.tag_name, 'tag_id': item.tag_id});
+				    if (icon) tag.find('a').click(function(e) {callback(tag); return false;})
+				    else tag.click(function(e) {callback(tag); return false;});
+				    list.append(tag);
+				    list.parent('div.tags-list').removeClass('no-results');
+				}
 				showHideInputElements();
 			}
 
@@ -116,6 +132,7 @@
 				tids.val(tag_tag_ids);
 				if (!tag_names && !tag_parent_ids && !tag_tag_ids) tags_listed.parent('div.tags-list').addClass('no-results');
 				runSuggest();
+
 			}
 
 			function emptyResults()
@@ -324,6 +341,31 @@
 				}
 				setParentSelectorButtonState();
 			}
+
+			if (typeof window.eztags_map === 'undefined') {
+			    window.eztags_map = [];
+			}
+			/* Makes it possible to extend the extension by exposing the addTagToList and removeTagFromList globally */
+			window.eztags_map[$(this).attr('id').replace('tagssuggest_', '')] = {};
+			window.eztags_map[$(this).attr('id').replace('tagssuggest_', '')].obj = $(this);
+			window.eztags_map[$(this).attr('id').replace('tagssuggest_', '')].addTagToList = function( item ){
+
+			    addTagToList( item, this.obj.find('div.tags-listed ul'), removeTagFromList, '&times;' );
+			    updateValues();
+				clearTagSearchField();
+				emptyResults();
+				hideResults();
+
+			};
+
+			window.eztags_map[$(this).attr('id').replace('tagssuggest_', '')].removeTagFromList = function( item ){
+
+			    removeTagFromList( item );
+			    updateValues();
+				clearTagSearchField();
+				emptyResults();
+				hideResults();
+			};
 
 			$(results).addClass('jsonSuggestResults').
 				css({
