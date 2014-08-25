@@ -153,12 +153,13 @@ class eZTags
             $this->KeywordArray = array_slice( $this->KeywordArray, 0, $maxTags );
             $this->ParentArray = array_slice( $this->ParentArray, 0, $maxTags );
         }
-
+        /* Selects all tags and sorts by priority */
         $db = eZDB::instance();
-        $words = $db->arrayQuery( "SELECT eztags.id, eztags.keyword, eztags.parent_id FROM eztags_attribute_link, eztags
+        $words = $db->arrayQuery( "SELECT eztags.id, eztags.keyword, eztags_attribute_link.priority, eztags.parent_id FROM eztags_attribute_link, eztags
                                     WHERE eztags_attribute_link.keyword_id = eztags.id AND
                                     eztags_attribute_link.objectattribute_id = " . $attribute->attribute( 'id' ) . " AND
-                                    eztags_attribute_link.objectattribute_version = " . $attribute->attribute( 'version' ) );
+                                    eztags_attribute_link.objectattribute_version = " . $attribute->attribute( 'version' ) .
+                                   " ORDER BY eztags_attribute_link.priority ASC" );
 
         $wordArray = array();
         foreach ( $words as $w )
@@ -198,9 +199,9 @@ class eZTags
         $db = eZDB::instance();
         $currentTime = time();
 
-        //get existing tags for object attribute
+        //get existing tags for object attribute sorting by priority
         $existingTagIDs = array();
-        $existingTags = $db->arrayQuery( "SELECT DISTINCT keyword_id FROM eztags_attribute_link WHERE objectattribute_id = $attributeID AND objectattribute_version = $attributeVersion" );
+        $existingTags = $db->arrayQuery( "SELECT DISTINCT keyword_id FROM eztags_attribute_link WHERE objectattribute_id = $attributeID AND objectattribute_version = $attributeVersion ORDER BY priority ASC" );
 
         if ( is_array($existingTags ) )
         {
@@ -326,6 +327,12 @@ class eZTags
                 }
             }
         }
+        
+        /* After everything is done, we update each tag priority */
+        foreach ( $this->IDArray as $index => $key )
+        {            
+            $db->query( "UPDATE eztags_attribute_link SET priority = '{$index}' WHERE keyword_id = '{$key}' AND objectattribute_id='{$attributeID}' AND objectattribute_version='{$attributeVersion}'" );
+        }
     }
 
     /**
@@ -393,7 +400,7 @@ class eZTags
     }
 
     /**
-     * Returns tags within this instance
+     * Returns tags within this instance sorted by priority
      *
      * @return array
      */
@@ -401,8 +408,23 @@ class eZTags
     {
         if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
             return array();
-
-        return eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) );
+        $eztags = array();
+        /*  Here we get one by one so we can keep the priority, as long as if we pass one array
+            the fetch list function won't return the objects in the correct order        
+         */
+        foreach($this->IDArray as $id)
+        {
+            $item = eZTagsObject::fetchList( array( 'id' => $id ) );
+            if( is_array( $item ))
+            {
+                $eztags[]=$item[0];
+            }
+            
+        }
+        if(count($eztags) > 0)
+            return $eztags;
+        
+        return null;
     }
 
     /**
