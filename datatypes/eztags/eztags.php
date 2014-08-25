@@ -408,22 +408,16 @@ class eZTags
     {
         if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
             return array();
+
         $eztags = array();
-        /*  Here we get one by one so we can keep the priority, as long as if we pass one array
-            the fetch list function won't return the objects in the correct order        
-         */
-        foreach($this->IDArray as $id)
+        foreach( eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) ) as $item)
         {
-            $item = eZTagsObject::fetchList( array( 'id' => $id ) );
-            if( is_array( $item ))
-            {
-                $eztags[]=$item[0];
-            }
-            
+            $eztags[array_search($item->attribute('id'), $this->IDArray)] = $item;
         }
+        ksort($eztags);
         if(count($eztags) > 0)
             return $eztags;
-        
+
         return null;
     }
 
