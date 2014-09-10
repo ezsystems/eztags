@@ -407,18 +407,18 @@ class eZTags
     function tags()
     {
         if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
+        {
             return array();
+        }
 
         $eztags = array();
-        foreach( eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) ) as $item)
+        foreach( eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) ) as $item )
         {
             $eztags[array_search($item->attribute('id'), $this->IDArray)] = $item;
         }
         ksort($eztags);
-        if(count($eztags) > 0)
-            return $eztags;
 
-        return null;
+        return $eztags;
     }
 
     /**
