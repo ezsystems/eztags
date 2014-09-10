@@ -128,11 +128,11 @@
                 var tag_parent_ids = '';
                 var tag_tag_ids = '';
                 tags_listed.find('li').each(function(i)
-                    {
-                        tag_names += (tag_names == '' ? '' : '|#') + $(this).data('tag').tag_name;
-                        tag_parent_ids += (tag_parent_ids == '' ? '' : '|#') + $(this).data('tag').tag_parent_id;
-                        tag_tag_ids += (tag_tag_ids == '' ? '' : '|#') + $(this).data('tag').tag_id;
-                    });
+                {
+                    tag_names += (tag_names == '' ? '' : '|#') + $(this).data('tag').tag_name;
+                    tag_parent_ids += (tag_parent_ids == '' ? '' : '|#') + $(this).data('tag').tag_parent_id;
+                    tag_tag_ids += (tag_tag_ids == '' ? '' : '|#') + $(this).data('tag').tag_id;
+                });
                 names.val(tag_names);
                 parent_ids.val(tag_parent_ids);
                 tids.val(tag_tag_ids);
