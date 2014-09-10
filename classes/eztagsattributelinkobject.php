@@ -50,7 +50,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
                       'keys'          => array( 'id' ),
                       'increment_key' => 'id',
                       'class_name'    => 'eZTagsAttributeLinkObject',
-                      'sort'          => array( 'priority' => 'asc' ),
+                      'sort'          => array( 'objectattribute_id' => 'asc', 'objectattribute_version' => 'desc', 'priority' => 'asc' ),
                       'name'          => 'eztags_attribute_link' );
     }
 
