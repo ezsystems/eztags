@@ -1,3 +1,6 @@
 {
-    "name": "netgen/eztags"
+    "name": "netgen/eztags",
+    "require": {
+        "netgen/ngmore-legacy-installer": "*"
+    }
 }
