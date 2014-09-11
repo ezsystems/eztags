@@ -40,8 +40,8 @@ $(function () {ldelim}
                             window.eztags_map[{$attribute.id}].addTagToList(data[x]);
                         {rdelim}
                     {rdelim}
-             {rdelim});
-             $('#tagssuggest_{$attribute.id} ul').disableSelection();
+            {rdelim});
+            $('#tagssuggest_{$attribute.id} ul').disableSelection();
 {rdelim});
 </script>
 
