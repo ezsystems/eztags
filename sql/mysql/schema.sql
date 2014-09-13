@@ -19,6 +19,7 @@ CREATE TABLE `eztags_attribute_link` (
   `objectattribute_id` int(11) NOT NULL default '0',
   `objectattribute_version` int(11) NOT NULL default '0',
   `object_id` int(11) NOT NULL default '0',
+  `priority` int(11) NOT NULL default '0',
   PRIMARY KEY ( `id` ),
   KEY `eztags_attr_link_keyword_id` ( `keyword_id` ),
   KEY `eztags_attr_link_kid_oaid_oav` ( `keyword_id`, `objectattribute_id`, `objectattribute_version` ),
