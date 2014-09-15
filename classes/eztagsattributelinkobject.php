@@ -42,7 +42,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
                                                 'object_id'               => array( 'name'     => 'ObjectID',
                                                                                     'datatype' => 'integer',
                                                                                     'default'  => 0,
-                                                                                    'required' => true ) ),
+                                                                                    'required' => true ),
                                                 'priority'                => array( 'name'     => 'Priority',
                                                                                     'datatype' => 'integer',
                                                                                     'default'  => 0,
