@@ -212,7 +212,8 @@ class eZTags
                                        eztags.id,
                                        eztags_keyword.keyword,
                                        eztags.parent_id,
-                                       eztags_keyword.locale
+                                       eztags_keyword.locale,
+                                       eztags_attribute_link.priority
                                    FROM eztags_attribute_link, eztags, eztags_keyword
                                    WHERE eztags_attribute_link.keyword_id = eztags.id AND
                                        eztags.id = eztags_keyword.keyword_id AND eztags_keyword.locale = '" .
@@ -222,34 +223,30 @@ class eZTags
                                        eztags_attribute_link.objectattribute_version = " . (int) $attribute->attribute( 'version' ) );
 
         $wordArray = array();
-        foreach ( $words as $w )
-        {
-            $wordArray[] = trim( $w['id'] ) . "|#" . trim( $w['keyword'] ) . "|#" . trim( $w['parent_id'] ) . "|#" . trim( $w['locale'] );
-        }
+        $foundIdArray = array();
 
-        $wordArray = array_unique( $wordArray );
-        foreach ( $wordArray as $wordKey )
+        foreach ( $words as $word )
         {
-            $word = explode( '|#', $wordKey );
-            if ( $word[0] != '' )
-            {
-                $idArray[] = (int) $word[0];
-                $keywordArray[] = trim( $word[1] );
-                $parentArray[] = (int) $word[2];
-                $localeArray[] = trim( $word[3] );
-            }
+            $wordArray[(int) $word['priority']] = array(
+                'id' => (int) $word['id'],
+                'keyword' => trim( $word['keyword'] ),
+                'parent_id' => (int) $word['parent_id'],
+                'locale' => trim( $word['locale'] )
+            );
+            $foundIdArray[] = (int) $word['id'];
         }
 
         // Next, fetch untranslated tags
         $dbString = '';
-        if ( !empty( $idArray ) )
-            $dbString = $db->generateSQLINStatement( $idArray, 'eztags.id', true, true, 'int' ) . ' AND ';
+        if ( !empty( $foundIdArray ) )
+            $dbString = $db->generateSQLINStatement( $foundIdArray, 'eztags.id', true, true, 'int' ) . ' AND ';
 
         $words = $db->arrayQuery( "SELECT
                                        eztags.id,
                                        eztags_keyword.keyword,
                                        eztags.parent_id,
-                                       eztags_keyword.locale
+                                       eztags_keyword.locale,
+                                       eztags_attribute_link.priority
                                    FROM eztags_attribute_link, eztags, eztags_keyword
                                    WHERE eztags_attribute_link.keyword_id = eztags.id AND
                                        eztags.id = eztags_keyword.keyword_id AND
@@ -258,23 +255,25 @@ class eZTags
                                        eztags_attribute_link.objectattribute_id = " . (int) $attribute->attribute( 'id' ) . " AND
                                        eztags_attribute_link.objectattribute_version = " . (int) $attribute->attribute( 'version' ) );
 
-        $wordArray = array();
-        foreach ( $words as $w )
+        foreach ( $words as $word )
         {
-            $wordArray[] = trim( $w['id'] ) . "|#" . trim( $w['keyword'] ) . "|#" . trim( $w['parent_id'] ) . "|#" . trim( $w['locale'] );
+            $wordArray[(int) $word['priority']] = array(
+                'id' => (int) $word['id'],
+                'keyword' => trim( $word['keyword'] ),
+                'parent_id' => (int) $word['parent_id'],
+                'locale' => trim( $word['locale'] )
+            );
         }
 
-        $wordArray = array_unique( $wordArray );
-        foreach ( $wordArray as $wordKey )
+        ksort( $wordArray );
+        $wordArray = array_values( array_unique( $wordArray ) );
+
+        foreach ( $wordArray as $word )
         {
-            $word = explode( '|#', $wordKey );
-            if ( $word[0] != '' )
-            {
-                $idArray[] = (int) $word[0];
-                $keywordArray[] = trim( $word[1] );
-                $parentArray[] = (int) $word[2];
-                $localeArray[] = trim( $word[3] );
-            }
+            $idArray[] = $word['id'];
+            $keywordArray[] = $word['keyword'];
+            $parentArray[] = $word['parent_id'];
+            $localeArray[] = $word['locale'];
         }
 
         return new self( $attribute, $idArray, $keywordArray, $parentArray, $localeArray );
@@ -350,7 +349,8 @@ class eZTags
                                             $pathString,
                                             $depth,
                                             $this->KeywordArray[$key],
-                                            $this->LocaleArray[$key] );
+                                            $this->LocaleArray[$key],
+                                            $key );
                 }
             }
             else if ( $this->IDArray[$key] > 0 )
@@ -362,7 +362,7 @@ class eZTags
                 if ( $permissionArray['subtree_limit'] == 0 || ( $permissionArray['subtree_limit'] > 0 &&
                      strpos( $tagObject->attribute( 'path_string' ), '/' . $permissionArray['subtree_limit'] . '/' ) !== false ) )
                 {
-                    self::linkTag( $this->Attribute, $tagObject, $this->KeywordArray[$key], $this->LocaleArray[$key] );
+                    self::linkTag( $this->Attribute, $tagObject, $this->KeywordArray[$key], $this->LocaleArray[$key], $key );
                 }
             }
         }
@@ -475,7 +475,7 @@ class eZTags
      * @param string $keyword
      * @param string $locale
      */
-    static private function createAndLinkTag( eZContentObjectAttribute $attribute, $parentID, $parentPathString, $parentDepth, $keyword, $locale )
+    static private function createAndLinkTag( eZContentObjectAttribute $attribute, $parentID, $parentPathString, $parentDepth, $keyword, $locale, $priority )
     {
         $languageID = eZContentLanguage::idByLocale( $locale );
         if ( $languageID === false )
@@ -510,7 +510,8 @@ class eZTags
             'keyword_id'              => $tagObject->attribute( 'id' ),
             'objectattribute_id'      => $attribute->attribute( 'id' ),
             'objectattribute_version' => $attribute->attribute( 'version' ),
-            'object_id'               => $attribute->attribute( 'contentobject_id' ) ) );
+            'object_id'               => $attribute->attribute( 'contentobject_id' ),
+            'priority'                => $priority ) );
         $linkObject->store();
 
         if ( class_exists( 'ezpEvent', false ) )
@@ -535,7 +536,7 @@ class eZTags
      * @param string $keyword
      * @param string $locale
      */
-    static private function linkTag( eZContentObjectAttribute $attribute, eZTagsObject $tagObject, $keyword, $locale )
+    static private function linkTag( eZContentObjectAttribute $attribute, eZTagsObject $tagObject, $keyword, $locale, $priority )
     {
         $languageID = eZContentLanguage::idByLocale( $locale );
         if ( $languageID === false )
@@ -560,7 +561,8 @@ class eZTags
             'keyword_id'              => $tagObject->attribute( 'id' ),
             'objectattribute_id'      => $attribute->attribute( 'id' ),
             'objectattribute_version' => $attribute->attribute( 'version' ),
-            'object_id'               => $attribute->attribute( 'contentobject_id' ) ) );
+            'object_id'               => $attribute->attribute( 'contentobject_id' ),
+            'priority'                => $priority ) );
         $linkObject->store();
     }
 
@@ -574,7 +576,13 @@ class eZTags
         if ( !is_array( $this->IDArray ) || empty( $this->IDArray ) )
             return array();
 
-        return eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) );
+        $tags = array();
+        foreach ( eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) ) as $item )
+        {
+            $tags[array_search( $item->attribute( 'id' ), $this->IDArray )] = $item;
+        }
+
+        return $tags;
     }
 
     /**
