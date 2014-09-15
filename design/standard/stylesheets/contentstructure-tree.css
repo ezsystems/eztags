@@ -98,7 +98,7 @@ div.contentstructure li a.image-text span.node-name-hiddenbyparent, div.contents
 
 div.contentstructure li a.image-text span.node-name-normal.disabled
 {
-	color:silver;
+    color:silver;
 }
 
 div.contentstructure span.node-hidden, div.contentstructure span.node-hiddenbyparent

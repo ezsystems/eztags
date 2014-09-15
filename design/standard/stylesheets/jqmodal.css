@@ -26,7 +26,7 @@ div.jqmdBCIn {border:1px solid #919b9c; padding:13px; background:white;}
 
 
 a.jqmdX {display:block; height:16px; width:29px; position: absolute; right:16px; top:14px; cursor:pointer; outline:none;
-	background:url(../images/jqmodal/buttons.gif) no-repeat -87px -16px;}
+    background:url(../images/jqmodal/buttons.gif) no-repeat -87px -16px;}
 a.jqmdX:hover {background-position:-87px -32px;}
 
 div.jqmDialog input:focus, div.jqmDialog input.iefocus { background-color: #eaffc3; }
