@@ -327,10 +327,10 @@ class eZTags
                 }
             }
         }
-        
+
         /* After everything is done, we update each tag priority */
         foreach ( $this->IDArray as $index => $key )
-        {            
+        {
             $db->query( "UPDATE eztags_attribute_link SET priority = '{$index}' WHERE keyword_id = '{$key}' AND objectattribute_id='{$attributeID}' AND objectattribute_version='{$attributeVersion}'" );
         }
     }
