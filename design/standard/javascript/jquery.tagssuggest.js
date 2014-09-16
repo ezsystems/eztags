@@ -410,6 +410,24 @@
                     }
                 });
             }
+
+            $(this).find('ul').sortable({
+                stop: function(event, ui){
+                    var data = [];
+                    var attr_id = $(this).closest('.tagssuggest').attr('id').replace('tagssuggest_', '');
+
+                    window.eztags_map[attr_id].obj.find('div.tags-listed ul li').each(function(){
+                        data.push( $(this).data('tag' ) );
+                        window.eztags_map[attr_id].removeTagFromList($(this));
+                    });
+                    for(var x in data)
+                    {
+                        window.eztags_map[attr_id].addTagToList(data[x]);
+                    }
+                }
+            });
+            $(this).find('ul').disableSelection();
+
         });
     };
 })(jQuery);
