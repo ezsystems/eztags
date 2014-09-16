@@ -1,3 +1,6 @@
+{* needed for tags reordering *}
+{ezscript_require(array('ezjsc::jqueryUI'))}
+
 {def $permission_array = $attribute.content.permission_array}
 
 {default attribute_base=ContentObjectAttribute}
