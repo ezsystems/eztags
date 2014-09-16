@@ -574,6 +574,7 @@ class eZTags
         {
             $tags[array_search( $item->attribute( 'id' ), $this->IDArray )] = $item;
         }
+        ksort( $tags );
 
         return $tags;
     }
