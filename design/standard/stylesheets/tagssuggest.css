@@ -5,45 +5,45 @@ input.tagssuggestfield {width:100%; margin:0; padding:1px 0; border:1px solid #A
 fieldset input.button-add-tag {margin:0;}
 
 div.jsonSuggestResults {
-	top:19px;
-	position:absolute;
-	border:1px solid #CCCCCC;
-	background: white;
-	padding:0;
-	margin:0;
-	z-index:100000;
-	overflow:hidden;
-	width:100%;
+    top:19px;
+    position:absolute;
+    border:1px solid #CCCCCC;
+    background: white;
+    padding:0;
+    margin:0;
+    z-index:100000;
+    overflow:hidden;
+    width:100%;
 }
 
 div.jsonSuggestResults div.results-wrap {
-	overflow-x:hidden;
-	overflow-y:auto;
-	/*height:250px;*/
+    overflow-x:hidden;
+    overflow-y:auto;
+    /*height:250px;*/
 }
 
 .jsonSuggestResults iframe
 {
-	display:none;/*sorry for IE5*/
-	display/**/:block;/*sorry for IE5*/
-	position:absolute;/*must have*/
-	top:0;/*must have*/
-	left:0;/*must have*/
-	z-index:-1;/*must have*/
-	filter:mask();/*must have*/
-	width:3000px;/*must have for any big value*/
-	height:3000px;/*must have for any big value*/
+    display:none;/*sorry for IE5*/
+    display/**/:block;/*sorry for IE5*/
+    position:absolute;/*must have*/
+    top:0;/*must have*/
+    left:0;/*must have*/
+    z-index:-1;/*must have*/
+    filter:mask();/*must have*/
+    width:3000px;/*must have for any big value*/
+    height:3000px;/*must have for any big value*/
 }
 
 div.jsonSuggestResults div.resultItem {
-	display:block;
-	float:none;
-	margin:0px;
-	padding:5px;
-	position:relative;
-	z-index:1;
-	height:auto;
-	cursor:pointer;
+    display:block;
+    float:none;
+    margin:0px;
+    padding:5px;
+    position:relative;
+    z-index:1;
+    height:auto;
+    cursor:pointer;
 }
 
 div#search div.jsonSuggestResults p {color:black;}

@@ -24,8 +24,11 @@
     {/if}
 {/if}
 
+{* needed for tags reordering *}
+{ezscript_require(array('ezjsc::jqueryUI'))}
+
 {default attribute_base=ContentObjectAttribute}
-<div class="tagssuggest{if $attribute.contentclass_attribute.data_int2} tagsfilter{/if}">
+<div class="tagssuggest{if $attribute.contentclass_attribute.data_int2} tagsfilter{/if}" id="tagssuggest_{$attribute.id}">
     <label>{'Selected tags'|i18n( 'extension/eztags/datatypes' )}:</label>
     <div class="tags-list tags-listed no-results">
         <p class="loading">{'Loading'|i18n( 'extension/eztags/datatypes' )}...</p>
