@@ -425,7 +425,17 @@
                         window.eztags_map[attr_id].addTagToList(data[x]);
                     }
                 }
-            });
+            },
+            {
+                forceHelperSize: true
+            },
+            {
+                over: function(e, ui){
+                    ui.helper.width(ui.item.width()+1);
+                    ui.helper.height(16);
+                }
+            }
+            );
             $(this).find('ul').disableSelection();
 
         });
