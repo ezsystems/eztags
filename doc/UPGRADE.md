@@ -1,6 +1,6 @@
 # eZ Tags extension upgrade instructions
 
-## Upgrade from 1.2.2 to 2.0
+## Upgrade from 1.4 to 2.0
 
 Unpack the downloaded package into the `extension` directory of your eZ Publish installation
 
@@ -30,6 +30,41 @@ Starting from the original `schema.xml` that comes with eZ Find, add the followi
     <field name="ezf_df_tag_ids" type="sint" indexed="true" stored="true" multiValued="true" termVectors="true"/>
 
 Finally, clear all caches (from admin 'Setup' tab or from command line).
+
+
+
+
+## Upgrade from 1.3 to 1.4
+
+Unpack the downloaded package into the `extension` directory of your eZ Publish installation
+
+Regenerate autoload array by running the following from your eZ Publish root folder
+
+    php bin/php/ezpgenerateautoloads.php --extension
+
+or go to Setup -> Extensions and click the "Regenerate autoload arrays" button
+
+Run SQL upgrade script by using the following command from your eZ Publish root folder,
+replacing `user`, `password`, `host` and `database` with correct values and removing double quotes
+
+    mysql -u "user" -p"password" -h"host" "database" < extension/eztags/update/database/mysql/1.4/eztags-dbupdate-1.3-to-1.4.sql
+
+Clear all caches (from admin 'Setup' tab or from command line).
+
+
+
+
+## Upgrade from 1.2.2 to 1.3
+
+Unpack the downloaded package into the `extension` directory of your eZ Publish installation
+
+Regenerate autoload array by running the following from your eZ Publish root folder
+
+    php bin/php/ezpgenerateautoloads.php --extension
+
+or go to Setup -> Extensions and click the "Regenerate autoload arrays" button
+
+Clear all caches (from admin 'Setup' tab or from command line).
 
 
 
