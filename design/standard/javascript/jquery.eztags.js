@@ -374,6 +374,15 @@
                                 window.eztags_map[$(widget).attr('id').replace('eztags', '')].addTagToList(data[x], options);
                             }
                         }
+                    },
+                    {
+                        forceHelperSize: true
+                    },
+                    {
+                        over: function(e, ui){
+                            ui.helper.width(ui.item.width()+1);
+                            ui.helper.height(16);
+                        }
                     });
                     $(widget).find('ul').disableSelection();
                 });
