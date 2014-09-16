@@ -59,7 +59,7 @@
                         '</div>'
                     ],
                     suggestedItem: ['<li title="<%=tr.clickAddThisTag%>"><img src="<%=flagSrc%>"/>&nbsp;<%=content%></li>'],
-                    selectedItem: ['<li><img src="<%=flagSrc%>" />&nbsp;<%=content%><a href="#" title="<%=tr.removeTag%>">&times;</a></li>'],
+                    selectedItem: ['<li style="cursor:move"><img src="<%=flagSrc%>" />&nbsp;<%=content%><a href="#" title="<%=tr.removeTag%>">&times;</a></li>'],
                     autocompleteItem: ['<div class="resultItem"><div><img src="<%=flagSrc%>"/>&nbsp;<%=content%><span><%=parent%></span></div></div>'],
                     translationSkeleton: [
                         '<label><%=tr.existingTranslations%>:</label>',
