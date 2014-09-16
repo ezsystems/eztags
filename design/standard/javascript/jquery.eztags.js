@@ -116,15 +116,33 @@
             },
             getFlagSrc = function(locale, options) {return options.iconPath + locale + '.gif';},
             addTagToList = function(item, list, callback, selected, options) {
-                var tag = $(tpl(selected ? options.templates.selectedItem.join('') : options.templates.suggestedItem.join(''), {
+                var data = [];
+                var added = false;
+                list.find('li').each(function(){
+                    data.push( $(this).data('tag' ) );
+                });
+                for(var x in data)
+                {
+                    if(data[x].tag_id == item.tag_id && item.tag_id != 0)
+                    {
+                        added = true;
+                    }
+                }
+
+                if(!added)
+                {
+                    flagSrc = getFlagSrc(item.tag_locale, options);
+                    //var tag = $('<li' + (!flagSrc ? ' title="Add this tag"' : '') + '>' + item.tag_name + (flagSrc ? '<a href="#" title="Remove tag">' + '<img src='+flagSrc+'>' + '</a>' : '') + '</li>').data('tag', {'tag_parent_id': item.tag_parent_id, 'tag_name': item.tag_name, 'tag_id': item.tag_id, 'tag_locale': item.tag_locale});
+                    var tag = $(tpl(selected ? options.templates.selectedItem.join('') : options.templates.suggestedItem.join(''), {
                         content:item.tag_name,
                         flagSrc:getFlagSrc(item.tag_locale, options),
                         tr:options.translations})).data('tag', item);
-                // disable tag translator temporarily
-                // if (selected && item.tag_locale !== options.locale) tag.addClass('untranslated').click(function(e) {openTranslator(tag, options);});
-                if (selected) tag.find('a').click(function(e) {callback(tag, options); return false;});
-                else tag.click(function(e) {callback(tag, options); return false;});
-                list.append(tag).parent('.tags-list').removeClass('no-results');
+
+                    if (selected) tag.find('a').click(function(e) {callback(tag, options); return false;})
+                    else tag.click(function(e) {callback(tag, options); return false;});
+                    list.append(tag);
+                    list.parent('div.tags-list').removeClass('no-results');
+                }
             },
             removeTagFromList = function(tag, options) {
                 $(tag).remove();
@@ -274,6 +292,7 @@
                 }
                 setParentSelectorButtonState(options);
             };
+
         $(document).mousemove(function(e) {pageX = e.pageX; pageY = e.pageY;});
         $(function() {
             var parent_selector_buttons = $('[id^="eztags-parent-selector-button-"]'),
@@ -320,6 +339,43 @@
                         if (pageY < resPos.top || pageY > resPos.bottom || pageX < resPos.left || pageX > resPos.right) hideResults(options);
                     }).focus(function(e) {showResults(options)});
                     showHideInputElements(options);
+
+                    if (typeof window.eztags_map === 'undefined') {
+                        window.eztags_map = [];
+                    }
+                    //Makes it possible to extend the extension by exposing the addTagToList and removeTagFromList globally
+                    window.eztags_map[$(widget).attr('id').replace('eztags', '')] = {};
+                    window.eztags_map[$(widget).attr('id').replace('eztags', '')].obj = $(widget);
+                    window.eztags_map[$(widget).attr('id').replace('eztags', '')].addTagToList = function( item, options ){
+                        addTagToList( item, this.obj.find('div.tags-listed ul'), removeTagFromList, true, options );
+                        updateValues(options);
+                        clearTagSearchField(options);
+                        emptyResults(options);
+                        hideResults(options);
+                    };
+
+                    window.eztags_map[$(widget).attr('id').replace('eztags', '')].removeTagFromList = function( item, options ){
+                        removeTagFromList( item, options );
+                        updateValues(options);
+                        clearTagSearchField(options);
+                        emptyResults(options);
+                        hideResults(options);
+                    };
+
+                    $(widget).find('ul').sortable({
+                        stop: function(event, ui){
+                            var data = [];
+                            window.eztags_map[$(widget).attr('id').replace('eztags', '')].obj.find('div.tags-listed ul li').each(function(){
+                                data.push( $(this).data('tag' ) );
+                                window.eztags_map[$(widget).attr('id').replace('eztags', '')].removeTagFromList($(this), options);
+                            });
+                            for(var x in data)
+                            {
+                                window.eztags_map[$(widget).attr('id').replace('eztags', '')].addTagToList(data[x], options);
+                            }
+                        }
+                    });
+                    $(widget).find('ul').disableSelection();
                 });
             }
         };

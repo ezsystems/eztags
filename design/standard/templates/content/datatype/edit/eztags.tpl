@@ -1,23 +1,5 @@
+{* needed for tags reordering *}
 {ezscript_require(array('ezjsc::jqueryUI'))}
-
-<script type="text/javascript">
-    $(function () {ldelim}
-        $('#eztags{$attribute.id} ul').sortable({ldelim}
-            stop: function(event, ui){ldelim}
-                var data = [];
-                window.eztags_map[{$attribute.id}].obj.find('div.tags-listed ul li').each(function(){ldelim}
-                    data.push( $(this).data('tag' ) );
-                    window.eztags_map[{$attribute.id}].removeTagFromList($(this));
-                {rdelim});
-                for(var x in data)
-                {ldelim}
-                    window.eztags_map[{$attribute.id}].addTagToList(data[x]);
-                {rdelim}
-            {rdelim}
-        {rdelim});
-        $('#eztags{$attribute.id} ul').disableSelection();
-    {rdelim});
-</script>
 
 {def $permission_array = $attribute.content.permission_array}
 
