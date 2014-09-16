@@ -206,9 +206,30 @@ class eZTags
         if ( $locale === null || !is_string( $locale ) )
             $locale = $attribute->attribute( 'language_code' );
 
-        // First fetch tags translated to defined locale
+        // First fetch IDs of tags translated to defined locale
         $db = eZDB::instance();
         $words = $db->arrayQuery( "SELECT
+                                       eztags.id
+                                   FROM eztags_attribute_link, eztags, eztags_keyword
+                                   WHERE eztags_attribute_link.keyword_id = eztags.id AND
+                                       eztags.id = eztags_keyword.keyword_id AND eztags_keyword.locale = '" .
+                                       $db->escapeString( $locale ) . "' AND
+                                       eztags_keyword.status = " . eZTagsKeyword::STATUS_PUBLISHED . " AND
+                                       eztags_attribute_link.objectattribute_id = " . (int) $attribute->attribute( 'id' ) . " AND
+                                       eztags_attribute_link.objectattribute_version = " . (int) $attribute->attribute( 'version' ) );
+
+        $foundIdArray = array();
+        foreach ( $words as $word )
+        {
+            $foundIdArray[] = (int) $word['id'];
+        }
+
+        // Next, fetch all tags with help from IDs found before in the second part of the clause
+        $dbString = '';
+        if ( !empty( $foundIdArray ) )
+            $dbString = $db->generateSQLINStatement( $foundIdArray, 'eztags.id', true, true, 'int' ) . ' AND ';
+
+        $words = $db->arrayQuery( "SELECT DISTINCT
                                        eztags.id,
                                        eztags_keyword.keyword,
                                        eztags.parent_id,
@@ -220,28 +241,9 @@ class eZTags
                                        $db->escapeString( $locale ) . "' AND
                                        eztags_keyword.status = " . eZTagsKeyword::STATUS_PUBLISHED . " AND
                                        eztags_attribute_link.objectattribute_id = " . (int) $attribute->attribute( 'id' ) . " AND
-                                       eztags_attribute_link.objectattribute_version = " . (int) $attribute->attribute( 'version' ) );
-
-        $wordArray = array();
-        $foundIdArray = array();
-
-        foreach ( $words as $word )
-        {
-            $wordArray[(int) $word['priority']] = array(
-                'id' => (int) $word['id'],
-                'keyword' => trim( $word['keyword'] ),
-                'parent_id' => (int) $word['parent_id'],
-                'locale' => trim( $word['locale'] )
-            );
-            $foundIdArray[] = (int) $word['id'];
-        }
-
-        // Next, fetch untranslated tags
-        $dbString = '';
-        if ( !empty( $foundIdArray ) )
-            $dbString = $db->generateSQLINStatement( $foundIdArray, 'eztags.id', true, true, 'int' ) . ' AND ';
-
-        $words = $db->arrayQuery( "SELECT
+                                       eztags_attribute_link.objectattribute_version = " . (int) $attribute->attribute( 'version' ) . "
+                                    UNION
+                                    SELECT DISTINCT
                                        eztags.id,
                                        eztags_keyword.keyword,
                                        eztags.parent_id,
@@ -253,22 +255,10 @@ class eZTags
                                        eztags.main_language_id + MOD( eztags.language_mask, 2 ) = eztags_keyword.language_id AND
                                        eztags_keyword.status = " . eZTagsKeyword::STATUS_PUBLISHED . " AND $dbString
                                        eztags_attribute_link.objectattribute_id = " . (int) $attribute->attribute( 'id' ) . " AND
-                                       eztags_attribute_link.objectattribute_version = " . (int) $attribute->attribute( 'version' ) );
+                                       eztags_attribute_link.objectattribute_version = " . (int) $attribute->attribute( 'version' ) . "
+                                    ORDER BY priority ASC, id ASC" );
 
         foreach ( $words as $word )
-        {
-            $wordArray[(int) $word['priority']] = array(
-                'id' => (int) $word['id'],
-                'keyword' => trim( $word['keyword'] ),
-                'parent_id' => (int) $word['parent_id'],
-                'locale' => trim( $word['locale'] )
-            );
-        }
-
-        ksort( $wordArray );
-        $wordArray = array_values( array_unique( $wordArray ) );
-
-        foreach ( $wordArray as $word )
         {
             $idArray[] = $word['id'];
             $keywordArray[] = $word['keyword'];
