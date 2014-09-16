@@ -327,6 +327,7 @@ class eZTags
         // and subtree limits
         $permissionArray = $this->getPermissionArray();
 
+        $priority = 0;
         foreach ( array_keys( $this->IDArray ) as $key )
         {
             if ( $this->IDArray[$key] == 0 && $permissionArray['can_add'] )
@@ -350,7 +351,8 @@ class eZTags
                                             $depth,
                                             $this->KeywordArray[$key],
                                             $this->LocaleArray[$key],
-                                            $key );
+                                            $priority );
+                    $priority++;
                 }
             }
             else if ( $this->IDArray[$key] > 0 )
@@ -362,7 +364,8 @@ class eZTags
                 if ( $permissionArray['subtree_limit'] == 0 || ( $permissionArray['subtree_limit'] > 0 &&
                      strpos( $tagObject->attribute( 'path_string' ), '/' . $permissionArray['subtree_limit'] . '/' ) !== false ) )
                 {
-                    self::linkTag( $this->Attribute, $tagObject, $this->KeywordArray[$key], $this->LocaleArray[$key], $key );
+                    self::linkTag( $this->Attribute, $tagObject, $this->KeywordArray[$key], $this->LocaleArray[$key], $priority );
+                    $priority++;
                 }
             }
         }
