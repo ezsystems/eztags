@@ -362,6 +362,9 @@
                 hideResults();
 
             };
+            window.eztags_map[$(this).attr('id').replace('tagssuggest_', '')].length = function( item ){
+                return this.obj.find('div.tags-listed ul li').length;
+            };
 
             window.eztags_map[$(this).attr('id').replace('tagssuggest_', '')].removeTagFromList = function( item ){
 

@@ -63,4 +63,8 @@
 {if $has_add_access}
     {include uri='design:ezjsctemplate/modal_dialog.tpl' attribute_id=$attribute.id root_tag=$root_tag}
 {/if}
+
+<div class="block">
+    {include uri='design:ezjsctemplate/eztags_tree_menu.tpl' attribute_id=$attribute.id root_tag=$root_tag}
+</div>
 {/default}
