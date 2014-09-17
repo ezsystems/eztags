@@ -329,9 +329,13 @@ class eZTags
         }
 
         /* After everything is done, we update each tag priority */
-        foreach ( $this->IDArray as $index => $key )
+        foreach ( $this->IDArray as $priority => $tagId )
         {
-            $db->query( "UPDATE eztags_attribute_link SET priority = '{$index}' WHERE keyword_id = '{$key}' AND objectattribute_id='{$attributeID}' AND objectattribute_version='{$attributeVersion}'" );
+            $db->query( "UPDATE eztags_attribute_link
+                            SET priority = " . (int) $priority . "
+                            WHERE keyword_id = " . (int) $tagId . "
+                            AND objectattribute_id = " . (int) $attributeID . "
+                            AND objectattribute_version = " .$attributeVersion );
         }
     }
 
@@ -411,14 +415,14 @@ class eZTags
             return array();
         }
 
-        $eztags = array();
+        $tags = array();
         foreach( eZTagsObject::fetchList( array( 'id' => array( $this->IDArray ) ) ) as $item )
         {
-            $eztags[array_search($item->attribute('id'), $this->IDArray)] = $item;
+            $tags[array_search( $item->attribute('id'), $this->IDArray )] = $item;
         }
-        ksort($eztags);
+        ksort( $tags );
 
-        return $eztags;
+        return $tags;
     }
 
     /**
