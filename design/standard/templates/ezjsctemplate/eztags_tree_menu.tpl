@@ -23,7 +23,7 @@ function getTagTree_{$attribute_id}(node, cb) {ldelim}
     $.getJSON( window.eztags_treemenu_url + '/' + tagID, function( d ) {
         var tagTree = [];
         {/literal}
-        var parentID = {$attribute.contentclass_attribute.data_int1};
+        var parentID = {if $attribute.contentclass_attribute.data_int1}{$attribute.contentclass_attribute.data_int1}{else}0{/if};
         var hideRoot = {if $attribute.contentclass_attribute.data_int3}1{else}0{/if};
 
         if( window.eztag_tree_started_{$attribute_id} || hideRoot == 1 )
@@ -48,10 +48,10 @@ function getTagTree_{$attribute_id}(node, cb) {ldelim}
         {
         {/literal}
             var parentData = {ldelim}
-             'text' : '{$tag.keyword}',
+             'text' : {if $tag.id}'{$tag.keyword}'{else}"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}"{/if},
              'icon' : '{$tag.icon}',
-             'id' : {$tag.id},
-             'children' : {if $tag.children_count|gt(0)}true{else}false{/if},
+             'id' : {if $tag.id}{$tag.id}{else}0{/if},
+             'children' : {if or( $tag.children_count|gt(0), $tag.id|eq(0) )}true{else}false{/if},
              'parent' : '#',
              'state' : {ldelim} 'opened' : false, 'selected' : false {rdelim}
             {rdelim};
