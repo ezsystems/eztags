@@ -65,20 +65,28 @@ function getTagTree_{$attribute_id}(node, cb) {ldelim}
 {rdelim}
 window.eztag_tree_started_{$attribute_id} = false;
 window.eztag_tree_max_{$attribute_id} = {if $attribute.contentclass_attribute.data_int4|gt(0)}{$attribute.contentclass_attribute.data_int4}{else}0{/if};
+
+window.setInterval(function(){ldelim}
+    if( window.eztag_tree_max_{$attribute_id} == 0 || window.eztags_map[{$attribute_id}].length() < window.eztag_tree_max_{$attribute_id} )
+    {ldelim}
+        $('#tag-tree-selector-{$attribute_id}').show();
+    {rdelim}
+    else
+    {ldelim}
+        $('#tag-tree-selector-{$attribute_id}').hide();
+    {rdelim}
+{rdelim}, 500);
+
 $(function () {ldelim}
     $('#tag-tree-selector-{$attribute_id}')
     {literal}
     .on('changed.jstree', function (e, data) {
         var i, j, r = [];
         {/literal}
-          if( window.eztag_tree_max_{$attribute_id} == 0 || window.eztags_map[{$attribute_id}].length() <= window.eztag_tree_max_{$attribute_id} )
+          if( window.eztag_tree_max_{$attribute_id} == 0 || window.eztags_map[{$attribute_id}].length() < window.eztag_tree_max_{$attribute_id} )
           {ldelim}
           var item = {ldelim} 'tag_name': data.node.text, 'tag_parent_id': data.node.parent, 'tag_id': data.node.id {rdelim};
           window.eztags_map[{$attribute_id}].addTagToList(item);
-          {rdelim}
-          else
-          {ldelim}
-                  alert('Limit reached')
           {rdelim}
         {literal}
       })
@@ -97,4 +105,4 @@ $(function () {ldelim}
 {/literal}
 </script>
 
-<div class="jstree_demo_div" id="tag-tree-selector-{$attribute_id}"></div>
+<div id="tag-tree-selector-{$attribute_id}"></div>
