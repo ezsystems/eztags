@@ -49,7 +49,7 @@ function getTagTree_{$attribute_id}(node, cb) {ldelim}
         {/literal}
             var parentData = {ldelim}
              'text' : {if $tag.id}'{$tag.keyword}'{else}"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}"{/if},
-             'icon' : '{$tag.icon}',
+             'icon' : {$tag.icon|ezimage()},
              'id' : {if $tag.id}{$tag.id}{else}0{/if},
              'children' : {if or( $tag.children_count|gt(0), $tag.id|eq(0) )}true{else}false{/if},
              'parent' : '#',
@@ -66,24 +66,14 @@ function getTagTree_{$attribute_id}(node, cb) {ldelim}
 window.eztag_tree_started_{$attribute_id} = false;
 window.eztag_tree_max_{$attribute_id} = {if $attribute.contentclass_attribute.data_int4|gt(0)}{$attribute.contentclass_attribute.data_int4}{else}0{/if};
 
-window.setInterval(function(){ldelim}
-    if( window.eztag_tree_max_{$attribute_id} == 0 || window.eztags_map[{$attribute_id}].length() < window.eztag_tree_max_{$attribute_id} )
-    {ldelim}
-        $('#tag-tree-selector-{$attribute_id}').show();
-    {rdelim}
-    else
-    {ldelim}
-        $('#tag-tree-selector-{$attribute_id}').hide();
-    {rdelim}
-{rdelim}, 500);
-
 $(function () {ldelim}
     $('#tag-tree-selector-{$attribute_id}')
     {literal}
     .on('changed.jstree', function (e, data) {
         var i, j, r = [];
         {/literal}
-          if( window.eztag_tree_max_{$attribute_id} == 0 || window.eztags_map[{$attribute_id}].length() < window.eztag_tree_max_{$attribute_id} )
+                console.log(data.node.id );
+          if( ( window.eztag_tree_max_{$attribute_id} == 0 || window.eztags_map[{$attribute_id}].length() < window.eztag_tree_max_{$attribute_id} ) && data.node.id != 0 )
           {ldelim}
           var item = {ldelim} 'tag_name': data.node.text, 'tag_parent_id': data.node.parent, 'tag_id': data.node.id {rdelim};
           window.eztags_map[{$attribute_id}].addTagToList(item);
@@ -105,4 +95,4 @@ $(function () {ldelim}
 {/literal}
 </script>
 
-<div id="tag-tree-selector-{$attribute_id}"></div>
+<div id="tag-tree-selector-{$attribute_id}" class="eztag_tree_menu"></div>
