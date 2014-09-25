@@ -78,9 +78,9 @@ You can use optional `parent_tag_id` paremeter to limit the fetch to a certain t
 
 These fetch functions can be used to fetch a list of tags under a specified tag. There is only one difference between `list` and `tree` fetches. While `list` fetch returns tags only on first level below the specified tag, `tree` fetch returns tags from the whole subtree.
 
-The parameters of these fetches are as follows (only `parent_node_id` is required):
+The parameters of these fetches are as follows (only `parent_tag_id` is required):
 
-* `parent_node_id`: Returns the tags only below the specified tag
+* `parent_tag_id`: Returns the tags only below the specified tag
 * `sort_by`: Array that specifies the desired sorting and ordering of tags. Possible values for sorting are `id`, `parent_id`, `main_tag_id`, `keyword`, `depth`, `path_string`, `modified` and `remote_id` and for ordering `true()` (ascending) and `false()` (descending)
 * `offset`: Start position for fetching tags
 * `limit`: Limits the number of fetched tags
@@ -114,7 +114,7 @@ The following example shows the `tree` fetch with all the parameters included:
 
 These fetch functions can be used to fetch the count of tags under a specified tag. There is only one difference between `list_count` and `tree_count` fetches. While `list_count` fetch returns the count of tags only on first level below the specified tag, `tree_count` fetch returns the count of tags from the whole subtree.
 
-The parameters of these fetches are `parent_node_id`, `depth`, `depth_operator` and `include_synonyms`. Only `parent_node_id` is required and they all have the same meaning and possible values as matching parameters in `tags/list` and `tags/tree` fetches.
+The parameters of these fetches are `parent_tag_id`, `depth`, `depth_operator` and `include_synonyms`. Only `parent_tag_id` is required and they all have the same meaning and possible values as matching parameters in `tags/list` and `tags/tree` fetches.
 
 The following example shows the `tree_count` fetch with all the parameters included:
 
