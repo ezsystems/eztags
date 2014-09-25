@@ -48,10 +48,10 @@ function getTagTree_{$attribute_id}(node, cb) {ldelim}
         {
         {/literal}
             var parentData = {ldelim}
-             'text' : {if $tag.id}'{$tag.keyword}'{else}"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}"{/if},
-             'icon' : {if $tag.id}{concat('tag_icons/small/', $tag.icon)|ezimage}{else}{concat('tag_icons/small/', ezini('Icons', 'Default', 'eztags.ini'))|ezimage}{/if},
-             'id' : {if $tag.id}{$tag.id}{else}0{/if},
-             'children' : {if or( $tag.children_count|gt(0), $tag.id|eq(0) )}true{else}false{/if},
+             'text' : {if $tag}'{$tag.keyword}'{else}"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}"{/if},
+             'icon' : {if $tag}{concat('tag_icons/small/', $tag.icon)|ezimage}{else}{concat('tag_icons/small/', ezini('Icons', 'Default', 'eztags.ini'))|ezimage}{/if},
+             'id' : {if $tag}{$tag.id}{else}0{/if},
+             'children' : {if or( $tag|not, $tag.children_count|gt(0) )}true{else}false{/if},
              'parent' : '#',
              'state' : {ldelim} 'opened' : false, 'selected' : false {rdelim}
             {rdelim};
