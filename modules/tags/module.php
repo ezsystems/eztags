@@ -22,7 +22,9 @@ $ViewList['id'] = array(
     'script'                  => 'id.php',
     'default_navigation_part' => 'eztagsnavigationpart',
     'params'                  => array( 'TagID' ),
-    'unordered_params'        => array( 'offset' => 'Offset' ) );
+    'unordered_params'        => array( 
+        'offset'        => 'Offset',
+        'custom_offset' => 'CustomOffset' ) );
 
 $ViewList['view'] = array(
     'functions'               => array( 'view' ),
