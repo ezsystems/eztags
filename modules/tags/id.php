@@ -18,6 +18,9 @@ $viewParameters = array();
 if ( isset( $Params['Offset'] ) )
     $viewParameters['offset'] = (int) $Params['Offset'];
 
+if ( isset( $Params['CustomOffset'] ) )
+    $viewParameters['custom_offset'] = (int) $Params['CustomOffset'];
+
 $tpl = eZTemplate::factory();
 
 $tpl->setVariable( 'blocks', eZINI::instance( 'eztags.ini' )->variable( 'View', 'ViewBlocks' ) );
