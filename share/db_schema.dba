@@ -150,6 +150,13 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'priority' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' =>
     array (
