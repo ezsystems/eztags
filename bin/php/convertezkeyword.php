@@ -92,6 +92,7 @@ $script->resetIteration( $objectCount );
 
 while ( $offset < $objectCount )
 {
+    eZContentObject::clearCache();
     /** @var eZContentObject[] $objects */
     $objects = eZContentObject::fetchFilteredList( array(
                                                        'contentclass_id' => $sourceClassAttribute->attribute( 'contentclass_id' ),
