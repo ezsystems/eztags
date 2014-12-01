@@ -12,7 +12,7 @@
 * Implemented tags/tag_by_url fetch to fetch the tag by its URL (e.g. 'eZ Publish/Extensions/eZ Tags')
 * Added a dedicated Solr indexing handler that indexes much more data from eZ Tags attributes
 * Added a second extended attribute filter that filters objects that have ALL (as oposed to ANY in the original extended filter) of the specified tags
-* Added a third extended attribute filter that filters objects that have ALL of the specified tag groups, matching ANY tag within a tag group
+* Added a third extended attribute filter that filters objects that have ALL of the specified tag groups, matching ANY tag within a tag group (thanks Peter Keung)
 * Add inline custom tag for linking to a tag in ezxml datatype
 * New translations
 * Various bug fixes and optimizations
