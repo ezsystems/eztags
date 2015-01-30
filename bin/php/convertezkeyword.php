@@ -87,6 +87,7 @@ $objectCount = eZPersistentObject::count( eZContentObject::definition(), array(
 
 while ( $offset < $objectCount )
 {
+    eZContentObject::clearCache();
     $objects = eZContentObject::fetchFilteredList( array(
                                                        'contentclass_id' => $sourceClassAttribute->attribute( 'contentclass_id' ),
                                                        'status' => eZContentObject::STATUS_PUBLISHED

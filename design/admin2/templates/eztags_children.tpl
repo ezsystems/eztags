@@ -59,7 +59,7 @@
                     </tr>
                     {foreach $children as $child_tag sequence array('bglight', 'bgdark') as $sequence}
                         <tr class="{$sequence}">
-                            <td><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $child_tag.icon )|ezimage} alt="{$child_tag.keyword|wash}" /></td>                        
+                            <td><img class="transparent-png-icon" src={concat( 'tag_icons/small/', $child_tag.icon )|ezimage} alt="{$child_tag.keyword|wash}" /></td>
                             <td>{$child_tag.id}</td>
                             <td><a href={concat( '/tags/id/', $child_tag.id )|ezurl}>{$child_tag.keyword|wash}{cond( $child_tag.synonyms_count|gt(0), concat( ' (+', $child_tag.synonyms_count, ')' ), '' )}</a></td>
                             <td>{$child_tag.modified|datetime( 'custom', '%d.%m.%Y %H:%i' )}</td>
