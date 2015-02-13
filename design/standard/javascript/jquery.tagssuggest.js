@@ -62,12 +62,14 @@
                     if ( tags_listed.find('li').length >= max_tags ) {
                         base.find('.button-add-tag').hide();
                         base.find('.tags-suggested').hide();
+                        base.parent().find('.eztag_tree_menu').hide();
                         base.find('.tags-suggested').prev('label').hide();
                         base.find('.tagssuggestfieldwrap').hide();
                     }
                     else {
                         base.find('.button-add-tag').show();
                         base.find('.tags-suggested').show();
+                        base.parent().find('.eztag_tree_menu').show();
                         base.find('.tags-suggested').prev('label').show();
                         base.find('.tagssuggestfieldwrap').show();
                     }
@@ -361,6 +363,9 @@
                 emptyResults();
                 hideResults();
 
+            };
+            window.eztags_map[$(this).attr('id').replace('tagssuggest_', '')].length = function( item ){
+                return this.obj.find('div.tags-listed ul li').length;
             };
 
             window.eztags_map[$(this).attr('id').replace('tagssuggest_', '')].removeTagFromList = function( item ){
