@@ -109,13 +109,14 @@ if ( !( $tag instanceof eZTagsObject || $TagID == 0 ) )
 }
 else
 {
-    $children = eZTagsObject::fetchByParentID( $tagID );
+    $allChildrenCount = eZTagsObject::childrenCountByParentID( $tagID );
+    $children = eZTagsObject::fetchByParentID( $tagID, 0, $eztagsINI->variable('TreeMenu','Limit') );
 
     $response = array();
     $response['error_code']     = 0;
     $response['id']             = $tagID;
     $response['parent_id']      = ( $tag instanceof eZTagsObject ) ? (int) $tag->attribute( 'parent_id' ) : -1;
-    $response['children_count'] = count( $children );
+    $response['children_count'] = $allChildrenCount;
     $response['children']       = array();
 
     foreach ( $children as $child )
