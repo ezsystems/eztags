@@ -210,6 +210,8 @@ class eZTags
             }
         }
 
+        $existingTagIDs = array_values( array_unique( $existingTagIDs ) );
+
         //get tags to delete from object attribute
         $tagsToDelete = array();
         $tempIDArray = array();
