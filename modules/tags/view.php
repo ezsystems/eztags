@@ -1,13 +1,14 @@
 <?php
 
+/** @var eZModule $Module */
+/** @var array $Params */
+
 $http = eZHTTPTool::instance();
 $keywordArray = $Params['Parameters'];
-
-if ( !( is_array( $keywordArray ) && !empty( $keywordArray ) ) )
-{
+if ( !is_array( $keywordArray ) || empty( $keywordArray ) )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
+<<<<<<< HEAD
 $parentID = 0;
 for ( $i = 0; $i < count( $keywordArray ) - 1; $i++ )
 {
@@ -25,8 +26,11 @@ for ( $i = 0; $i < count( $keywordArray ) - 1; $i++ )
 $tags = eZTagsObject::fetchList( array( 'parent_id' => $parentID, 'keyword' => urldecode( trim( $keywordArray[count( $keywordArray ) - 1] ) ) ) );
 if ( !( is_array( $tags ) && !empty( $tags ) ) )
 {
+=======
+$tag = eZTagsObject::fetchByUrl( $keywordArray );
+if ( !$tag instanceof eZTagsObject )
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
 $viewParameters = array();
 if ( isset( $Params['Offset'] ) )
@@ -34,10 +38,8 @@ if ( isset( $Params['Offset'] ) )
 
 $tpl = eZTemplate::factory();
 
-$tpl->setVariable( 'blocks', eZINI::instance( 'eztags.ini' )->variable( 'View', 'ViewBlocks' ) );
-$tpl->setVariable( 'tag', $tags[0] );
+$tpl->setVariable( 'tag', $tag );
 $tpl->setVariable( 'view_parameters', $viewParameters );
-$tpl->setVariable( 'persistent_variable', false );
 $tpl->setVariable( 'show_reindex_message', false );
 
 if ( $http->hasSessionVariable( 'eZTagsShowReindexMessage' ) )
@@ -48,6 +50,7 @@ if ( $http->hasSessionVariable( 'eZTagsShowReindexMessage' ) )
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:tags/view.tpl' );
+<<<<<<< HEAD
 $Result['path']    = array();
 
 $tempTag = $tags[0];
@@ -72,3 +75,6 @@ if ( $tpl->variable( 'persistent_variable' ) !== false )
 $Result['content_info'] = $contentInfoArray;
 
 ?>
+=======
+$Result['path']    = eZTagsObject::generateModuleResultPath( $tag, true, false, false );
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b

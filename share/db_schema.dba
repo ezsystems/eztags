@@ -53,12 +53,35 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+<<<<<<< HEAD
       'remote_id' => array(
         'length' => '100',
+=======
+      'remote_id' =>
+      array (
+        'length' => 100,
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
       ),
+<<<<<<< HEAD
+=======
+      'main_language_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'language_mask' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
     ),
     'indexes' =>
     array (
@@ -140,7 +163,11 @@ $schema = array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
+<<<<<<< HEAD
         'default' => '0',
+=======
+        'default' => 0,
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
       ),
     ),
     'indexes' =>
@@ -187,6 +214,60 @@ $schema = array (
         array (
           0 => 'objectattribute_id',
           1 => 'objectattribute_version',
+        ),
+      ),
+    ),
+  ),
+  'eztags_keyword' =>
+  array (
+    'name' => 'eztags_keyword',
+    'fields' =>
+    array (
+      'keyword_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'language_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'keyword' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'locale' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'status' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' =>
+    array (
+      'PRIMARY' =>
+      array (
+        'type' => 'primary',
+        'fields' =>
+        array (
+          0 => 'keyword_id',
+          1 => 'locale',
         ),
       ),
     ),

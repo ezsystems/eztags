@@ -1,16 +1,10 @@
-{if is_unset( $menu_persistence )}
-    {def $menu_persistence = ezini('TreeMenu','MenuPersistence','eztags.ini')|eq('enabled')}
-{/if}
-
 <script type="text/javascript">
 if (typeof treeMenu_{$attribute_id} == 'undefined') {ldelim}
 var treeMenu_{$attribute_id};
 (function(){ldelim}
-    var tag_path                = [{if is_set( $module_result.path[0].tag_id)}{foreach $module_result.path as $element}'{$element.tag_id}'{delimiter}, {/delimiter}{/foreach}{/if}];
-    var persistence             = {if $menu_persistence}true{else}false{/if};
     var root_tag_id             = {if $root_tag}{$root_tag.id}{else}0{/if};
     var currentDate             = new Date().valueOf();
-    treeMenu_{$attribute_id}    = new TagsStructureMenu( tag_path, persistence, '{$attribute_id}' );
+    treeMenu_{$attribute_id}    = new TagsStructureMenu( TagsStructureMenuParams, '{$attribute_id}' );
 
     {if $root_tag}
         var rootTag = {ldelim}{*
@@ -20,16 +14,16 @@ var treeMenu_{$attribute_id};
             *}"synonyms_count":{$root_tag.synonyms_count},{*
             *}"keyword":"{$root_tag.keyword|wash(javascript)}",{*
             *}"url":{concat('tags/id/', $root_tag.id)|ezurl},{*
-            *}"icon":{concat('tag_icons/small/', $root_tag.icon)|ezimage},{*
+            *}"icon":"{$root_tag.icon|tag_icon}",{*
             *}"modified":{$root_tag.modified}{rdelim};
     {else}
         var rootTag = {ldelim}{*
             *}"id":0,{*
             *}"parent_id":0,{*
             *}"has_children":true,{*
-            *}"keyword":"{"Top Level Tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
+            *}"keyword":"{"Top level tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
             *}"url":{'tags/dashboard'|ezurl},{*
-            *}"icon":{concat('tag_icons/small/', ezini('Icons', 'Default', 'eztags.ini'))|ezimage},{*
+            *}"icon":"{ezini( 'Icons', 'Default', 'eztags.ini' )|tag_icon}",{*
             *}"modified":currentDate{rdelim};
     {/if}
 

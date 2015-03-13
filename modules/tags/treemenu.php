@@ -1,5 +1,7 @@
 <?php
 
+/** @var array $Params */
+
 eZExpiryHandler::registerShutdownFunction();
 
 if ( !defined( 'MAX_AGE' ) )
@@ -7,6 +9,7 @@ if ( !defined( 'MAX_AGE' ) )
     define( 'MAX_AGE', 86400 );
 }
 
+<<<<<<< HEAD
 function washJS( $string )
 {
     return str_replace( array( "\\", "/", "\n", "\t", "\r", "\b", "\f", '"' ), array( '\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"' ), $string );
@@ -80,6 +83,8 @@ function lookupIcon( $ini, $tag )
     return eZURLOperator::eZImage( eZTemplate::factory(), 'tag_icons/small/' . $returnValue, '' );
 }
 
+=======
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 for ( $i = 0, $obLevel = ob_get_level(); $i < $obLevel; ++$i )
 {
     ob_end_clean();
@@ -102,13 +107,16 @@ $siteINI = eZINI::instance();
 $eztagsINI = eZINI::instance( 'eztags.ini' );
 
 $tag = eZTagsObject::fetch( $tagID );
-
-if ( !( $tag instanceof eZTagsObject || $TagID == 0 ) )
+if ( $tagID > 0 && !$tag instanceof eZTagsObject )
 {
     header( $_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found' );
+    eZExecution::cleanExit();
 }
-else
+
+$maxTags = 100;
+if ( $eztagsINI->hasVariable( 'TreeMenu', 'MaxTags' ) )
 {
+<<<<<<< HEAD
     $children = eZTagsObject::fetchByParentID( $tagID );
 
     $response = array();
@@ -159,10 +167,54 @@ else
     header( 'Pragma: cache' );
     header( 'Content-Type: application/json' );
     header( 'Content-Length: '. strlen( $jsonText ) );
-
-    echo $jsonText;
+=======
+    $iniMaxTags = $eztagsINI->variable( 'TreeMenu', 'MaxTags' );
+    if ( is_numeric( $iniMaxTags ) )
+        $maxTags = (int) $iniMaxTags;
 }
 
-eZExecution::cleanExit();
+$limitArray = null;
+if ( $maxTags > 0 )
+    $limitArray = array( 'offset' => 0, 'length' => $maxTags );
 
-?>
+$children = eZTagsObject::fetchList( array( 'parent_id'   => $tagID,
+                                            'main_tag_id' => 0 ),
+                                     $limitArray );
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
+
+$response = array();
+$response['error_code']     = 0;
+$response['id']             = $tagID;
+$response['parent_id']      = $tag instanceof eZTagsObject ? (int) $tag->attribute( 'parent_id' ) : -1;
+$response['children_count'] = count( $children );
+$response['children']       = array();
+
+foreach ( $children as $child )
+{
+    $childResponse = array();
+    $childResponse['id']                        = (int) $child->attribute( 'id' );
+    $childResponse['parent_id']                 = (int) $child->attribute( 'parent_id' );
+    $childResponse['has_children']              = $child->getChildrenCount() > 0 ? 1 : 0;
+    $childResponse['synonyms_count']            = $child->getSynonymsCount();
+    $childResponse['subtree_limitations_count'] = $child->getSubTreeLimitationsCount();
+    $childResponse['language_name_array']       = $child->languageNameArray();
+    $childResponse['keyword']                   = $child->attribute( 'keyword' );
+    $childResponse['url']                       = 'tags/id/' . $child->attribute( 'id' );
+    $childResponse['icon']                      = eZTagsTemplateFunctions::getTagIcon( $child->getIcon() );
+
+    eZURI::transformURI( $childResponse['url'] );
+    $childResponse['modified']                  = (int) $child->attribute( 'modified' );
+    $response['children'][]                     = $childResponse;
+}
+
+$jsonText = json_encode( $response );
+
+header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
+header( 'Cache-Control: cache, max-age=' . MAX_AGE . ', post-check=' . MAX_AGE . ', pre-check=' . MAX_AGE );
+header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $tag instanceof eZTagsObject ? (int) $tag->attribute( 'modified' ) : time() ) . ' GMT' );
+header( 'Pragma: cache' );
+header( 'Content-Type: application/json' );
+header( 'Content-Length: '. strlen( $jsonText ) );
+
+echo $jsonText;
+eZExecution::cleanExit();

@@ -58,7 +58,11 @@ close:function(s){var h=H[s];if(!h.a)return F;h.a=F;
  if(h.c.onHide)h.c.onHide(h);else{h.w.hide();if(h.o)h.o.remove();} return F;
 },
 params:{}};
+<<<<<<< HEAD:design/standard/javascript/jqmodal.js
 var s=0,H=$.jqm.hash,A=[],msVer=navigator.userAgent.match(/MSIE ([0-9]{1,}[\.0-9]{0,})/),msie=!!msVer,ie6 = msie&&parseFloat(msVer[1])<7,F=false,
+=======
+var s=0,H=$.jqm.hash,A=[],msVer=navigator.userAgent.match(/MSIE ([0-9]{1,}[\.0-9]{0,})/),msie=!!msVer,ie6=msie&&parseFloat(msVer[1])<7,F=false,
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b:design/standard/javascript/jqmodal.js
 i=$('<iframe src="javascript:false;document.write(\'\');" class="jqm"></iframe>').css({opacity:0}),
 e=function(h){if(ie6)if(h.o)h.o.html('<p style="width:100%;height:100%"/>').prepend(i);else if(!$('iframe.jqm',h.w)[0])h.w.prepend(i); f(h);},
 f=function(h){try{$(':input:visible',h.w)[0].focus();}catch(_){}},

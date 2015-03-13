@@ -4,53 +4,53 @@ $http = eZHTTPTool::instance();
 
 $tagsSearchResults = array();
 $tagsSearchCount = 0;
+
 $offset = ( isset( $Params['Offset'] ) && (int) $Params['Offset'] > 0 ) ? (int) $Params['Offset'] : 0;
-$limit = 15;
+$limit = (int) eZINI::instance( 'eztags.ini' )->variable( 'SearchSettings', 'SearchLimit' );
+
 $viewParameters = array( 'offset' => $offset );
 
-$tagsSearchText = '';
-if ( $http->hasVariable( 'TagsSearchText' ) )
-{
-    $tagsSearchText = trim( urldecode( $http->variable( 'TagsSearchText' ) ) );
-}
+$tagsSearchText = trim( urldecode( $http->variable( 'TagsSearchText', '' ) ) );
 
-$tagsSearchSubTree = 0;
-if ( $http->hasVariable( 'TagsSearchSubTree' ) && (int) $http->variable( 'TagsSearchSubTree' ) > 0 )
-{
-    $tagsSearchSubTree = (int) $http->variable( 'TagsSearchSubTree' );
-}
+$tagsSearchSubTree = (int) $http->variable( 'TagsSearchSubTree', 0 );
+$tagsSearchSubTree = $tagsSearchSubTree > 0 ? $tagsSearchSubTree : 0;
 
-$tagsIncludeSynonyms = false;
-if ( $http->hasVariable( 'TagsIncludeSynonyms' ) )
-{
-    $tagsIncludeSynonyms = true;
-}
+$tagsIncludeSynonyms = $http->hasVariable( 'TagsIncludeSynonyms' );
 
 if ( !empty( $tagsSearchText ) )
 {
+    $sorts = array( 'eztags_keyword.keyword' => 'asc' );
     $limits = array( 'offset' => $offset, 'limit' => $limit );
-    $params = array( 'keyword' => array( 'like', '%' . $tagsSearchText . '%' ) );
-    $customFields = array( array( 'operation' => 'COUNT( * )', 'name' => 'row_count' ) );
+    $params = array( 'eztags_keyword.keyword' => array( 'like', '%' . $tagsSearchText . '%' ) );
 
-    $customConds = null;
+    $customConds = eZTagsObject::fetchCustomCondsSQL( $params );
     if ( $tagsSearchSubTree > 0 )
     {
         if ( $tagsIncludeSynonyms )
-        {
-            $customConds = ' AND ( path_string LIKE "%/' . $tagsSearchSubTree . '/%" OR main_tag_id = ' . $tagsSearchSubTree . ' ) ';
-        }
+            $customConds .= ' AND ( path_string LIKE "%/' . $tagsSearchSubTree . '/%" OR main_tag_id = ' . $tagsSearchSubTree . ' ) ';
         else
-        {
             $params['path_string'] = array( 'like', '%/' . $tagsSearchSubTree . '/%' );
-        }
     }
     else if ( !$tagsIncludeSynonyms )
     {
         $params['main_tag_id'] = 0;
     }
 
-    $tagsSearchResults = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null, $params, null, $limits, true, false, null, null, $customConds );
-    $tagsSearchCount = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), array(), $params, array(), null, false, false, $customFields, null, $customConds );
+    $tagsSearchResults = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), array(), $params,
+                                                              $sorts, $limits, true, false,
+                                                              array( 'DISTINCT eztags.*',
+                                                                     array( 'operation' => 'eztags_keyword.keyword',
+                                                                            'name'      => 'keyword' ),
+                                                                     array( 'operation' => 'eztags_keyword.locale',
+                                                                            'name'      => 'locale' ) ),
+                                                              array( 'eztags_keyword' ), $customConds );
+
+    $tagsSearchCount = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), array(), $params,
+                                                            array(), null, false, false,
+                                                            array( array( 'operation' => 'COUNT( * )',
+                                                                          'name'      => 'row_count' ) ),
+                                                            array( 'eztags_keyword' ), $customConds );
+
     $tagsSearchCount = $tagsSearchCount[0]['row_count'];
 }
 
@@ -63,18 +63,8 @@ $tpl->setVariable( 'tags_search_count', $tagsSearchCount );
 $tpl->setVariable( 'tags_search_results', $tagsSearchResults );
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
-$tpl->setVariable( 'persistent_variable', false );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:tags/search.tpl' );
-$Result['path']    = array( array( 'text' => ezpI18n::tr( 'extension/eztags/tags/search', 'Tags search' ),
-                                   'url'  => false ) );
-
-$contentInfoArray = array();
-$contentInfoArray['persistent_variable'] = false;
-if ( $tpl->variable( 'persistent_variable' ) !== false )
-    $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
-
-$Result['content_info'] = $contentInfoArray;
-
-?>
+$Result['path']    = eZTagsObject::generateModuleResultPath( false, null,
+                                                             ezpI18n::tr( 'extension/eztags/tags/search', 'Tags search' ) );

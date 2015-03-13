@@ -1,29 +1,29 @@
 <?php
 
+/** @var eZModule $Module */
+/** @var array $Params */
+
 $tagID = (int) $Params['TagID'];
+$locale = (string) $Params['Locale'];
+$locale = !empty( $locale ) ? $locale : false;
+
 $http = eZHTTPTool::instance();
 
-if ( $tagID <= 0 )
-{
+$tag = eZTagsObject::fetch( $tagID, $locale );
+if ( !$tag instanceof eZTagsObject )
     return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
-
-$tag = eZTagsObject::fetch( $tagID );
-if ( !($tag instanceof eZTagsObject ) )
-{
-    return $Module->handleError( eZError::KERNEL_NOT_FOUND, 'kernel' );
-}
 
 $viewParameters = array();
 if ( isset( $Params['Offset'] ) )
     $viewParameters['offset'] = (int) $Params['Offset'];
 
+if ( isset( $Params['Tab'] ) )
+    $viewParameters['tab'] = trim( $Params['Tab'] );
+
 $tpl = eZTemplate::factory();
 
-$tpl->setVariable( 'blocks', eZINI::instance( 'eztags.ini' )->variable( 'View', 'ViewBlocks' ) );
 $tpl->setVariable( 'tag', $tag );
 $tpl->setVariable( 'view_parameters', $viewParameters );
-$tpl->setVariable( 'persistent_variable', false );
 $tpl->setVariable( 'show_reindex_message', false );
 
 if ( $http->hasSessionVariable( 'eZTagsShowReindexMessage' ) )
@@ -34,6 +34,7 @@ if ( $http->hasSessionVariable( 'eZTagsShowReindexMessage' ) )
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:tags/view.tpl' );
+<<<<<<< HEAD
 $Result['path']    = array();
 
 $tempTag = $tag;
@@ -58,3 +59,6 @@ if ( $tpl->variable( 'persistent_variable' ) !== false )
 $Result['content_info'] = $contentInfoArray;
 
 ?>
+=======
+$Result['path']    = eZTagsObject::generateModuleResultPath( $tag, false );
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b

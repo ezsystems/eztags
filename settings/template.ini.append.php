@@ -3,4 +3,4 @@
 [PHP]
 PHPOperatorList[urlencode]=urlencode
 PHPOperatorList[urldecode]=urldecode
-*/ ?>
+*/

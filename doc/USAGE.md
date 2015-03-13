@@ -30,6 +30,11 @@ The following example lists all the parameters you can use with the operator:
 )}
 ```
 
+<<<<<<< HEAD
+=======
+Tag cloud can be used with Solr or with MySQL. If eZ Find is installed and correctly configured, operator will use Solr by default. This can be turned off in `eztags.ini`.
+
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 ## Template fetch functions
 
 eZ Tags comes bundled with custom fetch functions used to fetch tags in various ways.
@@ -58,6 +63,17 @@ This fetch function returns the tag with specified remote ID:
 {def $tag = fetch( tags, tag_by_remote_id, hash( 'remote_id', '1143ae02e8c0995ccd15a1847e886328' ) )}
 ```
 
+<<<<<<< HEAD
+=======
+### tags/tag_by_url
+
+This fetch function returns the tag with specified URI part which comes after the `/tags/view/` part:
+
+```
+{def $tag = fetch( tags, tag_by_url, hash( 'url', 'Countries/Croatia' ) )}
+```
+
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 ### tags/latest_tags
 
 This fetch function returns the latest tags added to eZ Publish:
@@ -130,14 +146,32 @@ The following example shows the `tree_count` fetch with all the parameters inclu
 )}
 ```
 
+<<<<<<< HEAD
 ## Extended attribute filter
 
 Since `eztags` datatype does not support sorting and filtering in attribute filters in `content/list` and `content/tree` fetches, an extended attribute filter is implemented to allow you to fetch the content which has specified tags attached to it.
+=======
+### `language` parameter in fetches
+
+All fetches shown above have an additional parameter called `language` which, if defined, fetches tags in specified language. All other tags (that don't have a translation specified by the parameter) are left out. The parameter is not required and if not defined, fetches will return tags in languages specified in `RegionalSettings/SiteLanguageList` configuration of `site.ini`.
+
+The language parameter can be a string ( `cro-HR` for example ) or an array ( `array( 'cro-HR', 'eng-GB' )` for example ).
+
+## Extended attribute filters
+
+Since `eztags` datatype does not support sorting and filtering in attribute filters in `content/list` and `content/tree` fetches, extended attribute filters are implemented to allow you to fetch the content which has specified tags attached to it.
+
+Two extended attribute filters are implemented, one that fetches content objects that have all of defined tags attached to them, and one that fetches content objects that have at least one of the defined tags attached to them.
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 
 The parameters of the extended attribute filter are:
 
 * `tag_id`: integer or array of integers. Defines that the content needs to have at least one of the specified tags attached to it
 * `include_synonyms`: Specifies will the synonyms of the specified tags be taken into consideration. Defaults to false
+<<<<<<< HEAD
+=======
+* `language`: Defines that only tags in specified languages will be returned. As with fetches, can be string or an array
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 
 Example usage:
 
@@ -158,3 +192,8 @@ Example usage:
 ```
 
 This example returns all content directly below the node with ID = 2 that has either tag with ID = 42, or tag with ID = 24 or one of their synonyms attached to it.
+<<<<<<< HEAD
+=======
+
+The second extended attribute filter differs only in name. So instead of `TagsAttributeFilter`, you would use `TagsAttributeAndFilter` to return all content that has both, tags with IDs 42 and 24 or their synonyms attached to it.
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b

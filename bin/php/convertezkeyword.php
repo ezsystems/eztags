@@ -42,7 +42,7 @@ $parentTagID = (int) $options['parent-tag-id'];
 
 $sourceClassAttribute = eZContentClassAttribute::fetch( $sourceClassAttributeID );
 $destClassAttribute = eZContentClassAttribute::fetch( $destClassAttributeID );
-$parentTag = eZTagsObject::fetch( $parentTagID );
+$parentTag = eZTagsObject::fetchWithMainTranslation( $parentTagID );
 
 if ( !$sourceClassAttribute instanceof eZContentClassAttribute || $sourceClassAttribute->attribute( 'data_type_string' ) != 'ezkeyword' )
 {
@@ -72,6 +72,7 @@ $sourceClassAttributeIdentifier = $sourceClassAttribute->attribute( 'identifier'
 $destClassAttributeIdentifier = $destClassAttribute->attribute( 'identifier' );
 $isDestClassAttributeTranslatable = (bool) $destClassAttribute->attribute( 'can_translate' );
 
+/** @var eZUser $adminUser */
 $adminUser = eZUser::fetchByName( 'admin' );
 $adminUser->loginCurrent();
 
@@ -85,9 +86,17 @@ $objectCount = eZPersistentObject::count( eZContentObject::definition(), array(
                                               'status' => eZContentObject::STATUS_PUBLISHED
                                           ) );
 
+$cli->output( "{$objectCount} objects to update..." );
+$script->setIterationData( '.', '~' );
+$script->resetIteration( $objectCount );
+
 while ( $offset < $objectCount )
 {
     eZContentObject::clearCache();
+<<<<<<< HEAD
+=======
+    /** @var eZContentObject[] $objects */
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
     $objects = eZContentObject::fetchFilteredList( array(
                                                        'contentclass_id' => $sourceClassAttribute->attribute( 'contentclass_id' ),
                                                        'status' => eZContentObject::STATUS_PUBLISHED
@@ -111,13 +120,20 @@ while ( $offset < $objectCount )
             $objectAttributes = $languageDataMap[$initialLanguageCode];
             if ( isset( $objectAttributes[$sourceClassAttributeIdentifier] ) && isset( $objectAttributes[$destClassAttributeIdentifier] ) )
             {
+                /** @var eZContentObjectAttribute $sourceObjectAttribute */
                 $sourceObjectAttribute = $objectAttributes[$sourceClassAttributeIdentifier];
+                /** @var eZContentObjectAttribute $destObjectAttribute */
                 $destObjectAttribute = $objectAttributes[$destClassAttributeIdentifier];
 
                 if ( $sourceObjectAttribute->hasContent() )
                 {
                     $keywordArray = $sourceObjectAttribute->content()->keywordArray();
-                    $tagsArray = array_merge( array_fill( 0, count( $keywordArray ), '0' ), $keywordArray, array_fill( 0, count( $keywordArray ), $parentTagID ) );
+                    $tagsArray = array_merge(
+                        array_fill( 0, count( $keywordArray ), '0' ),
+                        $keywordArray,
+                        array_fill( 0, count( $keywordArray ), $parentTagID ),
+                        array_fill( 0, count( $keywordArray ), $destObjectAttribute->attribute( 'language_code' ) )
+                    );
 
                     $destObjectAttribute->fromString( implode( '|#', $tagsArray ) );
                     $destObjectAttribute->store();
@@ -142,7 +158,12 @@ while ( $offset < $objectCount )
                         if ( $sourceObjectAttribute->hasContent() )
                         {
                             $keywordArray = $sourceObjectAttribute->content()->keywordArray();
-                            $tagsArray = array_merge( array_fill( 0, count( $keywordArray ), '0' ), $keywordArray, array_fill( 0, count( $keywordArray ), $parentTagID ) );
+                            $tagsArray = array_merge(
+                                array_fill( 0, count( $keywordArray ), '0' ),
+                                $keywordArray,
+                                array_fill( 0, count( $keywordArray ), $parentTagID ),
+                                array_fill( 0, count( $keywordArray ), $destObjectAttribute->attribute( 'language_code' ) )
+                            );
 
                             $destObjectAttribute->fromString( implode( '|#', $tagsArray ) );
                             $destObjectAttribute->store();
@@ -162,11 +183,12 @@ while ( $offset < $objectCount )
             $db->commit();
 
             unset( $languageDataMap );
-            $cli->output( "Converted object ID " . $object->attribute( 'id' ) );
+            $script->iterate( $cli, true );
         }
     }
 
     unset( $objects );
+    eZContentObject::clearCache();
     $offset += $limit;
 }
 
@@ -175,5 +197,3 @@ $cli->warning( "For changes to take effect, please clear the caches, reindex you
 
 eZUser::logoutCurrent();
 $script->shutdown( 0 );
-
-?>

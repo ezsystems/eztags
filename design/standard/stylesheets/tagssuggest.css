@@ -1,12 +1,18 @@
 /* SUGGEST */
 
+<<<<<<< HEAD
 div.tagssuggestfieldwrap {float:left; position:relative; width:300px; margin:0 12px 0 0; height:22px; vertical-align:top;}
 input.tagssuggestfield {width:100%; margin:0; padding:1px 0; border:1px solid #A5ACB2;}
+=======
+div.tagssuggestfieldwrap {float:left; position:relative; width:300px; margin:0 6px 0 0; height:22px; vertical-align:top;}
+input.tagssuggestfield {width:100%; height:20px; margin:0; padding:1px 0; position:relative;/* border:1px solid #A5ACB2;*/}
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 fieldset input.button-add-tag {margin:0;}
 
 div.jsonSuggestResults {
     top:19px;
     position:absolute;
+<<<<<<< HEAD
     border:1px solid #CCCCCC;
     background: white;
     padding:0;
@@ -14,6 +20,18 @@ div.jsonSuggestResults {
     z-index:100000;
     overflow:hidden;
     width:100%;
+=======
+    border:1px solid #BBBBBB;
+    background: white;
+    padding:0;
+    /*margin:-1px 0 0;*/
+    z-index:100000;
+    overflow:hidden;
+    width:100%;
+-webkit-box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.75);
+-moz-box-shadow:    0px 2px 7px rgba(0, 0, 0, 0.75);
+box-shadow:         0px 2px 7px rgba(0, 0, 0, 0.75);
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 }
 
 div.jsonSuggestResults div.results-wrap {
@@ -38,13 +56,22 @@ div.jsonSuggestResults div.results-wrap {
 div.jsonSuggestResults div.resultItem {
     display:block;
     float:none;
+<<<<<<< HEAD
     margin:0px;
     padding:5px;
+=======
+    margin:0;
+    padding:0;
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
     position:relative;
     z-index:1;
     height:auto;
     cursor:pointer;
 }
+<<<<<<< HEAD
+=======
+div.jsonSuggestResults div.resultItem div {padding:5px;}
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 
 div#search div.jsonSuggestResults p {color:black;}
 
@@ -54,6 +81,7 @@ div.jsonSuggestResults div.resultItem.hover {background-color:#D1DFE9;}
 
 div.jsonSuggestResults div.resultItem img {float:left; margin-right:10px;}
 
+<<<<<<< HEAD
 div.jsonSuggestResults div.resultItem p {font-size:1em; margin:0px; padding:0px; }
 div.jsonSuggestResults div.resultItem p strong {font-weight:bold;}
 
@@ -65,6 +93,21 @@ div.tagssuggest ul {list-style:none; margin:10px 0 0; padding:0;}
 div.tagssuggest ul li {margin:0 6px 10px 0; padding:3px 8px; float:left; color:white; background:#476CA3; border:1px solid #CACACA; font-weight:bold;}
 div.tagssuggest ul li a {float:right; font-size:20px; margin:0 0 0 8px; cursor:pointer; color:white; text-decoration:none; outline:none;}
 div.tagssuggest ul li a:hover {color:black;}
+=======
+div.jsonSuggestResults div.resultItem {font-size:0.9em;}
+div.jsonSuggestResults div.resultItem strong {font-weight:bold;}
+
+/*div.jsonSuggestResults div.resultItem p.extra {position:absolute; bottom:3px; right:3px;}*/
+div.jsonSuggestResults div.resultItem span {float:right;margin-left:2em;color:grey;}
+
+
+div.tagssuggest ul {list-style:none; margin:10px 0 0; padding:0;}
+div.tagssuggest li {margin:0 6px 10px 0; padding:3px 8px; float:left; color:white; background:#476CA3; border:1px solid #CACACA; border-radius:3px 3px 3px 3px;}
+div.tagssuggest li img {float:left; padding:2px 2px 2px 0;}
+div.tagssuggest li a {float:right; font-size:20px; margin:0 0 0 8px; cursor:pointer; color:white; text-decoration:none; outline:none; font-weight:bold;}
+div.tagssuggest li.untranslated {cursor:pointer;}
+div.tagssuggest li a:hover {color:black;}
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 div.tagssuggest div.tags-suggested ul li {background:grey; border:1px solid black; cursor:pointer; font-weight:normal;}
 
 div.tags-list p.loading,
@@ -75,8 +118,30 @@ div.no-results p.no-results {display:block;}
 div.tag-parent-selector {display:none;}
 div.tag-parent-selector #content_tree_menu .nodeicon {}
 
+<<<<<<< HEAD
+=======
+#ezt-translation-modal p.no-results {display:none;}
+#ezt-translation-modal .no-results p.no-results {display:block;}
+
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 /* tagsfilter override */
 
 .tagsfilter div.jsonSuggestResults {top:auto; position:static;}
 
 .tagsfilter .tagssuggestfieldwrap {height:auto;}
+<<<<<<< HEAD
+=======
+
+/* tags children filter box */
+
+#action-filter-input {
+    background: url("../images/search-icon.png") no-repeat scroll right padding-box #FFFFFF;
+    border: 1px solid #666666;
+    border-radius: 3px 3px 3px 3px;
+    line-height: 19px !important;
+    height: 19px;
+    margin: 10px 0.25em;
+    padding: 1px 20px 1px 4px;
+    float: left;
+}
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b

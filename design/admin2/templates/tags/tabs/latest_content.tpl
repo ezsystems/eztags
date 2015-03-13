@@ -6,10 +6,8 @@
                                           main_node_only, true(),
                                           sort_by, array( modified, false() ) ) )}
 
-<h2>{'Latest content'|i18n( 'extension/eztags/tags/view' )}</h2>
-
 {if $nodes|count}
-    <table class="list" cellpadding="0" border="0">
+    <table class="list" cellpadding="0">
         <tbody>
             <tr>
                 <th>{"ID"|i18n( "extension/eztags/tags/view" )}</th>

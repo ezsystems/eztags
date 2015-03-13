@@ -5,4 +5,4 @@ ExtensionAutoloadPath[]=eztags
 
 [RegionalSettings]
 TranslationExtensions[]=eztags
-*/ ?>
+*/

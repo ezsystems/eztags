@@ -2,6 +2,7 @@ div.whiteOverlay {background:white;}
 div.jqmDialog {display:none; position:fixed; top:17%; left:50%; width:400px;}
 div.jqmdIn {position:relative; left:-200px; padding:10px;}
 
+<<<<<<< HEAD
 /* Fixed posistioning emulation for IE6
      Star selector used to hide definition from browsers other than IE6
      For valid CSS, use a conditional include instead */
@@ -11,6 +12,8 @@ div.jqmdIn {position:relative; left:-200px; padding:10px;}
 }
 
 
+=======
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 div.jqmdTC {height:23px; font-size:11px; color:white; font-weight:bold; margin:0 6px; position:relative;
   background:url(../images/jqmodal/horizontal.gif) repeat-x left -23px;}
 span.jqmdTCLeft {display:block; height:23px; width:6px; position:absolute; top:0; left:-6px; background:url(../images/jqmodal/corners.gif) no-repeat -6px top;}
@@ -29,6 +32,9 @@ a.jqmdX {display:block; height:16px; width:29px; position: absolute; right:16px;
     background:url(../images/jqmodal/buttons.gif) no-repeat -87px -16px;}
 a.jqmdX:hover {background-position:-87px -32px;}
 
+<<<<<<< HEAD
 div.jqmDialog input:focus, div.jqmDialog input.iefocus { background-color: #eaffc3; }
 
+=======
+>>>>>>> 06abc6e4d24cb0184dd64c8a211ac25dcafa5b1b
 div.jqmDialog div.contentstructure ul.content_tree_menu {margin:0;}
