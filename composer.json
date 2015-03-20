@@ -3,5 +3,8 @@
     "type": "netgen-legacy-extension",
     "require": {
         "netgen/netgen-legacy-installer": "*"
+    },
+    "replace": {
+        "ezsystems/eztags-ls": "*"
     }
 }
