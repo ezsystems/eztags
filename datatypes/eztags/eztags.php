@@ -201,8 +201,7 @@ class eZTags
 
         //get existing tags for object attribute sorting by priority
         $existingTagIDs = array();
-        $existingTags = $db->arrayQuery( "SELECT DISTINCT keyword_id FROM eztags_attribute_link WHERE objectattribute_id = $attributeID AND objectattribute_version = $attributeVersion ORDER BY priority ASC" );
-
+        $existingTags = $db->arrayQuery( "SELECT DISTINCT keyword_id, priority FROM eztags_attribute_link WHERE objectattribute_id = $attributeID AND objectattribute_version = $attributeVersion ORDER BY priority, keyword_id ASC" );
         if ( is_array($existingTags ) )
         {
             foreach ( $existingTags as $t )
@@ -210,6 +209,8 @@ class eZTags
                 $existingTagIDs[] = (int) $t['keyword_id'];
             }
         }
+
+        $existingTagIDs = array_values( array_unique( $existingTagIDs ) );
 
         //get tags to delete from object attribute
         $tagsToDelete = array();
