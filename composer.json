@@ -13,7 +13,6 @@
             "homepage": "https://github.com/ezsystems/eztags/contributors"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "ezsystems/ezpublish-legacy-installer": "*"
     },
