@@ -21,7 +21,3 @@
         <a href="#" class="jqmdX jqmClose"></a>
     </div>
 </div>
-
-<script type="text/javascript">
-$('#parent-selector-tree-{$attribute_id}').jqm({ldelim}modal:true, overlay:60, overlayClass:'whiteOverlay'{rdelim}).jqDrag('.jqDrag');
-</script>
