@@ -1,9 +1,10 @@
 eZ Tags extension changelog
 
-1.4.0
+1.4.0 (20.04.2015)
 ==========================
 
 * Add tags reordering support in attribute edit interface (thanks to Thiago Campos Viana)
+* Add tags tree menu to datatype edit view 
 * Various bug fixes and enhancements
 
 
