@@ -70,7 +70,6 @@
 
 
   // Tag ========================================================
-  // attributes
   var Tag = function(attributes){
     if(attributes instanceof Tag){return attributes;}
     $.extend(this, {
@@ -204,14 +203,17 @@
     this.CollectionKlass = this.opts.CollectionKlass || Collection;
 
     this.tags = new this.CollectionKlass();
+    this.autocomplete_tags = new this.CollectionKlass();
 
     this.setup_ui();
-    this.setup_events();
     this.unserialize();
     this.setup_tree_picker();
     this.render_tags();
-    this.fetch_suggestions();
+    //this.fetch_suggestions();
+    this.fetch_suggestions_debounced = EzTags.debouncer(this.fetch_suggestions, this.opts.suggestTimeout, this);
+    this.fetch_suggestions_debounced();
     this.initialize && this.initialize();
+    this.setup_events();
   };
 
 
@@ -324,23 +326,29 @@
 
   //Suggest ======================================================================================
 
-  Base.prototype.fetch_suggestions = function(e) {
+  Base.prototype.fetch_suggestions = function() {
+    console.log('fetch_suggestions');
     if(!this.tags.length){return;}
 
 
-    $.ez(this.opts.ezjscSuggest,
-      {
-        tag_ids: this.serialize().tagids,
-        subtree_limit: this.opts.subtreeLimit,
-        hide_root_tag: this.hideRootTag,
-        locale: this.opts.locale
-      },
-      $.proxy(this.after_fetch_suggestions, this) //callback
-    );
+    // $.ez(this.opts.ezjscSuggest, {
+    //     tag_ids: this.serialize().tagids,
+    //     subtree_limit: this.opts.subtreeLimit,
+    //     hide_root_tag: this.hideRootTag,
+    //     locale: this.opts.locale
+    //   }, $.proxy(this.after_fetch_suggestions, this));
+
+    $.ez(this.opts.ezjscAutocomplete, {
+      search_string: 'a',
+      subtree_limit: this.opts.subtreeLimit,
+      hide_root_tag: this.opts.hideRootTag,
+      locale: this.opts.locale
+    }, $.proxy(this.after_fetch_suggestions, this));
 
 
     //$.get('suggest.json', $.proxy(this.after_fetch_suggestions, this));
   };
+
 
   Base.prototype.fetch_autocomplete = function(e) {
     if(EzTags.is_key(e, ['UP', 'DOWN', 'LEFT', 'RIGHT', 'ESC', 'RETURN'])){return;}
@@ -370,7 +378,7 @@
     tags = tags.slice(0, this.opts.maxResults); //TODO: shouldn't administration take care of this?
     this.$autocomplete_tags.empty().parent().hide();
 
-    this.autocomplete_tags = new this.CollectionKlass();
+    this.autocomplete_tags.clear();
     $.each(tags, function(i, raw){
       tag = new self.TagKlass({
         parent_id: raw.tag_parent_id,
@@ -578,13 +586,19 @@
         $.jqm.params.onHide.apply(this, arguments);
       }
     });
-    //.jqDrag('.jqDrag');
+
+    this.setup_tree_picker_dragging();
+
+  };
+
+  Base.prototype.setup_tree_picker_dragging = function() {
+    $.fn.draggable && this.$tree_picker_element.draggable({ handle: '.jqDrag' });
   };
 
 
   Base.prototype.setup_tree_picker_events = function() {
     var self = this;
-    this.$tree_picker_element.on('click', 'a', function(e){
+    this.$tree_picker_element.on('click', 'a[rel]', function(e){
       e.preventDefault();
       self.select_parent_id_from_tree_picker($(this).attr('rel')); //parent_id is on rel attribute
     });
@@ -816,13 +830,14 @@
       this.hide_tree_picker();
       this.render_tags();
       this.new_tag_attributes = {};
-      EzTags.debouncer(this.fetch_suggestions, this.opts.suggestTimeout, this);
+      this.fetch_suggestions_debounced();
     },
 
     after_remove: function() {
       this.update_inputs();
       this.render_tags();
-      EzTags.debouncer(this.fetch_suggestions, this.opts.suggestTimeout, this);
+      console.log('after remove');
+      this.fetch_suggestions_debounced();
     }
 
   });

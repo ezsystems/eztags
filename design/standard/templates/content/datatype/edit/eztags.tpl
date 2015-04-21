@@ -3,6 +3,7 @@
 {default attribute_base=ContentObjectAttribute}
 <div id="eztags{$attribute.id}" class="tagssuggest{if $attribute.contentclass_attribute.data_int2} tagsfilter{/if}"
     data-eztags
+    {* data-builder="MultipleSelects" *}
     data-max-results="24"
     data-has-add-access="{cond( $permission_array.can_add, 'true', true(), 'false' )}"
     data-subtree-limit="{$attribute.contentclass_attribute.data_int1}"

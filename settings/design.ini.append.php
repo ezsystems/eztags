@@ -9,6 +9,7 @@ FrontendJavaScriptList[]=ezjsc::jqueryio
 FrontendJavaScriptList[]=ezjsc::jqueryUI
 FrontendJavaScriptList[]=jqmodal.js
 FrontendJavaScriptList[]=jquery.eztags.js
+FrontendJavaScriptList[]=jquery.eztags.extras.js
 FrontendJavaScriptList[]=tagsstructuremenu.js
 
 BackendJavaScriptList[]=ezjsc::jquery
@@ -17,6 +18,7 @@ BackendJavaScriptList[]=ezjsc::jqueryUI
 BackendJavaScriptList[]=ezjsc::yui2
 BackendJavaScriptList[]=jqmodal.js
 BackendJavaScriptList[]=jquery.eztags.js
+BackendJavaScriptList[]=jquery.eztags.extras.js
 BackendJavaScriptList[]=tagsstructuremenu.js
 BackendJavaScriptList[]=jquery.eztagschildren.js
 
