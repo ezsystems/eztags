@@ -331,12 +331,20 @@
     if(!this.tags.length){return;}
 
 
-     $.ez(this.opts.ezjscSuggest, {
-       tag_ids: this.serialize().tagids,
-       subtree_limit: this.opts.subtreeLimit,
-       hide_root_tag: this.hideRootTag,
-       locale: this.opts.locale
-     }, $.proxy(this.after_fetch_suggestions, this));
+    // $.ez(this.opts.ezjscSuggest, {
+    //     tag_ids: this.serialize().tagids,
+    //     subtree_limit: this.opts.subtreeLimit,
+    //     hide_root_tag: this.hideRootTag,
+    //     locale: this.opts.locale
+    //   }, $.proxy(this.after_fetch_suggestions, this));
+
+    $.ez(this.opts.ezjscAutocomplete, {
+      search_string: 'a',
+      subtree_limit: this.opts.subtreeLimit,
+      hide_root_tag: this.opts.hideRootTag,
+      locale: this.opts.locale
+    }, $.proxy(this.after_fetch_suggestions, this));
+
 
     //$.get('suggest.json', $.proxy(this.after_fetch_suggestions, this));
   };
