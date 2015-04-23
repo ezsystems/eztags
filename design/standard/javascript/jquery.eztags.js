@@ -74,9 +74,9 @@
     if(attributes instanceof Tag){return attributes;}
     $.extend(this, {
       id: 0,
-      parent_name: '',
+      parent_name: null,
       cid: this.constructor.uid(),
-      flagSrc: this.constructor.iconPath + attributes.locale + '.gif'
+      flagSrc: attributes.locale ? this.constructor.iconPath + attributes.locale + '.gif' : null
     }, attributes);
   };
 
@@ -209,9 +209,7 @@
     this.unserialize();
     this.setup_tree_picker();
     this.render_tags();
-    //this.fetch_suggestions();
-    this.fetch_suggestions_debounced = EzTags.debouncer(this.fetch_suggestions, this.opts.suggestTimeout, this);
-    this.fetch_suggestions_debounced();
+
     this.initialize && this.initialize();
     this.setup_events();
   };
@@ -327,24 +325,15 @@
   //Suggest ======================================================================================
 
   Base.prototype.fetch_suggestions = function() {
-    console.log('fetch_suggestions');
     if(!this.tags.length){return;}
 
 
-    // $.ez(this.opts.ezjscSuggest, {
-    //     tag_ids: this.serialize().tagids,
-    //     subtree_limit: this.opts.subtreeLimit,
-    //     hide_root_tag: this.hideRootTag,
-    //     locale: this.opts.locale
-    //   }, $.proxy(this.after_fetch_suggestions, this));
-
-    $.ez(this.opts.ezjscAutocomplete, {
-      search_string: 'a',
-      subtree_limit: this.opts.subtreeLimit,
-      hide_root_tag: this.opts.hideRootTag,
-      locale: this.opts.locale
-    }, $.proxy(this.after_fetch_suggestions, this));
-
+     $.ez(this.opts.ezjscSuggest, {
+         tag_ids: this.serialize().tagids,
+         subtree_limit: this.opts.subtreeLimit,
+         hide_root_tag: this.hideRootTag,
+         locale: this.opts.locale
+       }, $.proxy(this.after_fetch_suggestions, this));
 
     //$.get('suggest.json', $.proxy(this.after_fetch_suggestions, this));
   };
@@ -445,11 +434,11 @@
 
 
 
-  Base.prototype.parse_remote_tags = function(data, collection) {
+  Base.prototype.parse_remote_tags = function(raw_tags, collection) {
     var tags = collection || new this.CollectionKlass(),
         self = this;
 
-    $.each(data.content.tags, function(i, raw){
+    $.each(raw_tags, function(i, raw){
       tags.add(self.parse_remote_tag(raw));
     });
 
@@ -768,7 +757,7 @@
 
   Base.prototype.setup_sortable = function() {
     var self = this;
-    this.$selected_tags.sortable({
+    $.fn.sortable && this.$selected_tags.sortable({
       update: function(/*event, ui*/){
         var new_order = $(this).sortable('toArray', {attribute: 'data-cid'});
         self.on_sortable_update(new_order);
@@ -821,6 +810,11 @@
 
 
   EzTags.Normal = EzTags.Base.extend({
+
+    initialize: function(){
+      this.fetch_suggestions_debounced = EzTags.debouncer(this.fetch_suggestions, this.opts.suggestTimeout, this);
+      this.fetch_suggestions_debounced();
+    },
 
     after_add: function(opts) {
       opts || (opts = {});

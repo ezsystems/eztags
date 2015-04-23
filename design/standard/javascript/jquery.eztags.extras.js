@@ -3,7 +3,7 @@
 (function() {
   'use strict';
 
-  $.EzTags.MultipleSelects = $.EzTags.Base.extend({
+  $.EzTags.Select = $.EzTags.Base.extend({
     templates: {
       option: ['<option value="<%= tag.id %>" <%= selected %> ><%= tag.name %></option>'],
       select: ['<select class="js-tag-select form-control"></select>'],
@@ -14,8 +14,13 @@
 
 
     initialize: function(){
+      var self = this;
       this.fetch_available_tags(function(){
-        this.append_select();
+        $.each(this.tags.items, function(i, tag){
+          console.log(tag.name);
+          self.append_select(tag);
+          self.update_selects();
+        });
       });
       this.$selects = this.$('.selects');
       this.on('change', '.js-tag-select', $.proxy(this.on_select, this));
@@ -25,26 +30,35 @@
     on_select: function(e){
       var $select = $(e.target),
           id = $select.val(),
-          tag = $select.data('linked_tag') || this.tags.items[0],
+          tag = $select.data('linked_tag'),
           new_tag;
 
       if(id){
         new_tag = this.available_tags.find(id);
-        new_tag.select = $select;
         tag && this.remove(tag.id);
         this.add(new_tag);
         !tag && this.should_append_new_select();
-        $select.data('linked_tag', new_tag);
+        this.link_tag_and_select(new_tag, $select);
       }else{
         if(tag){
           $select.siblings().filter(function() {
             return $(this).val() === '';
           }).length && tag.select.remove();
           this.remove(tag.id);
-          $select.data('linked_tag', null);
+          this.unlink_tag_and_select(tag, $select);
         }
       }
       this.update_selects();
+    },
+
+    link_tag_and_select: function(tag, select){
+      tag.select = select;
+      select.data('linked_tag', tag);
+    },
+
+    unlink_tag_and_select: function(tag, select){
+      tag.select = null;
+      select.data('linked_tag', null);
     },
 
     update_selects: function(){
@@ -70,37 +84,31 @@
       });
     },
 
-    parse_remote_tags: function(data, collection) {
-      var tags = collection || new this.CollectionKlass(),
-          self = this;
-
-      $.each(data.content, function(i, raw){
-        tags.add(self.parse_remote_tag(raw));
-      });
-
-      return tags;
-    },
-
+    /*
     parse_remote_tag: function(raw){
       return new this.TagKlass({
         name: raw.keyword,
         id: raw.id
       });
     },
+    */
 
-    setup_select: function($select){
+    setup_select: function($select, unlinked_tag){
       var self = this, selected;
       var dummy_tag = new this.TagKlass({id: '', name:''});
       $select.append(self.render_template('option', {tag: dummy_tag, selected: null }));
+
+      unlinked_tag && this.link_tag_and_select(unlinked_tag, $select);
+
       $.each(this.available_tags.items, function(i, tag){
-        selected = self.tags.find(tag.id) ? 'selected="selected"' : '';
+        selected = tag.id === unlinked_tag.id ? 'selected="selected"' : '';
         $select.append(self.render_template('option', {tag: tag, selected: selected }));
       });
     },
 
-    append_select: function(){
+    append_select: function(unlinked_tag){
       var $select = $(this.render_template('select'));
-      this.setup_select($select);
+      this.setup_select($select, unlinked_tag);
       this.$selects.append($select);
     }
   });
