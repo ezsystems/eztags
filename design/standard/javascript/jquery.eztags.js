@@ -193,7 +193,7 @@
     opts || (opts = {});
     this.$el = $(el);
     this.opts = $.extend(true, {}, this.constructor.defaults, opts, this.$el.data());
-    console.log(this.opts);
+    //console.log(this.opts);
     this.opts.templates = $.extend({}, this.constructor.defaults.templates, this.templates, opts.templates);
     this.group_id = this.$el.attr('id').replace(this.opts.main_id_prefix, '');
     this.TagKlass = this.opts.TagKlass || Tag;
@@ -258,7 +258,7 @@
 ,                  '<div class="tags-list tags-listed no-results">',
                       '<p class="loading"><%=tr.loading%></p>',
                       '<p class="no-results"><%=tr.noSelectedTags%>.</p>',
-                      '<ul class="float-break js-tags-selected"></ul>',
+                      '<ul class="float-break clearfix js-tags-selected"></ul>',
                   '</div>',
               '</div>',
               '<div class="tags-input">',
@@ -266,7 +266,7 @@
                   '<div class="tags-list tags-suggested no-results">',
                       '<p class="loading"><%=tr.loading%></p>',
                       '<p class="no-results"><%=tr.noSuggestedTags%>.</p>',
-                      '<ul class="float-break js-tags-suggested">',
+                      '<ul class="float-break clearfix js-tags-suggested">',
                   '</div>',
                   '<div class="tagssuggestfieldwrap">',
                       '<input class="tagssuggestfield tags-input-field" type="text" size="70" value="" autocomplete="off" />',
@@ -539,7 +539,12 @@
     };
 
     if(!this._validate(this.new_tag_attributes)){ return; }
-    this.show_tree_picker();
+    if(this.opts.subtreeLimit){
+      this.new_tag_attributes.parent_id = this.opts.subtreeLimit;
+      this.add(this.new_tag_attributes);
+    }else{
+      this.show_tree_picker();
+    }
     this.close_autocomplete();
 
   };

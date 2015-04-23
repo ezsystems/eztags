@@ -16,11 +16,15 @@
     initialize: function(){
       var self = this;
       this.fetch_available_tags(function(){
-        $.each(this.tags.items, function(i, tag){
-          console.log(tag.name);
-          self.append_select(tag);
-          self.update_selects();
-        });
+        if(this.tags.length()){
+          $.each(this.tags.items, function(i, tag){
+            console.log(tag.name);
+            self.append_select(tag);
+            self.update_selects();
+          });
+        }else{
+          self.append_select();
+        }
       });
       this.$selects = this.$('.selects');
       this.on('change', '.js-tag-select', $.proxy(this.on_select, this));
@@ -62,10 +66,18 @@
     },
 
     update_selects: function(){
-      var self = this;
-      this.$('option').removeAttr('disabled');
-      $.each(this.tags.items, function(i, tag){
-        self.$('option[value="'+tag.id+'"]').attr('disabled', true);
+      var self = this, $option, linked_tag;
+      this.$('option').removeAttr('disabled').removeAttr('selected');
+      this.$('select').each(function(i , select){
+        linked_tag = $(this).data('linked_tag');
+        $.each(self.tags.items, function(i, tag){
+          $option = $('option[value="'+tag.id+'"]', select);
+          if(linked_tag && tag.id === linked_tag.id){
+            $option.attr('selected', true);
+          }else{
+            $option.attr('disabled', true);
+          }
+        });
       });
     },
 
@@ -75,7 +87,7 @@
     },
 
 
-    //TODO: implement real fetch and not autocomplete
+    //TODO: implement default fetch with Edi this is example from RGM
     fetch_available_tags: function(done){
       var self = this;
       $.ez('ezjscNgRgm::fillSelect::' + this.opts.parentId, {}, function(data){
@@ -84,14 +96,6 @@
       });
     },
 
-    /*
-    parse_remote_tag: function(raw){
-      return new this.TagKlass({
-        name: raw.keyword,
-        id: raw.id
-      });
-    },
-    */
 
     setup_select: function($select, unlinked_tag){
       var self = this, selected;
@@ -101,7 +105,7 @@
       unlinked_tag && this.link_tag_and_select(unlinked_tag, $select);
 
       $.each(this.available_tags.items, function(i, tag){
-        selected = tag.id === unlinked_tag.id ? 'selected="selected"' : '';
+        selected = unlinked_tag && tag.id === unlinked_tag.id ? 'selected="selected"' : '';
         $select.append(self.render_template('option', {tag: tag, selected: selected }));
       });
     },
