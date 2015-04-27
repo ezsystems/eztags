@@ -844,6 +844,51 @@
 
 
 
+  /**
+   * Used when editing class in administration for attribute property "Limit by tags subtree"
+   */
+
+  //TODO: should we move this to separate file as it used only in administration???
+  EzTags.AdminClassInterface = function(){
+    var buttons_base_selector = "eztags-parent-selector-button-",
+        $buttons = $('[id^="'+buttons_base_selector+'"]'),
+        $tree = $('.parent-selector-tree'),
+        parent_id,
+        parent_keyword;
+
+    if(!$buttons.length || !$tree.length){return};
+
+
+    //Helper function
+    function getParentTagHierarchy(tag, i) {
+      if (tag.attr('rel') === '0'){ return i === 0 ? '(no parent)' : ''; }
+      var parent = getParentTagHierarchy(tag.parents('div:first').prev('a'), ++i);
+      return (parent ? parent + '/' : '') + tag.parent().find('span').html();
+    }
+
+    //Setup jqModal
+    $tree.jqm({modal:true, overlay:60, overlayClass:'whiteOverlay'});
+    $.fn.draggable && $tree.draggable({ handle: '.jqDrag' });
+
+    $buttons.on('click', function(e) {
+      e.preventDefault();
+      parent_id      = $('#' + this.id.replace(buttons_base_selector, 'eztags_parent_id_'));
+      parent_keyword = $('#' + this.id.replace(buttons_base_selector, 'eztags_parent_keyword_'));
+      $tree.jqmShow();
+    });
+
+    $(document).on('click', '.contentstructure a:not([class^="openclose"])', function(e) {
+      e.preventDefault();
+      var tag = $(this);
+      if (tag.parents('li.disabled').length){ return false; }
+      parent_keyword.html(getParentTagHierarchy(tag, 0));
+      parent_id.val(tag.attr('rel'));
+      $tree.jqmHide();
+    });
+
+  }
+
+
   //Setup jquery plugin
   var plugin = 'EzTags';
 
@@ -872,6 +917,7 @@
   //Auto initialize
   $(function(){
     $('[data-eztags]').EzTags();
+    EzTags.AdminClassInterface();
   });
 
 
