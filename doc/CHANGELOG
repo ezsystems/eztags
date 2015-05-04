@@ -1,5 +1,9 @@
 eZ Tags extension changelog
 
+1.4.1 (04.05.2015)
+
+* Add PostgreSQL schema (thanks to Ramna & Brookings Consulting)
+
 1.4.0 (20.04.2015)
 ==========================
 
