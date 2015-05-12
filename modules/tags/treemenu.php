@@ -31,7 +31,7 @@ function arrayToJSON( $array )
             {
                 $value = arrayToJSON( $value );
             }
-            else if ( !is_numeric( $value ) or $key == 'name' )
+            else if ( !is_numeric( $value ) or $key == 'name' or $key == 'keyword' )
             {
                 $value = '"' . washJS( $value ) . '"';
             }
