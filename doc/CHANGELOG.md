@@ -17,9 +17,14 @@
 * New translations
 * Various bug fixes and optimizations
 
-## 1.4.0
+## 1.4.1 (04.05.2015)
+
+* Add PostgreSQL schema (thanks to Ramna & Brookings Consulting)
+
+## 1.4.0 (20.04.2015)
 
 * Add tags reordering support in attribute edit interface (thanks to Thiago Campos Viana)
+* Add tags tree menu to datatype edit view
 * Various bug fixes and enhancements
 
 ## 1.3.0 (12.05.2014)
