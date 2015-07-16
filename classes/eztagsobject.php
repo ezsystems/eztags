@@ -553,7 +553,7 @@ class eZTagsObject extends eZPersistentObject
     {
         $cond = $customCond = null;
 
-        if ( strpos( $keyword, '*' ) !== false )
+        if ( is_string( $keyword ) && strpos( $keyword, '*' ) !== false )
             $customCond = self::generateCustomCondition( $keyword );
         else
             $cond = array( 'keyword' => $keyword );
