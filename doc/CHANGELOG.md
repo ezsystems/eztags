@@ -1,6 +1,6 @@
 # eZ Tags extension changelog
 
-## 2.0
+## 2.0 (16.07.2015)
 
 * Multilanguage support for tags!
 * Whole core is updated to work with multilingual tags. That means fetches, attribute filter, modules... Everything!
