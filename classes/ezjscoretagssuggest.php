@@ -34,7 +34,8 @@ class ezjscoreTagsSuggest extends ezjscServerFunctions
 
             $params['path_string'] = array( 'like', '%/' . $subTreeLimit . '/%' );
         }
-        $tags = eZTagsObject::fetchList( $params );
+        $eztagsINI = eZINI::instance('eztags.ini');
+        $tags = eZTagsObject::fetchList( $params, $eztagsINI->variable('TreeMenu','Limit') );
 
         $returnArray = array();
         $returnArray['status']  = 'success';
