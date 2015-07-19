@@ -1,6 +1,14 @@
 eZ Tags extension changelog
 
+1.4.2 (17.05.2015)
+==========================
+
+* Fix mincount facet parameter (thanks to Peter Keung)
+* Fix suggest feature when there are multiple existing selected tags (thanks to Peter Keung)
+* Add idx_ prefix to indexes in sql schema (thanks @wizhippo)
+
 1.4.1 (04.05.2015)
+==========================
 
 * Add PostgreSQL schema (thanks to Ramna & Brookings Consulting)
 
