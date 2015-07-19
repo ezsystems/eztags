@@ -125,7 +125,7 @@ Run PHP upgrade script from your eZ Publish root folder:
 
     php extension/eztags/update/common/scripts/updatetagsdepth.php
 
-Read [doc/bc/1.1/changes-1.1.txt](doc/bc/1.1/changes-1.1.txt) as there are some breaking changes introduced with eZ Tags 1.1 and update your templates accordingly
+Read [doc/bc/1.1/changes-1.1.txt](/ezsystems/eztags/doc/bc/1.1/changes-1.1.txt) as there are some breaking changes introduced with eZ Tags 1.1 and update your templates accordingly
 
 
 

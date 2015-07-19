@@ -83,8 +83,8 @@
 
 * New fetches (tags/list, tags/list_count, tags/tree, tags/tree_count)
 * Added depth database column to eztags table to support the new fetches
-* Renamed two existing fetches to better suit the naming scheme. IMPORTANT: This is a breaking change, see [doc/bc/1.1/changes-1.1.txt](doc/bc/1.1/changes-1.1.txt) for more details!
-* tags/object_by_keyword, along with the new name, now returns all fetched tags. IMPORTANT: This is a breaking change, see [doc/bc/1.1/changes-1.1.txt](doc/bc/1.1/changes-1.1.txt) for more details!
+* Renamed two existing fetches to better suit the naming scheme. IMPORTANT: This is a breaking change, see [doc/bc/1.1/changes-1.1.txt](/ezsystems/eztags/doc/bc/1.1/changes-1.1.txt) for more details!
+* tags/object_by_keyword, along with the new name, now returns all fetched tags. IMPORTANT: This is a breaking change, see [doc/bc/1.1/changes-1.1.txt](/ezsystems/eztags/doc/bc/1.1/changes-1.1.txt) for more details!
 
 ## 1.0.1 (18.04.2011)
 
