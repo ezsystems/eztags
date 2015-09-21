@@ -185,7 +185,7 @@
         /* More actions button */
 
         var moreActionsButtonAction = function( type, args, item ) {
-            if ( $( '#eztags-tag-children-table input[name=SelectedIDArray[]]:checked' ).length == 0 )
+            if ( $( '#eztags-tag-children-table input[name=\"SelectedIDArray[]\"]:checked' ).length == 0 )
                 return;
 
             if ( item.value == 0 && settings.permissions.remove ) {
@@ -237,7 +237,7 @@
 
         //  enable 'more actions' when rows are checked
         moreActionsButton.getMenu().subscribe('beforeShow', function () {
-            if ( $( '#eztags-tag-children-table input[name=SelectedIDArray[]]:checked' ).length == 0 ) {
+            if ( $( '#eztags-tag-children-table input[name=\"SelectedIDArray[]\"]:checked' ).length == 0 ) {
                 this.clearContent();
                 this.addItems( noMoreActionsButtonActions );
                 this.render();
