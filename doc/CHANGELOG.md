@@ -1,6 +1,14 @@
 # eZ Tags extension changelog
 
-## 2.0
+## 2.0.2 (21.09.2015)
+
+* Fix "More actions" button in admin interface not working (thanks @BornaP)
+
+## 2.0.1 (17.07.2015)
+
+* Add `idx_` prefix to indexes in sql schema (thanks @wizhippo)
+
+## 2.0 (16.07.2015)
 
 * Multilanguage support for tags!
 * Whole core is updated to work with multilingual tags. That means fetches, attribute filter, modules... Everything!
@@ -9,7 +17,7 @@
 * New attribute, `related_objects_count` is available in eZ Tags attribute content in templates
 * New `tag_icon` template operator available to simplify fetching of tag icons
 * tags/tag fetch now supports fetching an array of tags, just transfer the array of IDs to tag_id parameter
-* Implemented tags/tag_by_url fetch to fetch the tag by its URL (e.g. 'eZ Publish/Extensions/eZ Tags')
+* Implemented `tags/tag_by_url` fetch to fetch the tag by its URL (e.g. `eZ Publish/Extensions/eZ Tags`)
 * Added a dedicated Solr indexing handler that indexes much more data from eZ Tags attributes
 * Added a second extended attribute filter that filters objects that have ALL (as oposed to ANY in the original extended filter) of the specified tags
 * Added a third extended attribute filter that filters objects that have ALL of the specified tag groups, matching ANY tag within a tag group (thanks Peter Keung)
@@ -17,9 +25,20 @@
 * New translations
 * Various bug fixes and optimizations
 
-## 1.4.0
+## 1.4.2 (17.05.2015)
+
+* Fix mincount facet parameter (thanks to Peter Keung)
+* Fix suggest feature when there are multiple existing selected tags (thanks to Peter Keung)
+* Add `idx_` prefix to indexes in sql schema (thanks @wizhippo)
+
+## 1.4.1 (04.05.2015)
+
+* Add PostgreSQL schema (thanks to Ramna & Brookings Consulting)
+
+## 1.4.0 (20.04.2015)
 
 * Add tags reordering support in attribute edit interface (thanks to Thiago Campos Viana)
+* Add tags tree menu to datatype edit view
 * Various bug fixes and enhancements
 
 ## 1.3.0 (12.05.2014)
@@ -68,8 +87,8 @@
 
 * New fetches (tags/list, tags/list_count, tags/tree, tags/tree_count)
 * Added depth database column to eztags table to support the new fetches
-* Renamed two existing fetches to better suit the naming scheme. IMPORTANT: This is a breaking change, see [doc/bc/1.1/changes-1.1.txt](/ezsystems/eztags/tree/multilanguage/doc/bc/1.1/changes-1.1.txt) for more details!
-* tags/object_by_keyword, along with the new name, now returns all fetched tags. IMPORTANT: This is a breaking change, see [doc/bc/1.1/changes-1.1.txt](/ezsystems/eztags/tree/multilanguage/doc/bc/1.1/changes-1.1.txt) for more details!
+* Renamed two existing fetches to better suit the naming scheme. IMPORTANT: This is a breaking change, see [doc/bc/1.1/changes-1.1.txt](/doc/bc/1.1/changes-1.1.txt) for more details!
+* tags/object_by_keyword, along with the new name, now returns all fetched tags. IMPORTANT: This is a breaking change, see [doc/bc/1.1/changes-1.1.txt](/doc/bc/1.1/changes-1.1.txt) for more details!
 
 ## 1.0.1 (18.04.2011)
 
