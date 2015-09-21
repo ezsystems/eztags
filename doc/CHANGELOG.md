@@ -1,5 +1,9 @@
 # eZ Tags extension changelog
 
+## 2.0.2 (21.09.2015)
+
+* Fix "More actions" button in admin interface not working (thanks @BornaP)
+
 ## 2.0.1 (17.07.2015)
 
 * Add `idx_` prefix to indexes in sql schema (thanks @wizhippo)
