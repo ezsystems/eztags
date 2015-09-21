@@ -111,7 +111,7 @@ else
 
 $moduleINI = eZINI::instance( 'module.ini' );
 $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
-array_push( $globalModuleRepositories, 'extension/eztags/modules' );
+$globalModuleRepositories[] = 'extension/eztags/modules';
 eZModule::setGlobalPathList( $globalModuleRepositories );
 
 $module = eZModule::exists( 'tags' );
@@ -127,6 +127,7 @@ $uri->increase();
 
 $currentUser = eZUser::currentUser();
 $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
+$tagsReadResult = $currentUser->hasAccessTo( 'tags', 'read' );
 $hasAccessToSite = false;
 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
 {
@@ -158,7 +159,7 @@ else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
     $hasAccessToSite = true;
 }
 
-if ( !$hasAccessToSite )
+if ( !$hasAccessToSite || $tagsReadResult['accessWord'] == 'no' )
 {
     exitWithInternalError();
     return;
@@ -169,5 +170,3 @@ $moduleResult = $module->run( $function_name, $uri->elements( false ) );
 
 eZExecution::cleanup();
 eZExecution::setCleanExit();
-
-?>

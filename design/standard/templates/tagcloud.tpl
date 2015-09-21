@@ -1,8 +1,3 @@
-{def $tag_object = false()}
-
-{foreach $tag_cloud as $tag}
-    {set $tag_object = fetch( tags, tag, hash( tag_id, $tag['id'] ) )}
-    <a href={concat( 'tags/view/', $tag_object.url )|ezurl} style="font-size: {$tag['font_size']}%" title="{$tag['count']} objects tagged with '{$tag_object.keyword|wash}'">{$tag_object.keyword|wash}</a>
+{foreach $tag_cloud as $tag_cloud_item}
+    <a href={$tag_cloud_item.tag.url|ezurl} style="font-size: {$tag_cloud_item.font_size}%; padding-right:5px" title="{$tag_cloud_item.count} {"objects tagged with '%keyword'"|i18n( 'extension/eztags/tagcloud', '', hash( '%keyword', $tag_cloud_item.keyword|wash ) )}">{$tag_cloud_item.keyword|wash}</a>
 {/foreach}
-
-{undef $tag_object}

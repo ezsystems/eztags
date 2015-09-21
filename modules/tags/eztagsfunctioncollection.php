@@ -10,67 +10,168 @@ class eZTagsFunctionCollection
      * Fetches eZTagsObject object for the provided tag ID
      *
      * @static
-     * @param integer $tag_id
+     *
+     * @param int $tagID
+     * @param mixed $language
+     *
      * @return array
      */
-    static public function fetchTag( $tag_id )
+    static public function fetchTag( $tagID, $language = false )
     {
-        $result = eZTagsObject::fetch( $tag_id );
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+                $language = array( $language );
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
 
-        if( $result instanceof eZTagsObject )
+        $result = false;
+        if ( is_numeric( $tagID ) )
+        {
+            $result = eZTagsObject::fetch( $tagID );
+        }
+        else if ( is_array( $tagID ) && !empty( $tagID ) )
+        {
+            $result = eZTagsObject::fetchList( array( 'id' => array( $tagID ) ) );
+        }
+
+        if ( $language )
+            eZContentLanguage::clearPrioritizedLanguages();
+
+        if ( $result instanceof eZTagsObject || ( is_array( $result ) && !empty( $result ) ) )
             return array( 'result' => $result );
-        else
-            return array( 'result' => false );
+
+        return array( 'result' => false );
     }
 
     /**
      * Fetches all tags named with provided keyword
      *
      * @static
+     *
      * @param string $keyword
+     * @param mixed $language
+     *
      * @return array
      */
-    static public function fetchTagsByKeyword( $keyword )
+    static public function fetchTagsByKeyword( $keyword, $language = false )
     {
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+                $language = array( $language );
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
+        if ( strpos( $keyword, '*' ) !== false )
+        {
+            $keyword = preg_replace(
+                array(
+                    '#%#m',
+                    '#(?<!\\\\)\\*#m',
+                    '#(?<!\\\\)\\\\\\*#m',
+                    '#\\\\\\\\#m'
+                ),
+                array(
+                    '\\%',
+                    '%',
+                    '*',
+                    '\\\\'
+                ),
+                $keyword
+            );
+
+            $keyword = array( 'like', $keyword );
+        }
+
         $result = eZTagsObject::fetchByKeyword( $keyword );
 
-        if( is_array( $result ) && !empty( $result ) )
+        if ( $language )
+            eZContentLanguage::clearPrioritizedLanguages();
+
+        if ( is_array( $result ) && !empty( $result ) )
             return array( 'result' => $result );
-        else
-            return array( 'result' => false );
+
+        return array( 'result' => false );
     }
 
     /**
-     * Fetches tag identified with provided remote_id
+     * Fetches tag identified with provided remote ID
      *
      * @static
-     * @param string $remote_id
+     *
+     * @param string $remoteID
+     * @param mixed $language
+     *
      * @return array
      */
-    static public function fetchTagByRemoteID( $remote_id )
+    static public function fetchTagByRemoteID( $remoteID, $language = false )
     {
-        $result = eZTagsObject::fetchByRemoteID( $remote_id );
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+                $language = array( $language );
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
 
-        if( $result instanceof eZTagsObject )
+        $result = eZTagsObject::fetchByRemoteID( $remoteID );
+
+        if ( $language )
+            eZContentLanguage::clearPrioritizedLanguages();
+
+        if ( $result instanceof eZTagsObject )
             return array( 'result' => $result );
-        else
-            return array( 'result' => false );
+
+        return array( 'result' => false );
+    }
+
+    /**
+     * Fetches tag identified with provided URL
+     *
+     * @static
+     *
+     * @param string $url
+     * @param mixed $language
+     *
+     * @return array
+     */
+    static public function fetchTagByUrl( $url, $language = false )
+    {
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+                $language = array( $language );
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
+        $result = eZTagsObject::fetchByUrl( $url );
+
+        if ( $language )
+            eZContentLanguage::clearPrioritizedLanguages();
+
+        if ( $result instanceof eZTagsObject )
+            return array( 'result' => $result );
+
+        return array( 'result' => false );
     }
 
     /**
      * Fetches subtree of tags by specified parameters
      *
      * @static
-     * @param integer $parentTagID
+     *
+     * @param int $parentTagID
      * @param array $sortBy
-     * @param integer $offset
-     * @param integer $limit
-     * @param integer $depth
+     * @param int $offset
+     * @param int $limit
+     * @param int $depth
      * @param string $depthOperator
      * @param bool $includeSynonyms
+     * @param mixed $language
+     *
      * @return array
      */
-    static public function fetchTagTree( $parentTagID, $sortBy, $offset, $limit, $depth, $depthOperator, $includeSynonyms )
+    static public function fetchTagTree( $parentTagID, $sortBy, $offset, $limit, $depth, $depthOperator, $includeSynonyms, $language = false )
     {
         if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
             return array( 'result' => false );
@@ -86,7 +187,17 @@ class eZTagsFunctionCollection
             $params['DepthOperator'] = $depthOperator;
         }
 
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+                $language = array( $language );
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
         $tags = eZTagsObject::subTreeByTagID( $params, $parentTagID );
+
+        if ( $language )
+            eZContentLanguage::clearPrioritizedLanguages();
 
         return array( 'result' => $tags );
     }
@@ -95,13 +206,16 @@ class eZTagsFunctionCollection
      * Fetches subtree tag count by specified parameters
      *
      * @static
-     * @param integer $parentTagID
-     * @param integer $depth
+     *
+     * @param int $parentTagID
+     * @param int $depth
      * @param string $depthOperator
      * @param bool $includeSynonyms
-     * @return integer
+     * @param mixed $language
+     *
+     * @return array
      */
-    static public function fetchTagTreeCount( $parentTagID, $depth, $depthOperator, $includeSynonyms )
+    static public function fetchTagTreeCount( $parentTagID, $depth, $depthOperator, $includeSynonyms, $language = false )
     {
         if ( !is_numeric( $parentTagID ) || (int) $parentTagID < 0 )
             return array( 'result' => 0 );
@@ -114,7 +228,17 @@ class eZTagsFunctionCollection
             $params['DepthOperator'] = $depthOperator;
         }
 
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+                $language = array( $language );
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
         $tagsCount = eZTagsObject::subTreeCountByTagID( $params, $parentTagID );
+
+        if ( $language )
+            eZContentLanguage::clearPrioritizedLanguages();
 
         return array( 'result' => $tagsCount );
     }
@@ -123,27 +247,41 @@ class eZTagsFunctionCollection
      * Fetches latest modified tags by specified parameters
      *
      * @static
-     * @param integer $parentTagID
-     * @param integer $limit
+     *
+     * @param int|bool $parentTagID
+     * @param int $limit
+     * @param mixed $language
+     *
      * @return array
      */
-    static public function fetchLatestTags( $parentTagID = false, $limit = 0 )
+    static public function fetchLatestTags( $parentTagID = false, $limit = 0, $language = false )
     {
-        $filterArray = array( 'main_tag_id' => 0 );
+        $parentTagID = (int) $parentTagID;
 
-        if ( $parentTagID !== false )
-            $filterArray['parent_id'] = (int) $parentTagID;
+        $filterArray = array();
+        $filterArray['main_tag_id'] = 0;
+        $filterArray['id'] = array( '!=', $parentTagID );
 
-        $result = eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null,
-                                                       $filterArray,
-                                                       array( 'modified' => 'desc' ),
-                                                       array( 'offset' => 0, 'limit' => $limit ) );
+        if ( $parentTagID > 0 )
+            $filterArray['path_string'] = array( 'like', '%/' . $parentTagID . '/%' );
+
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+                $language = array( $language );
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
+        $result = eZTagsObject::fetchList( $filterArray,
+                                           array( 'offset' => 0, 'limit' => $limit ),
+                                           array( 'modified' => 'desc' ) );
+
+        if ( $language )
+            eZContentLanguage::clearPrioritizedLanguages();
 
         if ( is_array( $result ) && !empty( $result ) )
             return array( 'result' => $result );
-        else
-            return array( 'result' => false );
+
+        return array( 'result' => false );
     }
 }
-
-?>

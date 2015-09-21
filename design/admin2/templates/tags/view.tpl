@@ -1,7 +1,7 @@
 <div class="context-block">
     <div class="box-header">
         <h1 class="context-title">
-            <img class="transparent-png-icon" src={concat( 'tag_icons/normal/', $tag.icon )|ezimage} alt="{$tag.keyword|wash}" />
+            <img class="transparent-png-icon" src="{$tag.icon|tag_icon( 'normal' )}" alt="{$tag.keyword|wash}" />
             {if $tag.main_tag_id|eq( 0 )}
                 {'Tag'|i18n( 'extension/eztags/tags/view' )}: {$tag.keyword|wash}
             {else}
@@ -18,32 +18,26 @@
     {/if}
 
     <div class="box-content">
+        <div class="context-information">
+            <p class="left modified">{'Last modified'|i18n( 'extension/eztags/tags/view' )}: {$tag.modified|l10n(shortdatetime)} ({'Tag ID'|i18n( 'extension/eztags/tags/view' )}: {$tag.id})</p>
+            <p class="right translation">{$tag.language_name_array[$tag.current_language]|wash}&nbsp;<img src="{$tag.current_language|flag_icon}" width="18" height="12" alt="{$tag.current_language|wash}" style="vertical-align: middle;" /></p>
+            <div class="break"></div>
+        </div>
+
+        <div id="window-controls" class="tab-block">
+            {include uri='design:tags/window_controls.tpl'}
+        </div>
+
         {if $tag.main_tag_id|eq( 0 )}
             {include uri='design:parts/tags_view_control_bar.tpl' tag=$tag}
         {else}
             {include uri='design:parts/synonyms_view_control_bar.tpl' tag=$tag}
         {/if}
-
-        <div class="block">
-            {def $right_blocks = array()}
-
-            <div class="left">
-                {foreach $blocks as $block sequence array( 'left', 'right' ) as $position}
-                    {if $position|eq( 'left' )}
-                        {include uri=concat( 'design:tags/view/', $block, '.tpl' ) tag=$tag}
-                    {else}
-                        {append-block variable=$right_blocks}
-                            {include uri=concat( 'design:tags/view/', $block, '.tpl' ) tag=$tag}
-                        {/append-block}
-                    {/if}
-                {/foreach}
-            </div>
-            <div class="right">
-                {$right_blocks|implode( '' )}
-            </div>
-            <div class="float-break"></div>
-        </div>
     </div>
 </div>
 
-{include uri='design:eztags_children.tpl'}
+{if ezini( 'GeneralSettings', 'ShowOldStyleChildrenList', 'eztags.ini' )|eq( 'enabled' )}
+    {include uri='design:eztags_children.tpl'}
+{else}
+    {include uri='design:eztags_children_yui.tpl'}
+{/if}

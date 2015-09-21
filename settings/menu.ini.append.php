@@ -1,7 +1,7 @@
 <?php /* #?ini charset="utf-8"?
 
 [NavigationPart]
-Part[eztagsnavigationpart]=eZTags
+Part[eztagsnavigationpart]=eZ Tags
 
 [TopAdminMenu]
 Tabs[]=eztags
@@ -23,4 +23,4 @@ Shown[navigation]=true
 Shown[browse]=true
 
 PolicyList[]=tags/read
-*/ ?>
+*/

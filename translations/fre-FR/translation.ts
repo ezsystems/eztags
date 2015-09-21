@@ -2,102 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="fr_FR">
 <context>
-    <name>design/admin/parts/user/menu</name>
-    <message>
-        <source>Change the left menu width to small size.</source>
-        <translation>Modifier la largeur du menu à gauche pour une petite taille.</translation>
-    </message>
-    <message>
-        <source>Small</source>
-        <translation>Petit</translation>
-    </message>
-    <message>
-        <source>Medium</source>
-        <translation>Moyen</translation>
-    </message>
-    <message>
-        <source>Change the left menu width to large size.</source>
-        <translation>Modifier la largeur du menu à gauche pour une grande taille.</translation>
-    </message>
-    <message>
-        <source>Large</source>
-        <translation>Grand</translation>
-    </message>
-    <message>
-        <source>Change the left menu width to medium size.</source>
-        <translation>Modifier la largeur du menu à gauche pour une taille moyenne.</translation>
-    </message>
-</context>
-<context>
-    <name>design/ezwebin/article/comments</name>
-    <message>
-        <source>%login_link_startLog in%login_link_end to comment.</source>
-        <translation>%login_link_startConnectez vous%login_link_end pour laisser un commentaire.</translation>
-    </message>
-</context>
-<context>
-    <name>design/ezwebin/full/article</name>
-    <message>
-        <source>Comments</source>
-        <translation>Commentaires</translation>
-    </message>
-    <message>
-        <source>New comment</source>
-        <translation>Nouveau commentaire</translation>
-    </message>
-    <message>
-        <source>%login_link_startLog in%login_link_end or %create_link_startcreate a user account%create_link_end to comment.</source>
-        <translation>%login_link_startConnectez vous%login_link_end ou %create_link_startcréez un compte utilisateur%create_link_end pour laisser un commentaire.</translation>
-    </message>
-    <message>
-        <source>Tip a friend</source>
-        <translation>Envoyer à un ami</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/class/datatype</name>
-    <message>
-        <source>Limit by tags subtree</source>
-        <translation>Limiter à une sous arborescence de mot clés</translation>
-    </message>
-    <message>
-        <source>Show dropdown instead of autocomplete</source>
-        <translation>Afficher une liste déroulante au lieu de l&apos;autocomplétion</translation>
-    </message>
-    <message>
-        <source>Select subtree</source>
-        <translation>Sélectionner une sous-arborescence</translation>
-    </message>
-    <message>
-        <source>No limit</source>
-        <translation>Aucune limite</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation>Oui</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation>Non</translation>
-    </message>
-    <message>
-        <source>Hide root subtree limit tag when editing object</source>
-        <translation>Cacher le mot clé limitant l&apos;arborescence lors de l&apos;édition de l&apos;objet</translation>
-    </message>
-    <message>
-        <source>Maximum number of allowed tags</source>
-        <translation>Nombre de mots clés maximum autorisés</translation>
-    </message>
-    <message>
-        <source>(0 = unlimited)</source>
-        <translation>(0 = illimité)</translation>
-    </message>
-    <message>
-        <source>Unlimited</source>
-        <translation>Illimité</translation>
-    </message>
-</context>
-<context>
     <name>extension/eztags/datatypes</name>
     <message>
         <source>Tags</source>
@@ -127,6 +31,90 @@
         <source>Add new</source>
         <translation>Ajouter un nouveau mot clé</translation>
     </message>
+    <message>
+        <source>Click to add this tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one tag is required to be added.</source>
+        <translation>Vous devez ajouter au moins un mot clé.</translation>
+    </message>
+    <message>
+        <source>Attribute contains invalid data.</source>
+        <translation>L&apos;attribut contient des données invalides.</translation>
+    </message>
+    <message>
+        <source>Up to %1 tags are allowed to be added.</source>
+        <translation>Vous pouvez ajouter jusqu&apos;à %1 mots clé.</translation>
+    </message>
+    <message>
+        <source>Limit by tags subtree</source>
+        <translation>Limiter à une sous arborescence de mot clés</translation>
+    </message>
+    <message>
+        <source>Select subtree</source>
+        <translation>Sélectionner une sous-arborescence</translation>
+    </message>
+    <message>
+        <source>Hide root subtree limit tag when editing object</source>
+        <translation>Cacher le mot clé limitant l&apos;arborescence lors de l&apos;édition de l&apos;objet</translation>
+    </message>
+    <message>
+        <source>Show dropdown instead of autocomplete</source>
+        <translation>Afficher une liste déroulante au lieu de l&apos;autocomplétion</translation>
+    </message>
+    <message>
+        <source>Maximum number of allowed tags</source>
+        <translation>Nombre de mots clés maximum autorisés</translation>
+    </message>
+    <message>
+        <source>(0 = unlimited)</source>
+        <translation>(0 = illimité)</translation>
+    </message>
+    <message>
+        <source>No limit</source>
+        <translation>Aucune limite</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Non</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Oui</translation>
+    </message>
+    <message>
+        <source>Unlimited</source>
+        <translation>Illimité</translation>
+    </message>
+    <message>
+        <source>Translate tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No existing translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add translation</source>
+        <translation>Ajouter une traduction</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/errors</name>
@@ -143,8 +131,12 @@
         <translation>Le nom ne peut pas être vide.</translation>
     </message>
     <message>
-        <source>Tag/synonym with that name already exists in selected location.</source>
-        <translation>Ce mot clé existe déjà dans l&apos;emplacement sélectionné.</translation>
+        <source>Tag/synonym with that translation already exists in selected location.</source>
+        <translation>Le mot clé/synonyme avec cette traduction existe déjà à l&apos;emplacement sélectionné.</translation>
+    </message>
+    <message>
+        <source>The following tags could not be moved because they contain translations that already exist in one of the tags in selected location.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Go back</source>
@@ -152,46 +144,18 @@
     </message>
 </context>
 <context>
-    <name>extension/eztags/tags/dashboard</name>
+    <name>extension/eztags/node/view</name>
     <message>
-        <source>Latest tags</source>
-        <translation>Derniers mots clés</translation>
+        <source>eZ Tags</source>
+        <translation>eZ Tags</translation>
     </message>
     <message>
-        <source>ID</source>
-        <translation>ID</translation>
+        <source>Show eZ Tags attributes overview.</source>
+        <translation>Montrer un aperçu des attributs d&apos;eZ Tags.</translation>
     </message>
     <message>
-        <source>Tag name</source>
-        <translation>Mot clé</translation>
-    </message>
-    <message>
-        <source>Parent tag name</source>
-        <translation>Mot clé parent</translation>
-    </message>
-    <message>
-        <source>Modified</source>
-        <translation>Modifié</translation>
-    </message>
-    <message>
-        <source>No parent</source>
-        <translation>Aucun parent</translation>
-    </message>
-    <message>
-        <source>Up one level.</source>
-        <translation>Remonter d&apos;un niveau.</translation>
-    </message>
-    <message>
-        <source>Children tags (%children_count)</source>
-        <translation>Mot clés enfants (%children_count)</translation>
-    </message>
-    <message>
-        <source>Show %1 tags per page.</source>
-        <translation>Montrer %1 mot clés par page.</translation>
-    </message>
-    <message>
-        <source>The current tag does not contain any children.</source>
-        <translation>Le mot clé courant ne contient aucun enfant.</translation>
+        <source>No tags</source>
+        <translation>Aucun mot clé</translation>
     </message>
 </context>
 <context>
@@ -233,14 +197,6 @@
         <translation>Parent sélectionné</translation>
     </message>
     <message>
-        <source>Add child tag</source>
-        <translation>Créer un mot clé enfant</translation>
-    </message>
-    <message>
-        <source>Add synonym</source>
-        <translation>Ajouter un synonyme</translation>
-    </message>
-    <message>
         <source>Convert to synonym</source>
         <translation>Convertir en synonyme</translation>
     </message>
@@ -249,12 +205,20 @@
         <translation>Modifier le mot clé</translation>
     </message>
     <message>
+        <source>Move tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Edit synonym</source>
         <translation>Modifier le synonyme</translation>
     </message>
     <message>
         <source>Delete tag</source>
         <translation>Supprimer le mot clé</translation>
+    </message>
+    <message>
+        <source>Delete tags</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Merge tag</source>
@@ -287,6 +251,26 @@
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
         <translation>Etes vous sûr de vouloir supprimer le mot clé &quot;%keyword&quot; ? Tous les mots clés et synonymes enfant seront aussi supprimés et enlevés des objets existants.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to move selected tags?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Related objects count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Children count</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>
@@ -331,6 +315,42 @@
     <message>
         <source>number of objects related to synonyms</source>
         <translation>Nombre d&apos;objets en relation avec les synonymes</translation>
+    </message>
+    <message>
+        <source>Set as main translation</source>
+        <translation>Définir comme traduction principale</translation>
+    </message>
+    <message>
+        <source>Add translation</source>
+        <translation>Ajouter une traduction</translation>
+    </message>
+    <message>
+        <source>Select the translation you want to add</source>
+        <translation>Sélectionnez la traduction à ajouter</translation>
+    </message>
+    <message>
+        <source>Edit translation</source>
+        <translation>Editer la traduction</translation>
+    </message>
+    <message>
+        <source>Select the translation you want to edit</source>
+        <translation>Sélectionnez la traduction à éditer</translation>
+    </message>
+    <message>
+        <source>Main translation</source>
+        <translation>Traduction principale</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Editer</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <source>Use the main language if there is no prioritized translation.</source>
+        <translation>Utiliser la langue principale s&apos;il n&apos;existe pas de traduction prioritaire.</translation>
     </message>
 </context>
 <context>
@@ -387,10 +407,6 @@
         <translation>ID du mot clé</translation>
     </message>
     <message>
-        <source>Top Level Tags</source>
-        <translation>Racine des mots clés</translation>
-    </message>
-    <message>
         <source>Dynamic tree not allowed for this siteaccess</source>
         <translation>Les arborescences dynamiques ne sont pas autorisées pour ce siteaccess</translation>
     </message>
@@ -406,11 +422,43 @@
         <source>Tags structure</source>
         <translation>Structure des mots clés</translation>
     </message>
+    <message>
+        <source>Add child tag</source>
+        <translation>Créer un mot clé enfant</translation>
+    </message>
+    <message>
+        <source>Edit tag</source>
+        <translation>Modifier le mot clé</translation>
+    </message>
+    <message>
+        <source>Delete tag</source>
+        <translation>Supprimer le mot clé</translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Fusionner le mot clé</translation>
+    </message>
+    <message>
+        <source>Add synonym</source>
+        <translation>Ajouter un synonyme</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>Convertir en synonyme</translation>
+    </message>
+    <message>
+        <source>New translation</source>
+        <translation>Nouvelle traduction</translation>
+    </message>
+    <message>
+        <source>Top level tags</source>
+        <translation>Racine des mots clés</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>
     <message>
-        <source>Tags Dashboard</source>
+        <source>Tags dashboard</source>
         <translation>Tableau de bord</translation>
     </message>
     <message>
@@ -477,6 +525,206 @@
         <source>No subtree limitations</source>
         <translation>Aucune limitation d&apos;arborescence</translation>
     </message>
+    <message>
+        <source>Invert selection.</source>
+        <translation>Inverser la sélection.</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Langue</translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation>Traduction</translation>
+    </message>
+    <message>
+        <source>Locale</source>
+        <translation>Localisation</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation>Principal</translation>
+    </message>
+    <message>
+        <source>Edit in &lt;%language_name&gt;.</source>
+        <translation>Editer en &lt;%language_name&gt;.</translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation>Supprimer la sélection</translation>
+    </message>
+    <message>
+        <source>Set main</source>
+        <translation>Définir comme principal</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Mettre à jour</translation>
+    </message>
+    <message>
+        <source>Tag translations</source>
+        <translation>Traductions des mots clé</translation>
+    </message>
+    <message>
+        <source>Up one level.</source>
+        <translation>Remonter d&apos;un niveau.</translation>
+    </message>
+    <message>
+        <source>Children tags (%children_count)</source>
+        <translation>Mot clés enfants (%children_count)</translation>
+    </message>
+    <message>
+        <source>Children tags</source>
+        <translation>Mot clés enfants</translation>
+    </message>
+    <message>
+        <source>Show %1 tags per page.</source>
+        <translation>Montrer %1 mot clés par page.</translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Mot clé</translation>
+    </message>
+    <message>
+        <source>The current tag does not contain any children.</source>
+        <translation>Le mot clé courant ne contient aucun enfant.</translation>
+    </message>
+    <message>
+        <source>Parent tag name</source>
+        <translation>Mot clé parent</translation>
+    </message>
+    <message>
+        <source>No parent</source>
+        <translation>Aucun parent</translation>
+    </message>
+    <message>
+        <source>Latest tags</source>
+        <translation>Derniers mots clés</translation>
+    </message>
+    <message>
+        <source>Edit synonym</source>
+        <translation>Modifier le synonyme</translation>
+    </message>
+    <message>
+        <source>Delete synonym</source>
+        <translation>Supprimer le synonyme</translation>
+    </message>
+    <message>
+        <source>Add tag</source>
+        <translation>Créer un mot clé enfant</translation>
+    </message>
+    <message>
+        <source>Add child tag</source>
+        <translation>Créer un mot clé enfant</translation>
+    </message>
+    <message>
+        <source>Edit tag</source>
+        <translation>Modifier le mot clé</translation>
+    </message>
+    <message>
+        <source>Delete tag</source>
+        <translation>Supprimer le mot clé</translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Fusionner le mot clé</translation>
+    </message>
+    <message>
+        <source>Add synonym</source>
+        <translation>Ajouter un synonyme</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>Convertir en synonyme</translation>
+    </message>
+    <message>
+        <source>No tags</source>
+        <translation>Aucun mot clé</translation>
+    </message>
+    <message>
+        <source>Use the main language if there is no prioritized translation.</source>
+        <translation>Utiliser la langue principale s&apos;il n&apos;existe pas de traduction prioritaire.</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation>Dernière modification</translation>
+    </message>
+    <message>
+        <source>Tag ID</source>
+        <translation>ID du mot clé</translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>last</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select all visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invert selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move selected tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You do not have permissions for any of available actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more tags.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of tags per page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No tags found.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/warnings</name>
@@ -490,10 +738,10 @@
     </message>
 </context>
 <context>
-    <name>kernel/classes/datatypes</name>
+    <name>extension/eztags/tagcloud</name>
     <message>
-        <source>Input required.</source>
-        <translation>Saisie obligatoire.</translation>
+        <source>objects tagged with '%keyword'</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

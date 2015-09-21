@@ -2,114 +2,18 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="es_ES">
 <context>
-    <name>design/admin/parts/user/menu</name>
-    <message>
-        <source>Change the left menu width to small size.</source>
-        <translation>Cambiar el ancho del menú izquierdo al tamaño pequeño.</translation>
-    </message>
-    <message>
-        <source>Small</source>
-        <translation>Pequeño</translation>
-    </message>
-    <message>
-        <source>Medium</source>
-        <translation>Medio</translation>
-    </message>
-    <message>
-        <source>Change the left menu width to large size.</source>
-        <translation>Cambiar el ancho del menú izquierdo al tamaño grande.</translation>
-    </message>
-    <message>
-        <source>Large</source>
-        <translation>Grande</translation>
-    </message>
-    <message>
-        <source>Change the left menu width to medium size.</source>
-        <translation>Cambiar el ancho del menú izquierdo al tamaño mediano.</translation>
-    </message>
-</context>
-<context>
-    <name>design/ezwebin/article/comments</name>
-    <message>
-        <source>%login_link_startLog in%login_link_end to comment.</source>
-        <translation>%login_link_startConéctate%login_link_end para comentar.</translation>
-    </message>
-</context>
-<context>
-    <name>design/ezwebin/full/article</name>
-    <message>
-        <source>Comments</source>
-        <translation>Comentarios</translation>
-    </message>
-    <message>
-        <source>New comment</source>
-        <translation>Nuevo comentario</translation>
-    </message>
-    <message>
-        <source>%login_link_startLog in%login_link_end or %create_link_startcreate a user account%create_link_end to comment.</source>
-        <translation>%login_link_startConéctate%login_link_end o %create_link_start crea una cuenta%create_link_end para comentar.</translation>
-    </message>
-    <message>
-        <source>Tip a friend</source>
-        <translation>Enviar a un amigo</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/class/datatype</name>
-    <message>
-        <source>Limit by tags subtree</source>
-        <translation>Límite por subárbol de tags</translation>
-    </message>
-    <message>
-        <source>Select subtree</source>
-        <translation>Seleccionar subarbol</translation>
-    </message>
-    <message>
-        <source>Show dropdown instead of autocomplete</source>
-        <translation>Mostrar combo en vez de la opción de autocompletado</translation>
-    </message>
-    <message>
-        <source>No limit</source>
-        <translation>Sin límite</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation>No</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation>Sí</translation>
-    </message>
-    <message>
-        <source>Hide root subtree limit tag when editing object</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Maximum number of allowed tags</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>(0 = unlimited)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unlimited</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>extension/eztags/datatypes</name>
     <message>
         <source>Tags</source>
         <translation>Tags</translation>
     </message>
     <message>
-        <source>Selected tags</source>
-        <translation>Tags seleccionados</translation>
-    </message>
-    <message>
         <source>Loading</source>
         <translation>Cargando</translation>
+    </message>
+    <message>
+        <source>Selected tags</source>
+        <translation>Tags seleccionados</translation>
     </message>
     <message>
         <source>There are no selected tags</source>
@@ -127,6 +31,90 @@
         <source>Add new</source>
         <translation>Añadir nuevo</translation>
     </message>
+    <message>
+        <source>Click to add this tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At least one tag is required to be added.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attribute contains invalid data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up to %1 tags are allowed to be added.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limit by tags subtree</source>
+        <translation>Límite por subárbol de tags</translation>
+    </message>
+    <message>
+        <source>Select subtree</source>
+        <translation>Seleccionar subarbol</translation>
+    </message>
+    <message>
+        <source>Hide root subtree limit tag when editing object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show dropdown instead of autocomplete</source>
+        <translation>Mostrar combo en vez de la opción de autocompletado</translation>
+    </message>
+    <message>
+        <source>Maximum number of allowed tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(0 = unlimited)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No limit</source>
+        <translation>Sin límite</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Sí</translation>
+    </message>
+    <message>
+        <source>Unlimited</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translate tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Existing translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No existing translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/errors</name>
@@ -143,7 +131,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tag/synonym with that name already exists in selected location.</source>
+        <source>Tag/synonym with that translation already exists in selected location.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following tags could not be moved because they contain translations that already exist in one of the tags in selected location.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -152,45 +144,17 @@
     </message>
 </context>
 <context>
-    <name>extension/eztags/tags/dashboard</name>
+    <name>extension/eztags/node/view</name>
     <message>
-        <source>Latest tags</source>
-        <translation>Últimos tags</translation>
-    </message>
-    <message>
-        <source>ID</source>
-        <translation>ID</translation>
-    </message>
-    <message>
-        <source>Tag name</source>
-        <translation>Nombre de tag</translation>
-    </message>
-    <message>
-        <source>Parent tag name</source>
-        <translation>Nombre del tag padre</translation>
-    </message>
-    <message>
-        <source>Modified</source>
-        <translation>Modificado</translation>
-    </message>
-    <message>
-        <source>No parent</source>
-        <translation>Sin padre</translation>
-    </message>
-    <message>
-        <source>Up one level.</source>
+        <source>eZ Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Children tags (%children_count)</source>
+        <source>Show eZ Tags attributes overview.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show %1 tags per page.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The current tag does not contain any children.</source>
+        <source>No tags</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -201,64 +165,8 @@
         <translation>sin padre</translation>
     </message>
     <message>
-        <source>Edit synonym</source>
-        <translation>Editar sinónimo</translation>
-    </message>
-    <message>
-        <source>Delete synonym</source>
-        <translation>Borrar sinónimo</translation>
-    </message>
-    <message>
-        <source>Add child tag</source>
-        <translation>Añadir tag hijo</translation>
-    </message>
-    <message>
-        <source>Edit tag</source>
-        <translation>Editar tag</translation>
-    </message>
-    <message>
-        <source>Delete tag</source>
-        <translation>Eliminar tag</translation>
-    </message>
-    <message>
-        <source>Merge tag</source>
-        <translation>Mezclar tag</translation>
-    </message>
-    <message>
-        <source>Add synonym</source>
-        <translation>Añadir sinónimo</translation>
-    </message>
-    <message>
-        <source>Convert to synonym</source>
-        <translation>Convertir en sinónimo</translation>
-    </message>
-    <message>
         <source>New tag</source>
         <translation>Nuevo tag</translation>
-    </message>
-    <message>
-        <source>Tag name</source>
-        <translation>Nombre de tag</translation>
-    </message>
-    <message>
-        <source>Parent tag</source>
-        <translation>Tag padre</translation>
-    </message>
-    <message>
-        <source>Select parent</source>
-        <translation>Escoger padre</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Guardar</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation>Descartar</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to discard changes?</source>
-        <translation>¿Estás seguro de que quieres descartar los cambios?</translation>
     </message>
     <message>
         <source>New synonym tag</source>
@@ -273,16 +181,124 @@
         <translation>Nombre del tag principal</translation>
     </message>
     <message>
+        <source>Tag name</source>
+        <translation>Nombre de tag</translation>
+    </message>
+    <message>
         <source>Synonym name</source>
         <translation>Nombre de sinónimo</translation>
+    </message>
+    <message>
+        <source>Parent tag</source>
+        <translation>Tag padre</translation>
+    </message>
+    <message>
+        <source>Select parent</source>
+        <translation>Escoger padre</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>Convertir en sinónimo</translation>
+    </message>
+    <message>
+        <source>Edit tag</source>
+        <translation>Editar tag</translation>
+    </message>
+    <message>
+        <source>Move tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit synonym</source>
+        <translation>Editar sinónimo</translation>
+    </message>
+    <message>
+        <source>Delete tag</source>
+        <translation>Eliminar tag</translation>
+    </message>
+    <message>
+        <source>Delete tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Mezclar tag</translation>
+    </message>
+    <message>
+        <source>Delete synonym</source>
+        <translation>Borrar sinónimo</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Guardar</translation>
+    </message>
+    <message>
+        <source>Discard</source>
+        <translation>Descartar</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to discard changes?</source>
+        <translation>¿Estás seguro de que quieres descartar los cambios?</translation>
+    </message>
+    <message>
+        <source>Main tag</source>
+        <translation>Tag principal</translation>
+    </message>
+    <message>
+        <source>Select main tag</source>
+        <translation>Seleccionar tag principal</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
         <translation>¿Estás seguro de qeu que quieres eliminar el tag &quot;%keyword&quot;? Todos los tags hijos y sinónimos serán también eliminados de los objetos existentes.</translation>
     </message>
     <message>
+        <source>Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to move selected tags?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Related objects count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Children count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>
+        <translation>¿Seguro que quieres eliminar el sinónimo &quot;%keyword&quot;?</translation>
+    </message>
+    <message>
+        <source>Transfer all related objects to the main tag</source>
+        <translation>Transferir todos los objetos relacionados al tag principal</translation>
+    </message>
+    <message>
+        <source>Merging this tag with another tag will delete the tag and it&apos;s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
+        <translation>Mezclar este tag con otro resultará en la eliminación del tag y de sus sinónimos y en la transferencia de todos los objetos relacionads al tag principal Además, todos los tags hijos pasarán a ser hijos del tag principal.</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Sí</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
         <source>The tag you&apos;re about to delete has</source>
         <translation>El tag que estás a punto de borrar tiene</translation>
+    </message>
+    <message>
+        <source>The tag you&apos;re about to merge has</source>
+        <translation>El tag que estás a punto de mezclar tiene</translation>
     </message>
     <message>
         <source>number of first level children tags</source>
@@ -301,36 +317,40 @@
         <translation>número de objetos relacionados con sinónimos</translation>
     </message>
     <message>
-        <source>Yes</source>
-        <translation>Sí</translation>
+        <source>Set as main translation</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No</source>
-        <translation>No</translation>
+        <source>Add translation</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>
-        <translation>¿Seguro que quieres eliminar el sinónimo &quot;%keyword&quot;?</translation>
+        <source>Select the translation you want to add</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Transfer all related objects to the main tag</source>
-        <translation>Transferir todos los objetos relacionados al tag principal</translation>
+        <source>Edit translation</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Main tag</source>
-        <translation>Tag principal</translation>
+        <source>Select the translation you want to edit</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select main tag</source>
-        <translation>Seleccionar tag principal</translation>
+        <source>Main translation</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Merging this tag with another tag will delete the tag and it&apos;s synonyms and transfer all related objects to the main tag. Also, all children tags will become main tag children.</source>
-        <translation>Mezclar este tag con otro resultará en la eliminación del tag y de sus sinónimos y en la transferencia de todos los objetos relacionads al tag principal Además, todos los tags hijos pasarán a ser hijos del tag principal.</translation>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The tag you&apos;re about to merge has</source>
-        <translation>El tag que estás a punto de mezclar tiene</translation>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the main language if there is no prioritized translation.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -375,16 +395,16 @@
 <context>
     <name>extension/eztags/tags/treemenu</name>
     <message>
-        <source>Tags structure</source>
-        <translation>Estructura de tags</translation>
-    </message>
-    <message>
-        <source>Tag ID</source>
-        <translation>ID de Tag</translation>
+        <source>Select tag</source>
+        <translation>Escoger tag</translation>
     </message>
     <message>
         <source>Parent tag ID</source>
         <translation>ID del tag padre</translation>
+    </message>
+    <message>
+        <source>Tag ID</source>
+        <translation>ID de Tag</translation>
     </message>
     <message>
         <source>Dynamic tree not allowed for this siteaccess</source>
@@ -399,23 +419,55 @@
         <translation>Error interno</translation>
     </message>
     <message>
-        <source>Top Level Tags</source>
-        <translation>Tags del nivel superior</translation>
+        <source>Tags structure</source>
+        <translation>Estructura de tags</translation>
     </message>
     <message>
-        <source>Select tag</source>
-        <translation>Escoger tag</translation>
+        <source>Add child tag</source>
+        <translation>Anadir tag hijo</translation>
+    </message>
+    <message>
+        <source>Edit tag</source>
+        <translation>Editar tag</translation>
+    </message>
+    <message>
+        <source>Delete tag</source>
+        <translation>Eliminar tag</translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Mezclar tag</translation>
+    </message>
+    <message>
+        <source>Add synonym</source>
+        <translation>Anadir sinónimo</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>Convertir en sinónimo</translation>
+    </message>
+    <message>
+        <source>New translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top level tags</source>
+        <translation>Tags del nivel superior</translation>
     </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>
     <message>
-        <source>Tags Dashboard</source>
+        <source>Tags dashboard</source>
         <translation>Escritorio de tags</translation>
     </message>
     <message>
         <source>Latest content</source>
         <translation>Último contenido</translation>
+    </message>
+    <message>
+        <source>No content</source>
+        <translation>Sin contenido</translation>
     </message>
     <message>
         <source>ID</source>
@@ -430,8 +482,28 @@
         <translation>Modificado</translation>
     </message>
     <message>
-        <source>No content</source>
-        <translation>Sin contenido</translation>
+        <source>Related tags</source>
+        <translation>Tags relacionados</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Tag</translation>
+    </message>
+    <message>
+        <source>Synonym</source>
+        <translation>Sinónimo</translation>
+    </message>
+    <message>
+        <source>Synonyms</source>
+        <translation>Sinónimos</translation>
+    </message>
+    <message>
+        <source>No synonyms</source>
+        <translation>Sin sinónimos</translation>
+    </message>
+    <message>
+        <source>Main tag</source>
+        <translation>Tag principal</translation>
     </message>
     <message>
         <source>Subtree limitations</source>
@@ -454,28 +526,204 @@
         <translation>Sin limitaciones de subárbol</translation>
     </message>
     <message>
-        <source>Synonyms</source>
-        <translation>Sinónimos</translation>
+        <source>Invert selection.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No synonyms</source>
-        <translation>Sin sinónimos</translation>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tag</source>
-        <translation>Tag</translation>
+        <source>Translation</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Synonym</source>
-        <translation>Sinónimo</translation>
+        <source>Locale</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Main tag</source>
-        <translation>Tag principal</translation>
+        <source>Main</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Related tags</source>
-        <translation>Tags relacionados</translation>
+        <source>Edit in &lt;%language_name&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set main</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up one level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Children tags (%children_count)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Children tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show %1 tags per page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Nombre de tag</translation>
+    </message>
+    <message>
+        <source>The current tag does not contain any children.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parent tag name</source>
+        <translation>Nombre del tag padre</translation>
+    </message>
+    <message>
+        <source>No parent</source>
+        <translation>Sin padre</translation>
+    </message>
+    <message>
+        <source>Latest tags</source>
+        <translation>Últimos tags</translation>
+    </message>
+    <message>
+        <source>Edit synonym</source>
+        <translation>Editar sinónimo</translation>
+    </message>
+    <message>
+        <source>Delete synonym</source>
+        <translation>Borrar sinónimo</translation>
+    </message>
+    <message>
+        <source>Add tag</source>
+        <translation>Anadir tag hijo</translation>
+    </message>
+    <message>
+        <source>Add child tag</source>
+        <translation>Anadir tag hijo</translation>
+    </message>
+    <message>
+        <source>Edit tag</source>
+        <translation>Editar tag</translation>
+    </message>
+    <message>
+        <source>Delete tag</source>
+        <translation>Eliminar tag</translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Mezclar tag</translation>
+    </message>
+    <message>
+        <source>Add synonym</source>
+        <translation>Anadir sinónimo</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>Convertir en sinónimo</translation>
+    </message>
+    <message>
+        <source>No tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the main language if there is no prioritized translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag ID</source>
+        <translation>ID de Tag</translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>last</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select all visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select none</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invert selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove selected tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move selected tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You do not have permissions for any of available actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more tags.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of tags per page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No tags found.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -490,10 +738,10 @@
     </message>
 </context>
 <context>
-    <name>kernel/classes/datatypes</name>
+    <name>extension/eztags/tagcloud</name>
     <message>
-        <source>Input required.</source>
-        <translation>Entrada obligatoria.</translation>
+        <source>objects tagged with '%keyword'</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

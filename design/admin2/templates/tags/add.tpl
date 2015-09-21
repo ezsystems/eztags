@@ -1,9 +1,7 @@
-{ezcss_require( array( 'jqmodal.css', 'contentstructure-tree.css' ) )}
-{ezscript_require( array( 'jquery-migrate-1.1.1.min.js', 'jqmodal.js', 'eztagsselectparent.js' ) )}
-
 <div class="context-block tags-add">
     <div class="box-header">
         <h1 class="context-title">{"New tag"|i18n( 'extension/eztags/tags/edit' )}</h1>
+        <p><img src="{$language.locale|flag_icon}" title="{$language.name|wash}" /> {$language.name|wash}</p>
         <div class="header-mainline"></div>
     </div>
 
@@ -20,10 +18,14 @@
             {def $parent_tag_id = $parent_id}
         {/if}
 
+        {def $always_available = ezini( 'GeneralSettings', 'DefaultAlwaysAvailable', 'eztags.ini' )|eq( 'true' )}
+
         <form name="tageditform" id="tageditform" enctype="multipart/form-data" method="post" action={concat( 'tags/add/', $parent_tag_id )|ezurl}>
             <div class="block tag-edit-keyword">
                 <label>{'Tag name'|i18n( 'extension/eztags/tags/edit' )}</label>
                 <input id="keyword" class="halfbox" type="text" size="70" name="TagEditKeyword" value="{cond( ezhttp_hasvariable( 'TagEditKeyword', 'post' ), ezhttp( 'TagEditKeyword', 'post' ), '' )|trim|wash}" />
+                <label><input type="checkbox" name="AlwaysAvailable" {if $always_available}checked="checked"{/if} /> {'Use the main language if there is no prioritized translation.'|i18n( 'extension/eztags/tags/edit' )}</label>
+                <input type="hidden" name="Locale" value="{$language.locale|wash}" />
             </div>
 
             <div class="block tag-edit-parent">
@@ -59,3 +61,5 @@ function confirmDiscard( question )
 }
 </script>
 {/literal}
+
+{undef $parent_tag_id $always_available}

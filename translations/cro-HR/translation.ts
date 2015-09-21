@@ -2,102 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="hr_HR">
 <context>
-    <name>design/admin/parts/user/menu</name>
-    <message>
-        <source>Change the left menu width to small size.</source>
-        <translation>Promijeni širinu lijevog menija na malu veličinu.</translation>
-    </message>
-    <message>
-        <source>Small</source>
-        <translation>Malo</translation>
-    </message>
-    <message>
-        <source>Medium</source>
-        <translation>Srednje</translation>
-    </message>
-    <message>
-        <source>Change the left menu width to large size.</source>
-        <translation>Promijeni širinu lijevog menija na veliku veličinu.</translation>
-    </message>
-    <message>
-        <source>Large</source>
-        <translation>Veliko</translation>
-    </message>
-    <message>
-        <source>Change the left menu width to medium size.</source>
-        <translation>Promijeni širinu lijevog menija na srednju veličinu.</translation>
-    </message>
-</context>
-<context>
-    <name>design/ezwebin/article/comments</name>
-    <message>
-        <source>%login_link_startLog in%login_link_end to comment.</source>
-        <translation>%login_link_startPrijavite se%login_link_end za komentiranje.</translation>
-    </message>
-</context>
-<context>
-    <name>design/ezwebin/full/article</name>
-    <message>
-        <source>Comments</source>
-        <translation>Komentari</translation>
-    </message>
-    <message>
-        <source>New comment</source>
-        <translation>Novi komentar</translation>
-    </message>
-    <message>
-        <source>%login_link_startLog in%login_link_end or %create_link_startcreate a user account%create_link_end to comment.</source>
-        <translation>%login_link_startPrijavite se%login_link_end ili %create_link_startkreirajte korisnički račun%create_link_end za komentiranje.</translation>
-    </message>
-    <message>
-        <source>Tip a friend</source>
-        <translation>Pošalji prijatelju</translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/class/datatype</name>
-    <message>
-        <source>Limit by tags subtree</source>
-        <translation>Ograničenje po podstablu oznaka</translation>
-    </message>
-    <message>
-        <source>Hide root subtree limit tag when editing object</source>
-        <translation>Sakrij vršnu oznaku ograničenja po podstablu kod uređivanja objekata</translation>
-    </message>
-    <message>
-        <source>Show dropdown instead of autocomplete</source>
-        <translation>Prikaži padajući meni umjesto predloženih oznaka</translation>
-    </message>
-    <message>
-        <source>Maximum number of allowed tags</source>
-        <translation>Maksimalno dopuštenih oznaka</translation>
-    </message>
-    <message>
-        <source>(0 = unlimited)</source>
-        <translation>(0 = neograničeno)</translation>
-    </message>
-    <message>
-        <source>Unlimited</source>
-        <translation>Neograničeno</translation>
-    </message>
-    <message>
-        <source>Select subtree</source>
-        <translation>Odaberi podstablo</translation>
-    </message>
-    <message>
-        <source>No limit</source>
-        <translation>Nema ograničenja</translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation>Da</translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation>Ne</translation>
-    </message>
-</context>
-<context>
     <name>extension/eztags/datatypes</name>
     <message>
         <source>Tags</source>
@@ -127,6 +31,90 @@
         <source>Add new</source>
         <translation>Dodaj kao novu</translation>
     </message>
+    <message>
+        <source>Click to add this tag</source>
+        <translation>Kliknite za dodavanje ove oznake</translation>
+    </message>
+    <message>
+        <source>Remove tag</source>
+        <translation>Ukloni oznaku</translation>
+    </message>
+    <message>
+        <source>At least one tag is required to be added.</source>
+        <translation>Potrebno je dodati barem jednu oznaku.</translation>
+    </message>
+    <message>
+        <source>Attribute contains invalid data.</source>
+        <translation>Atribut sadrži neispravne podatke.</translation>
+    </message>
+    <message>
+        <source>Up to %1 tags are allowed to be added.</source>
+        <translation>Maksimalni dopušteni broj oznaka je %1.</translation>
+    </message>
+    <message>
+        <source>Limit by tags subtree</source>
+        <translation>Ograničenje po podstablu oznaka</translation>
+    </message>
+    <message>
+        <source>Select subtree</source>
+        <translation>Odaberi podstablo</translation>
+    </message>
+    <message>
+        <source>Hide root subtree limit tag when editing object</source>
+        <translation>Sakrij vršnu oznaku ograničenja po podstablu kod uređivanja objekata</translation>
+    </message>
+    <message>
+        <source>Show dropdown instead of autocomplete</source>
+        <translation>Prikaži padajući meni umjesto predloženih oznaka</translation>
+    </message>
+    <message>
+        <source>Maximum number of allowed tags</source>
+        <translation>Maksimalno dopuštenih oznaka</translation>
+    </message>
+    <message>
+        <source>(0 = unlimited)</source>
+        <translation>(0 = neograničeno)</translation>
+    </message>
+    <message>
+        <source>No limit</source>
+        <translation>Nema ograničenja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Ne</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Da</translation>
+    </message>
+    <message>
+        <source>Unlimited</source>
+        <translation>Neograničeno</translation>
+    </message>
+    <message>
+        <source>Translate tag</source>
+        <translation>Prevedi oznaku</translation>
+    </message>
+    <message>
+        <source>Existing translations</source>
+        <translation>Postojeći prijevodi</translation>
+    </message>
+    <message>
+        <source>No existing translations</source>
+        <translation>Nema prijevoda</translation>
+    </message>
+    <message>
+        <source>Add translation</source>
+        <translation>Dodaj prijevod</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Odustani</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/errors</name>
@@ -143,8 +131,12 @@
         <translation>Ime ne može biti prazno.</translation>
     </message>
     <message>
-        <source>Tag/synonym with that name already exists in selected location.</source>
-        <translation>Oznaka/sinonim s tim imenom već postoji na odabranoj lokaciji.</translation>
+        <source>Tag/synonym with that translation already exists in selected location.</source>
+        <translation>Oznaka/sinonim s tim prijevodom već postoji na odabranoj lokaciji.</translation>
+    </message>
+    <message>
+        <source>The following tags could not be moved because they contain translations that already exist in one of the tags in selected location.</source>
+        <translation>Sljedeće oznake nisu premještene jer imaju prijevode koji već postoje u nekoj od oznaka na odabranoj lokaciji.</translation>
     </message>
     <message>
         <source>Go back</source>
@@ -152,53 +144,25 @@
     </message>
 </context>
 <context>
-    <name>extension/eztags/tags/dashboard</name>
+    <name>extension/eztags/node/view</name>
     <message>
-        <source>Latest tags</source>
-        <translation>Najnovije oznake</translation>
+        <source>eZ Tags</source>
+        <translation>eZ Tags</translation>
     </message>
     <message>
-        <source>ID</source>
-        <translation>ID</translation>
+        <source>Show eZ Tags attributes overview.</source>
+        <translation>Prikaži pregled eZ Tags atributa.</translation>
     </message>
     <message>
-        <source>Tag name</source>
-        <translation>Ime oznake</translation>
-    </message>
-    <message>
-        <source>Parent tag name</source>
-        <translation>Ime nadređene oznake</translation>
-    </message>
-    <message>
-        <source>Modified</source>
-        <translation>Promjenjeno</translation>
-    </message>
-    <message>
-        <source>No parent</source>
-        <translation>Nema nadređene oznake</translation>
-    </message>
-    <message>
-        <source>Up one level.</source>
-        <translation>Jedan nivo iznad.</translation>
-    </message>
-    <message>
-        <source>Children tags (%children_count)</source>
-        <translation>Podređene oznake (%children_count)</translation>
-    </message>
-    <message>
-        <source>Show %1 tags per page.</source>
-        <translation>Prikaži %1 oznaka po stranici.</translation>
-    </message>
-    <message>
-        <source>The current tag does not contain any children.</source>
-        <translation>Trenutna oznaka ne sadrži podređene oznake.</translation>
+        <source>No tags</source>
+        <translation>Nema oznaka</translation>
     </message>
 </context>
 <context>
     <name>extension/eztags/tags/edit</name>
     <message>
         <source>no parent</source>
-        <translation>bez nadređene oznake</translation>
+        <translation>nema nadređene oznake</translation>
     </message>
     <message>
         <source>New tag</source>
@@ -214,15 +178,15 @@
     </message>
     <message>
         <source>Main tag name</source>
-        <translation>Ime glavne oznake</translation>
+        <translation>Glavna oznaka</translation>
     </message>
     <message>
         <source>Tag name</source>
-        <translation>Ime oznake</translation>
+        <translation>Oznaka</translation>
     </message>
     <message>
         <source>Synonym name</source>
-        <translation>Ime sinonima</translation>
+        <translation>Sinonim</translation>
     </message>
     <message>
         <source>Parent tag</source>
@@ -233,14 +197,6 @@
         <translation>Odaberi nadređenu oznaku</translation>
     </message>
     <message>
-        <source>Add child tag</source>
-        <translation>Dodaj podređenu oznaku</translation>
-    </message>
-    <message>
-        <source>Add synonym</source>
-        <translation>Dodaj sinonim</translation>
-    </message>
-    <message>
         <source>Convert to synonym</source>
         <translation>Pretvori u sinonim</translation>
     </message>
@@ -249,12 +205,20 @@
         <translation>Uredi oznaku</translation>
     </message>
     <message>
+        <source>Move tags</source>
+        <translation>Premjesti oznake</translation>
+    </message>
+    <message>
         <source>Edit synonym</source>
         <translation>Uredi sinonim</translation>
     </message>
     <message>
         <source>Delete tag</source>
         <translation>Izbriši oznaku</translation>
+    </message>
+    <message>
+        <source>Delete tags</source>
+        <translation>Izbriši oznake</translation>
     </message>
     <message>
         <source>Merge tag</source>
@@ -287,6 +251,26 @@
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; tag? All children tags and synonyms will also be deleted and removed from existing objects.</source>
         <translation>Jeste li sigurni da želite izbrisati oznaku &quot;%keyword&quot;? Sve podređene oznake i sinonimi će također biti izbrisani i uklonjeni iz postojećih objekata.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete selected tags? All children tags and synonyms will also be deleted and removed from existing objects.</source>
+        <translation>Jeste li sigurni da želite izbrisati odabrane oznake? Sve podređene oznake i sinonimi će također biti izbrisani i uklonjeni iz postojećih objekata.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to move selected tags?</source>
+        <translation>Jeste li sigurni da želite premjestiti odabrane oznake?</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Oznaka</translation>
+    </message>
+    <message>
+        <source>Related objects count</source>
+        <translation>Broj povezanih objekata</translation>
+    </message>
+    <message>
+        <source>Children count</source>
+        <translation>Broj podređenih oznaka</translation>
     </message>
     <message>
         <source>Are you sure you want to delete the &quot;%keyword&quot; synonym?</source>
@@ -332,6 +316,42 @@
         <source>number of objects related to synonyms</source>
         <translation>broj objekata povezanih sa sinonimima</translation>
     </message>
+    <message>
+        <source>Set as main translation</source>
+        <translation>Postavi kao glavni prijevod</translation>
+    </message>
+    <message>
+        <source>Add translation</source>
+        <translation>Dodavanje prijevoda</translation>
+    </message>
+    <message>
+        <source>Select the translation you want to add</source>
+        <translation>Odaberite prijevod koji želite dodati</translation>
+    </message>
+    <message>
+        <source>Edit translation</source>
+        <translation>Uređivanje prijevoda</translation>
+    </message>
+    <message>
+        <source>Select the translation you want to edit</source>
+        <translation>Odaberite prijevod koji želite urediti</translation>
+    </message>
+    <message>
+        <source>Main translation</source>
+        <translation>Glavni prijevod</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Uredi</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Odustani</translation>
+    </message>
+    <message>
+        <source>Use the main language if there is no prioritized translation.</source>
+        <translation>Koristi glavni prijevod ako nema prioritiziranog prijevoda.</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/search</name>
@@ -361,7 +381,7 @@
     </message>
     <message>
         <source>Tag name</source>
-        <translation>Ime oznake</translation>
+        <translation>Oznaka</translation>
     </message>
     <message>
         <source>Parent tag</source>
@@ -369,7 +389,7 @@
     </message>
     <message>
         <source>Main tag name</source>
-        <translation>Ime glavne oznake</translation>
+        <translation>Glavna oznaka</translation>
     </message>
 </context>
 <context>
@@ -387,10 +407,6 @@
         <translation>ID oznake</translation>
     </message>
     <message>
-        <source>Top Level Tags</source>
-        <translation>Vršne oznake</translation>
-    </message>
-    <message>
         <source>Dynamic tree not allowed for this siteaccess</source>
         <translation>Dinamičko stablo nije dopušteno u trenutnom siteaccessu</translation>
     </message>
@@ -406,11 +422,43 @@
         <source>Tags structure</source>
         <translation>Struktura oznaka</translation>
     </message>
+    <message>
+        <source>Add child tag</source>
+        <translation>Dodaj podređenu oznaku</translation>
+    </message>
+    <message>
+        <source>Edit tag</source>
+        <translation>Uredi oznaku</translation>
+    </message>
+    <message>
+        <source>Delete tag</source>
+        <translation>Izbriši oznaku</translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Spoji oznaku</translation>
+    </message>
+    <message>
+        <source>Add synonym</source>
+        <translation>Dodaj sinonim</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>Pretvori u sinonim</translation>
+    </message>
+    <message>
+        <source>New translation</source>
+        <translation>Novi prijevod</translation>
+    </message>
+    <message>
+        <source>Top level tags</source>
+        <translation>Vršne oznake</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/tags/view</name>
     <message>
-        <source>Tags Dashboard</source>
+        <source>Tags dashboard</source>
         <translation>Kontrolna ploča oznaka</translation>
     </message>
     <message>
@@ -427,11 +475,11 @@
     </message>
     <message>
         <source>Name</source>
-        <translation>Ime</translation>
+        <translation>Naziv</translation>
     </message>
     <message>
         <source>Modified</source>
-        <translation>Promjenjeno</translation>
+        <translation>Promijenjeno</translation>
     </message>
     <message>
         <source>Related tags</source>
@@ -477,6 +525,206 @@
         <source>No subtree limitations</source>
         <translation>Nema ograničenja po podstablu</translation>
     </message>
+    <message>
+        <source>Invert selection.</source>
+        <translation>Obrni odabir.</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Jezik</translation>
+    </message>
+    <message>
+        <source>Translation</source>
+        <translation>Prijevod</translation>
+    </message>
+    <message>
+        <source>Locale</source>
+        <translation>Lokalitet</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation>Glavni</translation>
+    </message>
+    <message>
+        <source>Edit in &lt;%language_name&gt;.</source>
+        <translation>Uredi na &lt;%language_name&gt;.</translation>
+    </message>
+    <message>
+        <source>Remove selected</source>
+        <translation>Ukloni odabrano</translation>
+    </message>
+    <message>
+        <source>Set main</source>
+        <translation>Postavi za glavni</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Ažuriraj</translation>
+    </message>
+    <message>
+        <source>Tag translations</source>
+        <translation>Prijevodi oznaka</translation>
+    </message>
+    <message>
+        <source>Up one level.</source>
+        <translation>Jedan nivo iznad.</translation>
+    </message>
+    <message>
+        <source>Children tags (%children_count)</source>
+        <translation>Podređene oznake (%children_count)</translation>
+    </message>
+    <message>
+        <source>Children tags</source>
+        <translation>Podređene oznake</translation>
+    </message>
+    <message>
+        <source>Show %1 tags per page.</source>
+        <translation>Prikaži %1 oznaka po stranici.</translation>
+    </message>
+    <message>
+        <source>Tag name</source>
+        <translation>Oznaka</translation>
+    </message>
+    <message>
+        <source>The current tag does not contain any children.</source>
+        <translation>Trenutna oznaka ne sadrži podređene oznake.</translation>
+    </message>
+    <message>
+        <source>Parent tag name</source>
+        <translation>Nadređena oznaka</translation>
+    </message>
+    <message>
+        <source>No parent</source>
+        <translation>Nema nadređene oznake</translation>
+    </message>
+    <message>
+        <source>Latest tags</source>
+        <translation>Najnovije oznake</translation>
+    </message>
+    <message>
+        <source>Edit synonym</source>
+        <translation>Uredi sinonim</translation>
+    </message>
+    <message>
+        <source>Delete synonym</source>
+        <translation>Izbriši sinonim</translation>
+    </message>
+    <message>
+        <source>Add tag</source>
+        <translation>Dodaj oznaku</translation>
+    </message>
+    <message>
+        <source>Add child tag</source>
+        <translation>Dodaj podređenu oznaku</translation>
+    </message>
+    <message>
+        <source>Edit tag</source>
+        <translation>Uredi oznaku</translation>
+    </message>
+    <message>
+        <source>Delete tag</source>
+        <translation>Izbriši oznaku</translation>
+    </message>
+    <message>
+        <source>Merge tag</source>
+        <translation>Spoji oznaku</translation>
+    </message>
+    <message>
+        <source>Add synonym</source>
+        <translation>Dodaj sinonim</translation>
+    </message>
+    <message>
+        <source>Convert to synonym</source>
+        <translation>Pretvori u sinonim</translation>
+    </message>
+    <message>
+        <source>No tags</source>
+        <translation>Nema oznaka</translation>
+    </message>
+    <message>
+        <source>Use the main language if there is no prioritized translation.</source>
+        <translation>Koristi glavni prijevod ako nema prioritiziranog prijevoda.</translation>
+    </message>
+    <message>
+        <source>Last modified</source>
+        <translation>Zadnja promjena</translation>
+    </message>
+    <message>
+        <source>Tag ID</source>
+        <translation>ID oznake</translation>
+    </message>
+    <message>
+        <source>first</source>
+        <translation>prva</translation>
+    </message>
+    <message>
+        <source>last</source>
+        <translation>zadnja</translation>
+    </message>
+    <message>
+        <source>next</source>
+        <translation>sljedeća</translation>
+    </message>
+    <message>
+        <source>prev</source>
+        <translation>prethodna</translation>
+    </message>
+    <message>
+        <source>Select all visible</source>
+        <translation>Odaberi sve vidljive</translation>
+    </message>
+    <message>
+        <source>Select none</source>
+        <translation>Počisti odabir</translation>
+    </message>
+    <message>
+        <source>Invert selection</source>
+        <translation>Obrni odabir</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation>Odabir</translation>
+    </message>
+    <message>
+        <source>Remove selected tags</source>
+        <translation>Ukloni odabrane oznake</translation>
+    </message>
+    <message>
+        <source>Move selected tags</source>
+        <translation>Premjesti odabrane oznake</translation>
+    </message>
+    <message>
+        <source>More actions</source>
+        <translation>Više akcija</translation>
+    </message>
+    <message>
+        <source>You do not have permissions for any of available actions</source>
+        <translation>Nemate dozvole za nijednu dostupnu akciju</translation>
+    </message>
+    <message>
+        <source>Use the checkboxes to select one or more tags.</source>
+        <translation>Koristite kućice za označavanje za odabir jedne ili više oznaka.</translation>
+    </message>
+    <message>
+        <source>Table options</source>
+        <translation>Postavke tablice</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Zatvori</translation>
+    </message>
+    <message>
+        <source>Number of tags per page</source>
+        <translation>Broj prikazanih oznaka po stranici</translation>
+    </message>
+    <message>
+        <source>Loading...</source>
+        <translation>Učitavanje...</translation>
+    </message>
+    <message>
+        <source>No tags found.</source>
+        <translation>Nema oznaka.</translation>
+    </message>
 </context>
 <context>
     <name>extension/eztags/warnings</name>
@@ -490,10 +738,10 @@
     </message>
 </context>
 <context>
-    <name>kernel/classes/datatypes</name>
+    <name>extension/eztags/tagcloud</name>
     <message>
-        <source>Input required.</source>
-        <translation>Nedostaje unos.</translation>
+        <source>objects tagged with '%keyword'</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -19,8 +19,8 @@ Change of behavior
 Changes to method signatures
 ----------------------------
 
-- eZTagsFunctionCollection - fetchTagObject renamed to fetchTag to match the corrensponding fetch
+- eZTagsFunctionCollection - fetchTagObject renamed to fetchTag to match the corresponding fetch
 
-- eZTagsFunctionCollection - fetchTagObjectByKeyword renamed to fetchTagsByKeyword to match the corrensponding fetch
+- eZTagsFunctionCollection - fetchTagObjectByKeyword renamed to fetchTagsByKeyword to match the corresponding fetch
 
 - eZTagsObject - fetchList - added parameter $sorts to the end of the parameter list, non required, defaults to null

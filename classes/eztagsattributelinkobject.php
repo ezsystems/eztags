@@ -3,17 +3,17 @@
 /**
  * eZTagsAttributeLinkObject class inherits eZPersistentObject class
  * to be able to access eztags_attribute_link database table through API
- *
  */
 class eZTagsAttributeLinkObject extends eZPersistentObject
 {
     /**
      * Constructor
      *
+     * @param array $row
      */
     function __construct( $row )
     {
-        parent::__construct( $row );
+        parent::eZPersistentObject( $row );
     }
 
     /**
@@ -21,7 +21,7 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
      *
      * @return array
      */
-    static function definition()
+    static public function definition()
     {
         return array( 'fields'        => array( 'id'                      => array( 'name'     => 'ID',
                                                                                     'datatype' => 'integer',
@@ -42,11 +42,11 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
                                                 'object_id'               => array( 'name'     => 'ObjectID',
                                                                                     'datatype' => 'integer',
                                                                                     'default'  => 0,
-                                                                                    'required' => true ) ),
+                                                                                    'required' => true ),
                                                 'priority'                => array( 'name'     => 'Priority',
                                                                                     'datatype' => 'integer',
                                                                                     'default'  => 0,
-                                                                                    'required' => true ),
+                                                                                    'required' => true ) ),
                       'keys'          => array( 'id' ),
                       'increment_key' => 'id',
                       'class_name'    => 'eZTagsAttributeLinkObject',
@@ -57,31 +57,37 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
     /**
      * Fetches the array of eZTagsAttributeLinkObject objects based on provided tag ID
      *
-     * @param integer $tagID
-     * @return array
+     * @static
+     *
+     * @param int $tagID
+     *
+     * @return eZTagsAttributeLinkObject[]
      */
-    static function fetchByTagID( $tagID )
+    static public function fetchByTagID( $tagID )
     {
-        $objects = eZPersistentObject::fetchObjectList( self::definition(), null, array( 'keyword_id' => $tagID ) );
+        $objects = parent::fetchObjectList( self::definition(), null, array( 'keyword_id' => $tagID ) );
 
         if ( is_array( $objects ) )
             return $objects;
-        else
-            return array();
+
+        return array();
     }
 
     /**
      * Fetches the eZTagsAttributeLinkObject object based on provided content object params and keyword ID
      *
-     * @param integer $objectAttributeID
-     * @param integer $objectAttributeVersion
-     * @param integer $objectID
-     * @param integer $keywordID
+     * @static
+     *
+     * @param int $objectAttributeID
+     * @param int $objectAttributeVersion
+     * @param int $objectID
+     * @param int $keywordID
+     *
      * @return eZTagsAttributeLinkObject if found, false otherwise
      */
-    static function fetchByObjectAttributeAndKeywordID( $objectAttributeID, $objectAttributeVersion, $objectID, $keywordID )
+    static public function fetchByObjectAttributeAndKeywordID( $objectAttributeID, $objectAttributeVersion, $objectID, $keywordID )
     {
-        $objects = eZPersistentObject::fetchObjectList( self::definition(), null,
+        $objects = parent::fetchObjectList( self::definition(), null,
                                                         array( 'objectattribute_id'      => $objectAttributeID,
                                                                'objectattribute_version' => $objectAttributeVersion,
                                                                'object_id'               => $objectID,
@@ -89,9 +95,28 @@ class eZTagsAttributeLinkObject extends eZPersistentObject
 
         if ( is_array( $objects ) && !empty( $objects ) )
             return $objects[0];
-        else
-            return false;
+
+        return false;
+    }
+
+    /**
+     * Removes the objects from persistence which are related to content object attribute
+     * defined by attribute ID and attribute version
+     *
+     * @static
+     *
+     * @param int $objectAttributeID
+     * @param int|null $objectAttributeVersion
+     */
+    static public function removeByAttribute( $objectAttributeID, $objectAttributeVersion = null )
+    {
+        if ( !is_numeric( $objectAttributeID ) )
+            return;
+
+        $conditions = array( 'objectattribute_id' => (int) $objectAttributeID );
+        if ( is_numeric( $objectAttributeVersion ) )
+            $conditions['objectattribute_version'] = (int) $objectAttributeVersion;
+
+        parent::removeObject( self::definition(), $conditions );
     }
 }
-
-?>

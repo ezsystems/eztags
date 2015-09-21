@@ -1,6 +1,3 @@
-{ezcss_require( array( 'jqmodal.css', 'contentstructure-tree.css' ) )}
-{ezscript_require( array( 'jquery-migrate-1.1.1.min.js', 'jqmodal.js', 'eztagsselectparent.js' ) )}
-
 {def $children_object_count = 0}
 {def $synonym_object_count = 0}
 

@@ -15,14 +15,14 @@ $ViewList['dashboard'] = array(
     'script'                  => 'dashboard.php',
     'default_navigation_part' => 'eztagsnavigationpart',
     'params'                  => array(),
-    'unordered_params'        => array( 'offset' => 'Offset' ) );
+    'unordered_params'        => array( 'offset' => 'Offset', 'tab' => 'Tab' ) );
 
 $ViewList['id'] = array(
     'functions'               => array( 'id' ),
     'script'                  => 'id.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'TagID' ),
-    'unordered_params'        => array( 'offset' => 'Offset' ) );
+    'params'                  => array( 'TagID', 'Locale' ),
+    'unordered_params'        => array( 'offset' => 'Offset', 'tab' => 'Tab' ) );
 
 $ViewList['view'] = array(
     'functions'               => array( 'view' ),
@@ -35,31 +35,49 @@ $ViewList['add'] = array(
     'functions'               => array( 'add' ),
     'script'                  => 'add.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'ParentTagID' ) );
+    'params'                  => array( 'ParentTagID', 'Locale' ) );
 
 $ViewList['addsynonym'] = array(
     'functions'               => array( 'addsynonym' ),
     'script'                  => 'addsynonym.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'MainTagID' ) );
+    'params'                  => array( 'MainTagID', 'Locale' ) );
 
 $ViewList['edit'] = array(
     'functions'               => array( 'edit' ),
     'script'                  => 'edit.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'TagID' ) );
+    'params'                  => array( 'TagID', 'Locale' ) );
+
+$ViewList['movetags'] = array(
+    'functions'               => array( 'edit' ),
+    'script'                  => 'movetags.php',
+    'default_navigation_part' => 'eztagsnavigationpart',
+    'params'                  => array() );
+
+$ViewList['translation'] = array(
+    'functions'               => array( 'edit' ),
+    'script'                  => 'translation.php',
+    'default_navigation_part' => 'eztagsnavigationpart',
+    'params'                  => array() );
 
 $ViewList['editsynonym'] = array(
     'functions'               => array( 'editsynonym' ),
     'script'                  => 'editsynonym.php',
     'default_navigation_part' => 'eztagsnavigationpart',
-    'params'                  => array( 'TagID' ) );
+    'params'                  => array( 'TagID', 'Locale' ) );
 
 $ViewList['delete'] = array(
     'functions'               => array( 'delete' ),
     'script'                  => 'delete.php',
     'default_navigation_part' => 'eztagsnavigationpart',
     'params'                  => array( 'TagID' ) );
+
+$ViewList['deletetags'] = array(
+    'functions'               => array( 'delete' ),
+    'script'                  => 'deletetags.php',
+    'default_navigation_part' => 'eztagsnavigationpart',
+    'params'                  => array() );
 
 $ViewList['deletesynonym'] = array(
     'functions'               => array( 'deletesynonym' ),
@@ -86,15 +104,6 @@ $ViewList['search'] = array(
     'params'                  => array(),
     'unordered_params'        => array( 'offset' => 'Offset' ) );
 
-$ClassID = array(
-    'name'      => 'Class',
-    'values'    => array(),
-    'path'      => 'classes/',
-    'file'      => 'ezcontentclass.php',
-    'class'     => 'eZContentClass',
-    'function'  => 'fetchList',
-    'parameter' => array( 0, false, false, array( 'name' => 'asc' ) ) );
-
 $TagID = array(
     'name'      => 'Tag',
     'values'    => array(),
@@ -102,11 +111,11 @@ $TagID = array(
     'path'      => 'classes/',
     'file'      => 'eztagsobject.php',
     'class'     => 'eZTagsObject',
-    'function'  => 'fetchList',
-    'parameter' => array( array( 'parent_id' => 0, 'main_tag_id' => 0 ), null, false ) );
+    'function'  => 'fetchLimitations',
+    'parameter' => array() );
 
 $FunctionList = array();
-$FunctionList['read']          = array( 'Class' => $ClassID );
+$FunctionList['read']          = array();
 $FunctionList['dashboard']     = array();
 $FunctionList['id']            = array();
 $FunctionList['view']          = array();
@@ -119,5 +128,3 @@ $FunctionList['deletesynonym'] = array();
 $FunctionList['makesynonym']   = array();
 $FunctionList['merge']         = array();
 $FunctionList['search']        = array();
-
-?>

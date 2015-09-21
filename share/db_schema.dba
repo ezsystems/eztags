@@ -53,11 +53,26 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
-      'remote_id' => array(
-        'length' => '100',
+      'remote_id' =>
+      array (
+        'length' => 100,
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
+      ),
+      'main_language_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'language_mask' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
       ),
     ),
     'indexes' =>
@@ -70,7 +85,7 @@ $schema = array (
           0 => 'id',
         ),
       ),
-      'eztags_keyword' =>
+      'idx_eztags_keyword' =>
       array (
         'type' => 'non-unique',
         'fields' =>
@@ -78,7 +93,7 @@ $schema = array (
           0 => 'keyword',
         ),
       ),
-      'eztags_keyword_id' =>
+      'idx_eztags_keyword_id' =>
       array (
         'type' => 'non-unique',
         'fields' =>
@@ -87,7 +102,7 @@ $schema = array (
           1 => 'id',
         ),
       ),
-      'eztags_remote_id' =>
+      'idx_eztags_remote_id' =>
       array (
         'type' => 'unique',
         'fields' =>
@@ -140,7 +155,7 @@ $schema = array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
-        'default' => '0',
+        'default' => 0,
       ),
     ),
     'indexes' =>
@@ -153,7 +168,7 @@ $schema = array (
           0 => 'id',
         ),
       ),
-      'eztags_attr_link_keyword_id' =>
+      'idx_eztags_attr_link_keyword_id' =>
       array (
         'type' => 'non-unique',
         'fields' =>
@@ -161,7 +176,7 @@ $schema = array (
           0 => 'keyword_id',
         ),
       ),
-      'eztags_attr_link_kid_oaid_oav' =>
+      'idx_eztags_attr_link_kid_oaid_oav' =>
       array (
         'type' => 'non-unique',
         'fields' =>
@@ -171,7 +186,7 @@ $schema = array (
           2 => 'objectattribute_version',
         ),
       ),
-      'eztags_attr_link_kid_oid' =>
+      'idx_eztags_attr_link_kid_oid' =>
       array (
         'type' => 'non-unique',
         'fields' =>
@@ -180,13 +195,67 @@ $schema = array (
           1 => 'object_id',
         ),
       ),
-      'eztags_attr_link_oaid_oav' =>
+      'idx_eztags_attr_link_oaid_oav' =>
       array (
         'type' => 'non-unique',
         'fields' =>
         array (
           0 => 'objectattribute_id',
           1 => 'objectattribute_version',
+        ),
+      ),
+    ),
+  ),
+  'eztags_keyword' =>
+  array (
+    'name' => 'eztags_keyword',
+    'fields' =>
+    array (
+      'keyword_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'language_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'keyword' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'locale' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'status' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' =>
+    array (
+      'PRIMARY' =>
+      array (
+        'type' => 'primary',
+        'fields' =>
+        array (
+          0 => 'keyword_id',
+          1 => 'locale',
         ),
       ),
     ),

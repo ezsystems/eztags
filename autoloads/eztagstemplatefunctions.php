@@ -1,19 +1,18 @@
 <?php
 
 /**
- * eZTagsTemplateFunctions class implements eztags tpl operator methods
- *
+ * eZTagsTemplateFunctions class implements eztags template operator methods
  */
 class eZTagsTemplateFunctions
 {
     /**
-     * Return an array with the template operator name.
+     * Return an array with the list of template operator names
      *
      * @return array
      */
-    function operatorList()
+    public function operatorList()
     {
-        return array( 'eztags_parent_string', 'latest_tags', 'user_limitations' );
+        return array( 'eztags_parent_string', 'latest_tags', 'user_limitations', 'tag_icon' );
     }
 
     /**
@@ -22,7 +21,7 @@ class eZTagsTemplateFunctions
      *
      * @return bool
      */
-    function namedParameterPerOperator()
+    public function namedParameterPerOperator()
     {
         return true;
     }
@@ -34,7 +33,7 @@ class eZTagsTemplateFunctions
      *
      * @return array
      */
-    function namedParameterList()
+    public function namedParameterList()
     {
         return array( 'eztags_parent_string' => array( 'tag_id' => array( 'type'     => 'integer',
                                                                           'required' => true,
@@ -47,7 +46,13 @@ class eZTagsTemplateFunctions
                                                                           'default'  => '' ),
                                                                           'function' => array( 'type'     => 'string',
                                                                                                'required' => true,
-                                                                                               'default'  => '' ) ) );
+                                                                                               'default'  => '' ) ),
+                      'tag_icon'             => array( 'first'  => array( 'type'     => 'string',
+                                                                          'required' => false,
+                                                                          'default'  => '' ),
+                                                       'second' => array( 'type'     => 'string',
+                                                                          'required' => false,
+                                                                          'default'  => '' ) ) );
     }
 
     /**
@@ -61,7 +66,7 @@ class eZTagsTemplateFunctions
      * @param mixed $operatorValue
      * @param array $namedParameters
      */
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
+    public function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         switch ( $operatorName )
         {
@@ -77,51 +82,54 @@ class eZTagsTemplateFunctions
             {
                 $operatorValue = self::getSimplifiedUserAccess( $namedParameters['module'], $namedParameters['function'] );
             } break;
+            case 'tag_icon':
+            {
+                if ( $operatorValue === null )
+                    $operatorValue = self::getTagIcon( $namedParameters['first'], $namedParameters['second'] );
+                else
+                {
+                    $operatorValue = self::getTagIcon(
+                        $operatorValue,
+                        empty( $namedParameters['first'] ) ? 'small' : $namedParameters['first']
+                    );
+                }
+            } break;
         }
     }
 
     /**
-     * Generates tag heirarchy string for given tag ID
+     * Generates tag hierarchy string for given tag ID
      *
      * @static
-     * @param integer $tagID
+     *
+     * @param int $tagID
+     *
      * @return string
      */
-    static function generateParentString( $tagID )
+    static public function generateParentString( $tagID )
     {
-        $tag = eZTagsObject::fetch( $tagID );
+        $tag = eZTagsObject::fetchWithMainTranslation( $tagID );
         if ( !$tag instanceof eZTagsObject )
             return '(' . ezpI18n::tr( 'extension/eztags/tags/edit', 'no parent' ) . ')';
 
-        $synonymsCount = $tag->getSynonymsCount();
-
-        $keywordsArray = array();
-
-        while ( $tag->hasParent() )
-        {
-            $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
-            $tag = $tag->getParent();
-            $synonymsCount = $tag->getSynonymsCount();
-        }
-
-        $keywordsArray[] = ( $synonymsCount > 0 ) ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
-
-        return implode( ' / ', array_reverse( $keywordsArray ) );
+        return $tag->getParentString();
     }
 
     /**
      * Returns $limit latest tags
+     * Deprecated: use fetch( tags, latest_tags, hash( ... ) )
+     *
+     * @deprecated
      *
      * @static
-     * @param integer $limit
-     * @return array
+     *
+     * @param int $limit
+     *
+     * @return eZTagsObject[]
      */
-    static function fetchLatestTags( $limit )
+    static public function fetchLatestTags( $limit )
     {
-        return eZPersistentObject::fetchObjectList( eZTagsObject::definition(), null,
-                                                    array( 'main_tag_id' => 0 ),
-                                                    array( 'modified' => 'desc' ),
-                                                    array( 'limit' => $limit ) );
+        return eZTagsFunctionCollection::fetchLatestTags( 0, $limit );
     }
 
     /**
@@ -131,34 +139,49 @@ class eZTagsTemplateFunctions
      * If your limitation name is not defined as a key, then your user has full access to this limitation
      *
      * @static
+     *
      * @param string $module Name of the module
-     * @param string $function Name of the policy function ($FunctionList element in module.php)
+     * @param string $function Name of the policy function ( $FunctionList element in module.php )
+     *
      * @return array
      */
-
-    static function getSimplifiedUserAccess( $module, $function )
+    static public function getSimplifiedUserAccess( $module, $function )
     {
         $user = eZUser::currentUser();
         $userAccess = $user->hasAccessTo( $module, $function );
 
         $userAccess['simplifiedLimitations'] = array();
-        if ( $userAccess['accessWord'] == 'limited' )
-        {
-            foreach ( $userAccess['policies'] as $policy )
-            {
-                foreach ( $policy as $limitationName => $limitationList )
-                {
-                    foreach ( $limitationList as $limitationValue )
-                    {
-                        $userAccess['simplifiedLimitations'][$limitationName][] = $limitationValue;
-                    }
+        if ( $userAccess['accessWord'] != 'limited' )
+            return $userAccess;
 
-                    $userAccess['simplifiedLimitations'][$limitationName] = array_unique( $userAccess['simplifiedLimitations'][$limitationName] );
+        foreach ( $userAccess['policies'] as $policy )
+        {
+            foreach ( $policy as $limitationName => $limitationList )
+            {
+                foreach ( $limitationList as $limitationValue )
+                {
+                    $userAccess['simplifiedLimitations'][$limitationName][] = $limitationValue;
                 }
+
+                $userAccess['simplifiedLimitations'][$limitationName] = array_unique( $userAccess['simplifiedLimitations'][$limitationName] );
             }
         }
+
         return $userAccess;
     }
-}
 
-?>
+    /**
+     * Returns the full URL of the tag icon image
+     *
+     * @static
+     *
+     * @param string $icon
+     * @param string $size
+     *
+     * @return string
+     */
+    static public function getTagIcon( $icon, $size = 'small' )
+    {
+        return eZURLOperator::eZImage( null, 'tag_icons/' . $size . '/' . $icon, 'ezimage' );
+    }
+}

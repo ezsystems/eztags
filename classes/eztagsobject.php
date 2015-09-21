@@ -4,21 +4,27 @@
  * eZTagsObject class inherits eZPersistentObject class
  * to be able to access eztags database table through API
  *
+ * @property string $Keyword
  */
 class eZTagsObject extends eZPersistentObject
 {
     /**
      * Constructor
      *
+     * @param array $row
+     * @param string|bool $locale
      */
-    function __construct( $row )
+    function __construct( $row, $locale = false )
     {
         if ( !isset( $row['remote_id'] ) || !$row['remote_id'] )
-        {
             $row['remote_id'] = self::generateRemoteID();
-        }
 
-        parent::__construct( $row );
+        parent::eZPersistentObject( $row );
+
+        if ( isset( $row['locale'] ) && $row['locale'] != null )
+            $this->CurrentLanguage = $row['locale'];
+        else
+            $this->CurrentLanguage = $locale;
     }
 
     /**
@@ -26,40 +32,48 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return array
      */
-    static function definition()
+    static public function definition()
     {
-        return array( 'fields'              => array( 'id'          => array( 'name'     => 'ID',
-                                                                              'datatype' => 'integer',
-                                                                              'default'  => 0,
-                                                                              'required' => true ),
-                                                      'parent_id'   => array( 'name'     => 'ParentID',
-                                                                              'datatype' => 'integer',
-                                                                              'default'  => null,
-                                                                              'required' => false ),
-                                                      'main_tag_id' => array( 'name'     => 'MainTagID',
-                                                                              'datatype' => 'integer',
-                                                                              'default'  => null,
-                                                                              'required' => false ),
-                                                      'keyword'     => array( 'name'     => 'Keyword',
-                                                                              'datatype' => 'string',
-                                                                              'default'  => '',
-                                                                              'required' => false ),
-                                                      'depth'       => array( 'name'     => 'Depth',
-                                                                              'datatype' => 'integer',
-                                                                              'default'  => 1,
-                                                                              'required' => false ),
-                                                      'path_string' => array( 'name'     => 'PathString',
-                                                                              'datatype' => 'string',
-                                                                              'default'  => '',
-                                                                              'required' => false ),
-                                                      'modified'    => array( 'name'     => 'Modified',
-                                                                              'datatype' => 'integer',
-                                                                              'default'  => 0,
-                                                                              'required' => false ),
-                                                      'remote_id'   => array( 'name' => "RemoteID",
-                                                                              'datatype' => 'string',
-                                                                              'default' => '',
-                                                                              'required' => true ), ),
+        return array( 'fields'              => array( 'id'               => array( 'name'     => 'ID',
+                                                                                   'datatype' => 'integer',
+                                                                                   'default'  => 0,
+                                                                                   'required' => true ),
+                                                      'parent_id'        => array( 'name'     => 'ParentID',
+                                                                                   'datatype' => 'integer',
+                                                                                   'default'  => null,
+                                                                                   'required' => false ),
+                                                      'main_tag_id'      => array( 'name'     => 'MainTagID',
+                                                                                   'datatype' => 'integer',
+                                                                                   'default'  => null,
+                                                                                   'required' => false ),
+                                                      'keyword'          => array( 'name'     => 'Keyword',
+                                                                                   'datatype' => 'string',
+                                                                                   'default'  => '',
+                                                                                   'required' => false ),
+                                                      'depth'            => array( 'name'     => 'Depth',
+                                                                                   'datatype' => 'integer',
+                                                                                   'default'  => 1,
+                                                                                   'required' => false ),
+                                                      'path_string'      => array( 'name'     => 'PathString',
+                                                                                   'datatype' => 'string',
+                                                                                   'default'  => '',
+                                                                                   'required' => false ),
+                                                      'modified'         => array( 'name'     => 'Modified',
+                                                                                   'datatype' => 'integer',
+                                                                                   'default'  => 0,
+                                                                                   'required' => false ),
+                                                      'remote_id'        => array( 'name'     => 'RemoteID',
+                                                                                   'datatype' => 'string',
+                                                                                   'default'  => '',
+                                                                                   'required' => true ),
+                                                      'main_language_id' => array( 'name'     => 'MainLanguageID',
+                                                                                   'datatype' => 'integer',
+                                                                                   'default'  => 0,
+                                                                                   'required' => false ),
+                                                      'language_mask'    => array( 'name'     => 'LanguageMask',
+                                                                                   'datatype' => 'integer',
+                                                                                   'default'  => 0,
+                                                                                   'required' => false ) ),
                       'function_attributes' => array( 'parent'                    => 'getParent',
                                                       'children'                  => 'getChildren',
                                                       'children_count'            => 'getChildrenCount',
@@ -70,119 +84,131 @@ class eZTagsObject extends eZPersistentObject
                                                       'main_tag'                  => 'getMainTag',
                                                       'synonyms'                  => 'getSynonyms',
                                                       'synonyms_count'            => 'getSynonymsCount',
+                                                      'is_synonym'                => 'isSynonym',
                                                       'icon'                      => 'getIcon',
                                                       'url'                       => 'getUrl',
-                                                      'is_synonym'                => 'isSynonym' ),
+                                                      'clean_url'                 => 'getCleanUrl',
+                                                      'path'                      => 'getPath',
+                                                      'path_count'                => 'getPathCount',
+                                                      'keyword'                   => 'getKeyword',
+                                                      'available_languages'       => 'getAvailableLanguages',
+                                                      'current_language'          => 'getCurrentLanguage',
+                                                      'language_name_array'       => 'languageNameArray',
+                                                      'main_translation'          => 'getMainTranslation',
+                                                      'translations'              => 'getTranslations',
+                                                      'translations_count'        => 'getTranslationsCount',
+                                                      'always_available'          => 'isAlwaysAvailable' ),
                       'keys'                => array( 'id' ),
                       'increment_key'       => 'id',
                       'class_name'          => 'eZTagsObject',
-                      'sort'                => array( 'keyword' => 'asc' ),
                       'name'                => 'eztags' );
     }
 
     /**
      * Updates path string of the tag and all of it's children and synonyms.
-     *
-     * @param eZTagsObject $parentTag
      */
-    function updatePathString( $parentTag )
+    public function updatePathString()
     {
-        $pathString = ( ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/' ) . $this->attribute( 'id' ) . '/';
-        $this->setAttribute( 'path_string', $pathString );
+        $parentTag = $this->getParent( true );
+        $pathStringPrefix = $parentTag instanceof self ? $parentTag->attribute( 'path_string' ) : '/';
+
+        $this->setAttribute( 'path_string', $pathStringPrefix . $this->attribute( 'id' ) . '/' );
         $this->store();
 
-        foreach ( $this->getSynonyms() as $s )
+        foreach ( $this->getSynonyms( true ) as $s )
         {
-            $pathString = ( ( $parentTag instanceof eZTagsObject ) ? $parentTag->attribute( 'path_string' ) : '/' ) . $s->attribute( 'id' ) . '/';
-            $s->setAttribute( 'path_string', $pathString );
+            $s->setAttribute( 'path_string', $pathStringPrefix . $s->attribute( 'id' ) . '/' );
             $s->store();
         }
 
-        foreach ( $this->getChildren() as $c )
+        foreach ( $this->getChildren( 0, null, true ) as $c )
         {
-            $c->updatePathString( $this );
+            $c->updatePathString();
         }
     }
 
     /**
      * Updates depth of the tag and all of it's children and synonyms.
-     *
-     * @param eZTagsObject $parentTag
      */
-    function updateDepth( $parentTag )
+    public function updateDepth()
     {
-        $depth = ( $parentTag instanceof eZTagsObject ) ? (int) $parentTag->attribute( 'depth' ) + 1 : 1;
+        $parentTag = $this->getParent( true );
+        $depth = $parentTag instanceof self ? $parentTag->attribute( 'depth' ) + 1 : 1;
 
         $this->setAttribute( 'depth', $depth );
         $this->store();
 
-        foreach ( $this->getSynonyms() as $s )
+        foreach ( $this->getSynonyms( true ) as $s )
         {
             $s->setAttribute( 'depth', $depth );
             $s->store();
         }
 
-        foreach ( $this->getChildren() as $c )
+        foreach ( $this->getChildren( 0, null, true ) as $c )
         {
-            $c->updateDepth( $this );
+            $c->updateDepth();
         }
     }
 
     /**
      * Returns whether tag has a parent
      *
+     * @param bool $mainTranslation
+     *
      * @return bool
      */
-    function hasParent()
+    public function hasParent( $mainTranslation = false )
     {
-        $count = eZPersistentObject::count( self::definition(), array( 'id' => $this->attribute( 'parent_id' ) ) );
-
-        if ( $count > 0 )
-        {
-            return true;
-        }
-
-        return false;
+        return $this->getParent( $mainTranslation ) instanceof self;
     }
 
     /**
      * Returns tag parent
      *
+     * @param bool $mainTranslation
+     *
      * @return eZTagsObject
      */
-    function getParent()
+    public function getParent( $mainTranslation = false )
     {
+        if ( $mainTranslation )
+            return self::fetchWithMainTranslation( $this->attribute( 'parent_id' ) );
+
         return self::fetch( $this->attribute( 'parent_id' ) );
     }
 
     /**
      * Returns first level children tags
      *
-     * @param integer $offset
-     * @param integer $limit
-     * @return array
+     * @param bool $mainTranslation
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return eZTagsObject[]
      */
-    function getChildren( $offset = 0, $limit = null )
+    public function getChildren( $offset = 0, $limit = null, $mainTranslation = false )
     {
-        return self::fetchByParentID( $this->attribute( 'id' ), $offset, $limit );
+        return self::fetchByParentID( $this->attribute( 'id' ), $offset, $limit, $mainTranslation );
     }
 
     /**
      * Returns count of first level children tags
      *
-     * @return integer
+     * @param bool $mainTranslation
+     *
+     * @return int
      */
-    function getChildrenCount()
+    public function getChildrenCount( $mainTranslation = false )
     {
-        return self::childrenCountByParentID( $this->attribute( 'id' ) );
+        return self::childrenCountByParentID( $this->attribute( 'id' ), $mainTranslation );
     }
 
     /**
      * Returns objects related to this tag
      *
-     * @return array
+     * @return eZContentObject[]
      */
-    function getRelatedObjects()
+    public function getRelatedObjects()
     {
         // Not an easy task to fetch published objects with API and take care of current_version, status
         // and attribute version, so just use SQL to fetch all related object ids in one go
@@ -195,18 +221,16 @@ class eZTagsObject extends eZPersistentObject
                                    AND o.status = " . eZContentObject::STATUS_PUBLISHED . "
                                    WHERE l.keyword_id = $tagID" );
 
-        if ( is_array( $result ) && !empty( $result ) )
-        {
-            $objectIDArray = array();
-            foreach ( $result as $r )
-            {
-                array_push( $objectIDArray, $r['object_id'] );
-            }
+        if ( !is_array( $result ) || empty( $result ) )
+            return array();
 
-            return eZContentObject::fetchIDArray( $objectIDArray );
+        $objectIDArray = array();
+        foreach ( $result as $r )
+        {
+            $objectIDArray[] = $r['object_id'];
         }
 
-        return array();
+        return eZContentObject::fetchIDArray( $objectIDArray );
     }
 
     /**
@@ -214,7 +238,7 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return int
      */
-    function getRelatedObjectsCount()
+    public function getRelatedObjectsCount()
     {
         // Not an easy task to fetch published objects with API and take care of current_version, status
         // and attribute version, so just use SQL to fetch the object count in one go
@@ -228,9 +252,7 @@ class eZTagsObject extends eZPersistentObject
                                    WHERE l.keyword_id = $tagID" );
 
         if ( is_array( $result ) && !empty( $result ) )
-        {
             return (int) $result[0]['count'];
-        }
 
         return 0;
     }
@@ -238,41 +260,33 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns list of eZContentClassAttribute objects (represented as subtree limitations)
      *
-     * @return array
+     * @return eZContentClassAttribute[]
      */
-    function getSubTreeLimitations()
+    public function getSubTreeLimitations()
     {
-        if ( $this->attribute( 'main_tag_id' ) == 0 )
-        {
-            return eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(), null,
-                                                        array( 'data_type_string'              => 'eztags',
-                                                               eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
-                                                               'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
-        }
-        else
-        {
+        if ( $this->attribute( 'main_tag_id' ) != 0 )
             return array();
-        }
+
+        return parent::fetchObjectList( eZContentClassAttribute::definition(), null,
+                                                    array( 'data_type_string'              => 'eztags',
+                                                           eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
+                                                           'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
     }
 
     /**
      * Returns count of eZContentClassAttribute objects (represented as subtree limitation count)
      *
-     * @return integer
+     * @return int
      */
-    function getSubTreeLimitationsCount()
+    public function getSubTreeLimitationsCount()
     {
-        if ( $this->attribute( 'main_tag_id' ) == 0 )
-        {
-            return eZPersistentObject::count( eZContentClassAttribute::definition(),
-                                              array( 'data_type_string'              => 'eztags',
-                                                     eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
-                                                     'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
-        }
-        else
-        {
+        if ( $this->attribute( 'main_tag_id' ) != 0 )
             return 0;
-        }
+
+        return parent::count( eZContentClassAttribute::definition(),
+                                          array( 'data_type_string'              => 'eztags',
+                                                 eZTagsType::SUBTREE_LIMIT_FIELD => $this->attribute( 'id' ),
+                                                 'version'                       => eZContentClass::VERSION_STATUS_DEFINED ) );
     }
 
     /**
@@ -280,15 +294,17 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return bool
      */
-    function isInsideSubTreeLimit()
+    public function isInsideSubTreeLimit()
     {
-        $tag = $this;
-        while ( $tag->hasParent() )
+        /** @var eZTagsObject[] $path */
+        $path = $this->getPath( true, true );
+
+        if ( is_array( $path ) && !empty( $path ) )
         {
-            $tag = $tag->getParent();
-            if ( $tag->getSubTreeLimitationsCount() > 0 )
+            foreach ( $path as $tag )
             {
-                return true;
+                if ( $tag->getSubTreeLimitationsCount() > 0 )
+                    return true;
             }
         }
 
@@ -298,39 +314,58 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns the main tag for synonym
      *
+     * @param bool $mainTranslation
+     *
      * @return eZTagsObject
      */
-    function getMainTag()
+    public function getMainTag( $mainTranslation = false )
     {
+        if ( $mainTranslation )
+            return self::fetchWithMainTranslation( $this->attribute( 'main_tag_id' ) );
+
         return self::fetch( $this->attribute( 'main_tag_id' ) );
     }
 
     /**
      * Returns synonyms for the tag
      *
-     * @return array
+     * @param bool $mainTranslation
+     *
+     * @return eZTagsObject[]
      */
-    function getSynonyms()
+    public function getSynonyms( $mainTranslation = false )
     {
-        return self::fetchSynonyms( $this->attribute( 'id' ) );
+        return self::fetchSynonyms( $this->attribute( 'id' ), $mainTranslation );
     }
 
     /**
      * Returns synonym count for the tag
      *
-     * @return array
+     * @param bool $mainTranslation
+     *
+     * @return int
      */
-    function getSynonymsCount()
+    public function getSynonymsCount( $mainTranslation = false )
     {
-        return self::synonymsCount( $this->attribute( 'id' ) );
+        return self::synonymsCount( $this->attribute( 'id' ), $mainTranslation );
+    }
+
+    /**
+     * Tells whether tag object is a synonym of another tag object
+     *
+     * @return bool
+     */
+    public function isSynonym()
+    {
+        return $this->attribute( 'main_tag_id' ) > 0;
     }
 
     /**
      * Returns all links to objects for this tag
      *
-     * @return array
+     * @return eZTagsAttributeLinkObject[]
      */
-    function getTagAttributeLinks()
+    public function getTagAttributeLinks()
     {
         return eZTagsAttributeLinkObject::fetchByTagID( $this->attribute( 'id' ) );
     }
@@ -340,32 +375,31 @@ class eZTagsObject extends eZPersistentObject
      *
      * @return string
      */
-    function getIcon()
+    public function getIcon()
     {
         $ini = eZINI::instance( 'eztags.ini' );
+        /** @var array $iconMap */
         $iconMap = $ini->variable( 'Icons', 'IconMap' );
         $defaultIcon = $ini->variable( 'Icons', 'Default' );
 
         if ( $this->attribute( 'main_tag_id' ) > 0 )
-        {
-            $tag = $this->getMainTag();
-        }
+            $tag = $this->getMainTag( true );
         else
-        {
             $tag = $this;
-        }
 
-        if ( array_key_exists( $tag->attribute( 'id' ), $iconMap ) && !empty( $iconMap[$tag->attribute( 'id' )] ) )
-        {
-            return $iconMap[$tag->attribute( 'id' )];
-        }
+        $tagID = $tag->attribute( 'id' );
+        if ( array_key_exists( $tagID, $iconMap ) && !empty( $iconMap[$tagID] ) )
+            return $iconMap[$tagID];
 
-        while ( $tag->attribute( 'parent_id' ) > 0 )
+        /** @var eZTagsObject[] $path */
+        $path = $tag->getPath( true, true );
+        if ( is_array( $path ) && !empty( $path ) )
         {
-            $tag = $tag->getParent();
-            if ( array_key_exists( $tag->attribute( 'id' ), $iconMap ) && !empty( $iconMap[$tag->attribute( 'id' )] ) )
+            foreach ( $path as $pathElement )
             {
-                return $iconMap[$tag->attribute( 'id' )];
+                $pathElementID = $pathElement->attribute( 'id' );
+                if ( array_key_exists( $pathElementID, $iconMap ) && !empty( $iconMap[$pathElementID] ) )
+                    return $iconMap[$pathElementID];
             }
         }
 
@@ -375,35 +409,130 @@ class eZTagsObject extends eZPersistentObject
     /**
      * Returns the URL of the tag, to be used in tags/view
      *
+     * @param bool $clean
+     *
      * @return string
      */
-    function getUrl()
+    public function getUrl( $clean = false )
     {
-        $url = urlencode( $this->attribute( 'keyword' ) );
-        $tag = $this;
+        /** @var eZTagsObject[] $path */
+        $path = $this->getPath();
+        $fullPathCount = $this->getPathCount( true );
+        $urlPrefix = trim( eZINI::instance( 'eztags.ini' )->variable( 'GeneralSettings', 'URLPrefix' ) );
+        $urlPrefix = trim( $urlPrefix, '/' );
 
-        while ( $tag->attribute( 'parent_id' ) > 0 )
+        $keywordArray = array();
+
+        if ( is_array( $path ) )
         {
-            $tag = $tag->getParent();
-            $url = urlencode( $tag->attribute( 'keyword' ) ) . '/' . $url;
+            if ( count( $path ) != $fullPathCount )
+            {
+                return 'tags/id/' . $this->attribute( 'id' );
+            }
+            else
+            {
+                foreach ( $path as $tag )
+                {
+                    $keywordArray[] = $clean ? $tag->attribute( 'keyword' ) : urlencode( $tag->attribute( 'keyword' ) );
+                }
+
+                $keywordArray[] = $clean ? $this->attribute( 'keyword' ) : urlencode( $this->attribute( 'keyword' ) );
+
+                return $clean ? implode( '/', $keywordArray ) : $urlPrefix . '/' . implode( '/', $keywordArray );
+            }
         }
 
-        return $url;
+        return $clean ? $this->attribute( 'keyword' ) : $urlPrefix . '/' . urlencode( $this->attribute( 'keyword' ) );
+    }
+
+    /**
+     * Returns the clean URL of the tag, without prefix and without URL encoding
+     *
+     * @return string
+     */
+    public function getCleanUrl()
+    {
+        return $this->getUrl( true );
+    }
+
+    /**
+     * Returns the array of eZTagsObject objects which are parents of this tag
+     *
+     * @param bool $reverseSort
+     * @param bool $mainTranslation
+     *
+     * @return eZTagsObject[]
+     */
+    public function getPath( $reverseSort = false, $mainTranslation = false )
+    {
+        $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
+
+        if ( !is_array( $pathArray ) || empty( $pathArray ) || count( $pathArray ) == 1 )
+            return array();
+
+        $pathArray = array_slice( $pathArray, 0, count( $pathArray ) - 1 );
+
+        return self::fetchList( array( 'id' => array( $pathArray ) ),
+                                null,
+                                array( 'path_string' => $reverseSort != false ? 'desc' : 'asc' ),
+                                $mainTranslation );
+    }
+
+    /**
+     * Returns the count of eZTagsObject objects which are parents of this tag
+     *
+     * @param bool $mainTranslation
+     *
+     * @return int
+     */
+    public function getPathCount( $mainTranslation = false )
+    {
+        $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
+
+        if ( !is_array( $pathArray ) || empty( $pathArray ) || count( $pathArray ) == 1 )
+            return 0;
+
+        $pathArray = array_slice( $pathArray, 0, count( $pathArray ) - 1 );
+
+        return self::fetchListCount( array( 'id' => array( $pathArray ) ), $mainTranslation );
+    }
+
+    /**
+     * Returns the parent string of the tag
+     *
+     * @return string
+     */
+    public function getParentString()
+    {
+        $keywordsArray = array();
+
+        /** @var eZTagsObject[] $path */
+        $path = $this->getPath( false, true );
+        if ( is_array( $path ) && !empty( $path ) )
+        {
+            foreach ( $path as $tag )
+            {
+                $synonymsCount = $tag->getSynonymsCount( true );
+                $keywordsArray[] = $synonymsCount > 0 ? $tag->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $tag->attribute( 'keyword' );
+            }
+        }
+
+        $synonymsCount = $this->getSynonymsCount( true );
+        $keywordsArray[] = $synonymsCount > 0 ? $this->attribute( 'keyword' ) . ' (+' . $synonymsCount . ')' : $this->attribute( 'keyword' );
+
+        return implode( ' / ', $keywordsArray );
     }
 
     /**
      * Updates modified timestamp on current tag and all of its parents
      * Expensive to run through API, so SQL takes care of it
-     *
      */
-    function updateModified()
+    public function updateModified()
     {
         $pathArray = explode( '/', trim( $this->attribute( 'path_string' ), '/' ) );
 
         if ( $this->attribute( 'main_tag_id' ) > 0 )
-        {
             array_push( $pathArray, $this->attribute( 'main_tag_id' ) );
-        }
 
         if ( !empty( $pathArray ) )
         {
@@ -415,9 +544,8 @@ class eZTagsObject extends eZPersistentObject
 
     /**
      * Registers all objects related to this tag to search engine for processing
-     *
      */
-    function registerSearchObjects()
+    public function registerSearchObjects()
     {
         $eZTagsINI = eZINI::instance( 'eztags.ini' );
 
@@ -429,80 +557,247 @@ class eZTagsObject extends eZPersistentObject
             {
                 eZContentOperationCollection::registerSearchObject( $relatedObject->attribute( 'id' ), $relatedObject->attribute( 'current_version' ) );
             }
+
+            return;
         }
-        else
-        {
-            eZHTTPTool::instance()->setSessionVariable( 'eZTagsShowReindexMessage', 1 );
-        }
+
+        eZHTTPTool::instance()->setSessionVariable( 'eZTagsShowReindexMessage', 1 );
     }
 
     /**
      * Returns eZTagsObject for given ID
      *
      * @static
-     * @param integer $id
+     *
+     * @param int $id
+     * @param mixed $locale
+     *
      * @return eZTagsObject
      */
-    static function fetch( $id )
+    static public function fetch( $id, $locale = false )
     {
-        return eZPersistentObject::fetchObject( self::definition(), null, array( 'id' => $id ) );
+        if ( is_string( $locale ) )
+            $tags = self::fetchList( array( 'id' => $id ), null, null, false, $locale );
+        else
+            $tags = self::fetchList( array( 'id' => $id ) );
+
+        if ( is_array( $tags ) && !empty( $tags ) )
+            return $tags[0];
+
+        return false;
+    }
+
+    /**
+     * Returns eZTagsObject for given ID, using the main translation of the tag
+     *
+     * @static
+     *
+     * @param int $id
+     *
+     * @return eZTagsObject
+     */
+    static public function fetchWithMainTranslation( $id )
+    {
+        $tags = self::fetchList( array( 'id' => $id ), null, null, true );
+
+        if ( is_array( $tags ) && !empty( $tags ) )
+            return $tags[0];
+
+        return false;
     }
 
     /**
      * Returns array of eZTagsObject objects for given params
      *
      * @static
+     *
      * @param array $params
      * @param array $limits
-     * @return array
+     * @param array $sorts
+     * @param bool $mainTranslation
+     * @param mixed $locale
+     *
+     * @return eZTagsObject[]
      */
-    static function fetchList( $params, $limits = null, $asObject = true, $sorts = null )
+    static public function fetchList( $params, $limits = null, $sorts = null, $mainTranslation = false, $locale = false )
     {
-        $tagsList = eZPersistentObject::fetchObjectList( self::definition(), null, $params, $sorts, $limits );
+        $customConds = self::fetchCustomCondsSQL( $params, $mainTranslation, $locale );
 
-        if ( $asObject )
+        if ( is_array( $params ) )
         {
-            return $tagsList;
+            $newParams = array();
+            foreach ( $params as $key => $value )
+            {
+                if ( $key != 'keyword' )
+                    $newParams[$key] = $value;
+                else
+                    $newParams['eztags_keyword.keyword'] = $value;
+            }
+
+            $params = $newParams;
         }
 
-        $tagsArray = array();
-        foreach ( $tagsList as $tag )
+        if ( is_array( $sorts ) )
         {
-            $tagsArray[] = array( 'name' => $tag->attribute( 'keyword' ), 'id' => $tag->attribute( 'id' ) );
+            $newSorts = array();
+            foreach ( $sorts as $key => $value )
+            {
+                if ( $key != 'keyword' )
+                    $newSorts[$key] = $value;
+                else
+                    $newSorts['eztags_keyword.keyword'] = $value;
+            }
+
+            $sorts = $newSorts;
+        }
+        else if ( $sorts == null )
+        {
+            $sorts = array( 'eztags_keyword.keyword' => 'asc' );
         }
 
-        return $tagsArray;
+        $tagsList = parent::fetchObjectList( self::definition(), array(), $params,
+                                                         $sorts, $limits, true, false,
+                                                         array( 'DISTINCT eztags.*',
+                                                                array( 'operation' => 'eztags_keyword.keyword',
+                                                                       'name'      => 'keyword' ),
+                                                                array( 'operation' => 'eztags_keyword.locale',
+                                                                       'name'      => 'locale' ) ),
+                                                         array( 'eztags_keyword' ), $customConds );
+        return $tagsList;
     }
 
     /**
      * Returns count of eZTagsObject objects for given params
      *
      * @static
+     *
      * @param mixed $params
-     * @return integer
+     * @param bool $mainTranslation
+     * @param mixed $locale
+     *
+     * @return int
      */
-    static function fetchListCount( $params )
+    static public function fetchListCount( $params, $mainTranslation = false, $locale = false )
     {
-        return eZPersistentObject::count( self::definition(), $params );
+        $customConds = self::fetchCustomCondsSQL( $params, $mainTranslation, $locale );
+
+        if ( is_array( $params ) )
+        {
+            $newParams = array();
+            foreach ( $params as $key => $value )
+            {
+                if ( $key != 'keyword' )
+                    $newParams[$key] = $value;
+                else
+                    $newParams['eztags_keyword.keyword'] = $value;
+            }
+
+            $params = $newParams;
+        }
+
+        $tagsList = parent::fetchObjectList( self::definition(), array(), $params,
+                                                         array(), null, false, false,
+                                                         array( array( 'operation' => 'COUNT( * )',
+                                                                       'name'      => 'row_count' ) ),
+                                                         array( 'eztags_keyword' ), $customConds );
+
+        return $tagsList[0]['row_count'];
+    }
+
+    /**
+     * Returns the SQL for custom fetching of tags with eZPersistentObject
+     *
+     * @static
+     *
+     * @param mixed $params
+     * @param bool $mainTranslation
+     * @param mixed $locale
+     *
+     * @return string
+     */
+    static public function fetchCustomCondsSQL( $params, $mainTranslation = false, $locale = false )
+    {
+        $customConds = is_array( $params ) && !empty( $params ) ? " AND " : " WHERE ";
+        $customConds .= " eztags.id = eztags_keyword.keyword_id ";
+
+        if ( $mainTranslation !== false )
+        {
+            $customConds .= " AND eztags.main_language_id + MOD( eztags.language_mask, 2 ) = eztags_keyword.language_id ";
+        }
+        else if ( is_string( $locale ) )
+        {
+            $db = eZDB::instance();
+            $customConds .= " AND " . eZContentLanguage::languagesSQLFilter( 'eztags' ) . " ";
+            $customConds .= " AND eztags_keyword.locale = '" . $db->escapeString( $locale ) . "' ";
+        }
+        else
+        {
+            $customConds .= " AND " . eZContentLanguage::languagesSQLFilter( 'eztags' ) . " ";
+            $customConds .= " AND " . eZContentLanguage::sqlFilter( 'eztags_keyword', 'eztags' ) . " ";
+        }
+
+        return $customConds;
+    }
+
+    /**
+     * Returns the list of limitations that eZ Tags support
+     *
+     * @static
+     *
+     * @return array
+     */
+    static public function fetchLimitations()
+    {
+        /** @var eZTagsObject[] $tags */
+        $tags = self::fetchList( array( 'parent_id' => 0, 'main_tag_id' => 0 ), null, null, true );
+
+        if ( !is_array( $tags ) )
+            return array();
+
+        $returnArray = array();
+        foreach ( $tags as $tag )
+        {
+            $returnArray[] = array( 'name' => $tag->attribute( 'keyword' ), 'id' => $tag->attribute( 'id' ) );
+        }
+
+        return $returnArray;
+    }
+
+    /**
+     * Backwards compatible remote ID generator
+     *
+     * @static
+     *
+     * @return string
+     */
+    static public function generateRemoteID()
+    {
+        // eZRemoteIdUtility introduced in eZ Publish version 4.5
+        if ( method_exists( 'eZRemoteIdUtility', 'generate' ) )
+            return eZRemoteIdUtility::generate( 'tag' );
+
+        return md5( (string) mt_rand() . (string) time() );
     }
 
     /**
      * Returns array of eZTagsObject objects for given parent ID
      *
      * @static
-     * @param integer $parentID
-     * @param integer $offset
-     * @param integer $limit
-     * @return array
+     *
+     * @param int $parentID
+     * @param bool $mainTranslation
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return eZTagsObject[]
      */
-    static function fetchByParentID( $parentID, $offset = 0, $limit = null )
+    static public function fetchByParentID( $parentID, $offset = 0, $limit = null, $mainTranslation = false )
     {
-        return eZPersistentObject::fetchObjectList(
-            eZTagsObject::definition(),
-            null,
+        return self::fetchList(
             array( 'parent_id' => $parentID, 'main_tag_id' => 0 ),
+            array( 'offset' => $offset, 'limit' => $limit ),
             null,
-            array( 'offset' => $offset, 'length' => $limit )
+            $mainTranslation
         );
     }
 
@@ -510,175 +805,183 @@ class eZTagsObject extends eZPersistentObject
      * Returns count of eZTagsObject objects for given parent ID
      *
      * @static
-     * @param integer $parentID
-     * @return integer
+     *
+     * @param int $parentID
+     * @param bool $mainTranslation
+     *
+     * @return int
      */
-    static function childrenCountByParentID( $parentID )
+    static public function childrenCountByParentID( $parentID, $mainTranslation = false )
     {
-        return eZPersistentObject::count( self::definition(), array( 'parent_id' => $parentID, 'main_tag_id' => 0 ) );
+        return self::fetchListCount( array( 'parent_id' => $parentID, 'main_tag_id' => 0 ), $mainTranslation );
     }
 
     /**
      * Returns array of eZTagsObject objects that are synonyms of provided tag ID
      *
      * @static
-     * @param integer $mainTagID
-     * @return array
+     *
+     * @param int $mainTagID
+     * @param bool $mainTranslation
+     *
+     * @return eZTagsObject[]
      */
-    static function fetchSynonyms( $mainTagID )
+    static public function fetchSynonyms( $mainTagID, $mainTranslation = false )
     {
-        return eZPersistentObject::fetchObjectList( self::definition(), null, array( 'main_tag_id' => $mainTagID ) );
+        return self::fetchList( array( 'main_tag_id' => $mainTagID ), null, null, $mainTranslation );
     }
 
     /**
      * Returns count of eZTagsObject objects that are synonyms of provided tag ID
      *
      * @static
-     * @param integer $mainTagID
-     * @return integer
+     *
+     * @param int $mainTagID
+     * @param bool $mainTranslation
+     *
+     * @return int
      */
-    static function synonymsCount( $mainTagID )
+    static public function synonymsCount( $mainTagID, $mainTranslation = false )
     {
-        return eZPersistentObject::count( self::definition(), array( 'main_tag_id' => $mainTagID ) );
+        return self::fetchListCount( array( 'main_tag_id' => $mainTagID ), $mainTranslation );
     }
 
     /**
      * Returns array of eZTagsObject objects for given keyword
      *
      * @static
-     * @param mixed $keyword
-     * @return array
-     */
-    static function fetchByKeyword( $keyword )
-    {
-        $cond = $customCond = null;
-
-        if ( strpos( $keyword, '*' ) !== false )
-            $customCond = self::generateCustomCondition( $keyword );
-        else
-            $cond = array( 'keyword' => $keyword );
-
-        return eZPersistentObject::fetchObjectList( self::definition(),
-                                                    null,
-                                                    $cond,
-                                                    null,
-                                                    null,
-                                                    true,
-                                                    false,
-                                                    null,
-                                                    null,
-                                                    $customCond );
-    }
-
-    /**
-     * Returns a custom conditional string for wildcard searching (copied from
-     * eZContentObjectTreeNode).
      *
-     * @static
-     * @param string $keyword
-     * @return string
+     * @param mixed $keyword
+     * @param bool $mainTranslation
+     *
+     * @return eZTagsObject[]
      */
-    static private function generateCustomCondition( $keyword )
+    static public function fetchByKeyword( $keyword, $mainTranslation = false )
     {
-        $keyword = preg_replace( array( '#%#m',
-                                        '#(?<!\\\\)\\*#m',
-                                        '#(?<!\\\\)\\\\\\*#m',
-                                        '#\\\\\\\\#m' ),
-                                 array( '\\%',
-                                        '%',
-                                        '*',
-                                        '\\\\' ), $keyword );
-        $db = eZDB::instance();
-        $keyword = $db->escapeString( $keyword );
-        return " WHERE eztags.keyword LIKE '$keyword'";
+        return self::fetchList( array( 'keyword' => $keyword ), null, null, $mainTranslation );
     }
 
     /**
      * Returns the array of eZTagsObject objects for given path string
      *
      * @static
+     *
      * @param string $pathString
-     * @return array
+     * @param bool $mainTranslation
+     *
+     * @return eZTagsObject[]
      */
-    static function fetchByPathString( $pathString )
+    static public function fetchByPathString( $pathString, $mainTranslation = false )
     {
-        return eZPersistentObject::fetchObjectList( self::definition(), null,
-                                                    array( 'path_string' => array( 'like', $pathString . '%' ),
-                                                           'main_tag_id' => 0 ) );
+        return self::fetchList( array( 'path_string' => array( 'like', $pathString . '%' ),
+                                       'main_tag_id' => 0 ), null, null, $mainTranslation );
     }
 
     /**
-     * Returns if tag with provided keyword and parent ID already exists, not counting tag with provided tag ID
+     * Fetches tag by remote ID
      *
      * @static
-     * @param string $keyword
-     * @param integer $parentID
-     * @return bool
+     *
+     * @param string $remoteID
+     * @param bool $mainTranslation
+     *
+     * @return eZTagsObject|null
      */
-    static function exists( $tagID, $keyword, $parentID )
+    static public function fetchByRemoteID( $remoteID, $mainTranslation = false )
     {
-        $params = array( 'keyword' => array( 'like', trim( $keyword ) ), 'parent_id' => $parentID );
+        $tagsList = self::fetchList( array( 'remote_id' => $remoteID ), null, null, $mainTranslation );
 
-        if ( $tagID > 0 )
-        {
-            $params['id'] = array( '!=', $tagID );
-        }
+        if ( is_array( $tagsList ) && !empty( $tagsList ) )
+            return $tagsList[0];
 
-        $count = self::fetchListCount( $params );
-        if ( $count > 0 )
-            return true;
-        return false;
+        return null;
     }
 
     /**
-     * Recursively deletes all children tags of the given tag, including the given tag itself
+     * Fetches tag by URL
      *
      * @static
-     * @param eZTagsObject $rootTag
+     *
+     * @param string $url
+     * @param bool $mainTranslation
+     *
+     * @return eZTagsObject|null
      */
-    static function recursiveTagDelete( $rootTag )
+    static public function fetchByUrl( $url, $mainTranslation = false )
     {
-        $children = self::fetchByParentID( $rootTag->attribute( 'id' ) );
+        $urlArray = is_array( $url ) ? $url : explode( '/', ltrim( $url, '/' ) );
+        if ( !is_array( $urlArray ) || empty( $urlArray ) )
+            return null;
 
-        foreach ( $children as $child )
+        $parentID = 0;
+        for ( $i = 0; $i < count( $urlArray ) - 1; $i++ )
         {
-            self::recursiveTagDelete( $child );
+            /** @var eZTagsObject[] $tags */
+            $tags = self::fetchList(
+                array(
+                    'parent_id' => $parentID,
+                    'main_tag_id' => 0,
+                    'keyword' => urldecode( trim( $urlArray[$i] ) )
+                ),
+                null,
+                null,
+                $mainTranslation
+            );
+
+            if ( !is_array( $tags ) || empty( $tags ) )
+                return null;
+
+            $parentID = $tags[0]->attribute( 'id' );
         }
 
-        $rootTag->registerSearchObjects();
-        foreach ( $rootTag->getTagAttributeLinks() as $tagAttributeLink )
+        $tags = self::fetchList(
+            array(
+                'parent_id' => $parentID,
+                'keyword' => urldecode( trim( $urlArray[count( $urlArray ) - 1] ) )
+            ),
+            null,
+            null,
+            $mainTranslation
+        );
+
+        if ( !is_array( $tags ) || empty( $tags ) )
+            return null;
+
+        return $tags[0];
+    }
+
+    /**
+     * Recursively deletes all tags below this tag, including self
+     */
+    public function recursivelyDeleteTag()
+    {
+        foreach ( $this->getChildren( 0, null, true ) as $child )
         {
-            $tagAttributeLink->remove();
+            $child->recursivelyDeleteTag();
         }
 
-        $synonyms = $rootTag->getSynonyms();
-        foreach ( $synonyms as $synonym )
-        {
-            foreach ( $synonym->getTagAttributeLinks() as $tagAttributeLink )
-            {
-                $tagAttributeLink->remove();
-            }
+        $this->registerSearchObjects();
 
+        foreach ( $this->getSynonyms( true ) as $synonym )
+        {
             $synonym->remove();
         }
 
-        $rootTag->remove();
+        $this->remove();
     }
 
     /**
-     * Moves all children tags of the provided tag to the new location
+     * Moves all children of this tag below another tag
      *
-     * @static
-     * @param eZTagsObject $tag
      * @param eZTagsObject $targetTag
      */
-    static function moveChildren( $tag, $targetTag )
+    public function moveChildrenBelowAnotherTag( eZTagsObject $targetTag )
     {
         $currentTime = time();
-        $children = $tag->getChildren();
+        $children = $this->getChildren( 0, null, true );
         foreach ( $children as $child )
         {
-            $childSynonyms = $child->getSynonyms();
+            $childSynonyms = $child->getSynonyms( true );
             foreach ( $childSynonyms as $childSynonym )
             {
                 $childSynonym->setAttribute( 'parent_id', $targetTag->attribute( 'id' ) );
@@ -686,7 +989,7 @@ class eZTagsObject extends eZPersistentObject
             }
 
             $child->setAttribute( 'parent_id', $targetTag->attribute( 'id' ) );
-            $child->Modified = $currentTime;
+            $child->setAttribute( 'modified', $currentTime );
             $child->store();
             $child->updatePathString( $targetTag );
             $child->updateDepth( $targetTag );
@@ -694,23 +997,111 @@ class eZTagsObject extends eZPersistentObject
     }
 
     /**
+     * Transfers all objects related to this tag, to another tag
+     *
+     * @param eZTagsObject|int $destination
+     */
+    public function transferObjectsToAnotherTag( $destination )
+    {
+        if ( !$destination instanceof self )
+        {
+            $destination = self::fetchWithMainTranslation( (int) $destination );
+            if ( !$destination instanceof self )
+                return;
+        }
+
+        foreach ( $this->getTagAttributeLinks() as $tagAttributeLink )
+        {
+            $link = eZTagsAttributeLinkObject::fetchByObjectAttributeAndKeywordID(
+                        $tagAttributeLink->attribute( 'objectattribute_id' ),
+                        $tagAttributeLink->attribute( 'objectattribute_version' ),
+                        $tagAttributeLink->attribute( 'object_id' ),
+                        $destination->attribute( 'id' ) );
+
+            if ( !$link instanceof eZTagsAttributeLinkObject )
+            {
+                $tagAttributeLink->setAttribute( 'keyword_id', $destination->attribute( 'id' ) );
+                $tagAttributeLink->store();
+            }
+            else
+            {
+                $tagAttributeLink->remove();
+            }
+        }
+    }
+
+    /**
+     * Removes self, while also removing related translations and links to objects
+     *
+     * @param mixed $conditions
+     * @param mixed $extraConditions
+     */
+    public function remove( $conditions = null, $extraConditions = null )
+    {
+        foreach ( $this->getTagAttributeLinks() as $tagAttributeLink )
+        {
+            $tagAttributeLink->remove();
+        }
+
+        foreach ( $this->getTranslations() as $translation )
+        {
+            $translation->remove();
+        }
+
+        parent::remove( $conditions, $extraConditions );
+    }
+
+    /**
+     * Returns if tag with provided keyword and parent ID already exists, not counting tag with provided tag ID
+     *
+     * @static
+     *
+     * @param int $tagID
+     * @param string $keyword
+     * @param int $parentID
+     *
+     * @return bool
+     */
+    static public function exists( $tagID, $keyword, $parentID )
+    {
+        $db = eZDB::instance();
+        $sql = "SELECT COUNT(*) AS row_count FROM eztags, eztags_keyword
+                WHERE eztags.id = eztags_keyword.keyword_id AND
+                eztags.parent_id = " . (int) $parentID . " AND
+                eztags.id <> " . (int) $tagID . " AND
+                eztags_keyword.keyword LIKE '" . $db->escapeString( $keyword ) . "'";
+
+        $result = $db->arrayQuery( $sql );
+
+        if ( is_array( $result ) && !empty( $result ) )
+        {
+            if ( (int) $result[0]['row_count'] > 0 )
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Fetches subtree of tags by specified parameters
      *
      * @static
+     *
      * @param array $params
-     * @param integer $tagID
-     * @return array
+     * @param int $tagID
+     *
+     * @return eZTagsObject[]
      */
-    static function subTreeByTagID( $params = array(), $tagID = 0 )
+    static public function subTreeByTagID( $params = array(), $tagID = 0 )
     {
         if ( !is_numeric( $tagID ) || (int) $tagID < 0 )
             return false;
 
-        $tag = eZTagsObject::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject )
+        $tag = self::fetch( (int) $tagID );
+        if ( (int) $tagID > 0 && !$tag instanceof self )
             return false;
 
-        if ( $tag instanceof eZTagsObject && $tag->attribute( 'main_tag_id' ) != 0 )
+        if ( $tag instanceof self && $tag->attribute( 'main_tag_id' ) != 0 )
             return false;
 
         if ( !is_array( $params ) )
@@ -737,7 +1128,7 @@ class eZTagsObject extends eZPersistentObject
         if ( $depth !== false && (int) $depth > 0 )
         {
             $tagDepth = 0;
-            if ( $tag instanceof eZTagsObject )
+            if ( $tag instanceof self )
                 $tagDepth = (int) $tag->attribute( 'depth' );
 
             $depth = (int) $depth + $tagDepth;
@@ -800,7 +1191,7 @@ class eZTagsObject extends eZPersistentObject
         if ( empty( $sorts ) )
             $sorts = null;
 
-        $fetchResults = self::fetchList( $fetchParams, $limits, true, $sorts );
+        $fetchResults = self::fetchList( $fetchParams, $limits, $sorts );
 
         if ( is_array( $fetchResults ) && !empty( $fetchResults ) )
             return $fetchResults;
@@ -812,20 +1203,22 @@ class eZTagsObject extends eZPersistentObject
      * Fetches subtree tag count by specified parameters
      *
      * @static
+     *
      * @param array $params
-     * @param integer $tagID
-     * @return integer
+     * @param int $tagID
+     *
+     * @return int
      */
-    static function subTreeCountByTagID( $params = array(), $tagID = 0 )
+    static public function subTreeCountByTagID( $params = array(), $tagID = 0 )
     {
         if ( !is_numeric( $tagID ) || (int) $tagID < 0 )
             return 0;
 
-        $tag = eZTagsObject::fetch( (int) $tagID );
-        if ( (int) $tagID > 0 && !$tag instanceof eZTagsObject )
+        $tag = self::fetch( (int) $tagID );
+        if ( (int) $tagID > 0 && !$tag instanceof self )
             return 0;
 
-        if ( $tag instanceof eZTagsObject && $tag->attribute( 'main_tag_id' ) != 0 )
+        if ( $tag instanceof self && $tag->attribute( 'main_tag_id' ) != 0 )
             return 0;
 
         if ( !is_array( $params ) )
@@ -849,7 +1242,7 @@ class eZTagsObject extends eZPersistentObject
         if ( $depth !== false && (int) $depth > 0 )
         {
             $tagDepth = 0;
-            if ( $tag instanceof eZTagsObject )
+            if ( $tag instanceof self )
                 $tagDepth = (int) $tag->attribute( 'depth' );
 
             $depth = (int) $depth + $tagDepth;
@@ -878,42 +1271,346 @@ class eZTagsObject extends eZPersistentObject
     }
 
     /**
-     * Fetches Tag by remote_id
-     * @param string $remoteID
-     * @return eZTagsObject
+     * Generates module result path for this tag, used in all module views
+     *
+     * @static
+     *
+     * @param mixed $tag
+     * @param mixed $urlToGenerate
+     * @param mixed $textPart
+     * @param bool $mainTranslation
+     *
+     * @return array
      */
-    static function fetchByRemoteID( $remoteID )
+    static public function generateModuleResultPath( $tag = false, $urlToGenerate = null, $textPart = false, $mainTranslation = true )
     {
-        return eZPersistentObject::fetchObject( self::definition(), null, array(
-            'remote_id' => $remoteID
-        ) );
+        $moduleResultPath = array();
+
+        if ( is_string( $textPart ) )
+        {
+            $moduleResultPath[] = array( 'text'   => $textPart,
+                                         'url'    => false );
+        }
+
+        if ( $tag instanceof self )
+        {
+            /** @var eZTagsObject $tag */
+            $moduleResultPath[] = array( 'tag_id' => $tag->attribute( 'id' ),
+                                         'text'   => $tag->attribute( 'keyword' ),
+                                         'url'    => false );
+
+            /** @var eZTagsObject[] $path */
+            $path = $tag->getPath( true, $mainTranslation );
+            if ( is_array( $path ) && !empty( $path ) )
+            {
+                foreach ( $path as $pathElement )
+                {
+                    // if $urlToGenerate === null, generate no urls
+                    $url = false;
+                    if ( $urlToGenerate !== null )
+                    {
+                        // if true generate nice urls
+                        if ( $urlToGenerate )
+                            $url = $pathElement->getUrl();
+                        // else generate urls with ID
+                        else
+                            $url = 'tags/id/' . $pathElement->attribute( 'id' );
+                    }
+
+                    $moduleResultPath[] = array( 'tag_id' => $pathElement->attribute( 'id' ),
+                                                 'text'   => $pathElement->attribute( 'keyword' ),
+                                                 'url'    => $url );
+                }
+            }
+        }
+
+        return array_reverse( $moduleResultPath );
     }
 
     /**
-     * Backward compatible remoteID generator
+     * Returns tag translation for provided locale
+     *
+     * @param string $locale
+     *
+     * @return eZTagsKeyword
+     */
+    public function translationByLocale( $locale )
+    {
+        return eZTagsKeyword::fetch( $this->attribute( 'id' ), $locale );
+    }
+
+    /**
+     * Returns all tag translations
+     *
+     * @return eZTagsKeyword[]
+     */
+    public function getTranslations()
+    {
+        return eZTagsKeyword::fetchByTagID( $this->attribute( 'id' ) );
+    }
+
+    /**
+     * Returns count of tag translations
+     *
+     * @return int
+     */
+    public function getTranslationsCount()
+    {
+        return eZTagsKeyword::fetchCountByTagID( $this->attribute( 'id' ) );
+    }
+
+    /**
+     * Returns the main translation of this tag
+     *
+     * @return eZTagsKeyword
+     */
+    public function getMainTranslation()
+    {
+        /** @var eZContentLanguage $language */
+        $language = eZContentLanguage::fetch( $this->attribute( 'main_language_id' ) );
+        if ( $language instanceof eZContentLanguage )
+            return $this->translationByLocale( $language->attribute( 'locale' ) );
+
+        return false;
+    }
+
+    /**
+     * Returns translation of the tag for provided language ID
+     *
+     * @param int $languageID
+     *
+     * @return eZTagsKeyword
+     */
+    public function translationByLanguageID( $languageID )
+    {
+        /** @var eZContentLanguage $language */
+        $language = eZContentLanguage::fetch( $languageID );
+        if ( $language instanceof eZContentLanguage )
+            return $this->translationByLocale( $language->attribute( 'locale' ) );
+
+        return false;
+    }
+
+    /**
+     * Returns the tag keyword, locale aware
+     *
+     * @param mixed $locale
+     *
      * @return string
      */
-    static function generateRemoteID()
+    public function getKeyword( $locale = false )
     {
-        //eZRemoteIdUtility introduced in eZPublish version 4.5
-        if ( method_exists( 'eZRemoteIdUtility', 'generate' ) )
+        if ( $this->attribute( 'id' ) == null )
+            return $this->Keyword;
+
+        $translation = $this->translationByLocale( $locale === false ? $this->CurrentLanguage : $locale );
+        if ( $translation instanceof eZTagsKeyword )
+            return $translation->attribute( 'keyword' );
+
+        return '';
+    }
+
+    /**
+     * Returns the array of eZTagsKeyword->languageName() arrays, for every translation of the tag
+     *
+     * @return array
+     */
+    public function languageNameArray()
+    {
+        $languageNameArray = array();
+        $translations = $this->getTranslations();
+
+        foreach ( $translations as $translation )
         {
-            return eZRemoteIdUtility::generate( 'tag' );
+            $languageName = $translation->languageName();
+
+            if ( is_array( $languageName ) )
+                $languageNameArray[$languageName['locale']] = $languageName['name'];
         }
-        else
+
+        return $languageNameArray;
+    }
+
+    /**
+     * Returns the current language (locale) of the tag
+     *
+     * @return string
+     */
+    public function getCurrentLanguage()
+    {
+        return $this->CurrentLanguage;
+    }
+
+    /**
+     * Returns the list of locales for which this tag is translated
+     *
+     * @return array
+     */
+    public function getAvailableLanguages()
+    {
+        $languages = eZContentLanguage::decodeLanguageMask( $this->attribute( 'language_mask' ), true );
+        return $languages['language_list'];
+    }
+
+    /**
+     * Returns if this tag has translation specified by $locale
+     *
+     * @param string $locale
+     *
+     * @return bool
+     */
+    public function hasTranslation( $locale )
+    {
+        $availableLanguages = $this->getAvailableLanguages();
+        return in_array( $locale, $availableLanguages );
+    }
+
+    /**
+     * Sets the main translation of the tag to provided locale
+     *
+     * @param string $locale
+     *
+     * @return bool
+     */
+    public function updateMainTranslation( $locale )
+    {
+        $trans = $this->translationByLocale( $locale );
+        /** @var eZContentLanguage $language */
+        $language = eZContentLanguage::fetchByLocale( $locale );
+        if ( !$trans instanceof eZTagsKeyword || !$language instanceof eZContentLanguage )
+            return false;
+
+        $this->setAttribute( 'main_language_id', $language->attribute( 'id' ) );
+        $keyword = $this->getKeyword( $locale );
+        $this->setAttribute( 'keyword', $keyword );
+        $this->store();
+
+        $isAlwaysAvailable = $this->isAlwaysAvailable();
+        foreach ( $this->getTranslations() as $translation )
         {
-           return md5( (string) mt_rand() . (string) time() );
+            if ( !$isAlwaysAvailable )
+                $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
+            else
+            {
+                if ( $translation->attribute( 'locale' ) != $language->attribute( 'locale' ) )
+                    $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
+                else
+                    $languageID = (int) $translation->attribute( 'language_id' ) | 1;
+            }
+
+            $translation->setAttribute( 'language_id', $languageID );
+            $translation->store();
+        }
+
+        return true;
+    }
+
+    /**
+     * Updates language mask of the tag based on current translations or provided language mask
+     *
+     * @param mixed $mask
+     */
+    public function updateLanguageMask( $mask = false )
+    {
+        if ( $mask === false )
+        {
+            $locales = array();
+            foreach ( $this->getTranslations() as $translation )
+            {
+                $locales[] = $translation->attribute( 'locale' );
+            }
+
+            $mask = eZContentLanguage::maskByLocale( $locales, $this->isAlwaysAvailable() );
+        }
+
+        $this->setAttribute( 'language_mask', $mask );
+        $this->store();
+    }
+
+    /**
+     * Returns if this tag is always available
+     *
+     * @return bool
+     */
+    public function isAlwaysAvailable()
+    {
+        $zerothBit = (int) $this->attribute( 'language_mask' ) & 1;
+        return $zerothBit > 0 ? true : false;
+    }
+
+    /**
+     * Sets/unsets always available flag for this tag
+     *
+     * @param bool $alwaysAvailable
+     */
+    public function setAlwaysAvailable( $alwaysAvailable )
+    {
+        $languageMask = (int) $this->attribute( 'language_mask' ) & ~1;
+        $zerothBit = $alwaysAvailable ? 1 : 0;
+
+        $this->setAttribute( 'language_mask', $languageMask | $zerothBit );
+        $this->store();
+
+        $mainTranslation = $this->getMainTranslation();
+        if ( $mainTranslation instanceof eZTagsKeyword )
+        {
+            foreach ( $this->getTranslations() as $translation )
+            {
+                if ( !$alwaysAvailable )
+                    $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
+                else
+                {
+                    if ( $translation->attribute( 'locale' ) != $mainTranslation->attribute( 'locale' ) )
+                        $languageID = (int) $translation->attribute( 'language_id' ) & ~1;
+                    else
+                        $languageID = (int) $translation->attribute( 'language_id' ) | 1;
+                }
+
+                $translation->setAttribute( 'language_id', $languageID );
+                $translation->store();
+            }
         }
     }
 
     /**
-     * Tells wether tag object is a synonym of another tag object
-     * @return boolean
+     * Recursively deletes all children tags of the given tag, including the given tag itself
+     * Deprecated: see $this->recursivelyDeleteTag()
+     *
+     * @deprecated
+     *
+     * @static
+     *
+     * @param eZTagsObject $rootTag
      */
-    function isSynonym()
+    static public function recursiveTagDelete( $rootTag )
     {
-        return $this->attribute( 'main_tag_id' ) && $this->attribute( 'main_tag_id' ) !== $this->attribute( 'id' );
-    }
-}
+        if ( !$rootTag instanceof self )
+            return;
 
-?>
+        $rootTag->recursivelyDeleteTag();
+    }
+
+    /**
+     * Moves all children tags of the provided tag to the new location
+     * Deprecated: see $this->moveChildrenBelowAnotherTag()
+     *
+     * @deprecated
+     *
+     * @static
+     *
+     * @param eZTagsObject $tag
+     * @param eZTagsObject $targetTag
+     */
+    static public function moveChildren( $tag, $targetTag )
+    {
+        if ( !$tag instanceof self )
+            return;
+
+        $tag->moveChildrenBelowAnotherTag( $targetTag );
+    }
+
+    /**
+     * @var bool|string $CurrentLanguage
+     */
+    private $CurrentLanguage = false;
+}
