@@ -9,28 +9,28 @@
       "tag_name": "coffee",
       "tag_id": "1",
       "tag_depth": 1,
-      "tag_locale": "eng-EU"
+      "tag_locale": "eng-GB"
     }, {
       "tag_parent_id": "0",
       "tag_parent_name": "",
       "tag_name": "tea",
       "tag_id": "2",
       "tag_depth": 1,
-      "tag_locale": "eng-EU"
+      "tag_locale": "eng-GB"
     }, {
       "tag_parent_id": "0",
       "tag_parent_name": "",
       "tag_name": "beer",
       "tag_id": "3",
       "tag_depth": 1,
-      "tag_locale": "eng-EU"
+      "tag_locale": "eng-GB"
     }, {
       "tag_parent_id": "0",
       "tag_parent_name": "",
       "tag_name": "wine",
       "tag_id": "4",
       "tag_depth": 1,
-      "tag_locale": "eng-EU",
+      "tag_locale": "eng-GB",
       "tag_empty": true
     }]
   }

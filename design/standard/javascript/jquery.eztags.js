@@ -288,6 +288,12 @@
     return data ? fn(data) : fn;
   };
 
+  /**
+  * Renders template
+  * @param  {string} name  Name of template to render.
+  * @param  {object} data  Optional data to pass into view.
+  * @return {string} String containing markup to render.
+  */
   Base.prototype.render_template = function(name, data) {
     var t = (this.opts.templates[name] = this.opts.templates[name] || $('.'+name, this.$el).html());
     return this.tpl(t.join ? t.join('') : t, $.extend({}, data, {tr: this.opts.translations}));
@@ -300,7 +306,9 @@
     this.$el.append($markup);
   };
 
-
+  /**
+   * Initializes ui elements
+   */
   Base.prototype.setup_ui = function() {
     this.render_skeleton();
 
@@ -323,7 +331,10 @@
 
 
   //Suggest ======================================================================================
-
+  /**
+   * Fetch suggestion tags based on current tag(s) user has set. If there are no
+   * tags set, function exists without doing anything. Else, ajax call is made.
+   */
   Base.prototype.fetch_suggestions = function() {
     if(!this.tags.length){return;}
 
@@ -338,7 +349,11 @@
     //$.get('suggest.json', $.proxy(this.after_fetch_suggestions, this));
   };
 
-
+  /**
+   * Fetch autocomplete. Makes new ajax call only if search string changes.
+   * No return value. Makes call to after_fech_autocomplete on successful ajax call.
+   * @param  {object} e Event object.
+   */
   Base.prototype.fetch_autocomplete = function(e) {
     if(EzTags.is_key(e, ['UP', 'DOWN', 'LEFT', 'RIGHT', 'ESC', 'RETURN'])){return;}
     var search_string = this.get_tag_name_from_input();
@@ -362,6 +377,11 @@
     //$.get('autocomplete.json', $.proxy(this.after_fetch_autocomplete, this));
   };
 
+  /**
+   * Fills autocomplete_tags property object with fetch tags. And than
+   * calls functions to render autocomplete tags and display autocomplete.
+   * @param  {object} data Object containing fetch tags.
+   */
   Base.prototype.after_fetch_autocomplete = function(data) {
     var tags = data.content.tags, self = this, tag;
     tags = tags.slice(0, this.opts.maxResults); //TODO: shouldn't administration take care of this?
@@ -384,7 +404,10 @@
 
   };
 
-
+  /**
+   * Renders autocomplete tags.
+   * No return value.
+   */
   Base.prototype.render_autocomplete_tags = function() {
     var self = this;
     var items = $.map(this.available_autocomplete_tags(), function(tag){
@@ -393,7 +416,10 @@
     this.$autocomplete_tags.html(items);
   };
 
-
+  /**
+   * Shows autocomplete if there are any available autocomplete_tags or tree picker
+   * is NOT open.
+   */
   Base.prototype.show_autocomplete = function() {
     var available_autocomplete_tags = this.available_autocomplete_tags();
     if(!available_autocomplete_tags.length || this.tree_picker_open){return;}
@@ -401,7 +427,11 @@
     if (this.$autocomplete_tags.height() > this.opts.maxHeight){ this.$autocomplete_tags.height(this.opts.maxHeight);}
   };
 
-
+  /**
+   * Returns available autocomplete tags.
+   * @return {object} Callback function that returns only tags that are not already
+   * in defined tags object.
+   */
   Base.prototype.available_autocomplete_tags = function() {
     var self = this;
     return $.map(this.autocomplete_tags.items, function(tag){
@@ -409,12 +439,19 @@
     });
   };
 
-
+  /**
+   * Hides autocomplete element in view
+   */
   Base.prototype.close_autocomplete = function() {
     this.$('.results-wrap').html('').parent().hide();
   };
 
-
+  /**
+   * Callback function called after successful ajax call that fetches suggestion tags.
+   * Function creates Collection object and adds fetch suggestion tags to it.
+   * Returns no value. Calls render function.
+   * @param  {object} data Data object containing fetched tags from ajax call.
+   */
   Base.prototype.after_fetch_suggestions = function(data) {
     var tag, self = this;
     this.suggested_tags = new this.CollectionKlass();
@@ -433,7 +470,14 @@
   };
 
 
-
+  /**
+   * Parses multiple raw_tags and creates new CollectionKlass object if collection
+   * is not passed as parameter. Calls parse function on each raw tag and adds them as
+   * TagKlass objects to CollectionKlass object. As a result returns tags collection.
+   * @param  {object} raw_tags   Object containing objects with raw tag data.
+   * @param  {CollectionKlass object} collection CollectionKlass object containing already defined tags.
+   * @return {CollectionKlass object} Newly created or edit tags collection.
+   */
   Base.prototype.parse_remote_tags = function(raw_tags, collection) {
     var tags = collection || new this.CollectionKlass(),
         self = this;
@@ -445,7 +489,11 @@
     return tags;
   };
 
-
+  /**
+   * Parse recieved tag and returns new TagKlass object
+   * @param  {object} raw Object with raw tag data. Not derived from TagKlass.
+   * @return {object}     TagKlass object, mapped with data from raw param.
+   */
   Base.prototype.parse_remote_tag = function(raw) {
     return new this.TagKlass({
         parent_id: raw.tag_parent_id,
@@ -458,6 +506,9 @@
       });
   };
 
+  /**
+   * Dislabe add button when input for tag name is empty. Enable it otherwise.
+   */
   Base.prototype.enable_or_disable_add_button = function(){
     this.get_tag_name_from_input() ? this.enable_add_button() : this.disable_add_button();
   };
@@ -471,7 +522,9 @@
     this.$add_button.addClass('button-disabled').removeClass('button').attr('disabled', true);
   };
 
-
+  /**
+   * Map events on event listeners.
+   */
   Base.prototype.setup_events = function() {
     this.$add_button.on('click', $.proxy(this.handler_add_buton, this));
     this.$el.on('click', '.js-tags-remove', $.proxy(this.handler_remove_buton, this));
@@ -487,12 +540,23 @@
     this.setup_sortable();
   };
 
+  /**
+   * Adds tag user clicks on autocomplete list.
+   * @param  {object} e jQuery click event object.
+   */
   Base.prototype.handler_autocomplete_tag = function(e){
     e.preventDefault();
     var tag = this.autocomplete_tags.find($(e.target).closest('[data-cid]').data('cid'));
     this.add(tag);
   };
 
+  /**
+   * Enables navigation through autocomplete dropdown with following keys:
+   * ESC => closes dropdown
+   * UP, DOWN => move through items of dropdown
+   * SPACE => select item, equivalent to click
+   * @param  {object} e jQuery event object on keydown event.
+   */
   Base.prototype.navigate_autocomplete_dropdown = function(e) {
     if(EzTags.is_key(e, 'ESC')){ this.close_autocomplete();}
 
@@ -521,6 +585,11 @@
     }
   };
 
+  /**
+   * Handles click event on suggested tags. Removes selected tag from suggested tags list
+   * and adds it to tags related to this object.
+   * @param  {object} e jQuery event object on click event
+   */
   Base.prototype.handler_suggested_tag = function(e){
     e.preventDefault();
     if(this.max_tags_limit_reached()){return;}
@@ -530,7 +599,13 @@
     this.render_suggested_tags();
   };
 
-
+  /**
+   * Handles adding a new tag on add button click.
+   * Fetches tag name from input field and selected locale, calls validation
+   * on these attributes and if subtreeLimit is > 0, adds tag to this tags property.
+   * Else, calls function that shows parent tree picker.
+   * At the end, closes autocomplete field.
+   */
   Base.prototype.handler_add_buton = function() {
 
     this.new_tag_attributes = {
@@ -549,6 +624,11 @@
 
   };
 
+  /**
+   * Handles tag removal on button click.
+   * @param  {object} e jQuery event object on click event.
+   * @return {object}   Tag that was removed.
+   */
   Base.prototype.handler_remove_buton = function(e){
     e.preventDefault();
     return this.remove($(e.target).closest('[data-cid]').data('cid'));
@@ -598,7 +678,9 @@
     });
   };
 
-
+  /**
+   * Renders tags in this.tags property object in list of selected tags.
+   */
   Base.prototype.render_tags = function() {
     var self = this;
     var tags = $.map(this.tags.items, function(tag){
@@ -607,6 +689,9 @@
     this.$selected_tags.html(tags);
   };
 
+  /**
+   * Renders tags located in this.suggested_tags.items object in list of suggested tags.
+   */
   Base.prototype.render_suggested_tags = function() {
     var self = this;
     var tags = $.map(this.suggested_tags.items, function(tag){
@@ -615,14 +700,25 @@
     this.$suggested_tags.html(tags);
   };
 
-
+  /**
+   * Sets parent_id of tag that required manually selecting parent through tree picker
+   * while being created. Check handler_add_buton function for more information.
+   * Also adds this newly created tag to this.tags object.
+   * @param  {string} parent_id Id of selected parent.
+   */
   Base.prototype.select_parent_id_from_tree_picker = function(parent_id){
     this.new_tag_attributes.parent_id = parent_id;
     this.add(this.new_tag_attributes);
   };
 
 
-
+  /**
+   * Helper method that creates new tag object from TagKlass and adds it to
+   * this.tags collection.
+   * @param  {object} attributes Contains attributes that describe a tag.
+   * @param  {object} opts       Optional parameters.
+   * @return {TagKlass object}   Object that was added to this.tags collection.
+   */
   Base.prototype.add = function(attributes, opts) {
     opts || (opts = {});
     if(this.max_tags_limit_reached()){return;}
@@ -637,16 +733,28 @@
     return tag;
   };
 
-
+  /**
+   * Check if maximum tags limit is reached and disable/enable input field accordingly.
+   */
   Base.prototype.max_tags_handler = function() {
     this.$input.attr('disabled', this.max_tags_limit_reached());
   };
 
+  /**
+   * Checks if limit for maximum tags per object is reached.
+   * @return {boolean} Whether limit is reached or not.
+   */
   Base.prototype.max_tags_limit_reached = function() {
     return this.opts.maxTags ? this.tags.length() >= this.opts.maxTags : false;
   };
 
-
+  /**
+   * Helper method that takes care of removing tag from this.tags colletion. If
+   * tag isn't in this.tags collection, exists with null value. Else returns removed
+   * tag.
+   * @param  {string} id Id of a tag we want to remove.
+   * @return {object}    Tag that was removed from this.tags collection.
+   */
   Base.prototype.remove = function(id) {
     var tag = this.tags.find(id);
 
@@ -660,22 +768,40 @@
     return tag;
   };
 
+  /**
+   * Clears entire this.tags collection and adds only tag that was forwarded to
+   * function as a parameter.
+   * @param  {object} tag Tag that will be only one remaining in this.tags collection.
+   */
   Base.prototype.add_only_one = function(tag) {
     this.tags.clear();
     this.add(tag);
   };
 
 
-
+  /**
+   * Checks whether tag with certain name exists in this.tags collection.
+   * @param  {string} name Name of a tag.
+   * @return {boolean}     Whether tag exists or not.
+   */
   Base.prototype.exists = function(name) {
     return this.tags.find_by('name', name) !== null;
   };
 
+  /**
+   * Checks if tag with the same name already exists.
+   * @param  {object} attributes Attributes of a tag thats being validated.
+   * @return {boolean}           Whether tag already doesn't exists.
+   */
   Base.prototype.valid = function(attributes){
     return !this.exists(attributes.name);
   };
 
-
+  /**
+   * Validates a tag attributes and triggers a custom event accordingly.
+   * @param  {object} attributes Attributes of a tag thats being validated.
+   * @return {boolean}           Whether tag is valid.
+   */
   Base.prototype._validate = function(attributes) {
     var result = this.valid(attributes);
     var event = 'tag:' + [result ? 'valid' : 'invalid'];
@@ -683,7 +809,11 @@
     return result;
   };
 
-
+  /**
+   * Helper method called after adding a tag, that updates view if silent option
+   * is NOT defined or set to TRUE.
+   * @param  {object} opts Optional parameters.
+   */
   Base.prototype.after_add = function(opts) {
     opts || (opts = {});
     if(opts.silent){return;}
@@ -691,11 +821,19 @@
     this.render_tags();
   };
 
+  /**
+   * Helper method called after removing a tag, that updates view.
+   */
   Base.prototype.after_remove = function() {
     this.update_inputs();
     this.render_tags();
   };
 
+  /**
+   * Serializes objects into one object containing arrays of tag ids, tag locales,
+   * tg pids and tag names.
+   * @return {object} Serialized data - object containing 4 arrays.
+   */
   Base.prototype.serialize = function() {
     var data = {
       tagids:     [],
@@ -714,6 +852,12 @@
     return data;
   };
 
+  /**
+   * Fetches data from hidden inputs and adds tags as Tag objects
+   * to this.tags colletion. Does it silently so that update view functions in
+   * this.after_add() are NOT called.
+   * No return value, tags can be referenced via this.tags
+   */
   Base.prototype.unserialize = function() {
     var self = this;
      var ids  =   this.parse_hidden_input('tagids');
@@ -732,13 +876,19 @@
 
   };
 
-
+  /**
+   * Parses hidden input field and returns its value.
+   * @param  {string} name Name of hidden input that we want to parse.
+   * @return {array}      Values from hidden input or empty array if there was none.
+   */
   Base.prototype.parse_hidden_input = function(name) {
     var val = $.trim(this.$hidden_inputs[name].val());
     return val ? val.split('|#') : [];
   };
 
-
+  /**
+   * Updates hidden inputs with values from this.tags colletion.
+   */
   Base.prototype.update_inputs = function() {
     var self = this;
     $.each(this.serialize(), function(k, v){

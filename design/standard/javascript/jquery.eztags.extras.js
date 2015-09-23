@@ -12,7 +12,11 @@
       ]
     },
 
-
+    /**
+     * Initializes Select EzTag. Calls fetch tags function with callback which appends
+     * fetched tags to select dropdowns. Also, registers 'onChange' listener on
+     * all select dropdowns.
+     */
     initialize: function(){
       var self = this;
       this.fetch_available_tags(function(){
@@ -30,7 +34,11 @@
       this.on('change', '.js-tag-select', $.proxy(this.on_select, this));
     },
 
-
+    /**
+     * On select removes previously selected Tag from this.tags collection and adds
+     * new Tag into it. Takes care if blank value is selected or was previously selected.
+     * @param  {Object} e jQuery event object.
+     */
     on_select: function(e){
       var $select = $(e.target),
           id = $select.val(),
@@ -65,6 +73,11 @@
       select.data('linked_tag', null);
     },
 
+    /**
+     * Updates dropdowns depending on current tags status. If tag is selected
+     * in another dropdown its disabled by current one. Also, if tag is linked with
+     * select dropdown, it is marked as selected.
+     */
     update_selects: function(){
       var self = this, $option, linked_tag;
       this.$('option').removeAttr('disabled').removeAttr('selected');
@@ -81,6 +94,9 @@
       });
     },
 
+    /**
+     * Append new select dropdown on 'div.selects' if defined maximum is not reached.
+     */
     should_append_new_select: function(){
       if(this.max_tags_limit_reached()){return;}
       this.append_select();
@@ -96,7 +112,12 @@
       });
     },
 
-
+    /**
+     * Sets up select dropdown so it has all available tags and one blank value.
+     * Dropdown is linked with a Tag recieved as a parameter 'unlinked_tag'.
+     * @param  {DOM element} $select      New dropdown element.
+     * @param  {Tag object} unlinked_tag Tag to link with dropdown.
+     */
     setup_select: function($select, unlinked_tag){
       var self = this, selected;
       var dummy_tag = new this.TagKlass({id: '', name:''});
@@ -110,6 +131,10 @@
       });
     },
 
+    /**
+     * Appends dropdown to 'div.selects' and links it with Tag parameter recieved.
+     * @param  {Tag object} unlinked_tag Tag that will be linked with newly appended dropdown.
+     */
     append_select: function(unlinked_tag){
       var $select = $(this.render_template('select'));
       this.setup_select($select, unlinked_tag);
