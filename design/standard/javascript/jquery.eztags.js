@@ -389,14 +389,7 @@
 
     this.autocomplete_tags.clear();
     $.each(tags, function(i, raw){
-      tag = new self.TagKlass({
-        parent_id: raw.tag_parent_id,
-        parent_name: raw.tag_parent_name, //NOTE: why is here parent_name while on selected tags we don't have it ???
-        name: raw.tag_name,
-        id: raw.tag_id,
-        locale: raw.tag_locale
-      });
-      self.autocomplete_tags.add(tag);
+      self.autocomplete_tags.add(self.parse_remote_tag(raw));
     });
 
     this.render_autocomplete_tags();
@@ -456,14 +449,7 @@
     var tag, self = this;
     this.suggested_tags = new this.CollectionKlass();
     $.each(data.content.tags, function(i, raw){
-      tag = new self.TagKlass({
-        parent_id: raw.tag_parent_id,
-        parent_name: raw.tag_parent_name, //NOTE: why is here parent_name while on selected tags we don't have it ???
-        name: raw.tag_name,
-        id: raw.tag_id,
-        locale: raw.tag_locale
-      });
-      self.suggested_tags.add(tag);
+      self.suggested_tags.add(self.parse_remote_tag(raw));
     });
     this.render_suggested_tags();
     //TODO: show_hide_loader
@@ -495,15 +481,7 @@
    * @return {object}     TagKlass object, mapped with data from raw param.
    */
   Base.prototype.parse_remote_tag = function(raw) {
-    return new this.TagKlass({
-        parent_id: raw.tag_parent_id,
-        parent_name: raw.tag_parent_name,
-        name: raw.tag_name,
-        id: raw.tag_id,
-        locale: raw.tag_locale,
-        depth: raw.tag_depth,
-        empty: raw.tag_empty
-      });
+    return new this.TagKlass(raw);
   };
 
   /**

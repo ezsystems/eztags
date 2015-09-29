@@ -4,34 +4,34 @@
     "status": "success",
     "message": "",
     "tags": [{
-      "tag_parent_id": "0",
-      "tag_parent_name": "",
-      "tag_name": "coffee",
-      "tag_id": "1",
-      "tag_depth": 1,
-      "tag_locale": "eng-GB"
+      "parent_id": "0",
+      "parent_name": "",
+      "name": "coffee",
+      "id": "1",
+      "depth": 1,
+      "locale": "eng-GB"
     }, {
-      "tag_parent_id": "0",
-      "tag_parent_name": "",
-      "tag_name": "tea",
-      "tag_id": "2",
-      "tag_depth": 1,
-      "tag_locale": "eng-GB"
+      "parent_id": "0",
+      "parent_name": "",
+      "name": "tea",
+      "id": "2",
+      "depth": 1,
+      "locale": "eng-GB"
     }, {
-      "tag_parent_id": "0",
-      "tag_parent_name": "",
-      "tag_name": "beer",
-      "tag_id": "3",
-      "tag_depth": 1,
-      "tag_locale": "eng-GB"
+      "parent_id": "0",
+      "parent_name": "",
+      "name": "beer",
+      "id": "3",
+      "depth": 1,
+      "locale": "eng-GB"
     }, {
-      "tag_parent_id": "0",
-      "tag_parent_name": "",
-      "tag_name": "wine",
-      "tag_id": "4",
-      "tag_depth": 1,
-      "tag_locale": "eng-GB",
-      "tag_empty": true
+      "parent_id": "0",
+      "parent_name": "",
+      "name": "wine",
+      "id": "4",
+      "depth": 1,
+      "locale": "eng-GB",
+      "empty": true
     }]
   }
 }
