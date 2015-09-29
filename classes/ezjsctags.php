@@ -238,12 +238,12 @@ class ezjscTags extends ezjscServerFunctions
         foreach ( $tags as $tag )
         {
             $returnArrayChild = array();
-            $returnArrayChild['tag_parent_id']   = $tag->attribute( 'parent_id' );
-            $returnArrayChild['tag_parent_name'] = $tag->hasParent( true ) ? $tag->getParent( true )->attribute( 'keyword' ) : '';
-            $returnArrayChild['tag_name']        = $tag->attribute( 'keyword' );
-            $returnArrayChild['tag_id']          = $tag->attribute( 'id' );
-            $returnArrayChild['tag_locale']      = $tag->attribute( 'current_language' );
-            $returnArray['tags'][]               = $returnArrayChild;
+            $returnArrayChild['parent_id']   = $tag->attribute( 'parent_id' );
+            $returnArrayChild['parent_name'] = $tag->hasParent( true ) ? $tag->getParent( true )->attribute( 'keyword' ) : '';
+            $returnArrayChild['name']        = $tag->attribute( 'keyword' );
+            $returnArrayChild['id']          = $tag->attribute( 'id' );
+            $returnArrayChild['locale']      = $tag->attribute( 'current_language' );
+            $returnArray['tags'][]           = $returnArrayChild;
         }
 
         return $returnArray;
