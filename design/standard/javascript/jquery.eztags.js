@@ -100,6 +100,12 @@
     return this._parents;
   };
 
+  Tag.prototype.children = function() {
+    return this.collection.filter(function(item){return this.id === item.parent_id }.bind(this));
+  };
+
+
+
   Tag.prototype.self_and_parents = function() {
     return this.parents().concat([this]);
   };
@@ -128,6 +134,10 @@
 
   Collection.prototype.filter = function(iterator) {
     return $.grep(this.items, iterator);
+  };
+
+  Collection.prototype.each = function(iterator) {
+    return $.each(this.items, iterator);
   };
 
   Collection.prototype.find_by = function() {
@@ -193,6 +203,7 @@
     opts || (opts = {});
     this.$el = $(el);
     this.opts = $.extend(true, {}, this.constructor.defaults, opts, this.$el.data());
+    this.tplCache = {};
     //console.log(this.opts);
     this.opts.templates = $.extend({}, this.constructor.defaults.templates, this.templates, opts.templates);
     this.group_id = this.$el.attr('id').replace(this.opts.main_id_prefix, '');
@@ -232,6 +243,7 @@
     ezjscSuggest: 'ezjsctags::suggest', //++
     locale: null, //++
     iconPath: null, //++
+    sortable: true,
 
     translations: {
       selectedTags: 'SELECTEDTAGS',
@@ -282,9 +294,8 @@
     }
   };
 
-  //TODO: tplCache ????
   Base.prototype.tpl = function(str, data){
-    var fn = !/\W/.test(str) ? this.tplCache[str] = this.tplCache[str] || this.tpl($(str, scope).html()) : new Function("obj", "var p=[];with(obj){p.push('" + str.replace(/[\r\t\n]/g, " ").split("<%").join("\t").replace(/((^|%>)[^\t]*)'/g, "$1\r").replace(/\t=(.*?)%>/g, "',$1,'").split("\t").join("');").split("%>").join("p.push('").split("\r").join("\\'") + "');}return p.join('');"); /*jshint ignore:line*/
+    var fn = this.tplCache[str] || ( this.tplCache[str] = new Function("obj", "var p=[];with(obj){p.push('" + str.replace(/[\r\t\n]/g, " ").split("<%").join("\t").replace(/((^|%>)[^\t]*)'/g, "$1\r").replace(/\t=(.*?)%>/g, "',$1,'").split("\t").join("');").split("%>").join("p.push('").split("\r").join("\\'") + "');}return p.join('');") ); /*jshint ignore:line*/
     return data ? fn(data) : fn;
   };
 
@@ -295,8 +306,10 @@
   * @return {string} String containing markup to render.
   */
   Base.prototype.render_template = function(name, data) {
-    var t = (this.opts.templates[name] = this.opts.templates[name] || $('.'+name, this.$el).html());
-    return this.tpl(t.join ? t.join('') : t, $.extend({}, data, {tr: this.opts.translations}));
+    var t = this.opts.templates[name] = $('.'+name, this.$el).html() || this.opts.templates[name],
+        result = t && this.tpl(t.join ? t.join('') : t, $.extend({}, data, {tr: this.opts.translations}));
+    this.trigger('render', {name: name, data: data});
+    return result;
   };
 
   Base.prototype.render_skeleton = function() {
@@ -515,7 +528,7 @@
     this.on('add:after', $.proxy(this.close_autocomplete, this) );
 
     this.setup_tree_picker_events();
-    this.setup_sortable();
+    this.opts.sortable && this.setup_sortable();
   };
 
   /**
@@ -890,7 +903,7 @@
 
   Base.prototype.setup_sortable = function() {
     var self = this;
-    $.fn.sortable && this.$selected_tags.sortable({
+    $.fn.sortable && this.$selected_tags.addClass('with_sortable').sortable({
       update: function(/*event, ui*/){
         var new_order = $(this).sortable('toArray', {attribute: 'data-cid'});
         self.on_sortable_update(new_order);
