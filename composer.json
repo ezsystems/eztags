@@ -1,10 +1,22 @@
 {
-    "name": "netgen/eztags",
-    "type": "netgen-legacy-extension",
+    "name": "ezsystems/eztags-ls",
+    "description": "eZ Tags is an extension for eZ Publish, providing more functionality for tagging content objects than ezkeyword datatype included in eZ Publish kernel.",
+    "type": "ezpublish-legacy-extension",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Netgen",
+            "homepage": "http://www.netgenlabs.com"
+        },
+        {
+            "name": "eZ Publish dev-team & eZ Community",
+            "homepage": "https://github.com/ezsystems/eztags/contributors"
+        }
+    ],
     "require": {
-        "netgen/netgen-legacy-installer": "*"
+        "ezsystems/ezpublish-legacy-installer": "*"
     },
-    "replace": {
-        "ezsystems/eztags-ls": "*"
+    "extra": {
+        "ezpublish-legacy-extension-name": "eztags"
     }
 }
