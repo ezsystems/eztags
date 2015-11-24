@@ -109,6 +109,29 @@ class ezjscTags extends ezjscServerFunctions
         );
     }
 
+     /**
+     * Provides children in a specific tree
+     *
+     * @static
+     *
+     * @param array $args
+     *
+     * @return array
+     */
+    static public function children( $args )
+    {
+        $ezTagsINI = eZINI::instance( 'eztags.ini' );
+        $params = array();
+
+        // Missing: a limit parameter; generateOutput would need to pass it to eZTagsObject::fetchList 
+        return self::generateOutput(
+            $params,
+            $args[0],
+            $args[1],
+            $args[2]
+        );
+    }
+
     /**
      * Returns requested tag translations
      *
