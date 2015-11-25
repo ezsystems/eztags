@@ -103,11 +103,10 @@
     },
 
 
-    //TODO: implement default fetch with Edi this is example from RGM
     fetch_available_tags: function(done){
       var self = this;
-      $.ez('ezjscNgRgm::fillSelect::' + this.opts.parentId, {}, function(data){
-        self.available_tags = self.parse_remote_tags(data);
+      $.ez('ezjsctags::children::' + this.opts.subtreeLimit + '::' + this.opts.hideRootTag + '::' + this.opts.locale, {}, function(data){
+        self.available_tags = self.parse_remote_tags(data.content.tags);
         done.call(self);
       });
     },
