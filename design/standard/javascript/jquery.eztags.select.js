@@ -80,15 +80,15 @@
      */
     update_selects: function(){
       var self = this, $option, linked_tag;
-      this.$('option').removeAttr('disabled').removeAttr('selected');
+      this.$('option').prop('disabled', false).prop('selected', false);
       this.$('select').each(function(i , select){
         linked_tag = $(this).data('linked_tag');
         $.each(self.tags.items, function(i, tag){
           $option = $('option[value="'+tag.id+'"]', select);
           if(linked_tag && tag.id === linked_tag.id){
-            $option.attr('selected', true);
+            $option.prop('selected', true);
           }else{
-            $option.attr('disabled', true);
+            $option.prop('disabled', true);
           }
         });
       });
