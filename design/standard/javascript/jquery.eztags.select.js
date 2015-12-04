@@ -24,8 +24,10 @@
           $.each(this.tags.items, function(i, tag){
             console.log(tag.name);
             self.append_select(tag);
-            self.update_selects();
           });
+          self.$selects = self.$('.selects');
+          self.should_append_new_select();
+          self.update_selects();
         }else{
           self.append_select();
         }
