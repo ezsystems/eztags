@@ -11,4 +11,8 @@ MethodName=createAndFilterSqlParts
 [TagsAttributeAndMultipleFilter]
 ClassName=eZTagsAttributeFilter
 MethodName=createAndMultipleFilterSqlParts
+
+[TagsTreeAttributeFilter]
+ClassName=eZTagsTreeAttributeFilter
+MethodName=createSqlParts
  */
