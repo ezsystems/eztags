@@ -68,11 +68,11 @@
         <translation>Sučelje za uređivanje</translation>
     </message>
     <message>
-        <source>Default</source>
+        <source>Default view</source>
         <translation>Podrazumijevano</translation>
     </message>
     <message>
-        <source>Select</source>
+        <source>Select view</source>
         <translation>Padajući meni</translation>
     </message>
     <message>

@@ -68,11 +68,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Default</source>
+        <source>Default view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select</source>
+        <source>Select view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

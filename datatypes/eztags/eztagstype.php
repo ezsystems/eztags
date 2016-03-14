@@ -18,7 +18,7 @@ class eZTagsType extends eZDataType
 
     const EDIT_VIEW_VARIABLE = '_eztags_edit_view_';
     const EDIT_VIEW_FIELD = 'data_text1';
-    const EDIT_VIEW_DEFAULT_VALUE = 'eztags';
+    const EDIT_VIEW_DEFAULT_VALUE = 'Default';
 
     /**
      * Constructor
