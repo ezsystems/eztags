@@ -1,7 +1,7 @@
 {def $permission_array = $attribute.content.permission_array}
 
 {default attribute_base=ContentObjectAttribute}
-<div id="eztags{$attribute.id}" class="tagssuggest{if $attribute.contentclass_attribute.data_int2} tagsfilter{/if}"
+<div id="eztags{$attribute.id}" class="tagssuggest{if $attribute.contentclass_attribute.data_text1|eq( 'Select' )} tagsfilter{/if}"
     data-eztags
     data-builder="{$attribute.contentclass_attribute.data_text1|wash}"
     data-max-results="{ezini( 'GeneralSettings', 'MaxResults', 'eztags.ini' )}"
