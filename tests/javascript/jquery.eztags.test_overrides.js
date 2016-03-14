@@ -10,13 +10,13 @@
     });
   };
 
-  $.EzTags.Normal.prototype.fetch_suggestions = function(){
+  $.EzTags.Default.prototype.fetch_suggestions = function(){
     if(!this.tags.length){return;}
 
     $.get('fixtures/tags.json', $.proxy(this.after_fetch_suggestions, this));
   };
 
-  $.EzTags.Normal.prototype.fetch_autocomplete = function(e) {
+  $.EzTags.Default.prototype.fetch_autocomplete = function(e) {
     if($.EzTags.is_key(e, ['UP', 'DOWN', 'LEFT', 'RIGHT', 'ESC', 'RETURN'])){return;}
     var search_string = this.get_tag_name_from_input();
 

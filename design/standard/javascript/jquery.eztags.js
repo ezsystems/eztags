@@ -955,7 +955,7 @@
 
 
 
-  EzTags.Normal = EzTags.Base.extend({
+  EzTags.Default = EzTags.Base.extend({
 
     initialize: function(){
       this.fetch_suggestions_debounced = EzTags.debouncer(this.fetch_suggestions, this.opts.suggestTimeout, this);
@@ -1040,7 +1040,7 @@
       var $this = $(this);
       var data = $this.data();
       var instance = data.instance;
-      var builder = data.builder || (options && options.builder) || 'Normal';
+      var builder = data.builder || (options && options.builder) || 'Default';
       if (instance) {
         method && instance[method]();
         return;
