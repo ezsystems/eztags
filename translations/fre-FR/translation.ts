@@ -64,8 +64,16 @@
         <translation>Cacher le mot clé limitant l&apos;arborescence lors de l&apos;édition de l&apos;objet</translation>
     </message>
     <message>
-        <source>Show dropdown instead of autocomplete</source>
-        <translation>Afficher une liste déroulante au lieu de l&apos;autocomplétion</translation>
+        <source>Edit view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Maximum number of allowed tags</source>

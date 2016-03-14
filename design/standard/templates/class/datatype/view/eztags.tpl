@@ -1,3 +1,5 @@
+{def $available_edit_views = ezini( 'EditSettings', 'AvailableViews', 'eztags.ini' )}
+
 <div class="block">
     <div class="element">
         <label>{'Limit by tags subtree'|i18n( 'extension/eztags/datatypes' )}:</label>
@@ -16,13 +18,13 @@
     </div>
 
     <div class="element">
-        <label>{'Show dropdown instead of autocomplete'|i18n( 'extension/eztags/datatypes' )}:</label>
-        <p>{cond( $class_attribute.data_int2|eq( 0 ), 'No'|i18n( 'extension/eztags/datatypes' ), 'Yes'|i18n( 'extension/eztags/datatypes' ) )}</p>
+        <label>{'Maximum number of allowed tags'|i18n( 'extension/eztags/datatypes' )}:</label>
+        <p>{cond( $class_attribute.data_int4|gt( 0 ), $class_attribute.data_int4, 'Unlimited'|i18n( 'extension/eztags/datatypes' ) )}</p>
     </div>
 
     <div class="element">
-        <label>{'Maximum number of allowed tags'|i18n( 'extension/eztags/datatypes' )}:</label>
-        <p>{cond( $class_attribute.data_int4|gt( 0 ), $class_attribute.data_int4, 'Unlimited'|i18n( 'extension/eztags/datatypes' ) )}</p>
+        <label>{'Edit view'|i18n( 'extension/eztags/datatypes' )}:</label>
+        <p>{$available_edit_views[$class_attribute.data_text1]|wash|i18n( 'extension/eztags/datatypes' )}</p>
     </div>
 
     <div class="break"></div>

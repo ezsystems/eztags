@@ -10,14 +10,15 @@ class eZTagsType extends eZDataType
     const SUBTREE_LIMIT_VARIABLE = '_eztags_subtree_limit_';
     const SUBTREE_LIMIT_FIELD = 'data_int1';
 
-    const SHOW_DROPDOWN_VARIABLE = '_eztags_show_dropdown_';
-    const SHOW_DROPDOWN_FIELD = 'data_int2';
-
     const HIDE_ROOT_TAG_VARIABLE = '_eztags_hide_root_tag_';
     const HIDE_ROOT_TAG_FIELD = 'data_int3';
 
     const MAX_TAGS_VARIABLE = '_eztags_max_tags_';
     const MAX_TAGS_FIELD = 'data_int4';
+
+    const EDIT_VIEW_VARIABLE = '_eztags_edit_view_';
+    const EDIT_VIEW_FIELD = 'data_text1';
+    const EDIT_VIEW_DEFAULT_VALUE = 'eztags';
 
     /**
      * Constructor
@@ -37,14 +38,14 @@ class eZTagsType extends eZDataType
         if ( $classAttribute->attribute( self::SUBTREE_LIMIT_FIELD ) === null )
             $classAttribute->setAttribute( self::SUBTREE_LIMIT_FIELD, 0 );
 
-        if ( $classAttribute->attribute( self::SHOW_DROPDOWN_FIELD ) === null )
-            $classAttribute->setAttribute( self::SHOW_DROPDOWN_FIELD, 0 );
-
         if ( $classAttribute->attribute( self::HIDE_ROOT_TAG_FIELD ) === null )
             $classAttribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, 0 );
 
         if ( $classAttribute->attribute( self::MAX_TAGS_FIELD ) === null )
             $classAttribute->setAttribute( self::MAX_TAGS_FIELD, 0 );
+
+        if ( $classAttribute->attribute( self::EDIT_VIEW_FIELD ) === null )
+            $classAttribute->setAttribute( self::EDIT_VIEW_FIELD, self::EDIT_VIEW_DEFAULT_VALUE );
 
         $classAttribute->store();
     }
@@ -239,13 +240,19 @@ class eZTagsType extends eZDataType
         if ( $subTreeLimit < 0 || $maxTags < 0 )
             return false;
 
-        $showDropdown = (int) $http->hasPostVariable( $base . self::SHOW_DROPDOWN_VARIABLE . $classAttributeID );
         $hideRootTag = (int) $http->hasPostVariable( $base . self::HIDE_ROOT_TAG_VARIABLE . $classAttributeID );
 
+        $editView = trim( $http->postVariable( $base . self::EDIT_VIEW_VARIABLE . $classAttributeID, self::EDIT_VIEW_DEFAULT_VALUE ) );
+
+        $eZTagsIni = eZINI::instance( 'eztags.ini' );
+        $availableEditViews = $eZTagsIni->variable( 'EditSettings', 'AvailableViews' );
+        if ( !in_array( $editView, array_keys( $availableEditViews ) ) )
+            return false;
+
         $attribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
-        $attribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $showDropdown );
         $attribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, $hideRootTag );
         $attribute->setAttribute( self::MAX_TAGS_FIELD, $maxTags );
+        $attribute->setAttribute( self::EDIT_VIEW_FIELD, $editView );
 
         return true;
     }
@@ -270,20 +277,26 @@ class eZTagsType extends eZDataType
         if ( $domNodes->length > 0 )
             $maxTags = (int) $domNodes->item( 0 )->textContent;
 
-        $showDropDown = 0;
-        $domNodes = $attributeParametersNode->getElementsByTagName( 'dropdown' );
-        if ( $domNodes->length > 0 && $domNodes->item( 0 )->textContent === 'true' )
-            $showDropDown = 1;
-
         $hideRootTag = 0;
         $domNodes = $attributeParametersNode->getElementsByTagName( 'hide-root-tag' );
         if ( $domNodes->length > 0 && $domNodes->item( 0 )->textContent === 'true' )
             $hideRootTag = 1;
 
+        $editView = self::EDIT_VIEW_DEFAULT_VALUE;
+        $domNodes = $attributeParametersNode->getElementsByTagName( 'edit-view' );
+        if ( $domNodes->length > 0 )
+        {
+            $domNodeContent = trim( $domNodes->item( 0 )->textContent );
+            if ( !empty( $domNodeContent ) )
+            {
+                $editView = $domNodeContent;
+            }
+        }
+
         $classAttribute->setAttribute( self::SUBTREE_LIMIT_FIELD, $subTreeLimit );
         $classAttribute->setAttribute( self::MAX_TAGS_FIELD, $maxTags );
-        $classAttribute->setAttribute( self::SHOW_DROPDOWN_FIELD, $showDropDown );
         $classAttribute->setAttribute( self::HIDE_ROOT_TAG_FIELD, $hideRootTag );
+        $classAttribute->setAttribute( self::EDIT_VIEW_FIELD, $editView );
     }
 
     /**
@@ -307,14 +320,14 @@ class eZTagsType extends eZDataType
         $domNode->appendChild( $dom->createTextNode( $maxTags ) );
         $attributeParametersNode->appendChild( $domNode );
 
-        $showDropDown = ( (int) $classAttribute->attribute( self::SHOW_DROPDOWN_FIELD ) ) > 0 ? 'true' : 'false';
-        $domNode = $dom->createElement( 'dropdown' );
-        $domNode->appendChild( $dom->createTextNode( $showDropDown ) );
-        $attributeParametersNode->appendChild( $domNode );
-
         $hideRootTag = ( (int) $classAttribute->attribute( self::HIDE_ROOT_TAG_FIELD ) ) > 0 ? 'true' : 'false';
         $domNode = $dom->createElement( 'hide-root-tag' );
         $domNode->appendChild( $dom->createTextNode( $hideRootTag ) );
+        $attributeParametersNode->appendChild( $domNode );
+
+        $editView = (string) $classAttribute->attribute( self::EDIT_VIEW_FIELD );
+        $domNode = $dom->createElement( 'edit-view' );
+        $domNode->appendChild( $dom->createTextNode( $editView ) );
         $attributeParametersNode->appendChild( $domNode );
     }
 

@@ -64,8 +64,16 @@
         <translation>Ukryj drzewo rodzica (dla ograniczenia do poddrzewa) w trakcie edycji obiektu</translation>
     </message>
     <message>
-        <source>Show dropdown instead of autocomplete</source>
-        <translation>Wyświetl rozwijaną listę zamiast autouzupełniania</translation>
+        <source>Edit view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Maximum number of allowed tags</source>

@@ -64,8 +64,16 @@
         <translation>Sakrij vršnu oznaku ograničenja po podstablu kod uređivanja objekata</translation>
     </message>
     <message>
-        <source>Show dropdown instead of autocomplete</source>
-        <translation>Prikaži padajući meni umjesto predloženih oznaka</translation>
+        <source>Edit view</source>
+        <translation>Sučelje za uređivanje</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Podrazumijevano</translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation>Padajući meni</translation>
     </message>
     <message>
         <source>Maximum number of allowed tags</source>

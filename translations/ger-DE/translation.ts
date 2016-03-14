@@ -64,8 +64,16 @@
         <translation>Übergeordnetes Schlagwort beim Bearbeiten von Objekt verstecken</translation>
     </message>
     <message>
-        <source>Show dropdown instead of autocomplete</source>
-        <translation>Menü statt automatische Vervollständigung zeigen</translation>
+        <source>Edit view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Maximum number of allowed tags</source>

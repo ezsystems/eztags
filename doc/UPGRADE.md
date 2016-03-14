@@ -1,5 +1,25 @@
 # eZ Tags extension upgrade instructions
 
+## Upgrade from 2.0 to 2.1
+
+Unpack the downloaded package into the `extension` directory of your eZ Publish installation
+
+Regenerate autoload array by running the following from your eZ Publish root folder
+
+    php bin/php/ezpgenerateautoloads.php --extension
+
+or go to Setup -> Extensions and click the "Regenerate autoload arrays" button
+
+Run SQL upgrade script by using the following command from your eZ Publish root folder,
+replacing `user`, `password`, `host` and `database` with correct values and removing double quotes
+
+    mysql -u "user" -p"password" -h"host" "database" < extension/eztags/update/database/mysql/2.1/eztags-dbupdate-2.0-to-2.1.sql
+
+Clear all caches (from admin 'Setup' tab or from command line).
+
+
+
+
 ## Upgrade from 1.4 to 2.0
 
 Unpack the downloaded package into the `extension` directory of your eZ Publish installation

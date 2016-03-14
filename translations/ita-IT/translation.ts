@@ -64,8 +64,16 @@
         <translation>Nascondi il limite tags per il sotto-albero principale mentre modifichi un oggetto</translation>
     </message>
     <message>
-        <source>Show dropdown instead of autocomplete</source>
-        <translation>Mostra elenco a cascata al posto dell&apos;auto-completamento</translation>
+        <source>Edit view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Maximum number of allowed tags</source>

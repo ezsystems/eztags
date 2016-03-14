@@ -1,5 +1,9 @@
 # eZ Tags extension changelog
 
+## 2.1
+
+* Replaced "Show dropdown instead of autocomplete" class attribute edit option with "Edit view", to select from possible edit views when editing content
+
 ## 2.0.2 (21.09.2015)
 
 * Fix "More actions" button in admin interface not working (thanks @BornaP)
