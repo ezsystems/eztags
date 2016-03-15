@@ -22,7 +22,6 @@
       this.fetch_available_tags(function(){
         if(this.tags.length()){
           $.each(this.tags.items, function(i, tag){
-            console.log(tag.name);
             self.append_select(tag);
           });
           self.$selects = self.$('.selects');

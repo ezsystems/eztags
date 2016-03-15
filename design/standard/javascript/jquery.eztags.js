@@ -96,7 +96,6 @@
       tag = tag.parent();
       tag && this._parents.unshift(tag);
     }
-    console.log('parents', this._parents);
     return this._parents;
   };
 
@@ -204,7 +203,6 @@
     this.$el = $(el);
     this.opts = $.extend(true, {}, this.constructor.defaults, opts, this.$el.data());
     this.tplCache = {};
-    //console.log(this.opts);
     this.opts.templates = $.extend({}, this.constructor.defaults.templates, this.templates, opts.templates);
     this.group_id = this.$el.attr('id').replace(this.opts.main_id_prefix, '');
     this.TagKlass = this.opts.TagKlass || Tag;
@@ -976,7 +974,6 @@
     after_remove: function() {
       this.update_inputs();
       this.render_tags();
-      console.log('after remove');
       this.fetch_suggestions_debounced();
     }
 
