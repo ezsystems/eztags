@@ -17,6 +17,9 @@
         "ezsystems/ezpublish-legacy-installer": "*"
     },
     "extra": {
-        "ezpublish-legacy-extension-name": "eztags"
+        "ezpublish-legacy-extension-name": "eztags",
+        "branch-alias": {
+            "dev-master": "2.1.x-dev"
+        }
     }
 }
