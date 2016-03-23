@@ -22,7 +22,7 @@
             var tagId = node.id == '#' ? this.rootNode.id : node.id;
             $.getJSON(this.$el.data('base-url') + tagId + '?ContentType=json', function(data) {
                 var children = data.content.children;
-                var selected = this.initiallySelected.items;
+                var selected = this.tags.tags.items;
                 for(var i=0; i<children.length; i++){
                     (children[i].parent == this.rootNode.id && this.hideRoot) && (children[i].parent = '#');
                     for(var j=0; j<selected.length; j++){
@@ -50,30 +50,28 @@
     // eztags tree version setup
     $.EzTags.Tree = $.EzTags.Base.extend({
         setup_events: function(){
-            var self = this;
             $.EzTags.Base.prototype.setup_events.apply(this, arguments);
             this.$el.parent().on('click', 'a.jstree-anchor:not(.jstree-disabled)', function(e){
                 this.add($(e.currentTarget).data());
             }.bind(this));
-            $('.ez-tags-tree-selector').each(function(){
-                var tree = new TreeView(this);
-                tree.initiallySelected = self.tags;
-                tree.tags = self;
-            });
-            this.on('remove:after', function(e, data){
-                this.remove_data_selected(data.tag.id);
-            }.bind(this));
+            this.on('remove:after', this.remove_data_selected.bind(this));
             this.on('add:after', function(e, data){
                 this.add_data_selected(data.tag.id);
             }.bind(this));
+            this.addTree();
+        },
+
+        addTree: function(){
+            var tree = new TreeView(this.$el.parent().find('.ez-tags-tree-selector'));
+            tree.tags = this;
         },
 
         // add data attribute to dom element for styling of selected tag in tree
-        remove_data_selected: function(id){
-            $('a.jstree-anchor[data-id=' + id + ']').removeAttr('data-selected');
+        remove_data_selected: function(e, data){
+            this.$el.parent().find('a.jstree-anchor[data-id=' + data.tag.id + ']').removeAttr('data-selected');
         },
         add_data_selected: function(id){
-            $('a.jstree-anchor[data-id=' + id + ']').attr('data-selected', true);
+            this.$el.parent().find('a.jstree-anchor[data-id=' + id + ']').attr('data-selected', true);
         }
     });
 
