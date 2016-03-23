@@ -1,7 +1,7 @@
 {def $permission_array = $attribute.content.permission_array}
 
 {default attribute_base=ContentObjectAttribute}
-<div class='eztags-wrapper'>
+<div class="eztags-wrapper">
     <div id="eztags{$attribute.id}" class="tagssuggest{if $attribute.contentclass_attribute.data_text1|eq( 'Select' )} tagsfilter{/if}"
         data-eztags
         data-builder="{$attribute.contentclass_attribute.data_text1|wash}"
@@ -17,7 +17,6 @@
         <input id="ezcoa2-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="tagpids" type="hidden" name="{$attribute_base}_eztags_data_text2_{$attribute.id}" value="{$attribute.content.parent_string|wash}"  />
         <input id="ezcoa3-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="tagids" type="hidden" name="{$attribute_base}_eztags_data_text3_{$attribute.id}" value="{$attribute.content.id_string|wash}"  />
         <input id="ezcoa4-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="taglocales" type="hidden" name="{$attribute_base}_eztags_data_text4_{$attribute.id}" value="{$attribute.content.locale_string|wash}"  />
-
     </div>
 
     {if $attribute.contentclass_attribute.data_text1|eq( 'Tree' )}
