@@ -72,7 +72,6 @@
         },
         add_data_selected: function(id){
             this.$el.parent().find('a.jstree-anchor[data-id=' + id + ']').attr('data-selected', true);
-            console.log('added');
         }
     });
 
