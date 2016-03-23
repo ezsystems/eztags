@@ -19,19 +19,8 @@
         <input id="ezcoa4-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="taglocales" type="hidden" name="{$attribute_base}_eztags_data_text4_{$attribute.id}" value="{$attribute.content.locale_string|wash}"  />
     </div>
 
-    {if $attribute.contentclass_attribute.data_text1|eq( 'Tree' )}
-        <div class="block">
-            <div class="ez-tags-tree-selector"
-                data-config-url="{concat('/ezjscore/call/ezjsctags::treeConfig::', $attribute.id, '::', $attribute.version)|ezurl(no)}"
-                data-base-url="{'/ezjscore/call/ezjsctags::tree::'|ezurl(no)}">
-            </div>
-        </div>
-    {/if}
+    {include uri=concat( 'design:content/datatype/edit/view/', $attribute.contentclass_attribute.data_text1|downcase, '.tpl' )}
 </div>
-
-{if $permission_array.can_add}
-    {include uri='design:ezjsctemplate/modal_dialog.tpl' attribute_id=$attribute.id root_tag=$permission_array.allowed_locations_tags}
-{/if}
 
 <script type="text/javascript">
 {run-once}
