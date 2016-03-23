@@ -48,9 +48,9 @@
     };
 
     // eztags tree version setup
-    $.EzTags.Tree = $.EzTags.Base.extend({
+    $.EzTags.Tree = $.EzTags.Default.extend({
         setup_events: function(){
-            $.EzTags.Base.prototype.setup_events.apply(this, arguments);
+            $.EzTags.Default.prototype.setup_events.apply(this, arguments);
             this.$el.parent().on('click', 'a.jstree-anchor:not(.jstree-disabled)', function(e){
                 this.add($(e.currentTarget).data());
             }.bind(this));
@@ -72,6 +72,7 @@
         },
         add_data_selected: function(id){
             this.$el.parent().find('a.jstree-anchor[data-id=' + id + ']').attr('data-selected', true);
+            console.log('added');
         }
     });
 
