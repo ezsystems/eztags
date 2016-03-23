@@ -3,6 +3,8 @@
 ## 2.1
 
 * Replaced "Show dropdown instead of autocomplete" class attribute edit option with "Edit view", to select from possible edit views when editing content
+* Implemented tree view in edit interface for `eztags` object attribute
+* Various bug fixes
 
 ## 2.0.2 (21.09.2015)
 
