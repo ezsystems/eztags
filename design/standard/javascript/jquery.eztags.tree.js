@@ -10,6 +10,7 @@
         this.rootNode = {};
         this.getSetupData();
     };
+
     TreeView.prototype.getSetupData = function(){
         $.getJSON(this.$el.data('config-url') + '?ContentType=json', function(data) {
             this.rootNode = data.content.config.rootTag;
@@ -17,6 +18,7 @@
             this.initialiseTree();
         }.bind(this));
     };
+
     TreeView.prototype.getTreeData = function(node, cb){
         if(this.rootNodeAdded || this.hideRoot){
             var tagId = node.id == '#' ? this.rootNode.id : node.id;
@@ -38,6 +40,7 @@
             this.rootNodeAdded = true;
         }
     };
+
     TreeView.prototype.initialiseTree = function(){
         this.$el.jstree({
             'core': {
@@ -70,6 +73,7 @@
         remove_data_selected: function(e, data){
             this.$el.parent().find('a.jstree-anchor[data-id=' + data.tag.id + ']').removeAttr('data-selected');
         },
+
         add_data_selected: function(id){
             this.$el.parent().find('a.jstree-anchor[data-id=' + id + ']').attr('data-selected', true);
         }
