@@ -2,7 +2,7 @@
 
 {default attribute_base=ContentObjectAttribute}
 <div class="eztags-wrapper">
-    <div id="eztags{$attribute.id}" class="tagssuggest{if $attribute.contentclass_attribute.data_text1|eq( 'Select' )} tagsfilter{/if}"
+    <div id="eztags{$attribute.id}" class="tagssuggest"
         data-eztags
         data-builder="{$attribute.contentclass_attribute.data_text1|wash}"
         data-max-results="{ezini( 'GeneralSettings', 'MaxResults', 'eztags.ini' )}"

@@ -89,12 +89,6 @@ position:         absolute;
 #ezt-translation-modal p.no-results {display:none;}
 #ezt-translation-modal .no-results p.no-results {display:block;}
 
-/* tagsfilter override */
-
-.tagsfilter .jsonSuggestResults {top:auto; position:static;}
-
-.tagsfilter .tagssuggestfieldwrap {height:auto;}
-
 /* tags children filter box */
 
 #action-filter-input {
