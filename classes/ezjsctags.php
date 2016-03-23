@@ -123,7 +123,7 @@ class ezjscTags extends ezjscServerFunctions
         $ezTagsINI = eZINI::instance( 'eztags.ini' );
         $params = array();
 
-        // Missing: a limit parameter; generateOutput would need to pass it to eZTagsObject::fetchList 
+        // Missing: a limit parameter; generateOutput would need to pass it to eZTagsObject::fetchList
         return self::generateOutput(
             $params,
             $args[0],
@@ -168,6 +168,150 @@ class ezjscTags extends ezjscServerFunctions
             $returnArray['translations'][] = array(
                 'locale'      => $translation->attribute( 'locale' ),
                 'translation' => $translation->attribute( 'keyword' )
+            );
+        }
+
+        return $returnArray;
+    }
+
+    /**
+     * Returns config for tree view plugin
+     *
+     * @static
+     *
+     * @param array $args
+     *
+     * @return array
+     */
+    static public function treeConfig( $args )
+    {
+        $returnArray = array(
+            'status' => 'success',
+            'message' => '',
+            'config' => array(
+                'hideRootTag' => false,
+                'rootTag' => array()
+            )
+        );
+
+        if ( !isset( $args[1] ) )
+        {
+            return $returnArray;
+        }
+
+        $attributeID = (int)$args[0];
+        $version = (int)$args[1];
+
+        $contentAttribute = eZContentObjectAttribute::fetch( $attributeID, $version );
+        if ( !$contentAttribute instanceof eZContentObjectAttribute || $contentAttribute->attribute( 'data_type_string' ) !== 'eztags' )
+        {
+            return $returnArray;
+        }
+
+        $tagsIni = eZINI::instance( 'eztags.ini' );
+        $classAttribute = $contentAttribute->attribute( 'contentclass_attribute' );
+        $rootTagID = (int)$classAttribute->attribute( 'data_int1' );
+
+        if ( $rootTagID > 0 )
+        {
+            $rootTag = eZTagsObject::fetch( $rootTagID );
+            if ( !$rootTag instanceof eZTagsObject )
+            {
+                return $returnArray;
+            }
+
+            $returnArray['config']['rootTag'] = array(
+                'id' => (int) $rootTag->attribute( 'id' ),
+                'parent' => '#',
+                'text' => $rootTag->attribute( 'keyword' ),
+                'icon' => eZTagsTemplateFunctions::getTagIcon( $rootTag->getIcon() ),
+                'children' => $rootTag->getChildrenCount() > 0 ? true : false,
+                'a_attr' => array(
+                    'data-id' => (int) $rootTag->attribute( 'id' ),
+                    'data-name' => $rootTag->attribute( 'keyword' ),
+                    'data-parentId' => (int) $rootTag->attribute( 'parent_id' ),
+                    'data-locale' => $rootTag->attribute( 'current_language' )
+                ),
+                'state' => array(
+                    'opened' => true,
+                    'selected' => false
+                )
+            );
+        }
+        else
+        {
+            $returnArray['config']['rootTag'] = array(
+                'id' => 0,
+                'parent' => '#',
+                'text' => ezpI18n::tr( 'extension/eztags/tags/treemenu', 'Top level tags' ),
+                'icon' => eZTagsTemplateFunctions::getTagIcon( $tagsIni->variable( 'Icons', 'Default' ) ),
+                'children' => true,
+                'state' => array(
+                    'opened' => true,
+                    'disabled' => true,
+                    'selected' => false
+                )
+            );
+        }
+
+        $returnArray['config']['hideRootTag'] = (int)$classAttribute->attribute( 'data_int3' ) > 0;
+
+        return $returnArray;
+    }
+
+    /**
+     * Returns children tags formatted for tree view plugin
+     *
+     * @static
+     *
+     * @param array $args
+     *
+     * @return array
+     */
+    static public function tree( $args )
+    {
+        $returnArray = array(
+            'status' => 'success',
+            'message' => '',
+            'children' => array()
+        );
+
+        $tagID = 0;
+        if ( isset( $args[0] ) && is_numeric( $args[0] ) )
+        {
+            $tagID = (int)$args[0];
+        }
+
+        $children = eZTagsObject::fetchList(
+            array(
+                'parent_id' => $tagID,
+                'main_tag_id' => 0
+            )
+        );
+
+        if ( empty( $children ) )
+        {
+            return $returnArray;
+        }
+
+        foreach ( $children as $child )
+        {
+            $returnArray['children'][] = array(
+                'id' => (int) $child->attribute( 'id' ),
+                'parent' => (int) $child->attribute( 'parent_id' ),
+                'text' => $child->attribute( 'keyword' ),
+                'icon' => eZTagsTemplateFunctions::getTagIcon( $child->getIcon() ),
+                'children' => $child->getChildrenCount() > 0 ? true : false,
+                'state' => array(
+                    'opened' => false,
+                    'selected' => false
+                ),
+                'a_attr' => array(
+                    'data-id' => (int) $child->attribute( 'id' ),
+                    'data-name' => $child->attribute( 'keyword' ),
+                    'data-parentId' => (int) $child->attribute( 'parent_id' ),
+                    'data-locale' => $child->attribute( 'current_language' )
+                )
             );
         }
 
