@@ -1,6 +1,6 @@
 # eZ Tags extension changelog
 
-## 2.1
+## 2.1 (24.03.2016)
 
 * Replaced "Show dropdown instead of autocomplete" class attribute edit option with "Edit view", to select from possible edit views when editing content
 * Implemented tree view in edit interface for `eztags` object attribute
