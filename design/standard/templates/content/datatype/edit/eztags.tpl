@@ -1,10 +1,14 @@
 {def $permission_array = $attribute.content.permission_array}
+{def $builder = 'Default'}
+{if $attribute.contentclass_attribute.data_text1}
+    {set $builder = $attribute.contentclass_attribute.data_text1}
+{/if}
 
 {default attribute_base=ContentObjectAttribute}
 <div class="eztags-wrapper">
     <div id="eztags{$attribute.id}" class="tagssuggest"
         data-eztags
-        data-builder="{$attribute.contentclass_attribute.data_text1|wash}"
+        data-builder="{$builder|wash}"
         data-max-results="{ezini( 'GeneralSettings', 'MaxResults', 'eztags.ini' )}"
         data-has-add-access="{cond( $permission_array.can_add, 'true', true(), 'false' )}"
         data-subtree-limit="{$attribute.contentclass_attribute.data_int1}"
@@ -19,7 +23,7 @@
         <input id="ezcoa4-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="taglocales" type="hidden" name="{$attribute_base}_eztags_data_text4_{$attribute.id}" value="{$attribute.content.locale_string|wash}"  />
     </div>
 
-    {include uri=concat( 'design:content/datatype/edit/view/', $attribute.contentclass_attribute.data_text1|downcase, '.tpl' )}
+    {include uri=concat( 'design:content/datatype/edit/view/', $builder|downcase, '.tpl' )}
 </div>
 
 <script type="text/javascript">
