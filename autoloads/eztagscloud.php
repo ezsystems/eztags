@@ -184,7 +184,9 @@ class eZTagsCloud
         {
             $tagsCountList[$row['id']] = $row['keyword_count'];
         }
-        if ( empty( $tagsCountList ) ) return array();
+
+        if ( empty( $tagsCountList ) )
+            return array();
         
         /** @var eZTagsObject[] $tagObjects */
         $tagObjects = eZTagsObject::fetchList( array( 'id' => array( array_keys( $tagsCountList ) ) ) );
