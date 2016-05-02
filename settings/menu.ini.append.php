@@ -22,5 +22,5 @@ Shown[edit]=true
 Shown[navigation]=true
 Shown[browse]=true
 
-PolicyList[]=tags/read
+PolicyList[]=tags/dashboard
 */
