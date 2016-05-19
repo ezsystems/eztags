@@ -103,7 +103,7 @@ class ezjscTags extends ezjscServerFunctions
 
         return self::generateOutput(
             array( 'id' => array( $tagsToSuggest ) ),
-            0,
+            $http->postVariable( 'subtree_limit', 0 ),
             false,
             $http->postVariable( 'locale', '' )
         );
