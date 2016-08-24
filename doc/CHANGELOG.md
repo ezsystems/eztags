@@ -1,5 +1,14 @@
 # eZ Tags extension changelog
 
+## 2.2
+
+* Respect the subtree limit when returning tag suggestions (thanks Peter Keung)
+* Added a new extended attribute filter that allows tag path filtering (thanks Thiago Campos Viana)
+* Tie top menu link display to dashboard permissions (thanks Peter Keung)
+* Fix fatal MySQL error when using eztagcloud operator (thanks Donat Fritschy)
+* Space is now allowed in tag filter input field in edit interface
+* Autocomplete dropdown now closes when focus is lost on tag filter input field
+
 ## 2.1 (24.03.2016)
 
 * Replaced "Show dropdown instead of autocomplete" class attribute edit option with "Edit view", to select from possible edit views when editing content
