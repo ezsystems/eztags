@@ -1,6 +1,6 @@
 # eZ Tags extension upgrade instructions
 
-## Upgrade from 2.0 to 2.1
+## Upgrade from 2.1 to 2.2
 
 Unpack the downloaded package into the `extension` directory of your eZ Publish installation
 
