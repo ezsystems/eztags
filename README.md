@@ -9,6 +9,7 @@ eZ Tags is an eZ Publish extension for taxonomy management and easier classifica
 [Changelog](/doc/CHANGELOG.md)
 
 ## About the extension
+
 Main advantages of eZ Tags extension over ezkeyword datatype are:
 
 * tree hierarchy of tags
@@ -24,6 +25,7 @@ eZ Tags is not only able to replace the ezkeyword datatype, but can be used for 
 * combination of both
 
 ## What to do with it
+
 Here are some examples on what you can do with eZ Tags:
 
 1. replace the ezkeyword datatype. Migration should be straightforward as database schema is very similar. You will get the hierarchy and management which is missing in ezkeyword.
@@ -33,3 +35,13 @@ Here are some examples on what you can do with eZ Tags:
 5. create dynamic pages based on tagged content
 
 You can find the project page on [projects.ez.no](http://projects.ez.no/eztags) and more information on the extension on [Netgen blog](http://www.netgenlabs.com/tags/view/ezpublish/extensions/eztags).
+
+## eZ Publish 5 and eZ Platform support
+
+eZ Tags is also rewritten to eZ Publish 5 and eZ Platform in the form of [Netgen Tags Bundle](https://github.com/netgen/TagsBundle) 
+
+## Other extensions using eZ Tags
+
+1. eZ Smart Tags: http://ez.no/Products/Partner-Solutions/Explore-the-eZ-Market/eZ-Smart-Tags
+2. eZ Tag Feed: http://projects.ez.no/eztagfeed
+3. eZ Tag Maps: http://projects.ez.no/eztagmaps
