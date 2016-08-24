@@ -6,6 +6,7 @@
 * Added a new extended attribute filter that allows tag path filtering (thanks Thiago Campos Viana)
 * Tie top menu link display to dashboard permissions (thanks Peter Keung)
 * Fix fatal MySQL error when using eztagcloud operator (thanks Donat Fritschy)
+* Add config to control the type of tag autocomplete (only start or any part of tag keyword) (thanks Thiago Campos Viana)
 * Space is now allowed in tag filter input field in edit interface
 * Autocomplete dropdown now closes when focus is lost on tag filter input field
 
