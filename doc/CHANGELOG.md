@@ -1,6 +1,6 @@
 # eZ Tags extension changelog
 
-## 2.2
+## 2.2 (24.08.2016)
 
 * Respect the subtree limit when returning tag suggestions (thanks Peter Keung)
 * Added a new extended attribute filter that allows tag path filtering (thanks Thiago Campos Viana)
