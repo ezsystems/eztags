@@ -429,6 +429,9 @@
     if(!available_autocomplete_tags.length || this.tree_picker_open){return;}
     this.$autocomplete_tags.height('auto').parent().show();
     if (this.$autocomplete_tags.height() > this.opts.maxHeight){ this.$autocomplete_tags.height(this.opts.maxHeight);}
+    $(document).on('click.hideAutocomplete', function(e){
+      !$(e.target).closest('.tagssuggestfieldwrap').length && this.close_autocomplete();
+    }.bind(this));
   };
 
   /**
@@ -448,6 +451,7 @@
    */
   Base.prototype.close_autocomplete = function() {
     this.$('.results-wrap').html('').parent().hide();
+    $(document).off('click.hideAutocomplete');
   };
 
   /**
@@ -543,13 +547,12 @@
    * Enables navigation through autocomplete dropdown with following keys:
    * ESC => closes dropdown
    * UP, DOWN => move through items of dropdown
-   * SPACE => select item, equivalent to click
    * @param  {object} e jQuery event object on keydown event.
    */
   Base.prototype.navigate_autocomplete_dropdown = function(e) {
     if(EzTags.is_key(e, 'ESC')){ this.close_autocomplete();}
 
-    if(!EzTags.is_key(e, ['UP', 'DOWN', 'SPACE'])){return;}
+    if(!EzTags.is_key(e, ['UP', 'DOWN'])){return;}
     var $items = this.$autocomplete_tags.find('a');
 
     if (!$items.length){ return;}
@@ -559,9 +562,6 @@
     e.stopPropagation();
 
     var index = $items.index(e.target);
-    if(e.which === 'SPACE' && index >= 0){
-      $items.eq(index).trigger('click');
-    }
 
     EzTags.is_key(e, 'UP') && index >= 0                   && index--;
     EzTags.is_key(e, 'DOWN') && index < $items.length - 1  && index++;
