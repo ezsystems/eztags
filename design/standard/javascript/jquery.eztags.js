@@ -515,6 +515,10 @@
     this.$add_button.addClass('button-disabled').removeClass('button').attr('disabled', true);
   };
 
+  Base.prototype.input_focus = function(e) {
+    e.currentTarget.value.length && this.fetch_autocomplete(e);
+  };
+
   /**
    * Map events on event listeners.
    */
@@ -526,6 +530,7 @@
     this.$input.on('keyup', $.proxy(this.enable_or_disable_add_button, this));
     this.$input.on('keyup', EzTags.debouncer(this.fetch_autocomplete, this.opts.suggestTimeout, this));
     this.$input.on('keydown', $.proxy(this.navigate_autocomplete_dropdown, this));
+    this.$input.on('focus', $.proxy(this.input_focus, this));
     this.$autocomplete_tags.on('keydown', $.proxy(this.navigate_autocomplete_dropdown, this));
     this.on('add:after', $.proxy(this.close_autocomplete, this) );
 
