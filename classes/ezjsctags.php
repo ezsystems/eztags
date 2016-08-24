@@ -19,15 +19,23 @@ class ezjscTags extends ezjscServerFunctions
         $http = eZHTTPTool::instance();
 
         $searchString = trim( $http->postVariable( 'search_string' ), '' );
+        $autoCompleteType = eZINI::instance( 'eztags.ini' )->variable( 'GeneralSettings', 'AutoCompleteType' );
+
         if ( empty( $searchString ) )
             return array( 'status' => 'success', 'message' => '', 'tags' => array() );
 
         // Initialize transformation system
         $trans = eZCharTransform::instance();
         $searchString = $trans->transformByGroup( $http->postVariable( 'search_string' ), 'lowercase' );
+        $searchString = $searchString . '%';
+
+        if ( $autoCompleteType === 'any' )
+        {
+            $searchString = '%' . $searchString;
+        }
 
         return self::generateOutput(
-            array( 'LOWER( eztags_keyword.keyword )' => array( 'like', $searchString . '%' ) ),
+            array( 'LOWER( eztags_keyword.keyword )' => array( 'like', $searchString ) ),
             $http->postVariable( 'subtree_limit', 0 ),
             $http->postVariable( 'hide_root_tag', '0' ),
             $http->postVariable( 'locale', '' )
