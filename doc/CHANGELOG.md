@@ -70,6 +70,11 @@
 * Added ability for `fetchByParentId` and `getChildren()` to support `$offset` and `$limit` for large datasets (thanks David Sayre)
 * Various bug fixes and enhancements
 
+## 1.2.3 (12.05.2014)
+
+* Add `composer.json` file to allow installation through Composer
+* Updated Polish translations
+
 ## 1.2.2 (12.01.2012)
 
 * Fix regression in ezpEvent hooks that could cause fatal errors in certain situations
