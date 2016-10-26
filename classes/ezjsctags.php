@@ -237,7 +237,7 @@ class ezjscTags extends ezjscServerFunctions
                 'a_attr' => array(
                     'data-id' => (int) $rootTag->attribute( 'id' ),
                     'data-name' => $rootTag->attribute( 'keyword' ),
-                    'data-parentId' => (int) $rootTag->attribute( 'parent_id' ),
+                    'data-parent_id' => (int) $rootTag->attribute( 'parent_id' ),
                     'data-locale' => $rootTag->attribute( 'current_language' )
                 ),
                 'state' => array(
@@ -317,7 +317,7 @@ class ezjscTags extends ezjscServerFunctions
                 'a_attr' => array(
                     'data-id' => (int) $child->attribute( 'id' ),
                     'data-name' => $child->attribute( 'keyword' ),
-                    'data-parentId' => (int) $child->attribute( 'parent_id' ),
+                    'data-parent_id' => (int) $child->attribute( 'parent_id' ),
                     'data-locale' => $child->attribute( 'current_language' )
                 )
             );
