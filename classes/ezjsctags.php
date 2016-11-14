@@ -417,6 +417,7 @@ class ezjscTags extends ezjscServerFunctions
             $returnArrayChild['parent_name'] = $tag->hasParent( true ) ? $tag->getParent( true )->attribute( 'keyword' ) : '';
             $returnArrayChild['name']        = $tag->attribute( 'keyword' );
             $returnArrayChild['id']          = $tag->attribute( 'id' );
+            $returnArrayChild['main_tag_id'] = $tag->attribute( 'main_tag_id' );
             $returnArrayChild['locale']      = $tag->attribute( 'current_language' );
             $returnArray['tags'][]           = $returnArrayChild;
         }
