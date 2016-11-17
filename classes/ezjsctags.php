@@ -338,7 +338,7 @@ class ezjscTags extends ezjscServerFunctions
      *
      * @return array
      */
-    static private function generateOutput( array $params, $subTreeLimit, $hideRootTag, $locale )
+    static protected function generateOutput( array $params, $subTreeLimit, $hideRootTag, $locale )
     {
         $subTreeLimit = (int) $subTreeLimit;
         $hideRootTag = (bool) $hideRootTag;
