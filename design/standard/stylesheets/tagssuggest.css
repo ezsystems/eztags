@@ -49,6 +49,9 @@ position:         absolute;
     height:auto;
     cursor:pointer;
 }
+.jsonSuggestResults .resultItem.itemSynonim {
+    font-style: italic;
+}
 .jsonSuggestResults .resultItem a {padding:5px;}
 .jsonSuggestResults .resultItem a img{margin-right:5px;}
 
