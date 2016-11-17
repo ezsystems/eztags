@@ -49,7 +49,7 @@ position:         absolute;
     height:auto;
     cursor:pointer;
 }
-.jsonSuggestResults .resultItem.itemSynonim {
+.jsonSuggestResults .resultItem.itemSynonym {
     font-style: italic;
 }
 .jsonSuggestResults .resultItem a {padding:5px;}
