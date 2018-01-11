@@ -1,5 +1,9 @@
 # eZ Tags extension changelog
 
+## 2.2.2 (11.01.2018)
+
+* Fix error in the logs for tag suggestions (Thanks Gaetano Giunta)
+
 ## 2.2.1 (31.10.2016)
 
 * Fix a bug in tree view when publishing content for the first time with new tags (thanks Hrvoje Knežević)
