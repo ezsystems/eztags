@@ -62,6 +62,9 @@ class ezjscTags extends ezjscServerFunctions
         $tagIDs = $http->postVariable( 'tag_ids', '' );
         if ( empty( $tagIDs ) )
             return array( 'status' => 'success', 'message' => '', 'tags' => array() );
+        if ( is_array( $tagIDs ) ) {
+            $tagIDs = implode( '|#', $tagIDs );
+        }
 
         $tagIDs = array_values( array_unique( explode( '|#', $tagIDs ) ) );
 
