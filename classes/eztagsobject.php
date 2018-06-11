@@ -793,9 +793,17 @@ class eZTagsObject extends eZPersistentObject
      */
     static public function fetchByParentID( $parentID, $offset = 0, $limit = null, $mainTranslation = false )
     {
+        if ( $offset === 0 && $limit === null )
+        {
+            $limits = null;
+        }
+        else
+        {
+            $limits = array( 'offset' => $offset, 'limit' => $limit );
+        }
         return self::fetchList(
             array( 'parent_id' => $parentID, 'main_tag_id' => 0 ),
-            array( 'offset' => $offset, 'limit' => $limit ),
+            $limits,
             null,
             $mainTranslation
         );
