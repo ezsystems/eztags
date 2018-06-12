@@ -544,15 +544,19 @@ class eZTagsObject extends eZPersistentObject
 
     /**
      * Registers all objects related to this tag to search engine for processing
+     * @param array|null $relatedObjects when not null, we assume that these are the objects related to the tag, instead
+     *                                   of fetching them. Useful when deleting tags.
      */
-    public function registerSearchObjects()
+    public function registerSearchObjects($relatedObjects = null)
     {
         $eZTagsINI = eZINI::instance( 'eztags.ini' );
 
         if ( eZINI::instance( 'site.ini' )->variable( 'SearchSettings', 'DelayedIndexing' ) !== 'disabled'
             || $eZTagsINI->variable( 'SearchSettings', 'ReindexWhenDelayedIndexingDisabled' ) == 'enabled' )
         {
-            $relatedObjects = $this->getRelatedObjects();
+            if ($relatedObjects === null) {
+                $relatedObjects = $this->getRelatedObjects();
+            }
             foreach ( $relatedObjects as $relatedObject )
             {
                 eZContentOperationCollection::registerSearchObject( $relatedObject->attribute( 'id' ), $relatedObject->attribute( 'current_version' ) );
@@ -960,7 +964,7 @@ class eZTagsObject extends eZPersistentObject
             $child->recursivelyDeleteTag();
         }
 
-        $this->registerSearchObjects();
+        $relatedObjects = $this->getRelatedObjects();
 
         foreach ( $this->getSynonyms( true ) as $synonym )
         {
@@ -968,6 +972,8 @@ class eZTagsObject extends eZPersistentObject
         }
 
         $this->remove();
+
+        $this->registerSearchObjects($relatedObjects);
     }
 
     /**
