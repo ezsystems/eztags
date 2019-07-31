@@ -34,7 +34,7 @@ Here are some examples on what you can do with eZ Tags:
 4. provide a better user experience to your editors
 5. create dynamic pages based on tagged content
 
-You can find the project page on [projects.ez.no](http://projects.ez.no/eztags) and more information on the extension on [Netgen blog](http://www.netgenlabs.com/tags/view/ezpublish/extensions/eztags).
+You can find the project page on [projects.ez.no](http://projects.ez.no/eztags) and more information on the extension on [Netgen blog](https://netgen.io/tags/view/Netgen%20Tags).
 
 ## eZ Publish 5 and eZ Platform support
 

@@ -67,7 +67,7 @@
 
 ## 1.3.0 (12.05.2014)
 
-* Add user docs compiled from blog posts on http://www.netgenlabs.com/Blog
+* Add user docs compiled from blog posts on https://netgen.io/blog
 * Added usage docs
 * Added `related_objects_count` attribute for tag object
 * Added ability to fetch tags based on their remote ID (thanks Maury Mathieu)
