@@ -91,7 +91,7 @@ These fetch functions can be used to fetch a list of tags under a specified tag.
 The parameters of these fetches are as follows (only `parent_tag_id` is required):
 
 * `parent_tag_id`: Returns the tags only below the specified tag
-* `sort_by`: Array that specifies the desired sorting and ordering of tags. Possible values for sorting are `id`, `parent_id`, `main_tag_id`, `keyword`, `depth`, `path_string`, `modified` and `remote_id` and for ordering `true()` (ascending) and `false()` (descending)
+* `sort_by`: Array that specifies the desired sorting and ordering of tags. Possible values for sorting are `id`, `parent_id`, `main_tag_id`, `keyword`, `depth`, `path_string`, `modified` and `remote_id` and for ordering `asc` (ascending) and `desc` (descending)
 * `offset`: Start position for fetching tags
 * `limit`: Limits the number of fetched tags
 * `depth`: Defines how many levels below the parent tag will the tags be fetched from. Applicable only to `tree` fetch
@@ -110,7 +110,7 @@ The following example shows the `tree` fetch with all the parameters included:
     tags, tree,
     hash(
         'parent_tag_id', 42,
-        'sort_by', array( 'modified', false() ),
+        'sort_by', array( 'modified', 'desc' ),
         'offset', 0,
         'limit', 15,
         'depth', 4,
