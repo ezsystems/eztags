@@ -1,5 +1,9 @@
 {def $show_legacy_children_list = ezini( 'GeneralSettings', 'ShowOldStyleChildrenList', 'eztags.ini' )|eq( 'enabled' )}
 
+<div class="block">
+    <a href={concat( 'tags/list_objects/', $tag.id )|ezurl()}>Show all content related to tag</a>
+</div>
+
 <div class="controlbar">
     <div class="button-left">
         <div class="block">

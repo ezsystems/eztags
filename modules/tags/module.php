@@ -24,6 +24,13 @@ $ViewList['id'] = array(
     'params'                  => array( 'TagID', 'Locale' ),
     'unordered_params'        => array( 'offset' => 'Offset', 'tab' => 'Tab' ) );
 
+$ViewList['list_objects'] = array(
+    'functions'               => array( 'id' ),
+    'script'                  => 'list_objects.php',
+    'default_navigation_part' => 'eztagsnavigationpart',
+    'params'                  => array( 'TagID', 'Locale' ),
+    'unordered_params'        => array( 'offset' => 'Offset' ) );
+
 $ViewList['view'] = array(
     'functions'               => array( 'view' ),
     'script'                  => 'view.php',
